@@ -2,21 +2,25 @@ package com.example.meongnyangbook.post.entity;
 
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
 
+@MappedSuperclass
 @Entity
+@Data
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
 
     @Column(name = "title", nullable = false)
-    private String title;
+    protected String title;
 
     @Column(name = "description", nullable = false)
-    private String description;
+    protected String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    protected User user;
 }
