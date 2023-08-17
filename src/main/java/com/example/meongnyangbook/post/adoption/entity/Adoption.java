@@ -1,7 +1,9 @@
 package com.example.meongnyangbook.post.adoption.entity;
 
-import com.example.meongnyangbook.entity.Area;
-import com.example.meongnyangbook.entity.Category;
+import com.example.meongnyangbook.post.dto.AdoptionReqeustDto;
+import com.example.meongnyangbook.post.entity.AnimalGenderEnum;
+import com.example.meongnyangbook.post.entity.AreaEnum;
+import com.example.meongnyangbook.post.entity.CategoryEnum;
 import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
@@ -21,16 +23,29 @@ public class Adoption extends Post {
     private String animalName;
 
     @Column(name = "animal_gender", nullable = false)
-    private String animalGender;
+    @Enumerated(value = EnumType.STRING)
+    private AnimalGenderEnum animalGender;
 
     @Column(name = "animal_age", nullable = false)
     private Integer animalAge;
 
-    @OneToOne
-    @JoinColumn(name = "area_no")
-    private Area area;
+    @Column(name = "area", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private AreaEnum area;
 
-    @OneToOne
-    @JoinColumn(name = "category_no")
-    private Category category;
+    @Column(name = "category", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private CategoryEnum category;
+
+    public Adoption(AdoptionReqeustDto requestDto, User user) {
+        this.title = requestDto.getTitle();
+        this.description = requestDto.getDescription();
+        this.completion = requestDto.getCompletion();
+        this.animalName = requestDto.getAnimalName();
+        this.animalGender = requestDto.getAnimalGender();
+        this.animalAge = requestDto.getAnimalAge();
+        this.area = requestDto.getArea();
+        this.category = requestDto.getCategory();
+        this.user = user;
+    }
 }
