@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class ApiResponseDto {
     private String msg;
-    private int statusCode;
+    private Integer statusCode;
 
-    public ApiResponseDto(String msg, int statusCode) {
+    public ApiResponseDto(String msg, Integer statusCode) {
         this.msg = msg;
         this.statusCode = statusCode;
     }
