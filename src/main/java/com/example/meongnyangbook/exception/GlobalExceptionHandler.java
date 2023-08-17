@@ -1,6 +1,6 @@
 package com.example.meongnyangbook.exception;
 
-import com.example.meongnyangbook.dto.ApiResponseDto;
+import com.example.meongnyangbook.common.ApiResponseDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sun.jdi.request.DuplicateRequestException;
 import org.springframework.http.HttpStatus;
@@ -68,6 +68,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({JsonProcessingException.class})
     public ResponseEntity<ApiResponseDto> handleException(JsonProcessingException ex) {
+        ApiResponseDto restApiException = new ApiResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(
+                restApiException,
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @ExceptionHandler({Exception.class})
+    public ResponseEntity<ApiResponseDto> handleException(Exception ex) {
         ApiResponseDto restApiException = new ApiResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(
                 restApiException,

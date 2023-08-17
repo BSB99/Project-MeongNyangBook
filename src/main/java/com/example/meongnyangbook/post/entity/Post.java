@@ -3,12 +3,10 @@ package com.example.meongnyangbook.post.entity;
 import com.example.meongnyangbook.entity.TimeStamped;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 
-@MappedSuperclass
+@Getter
 @Entity
-@Data
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Post extends TimeStamped {
     @Id

@@ -65,26 +65,11 @@ public class WebSecurityConfig {
                         authorizeHttpRequests
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
                                 .requestMatchers("/").permitAll() // '/' 로 접근 허용
-//                                .requestMatchers("/api/members/likes",HttpMethod.GET.name()).permitAll() // '/api/member/' 로 시작하는 GET 요청 허용
-                                .requestMatchers("/nya/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
-
-                                //.requestMatchers("/api/shops/**",HttpMethod.GET.name()).permitAll()
+                                .requestMatchers("/mya/users/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
                                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
-        // 로그인 사용
-        //http.formLogin().disable();
-        http.formLogin((formLogin) ->
-                formLogin
-                        .loginPage("/api/members/login-page")
-                        //.loginProcessingUrl("/api/member/login")
-                        //.defaultSuccessUrl("/")
-                        //.failureUrl("/api/member/login-page?error")
-                        .permitAll()
-        );
-
         // 필터 관리
-        //jwtAuthorizationFilter -> jwtAuthenticationFilter -> UsernamePasswordAuthenticationFilter
         http.addFilterAfter(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

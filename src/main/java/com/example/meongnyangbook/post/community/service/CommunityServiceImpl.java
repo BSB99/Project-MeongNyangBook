@@ -1,24 +1,27 @@
 package com.example.meongnyangbook.post.community.service;
 
-import com.example.meongnyangbook.dto.ApiResponseDto;
+import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityDetailResponseDto;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.repository.CommunityRepository;
+import com.example.meongnyangbook.user.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class CommunityServiceImpl implements CommunityService {
-    private CommunityRepository communityRepository;
+    private final CommunityRepository communityRepository;
 
     @Override
-    public CommunityResponseDto createCommunity(PostRequestDto requestDto) {
-        Community community =  new Community(requestDto);
+    public CommunityResponseDto createCommunity(PostRequestDto requestDto, User user) {
+        Community community =  new Community(requestDto, user);
 
         communityRepository.save(community);
 
@@ -32,8 +35,8 @@ public class CommunityServiceImpl implements CommunityService {
             throw new IllegalArgumentException("게시글이 존재하지 않습니다");
         });
 
-        community.setTitle(requestDto.getTitle());
-        community.setDescription(requestDto.getDescription());
+        //community.setTitle(requestDto.getTitle());
+        //community.setDescription(requestDto.getDescription());
 
         return new CommunityResponseDto(community);
     };

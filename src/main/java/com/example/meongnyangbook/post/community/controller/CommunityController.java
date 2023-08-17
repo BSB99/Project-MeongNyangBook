@@ -1,33 +1,36 @@
 package com.example.meongnyangbook.post.community.controller;
 
-import com.example.meongnyangbook.dto.ApiResponseDto;
+import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityDetailResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.service.CommunityService;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
+import com.example.meongnyangbook.user.details.UserDetailsImpl;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@NoArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/mya/communities")
 public class CommunityController {
-    private CommunityService communityService;
+    private final CommunityService communityService;
 
-    @PostMapping()
-    public CommunityResponseDto createCommunity(@RequestBody PostRequestDto requestDto) throws Exception {
+    @PostMapping
+    public CommunityResponseDto createCommunity(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
         try {
-            return communityService.createCommunity(requestDto);
+            return communityService.createCommunity(requestDto, userDetails.getUser());
         } catch (Error error) {
             throw new Exception(error);
         }
     }
 
-    @GetMapping()
+    @GetMapping
     public List<CommunityResponseDto> getCommunityList() throws Exception {
         try {
             return communityService.getCommunityList();
