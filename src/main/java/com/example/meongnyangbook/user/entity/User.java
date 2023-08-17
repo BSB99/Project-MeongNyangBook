@@ -17,8 +17,11 @@ public class User {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false, unique = true)
+    @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Column(name = "address", nullable = false)
     private String address;
@@ -26,6 +29,15 @@ public class User {
     @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
 
-    @Column(name = "role", nullable = false, unique = true)
-    private String role;
+    @Column(name = "role", nullable = false)
+    private UserRoleEnum role;
+
+    public User(String username, String password, String nickname, String address, String phoneNumber, UserRoleEnum role) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.role =role;
+    }
 }
