@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/nya/users")
+@RequestMapping("/mya/users")
 @Slf4j(topic = "UserController")
 public class UserController {
     private final UserService userService;
