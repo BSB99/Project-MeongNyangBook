@@ -51,11 +51,19 @@ public class UserController {
 
     @PostMapping("/phone")
     public ResponseEntity<ApiResponseDto> sendMessage(@RequestBody PhoneRequestDto phoneRequestDto) throws CoolsmsException {
-        return userService.sendMessage(phoneRequestDto);
+        ApiResponseDto result = userService.sendMessage(phoneRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PostMapping("/phone/auth")
+    public ResponseEntity<ApiResponseDto> authMessageCode(@RequestBody PhoneRequestDto phoneRequestDto) {
+        ApiResponseDto result = userService.authMessageCode(phoneRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping("/email")
     public ResponseEntity<ApiResponseDto> sendEmail(@Valid @RequestBody EmailRequestDto emailRequestDto) throws MessagingException {
-        return userService.sendEmail(emailRequestDto);
+        ApiResponseDto result = userService.sendEmail(emailRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

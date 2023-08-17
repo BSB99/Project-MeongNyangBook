@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ResponseEntity<ApiResponseDto> sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException {
+    public ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException {
         Random random = new Random();
 
         // 0부터 9999 사이의 난수 생성
@@ -135,6 +135,8 @@ public class UserServiceImpl implements UserService{
 
         // 난수를 4자리 문자열로 변환 (앞에 0을 붙여줌)
         String formattedRandomNumber = String.format("%04d", randomNumber);
+
+        redisUtil.set(phoneRequestDto.getPhoneNumber(), formattedRandomNumber, 3);
 
         Message coolsms = new Message(apiKey, apiSecret);
 
@@ -152,11 +154,30 @@ public class UserServiceImpl implements UserService{
                 throw new CoolsmsException(e.getMessage(), e.getCode());
             }
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("핸드폰 인증번호 전송", HttpStatus.OK.value()));
+        return new ApiResponseDto("핸드폰 인증번호 전송", HttpStatus.OK.value());
     }
 
     @Override
-    public ResponseEntity<ApiResponseDto> sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {
+    public ApiResponseDto authMessageCode(PhoneRequestDto phoneRequestDto) {
+        Object getCode = redisUtil.get(phoneRequestDto.getPhoneNumber());
+
+        if (getCode == null) {
+            throw new IllegalArgumentException("만료시간이 지났습니다.");
+        }
+
+        int code = Integer.parseInt((String) getCode);
+
+        if(code == phoneRequestDto.getCode()) {
+            redisUtil.delete(phoneRequestDto.getPhoneNumber());
+        } else {
+            throw new IllegalArgumentException("인증 코드가 다릅니다.");
+        }
+
+        return new ApiResponseDto("핸드폰 인증번호 확인", HttpStatus.OK.value());
+    };
+
+    @Override
+    public ApiResponseDto sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         String content;
         try {
@@ -179,7 +200,7 @@ public class UserServiceImpl implements UserService{
         } catch(Exception e){
             throw new MessagingException(e.getMessage());
         }
-        return ResponseEntity.status(200).body(new ApiResponseDto("이메일 전송", HttpStatus.OK.value()));
+        return new ApiResponseDto("이메일 전송", HttpStatus.OK.value());
     }
 
     @Override

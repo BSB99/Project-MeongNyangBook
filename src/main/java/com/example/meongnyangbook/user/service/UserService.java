@@ -21,7 +21,9 @@ public interface UserService {
 
     ResponseEntity<ApiResponseDto> logout(User user, HttpServletRequest request, HttpServletResponse response);
 
-    ResponseEntity<ApiResponseDto> sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException;
+    ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException;
 
-    ResponseEntity<ApiResponseDto> sendEmail(EmailRequestDto emailRequestDto) throws MessagingException;
+    ApiResponseDto sendEmail(EmailRequestDto emailRequestDto) throws MessagingException;
+
+    ApiResponseDto authMessageCode(PhoneRequestDto phoneRequestDto);
 }
