@@ -19,7 +19,7 @@ public interface UserService {
 
     boolean checkAdmin(String adminToken);
 
-    void logout(User user, HttpServletRequest request, HttpServletResponse response);
+    ResponseEntity<ApiResponseDto> logout(User user, HttpServletRequest request, HttpServletResponse response);
 
     ResponseEntity<ApiResponseDto> sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException;
 

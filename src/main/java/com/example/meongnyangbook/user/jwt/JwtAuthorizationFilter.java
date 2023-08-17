@@ -32,11 +32,19 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = jwtUtil.resolveToken(request);
 
-        if(token != null) {
+        if(StringUtils.hasText(token)) {
+            token = jwtUtil.substringToken(token);
+            log.info("액세스 토큰 값 : " + token);
+            String newAccessToken = jwtUtil.reissueAccessToken(token);
+
+            if (newAccessToken != null) {
+                jwtUtil.addJwtToCookie(newAccessToken, response);
+            }
             if(!jwtUtil.validateToken(token)){
                 log.error("Token Error");
                 return;
             }
+
             Claims info = jwtUtil.getUserInfoFromToken(token);
             setAuthentication(info.getSubject());
         }
@@ -46,6 +54,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         } catch (FileUploadException e) {
             log.error(e.getMessage());
         }
+
     }
 
     // 인증 처리

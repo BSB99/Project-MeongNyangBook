@@ -115,6 +115,11 @@ public class UserServiceImpl implements UserService{
         }
         // Access Token 생성 및 헤더에 추가
         String accessToken = jwtUtil.createToken(user.get().getUsername() ,user.get().getRole());
+        String refreshToken = jwtUtil.createRefreshToken();
+
+        // RefreshToken Redis 저장
+        redisUtil.saveRefreshToken(user.get().getUsername(), refreshToken);
+
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
         jwtUtil.addJwtToCookie(accessToken,response);
 
@@ -187,16 +192,17 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public void logout(User user, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<ApiResponseDto> logout(User user, HttpServletRequest request, HttpServletResponse response) {
         log.info("로그아웃 서비스");
         String bearerAccessToken = jwtUtil.getJwtFromRequest(request);
         String accessToken = jwtUtil.substringToken(bearerAccessToken);
 //        String username = user.getUsername();
 
 
-
         // access token blacklist 로 저장
         log.info("액세스 토큰 블랙리스트로 저장 : " + accessToken);
         redisUtil.setBlackList(accessToken, jwtUtil.remainExpireTime(accessToken));
+
+        return ResponseEntity.status(200).body(new ApiResponseDto("로그아웃 완료", HttpStatus.OK.value()));
     }
 }

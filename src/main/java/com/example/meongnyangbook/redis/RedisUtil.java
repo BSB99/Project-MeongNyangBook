@@ -1,5 +1,6 @@
 package com.example.meongnyangbook.redis;
 
+import com.example.meongnyangbook.user.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -21,6 +22,14 @@ public class RedisUtil {
 
     public Object get(String key) {
         return redisTemplate.opsForValue().get(key);
+    }
+    public String getRefreshToken(String username) {
+        return redisTemplate.opsForValue().get(username).toString();
+    }
+    public void saveRefreshToken(String username, String refreshToken) {
+        // ExpirationTime 설정을 통해 자동 삭제 처리
+        redisTemplate.opsForValue()
+                .set(username, refreshToken, JwtUtil.REFRESH_TOKEN_TIME, TimeUnit.MILLISECONDS);
     }
 
     public boolean delete(String key) {
