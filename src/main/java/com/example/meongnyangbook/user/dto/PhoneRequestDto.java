@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public class PhoneRequestDto {
     private String phoneNumber;
-    private Integer code;
+    private int code;
 }
