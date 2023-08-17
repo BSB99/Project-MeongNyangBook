@@ -1,20 +1,24 @@
 package com.example.meongnyangbook.user.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
 import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
 import com.example.meongnyangbook.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -28,6 +32,7 @@ public class UserServiceImpl implements UserService{
     private final JwtUtil jwtUtil;
     @Value("${database.username}")
     private String ADMIN_TOKEN;
+    private final RedisUtil redisUtil;
 
     @Override
     public ResponseEntity<ApiResponseDto> signup(SignupRequestDto requestDto) {
@@ -88,15 +93,38 @@ public class UserServiceImpl implements UserService{
         }
         // Access Token 생성 및 헤더에 추가
         String accessToken = jwtUtil.createToken(user.get().getUsername() ,user.get().getRole());
+
+        String refreshToken = jwtUtil.createRefreshToken();
+
+        // RefreshToken Redis 저장
+//        redisUtil.saveRefreshToken(user.getUsername(), refreshToken);
+
+
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
+        jwtUtil.addJwtToCookie(accessToken,response);
 
         return ResponseEntity.status(200).body(new ApiResponseDto("로그인 성공", HttpStatus.OK.value()));
     }
-
-    private boolean checkAdmin(String adminToken) {
+    @Override
+    public boolean checkAdmin(String adminToken) {
         if(adminToken.equals(ADMIN_TOKEN)){
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    @Override
+    public void logout(User user, HttpServletRequest request, HttpServletResponse response) {
+        log.info("로그아웃 서비스");
+        String bearerAccessToken = jwtUtil.getJwtFromRequest(request);
+        String accessToken = jwtUtil.substringToken(bearerAccessToken);
+//        String username = user.getUsername();
+
+
+
+        // access token blacklist 로 저장
+        log.info("액세스 토큰 블랙리스트로 저장 : " + accessToken);
+        redisUtil.setBlackList(accessToken, jwtUtil.remainExpireTime(accessToken));
     }
 }
