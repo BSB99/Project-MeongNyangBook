@@ -92,13 +92,13 @@ public class JwtUtil {
             log.info("재발급 요청자 : " + username);
 
             // refresh token 가져오기
-            String refreshToken = redisUtil.getRefreshToken(username);
+//            String refreshToken = redisUtil.getRefreshToken(username);
 
             // refresh token 존재하고 유효하다면
-            if (StringUtils.hasText(refreshToken) && validateToken(refreshToken)) {
-                log.info("리프레시 토큰 존재하고 유효함");
-                return createToken(username,userrole);
-            }
+//            if (StringUtils.hasText(refreshToken) && validateToken(refreshToken)) {
+//                log.info("리프레시 토큰 존재하고 유효함");
+//                return createToken(username,userrole);
+//            }
         }
         return null;
     }
