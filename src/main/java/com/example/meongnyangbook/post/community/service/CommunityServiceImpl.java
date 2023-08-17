@@ -31,9 +31,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     @Transactional
     public CommunityResponseDto updateCommunity(PostRequestDto requestDto, Long communityNo) {
-        Community community = communityRepository.findById(communityNo).orElseThrow(() -> {
-            throw new IllegalArgumentException("게시글이 존재하지 않습니다");
-        });
+        Community community = getCommunity(communityNo);
 
         //community.setTitle(requestDto.getTitle());
         //community.setDescription(requestDto.getDescription());

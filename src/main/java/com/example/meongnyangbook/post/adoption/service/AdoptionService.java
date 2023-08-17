@@ -4,6 +4,7 @@ import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
 import com.example.meongnyangbook.post.community.entity.Community;
+import com.example.meongnyangbook.post.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.user.entity.User;
@@ -23,7 +24,7 @@ public interface AdoptionService {
 
     List<AdoptionResponseDto> getAdoptionList();
 
-    AdoptionResponseDto getSingleAdoption(Long adoptionId);
+    AdoptionDetailResponseDto getSingleAdoption(Long adoptionId);
 
     Adoption getAdoption(Long adoptionId);
 }

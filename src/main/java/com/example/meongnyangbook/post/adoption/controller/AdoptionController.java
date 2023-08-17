@@ -3,6 +3,7 @@ package com.example.meongnyangbook.post.adoption.controller;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoption.service.AdoptionService;
+import com.example.meongnyangbook.post.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
@@ -33,8 +34,8 @@ public class AdoptionController {
     }
 
     @GetMapping("/{adoptionId}")
-    public ResponseEntity<AdoptionResponseDto> getSingleAdoption(@PathVariable Long adoptionId) {
-        AdoptionResponseDto result = adoptionService.getSingleAdoption(adoptionId);
+    public ResponseEntity<AdoptionDetailResponseDto> getSingleAdoption(@PathVariable Long adoptionId) {
+        AdoptionDetailResponseDto result = adoptionService.getSingleAdoption(adoptionId);
         return ResponseEntity.ok().body(result);
     }
 

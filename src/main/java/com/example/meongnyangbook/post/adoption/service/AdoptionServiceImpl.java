@@ -5,6 +5,7 @@ import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
 import com.example.meongnyangbook.post.community.entity.Community;
+import com.example.meongnyangbook.post.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.user.entity.User;
@@ -58,9 +59,9 @@ public class AdoptionServiceImpl implements AdoptionService{
     }
 
     @Override
-    public AdoptionResponseDto getSingleAdoption(Long adoptionId) {
+    public AdoptionDetailResponseDto getSingleAdoption(Long adoptionId) {
         Adoption adoption = getAdoption(adoptionId);
-        return new AdoptionResponseDto(adoption);
+        return new AdoptionDetailResponseDto(adoption);
     }
 
     @Override

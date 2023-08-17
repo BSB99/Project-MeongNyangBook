@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.post.adoption.entity;
 
 import com.example.meongnyangbook.post.dto.AdoptionReqeustDto;
+import com.example.meongnyangbook.post.entity.AnimalGenderEnum;
 import com.example.meongnyangbook.post.entity.AreaEnum;
 import com.example.meongnyangbook.post.entity.CategoryEnum;
 import com.example.meongnyangbook.post.entity.Post;
@@ -22,7 +23,8 @@ public class Adoption extends Post {
     private String animalName;
 
     @Column(name = "animal_gender", nullable = false)
-    private String animalGender;
+    @Enumerated(value = EnumType.STRING)
+    private AnimalGenderEnum animalGender;
 
     @Column(name = "animal_age", nullable = false)
     private Integer animalAge;
