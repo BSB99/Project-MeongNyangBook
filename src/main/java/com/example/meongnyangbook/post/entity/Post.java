@@ -1,9 +1,14 @@
 package com.example.meongnyangbook.post.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
+import com.example.meongnyangbook.post.comment.entity.Comment;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -22,4 +27,7 @@ public abstract class Post extends TimeStamped {
     @ManyToOne
     @JoinColumn(name = "user_id")
     protected User user;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList = new ArrayList<>();
 }

@@ -23,7 +23,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -87,8 +86,7 @@ public class UserServiceImpl implements UserService{
 
         //Email 검증 - 필요하다면
 
-
-        User user = new User(username,passwordEncoder.encode(password),nickname,address,phoneNumber, role);
+        User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber, role);
 
         userRepository.save(user);
 
