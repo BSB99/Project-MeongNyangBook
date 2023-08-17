@@ -4,6 +4,7 @@ import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.comment.entity.Comment;
 import com.example.meongnyangbook.post.dto.CommentRequestDto;
 import com.example.meongnyangbook.post.dto.CommentResponseDto;
+import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.user.entity.User;
 
 public interface CommentService {
@@ -16,4 +17,5 @@ public interface CommentService {
 
     Comment findComment(Long id);
 
+    Post findPost(Long id);
 }

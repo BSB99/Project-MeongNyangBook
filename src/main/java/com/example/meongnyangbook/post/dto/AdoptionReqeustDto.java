@@ -9,11 +9,10 @@ import lombok.Getter;
 public class AdoptionReqeustDto {
     private String title;
     private String description;
-    private Boolean completion=true;
+    private Boolean completion=false;
     private String animalName;
     private AnimalGenderEnum animalGender;
     private Integer animalAge;
     private AreaEnum area;
     private CategoryEnum category;
-
 }

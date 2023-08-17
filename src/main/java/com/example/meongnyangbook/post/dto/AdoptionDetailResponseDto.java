@@ -22,7 +22,7 @@ public class AdoptionDetailResponseDto {
     private Integer animalAge;
     private AreaEnum area;
     private CategoryEnum category;
-    private List<CommentResponseDto> commentResponseDtoList;
+    private List<CommentResponseDto> commentList;
 
     public AdoptionDetailResponseDto(Adoption adoption) {
         this.title = adoption.getTitle();
@@ -33,7 +33,7 @@ public class AdoptionDetailResponseDto {
         this.animalAge = adoption.getAnimalAge();
         this.area = adoption.getArea();
         this.category = adoption.getCategory();
-        this.commentResponseDtoList = adoption.getCommentList()
+        this.commentList = adoption.getCommentList()
                 .stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList());

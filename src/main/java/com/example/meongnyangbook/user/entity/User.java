@@ -31,5 +31,14 @@ public class User extends TimeStamped {
     private String phoneNumber;
 
     @Column(name = "role", nullable = false)
-    private String role;
+    private UserRoleEnum role;
+
+    public User(String username, String password, String nickname, String address, String phoneNumber, UserRoleEnum role) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
 }

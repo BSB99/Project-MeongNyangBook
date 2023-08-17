@@ -57,7 +57,8 @@ public class CommentServiceImpl implements CommentService{
         });
     }
 
-    private Post findPost(Long id) {
+    @Override
+    public Post findPost(Long id) {
         if(adoptionRepository.findById(id).isPresent()) {
             return adoptionRepository.findById(id).orElseThrow(()-> {
                 throw new IllegalArgumentException("게시물이 존재하지 않습니다.");
