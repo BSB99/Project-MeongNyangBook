@@ -1,5 +1,6 @@
 package com.example.meongnyangbook.report.entity;
 
+import com.example.meongnyangbook.entity.TimeStamped;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name = "user_reports")
-public class Report {
+public class Report extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "report_id")

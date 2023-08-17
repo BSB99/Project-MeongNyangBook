@@ -1,13 +1,19 @@
 package com.example.meongnyangbook.post.entity;
 
+import com.example.meongnyangbook.entity.TimeStamped;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Post {
+@Getter
+@NoArgsConstructor
+@Table(name = "posts")
+@Inheritance(strategy = InheritanceType.JOINED)
+public class Post extends TimeStamped {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "title", nullable = false)
