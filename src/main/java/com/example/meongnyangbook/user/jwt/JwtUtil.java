@@ -1,5 +1,6 @@
 package com.example.meongnyangbook.user.jwt;
 
+import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -35,6 +36,13 @@ public class JwtUtil {
     private String secretKey;
     private Key key;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+    private final RedisUtil redisUtil;
+
+    public static final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
+
+    public JwtUtil(RedisUtil redisUtil) {
+        this.redisUtil = redisUtil;
+    }
 
     @PostConstruct
     public void init() {
@@ -49,7 +57,7 @@ public class JwtUtil {
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username) // 사용자 식별자값(ID)
-                        .claim(AUTHORIZATION_KEY,role)  //사용자 권한
+                        .claim(AUTHORIZATION_KEY, role)  //사용자 권한
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
@@ -58,10 +66,54 @@ public class JwtUtil {
 
     }
 
+    // refresh token 생성
+    public String createRefreshToken() {
+        log.info("리프레시 토큰 생성");
+        Date date = new Date();
+
+        return Jwts.builder()
+                .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME))
+                .signWith(key, signatureAlgorithm)
+                .compact();
+    }
+
+    //access토큰 재발급
+    public String reissueAccessToken(String token) {
+        log.info("액세스 토큰 재발급");
+        if (validateToken(token)) {
+            Claims info = getUserInfoFromToken(token);
+            String username = info.getSubject();
+            String role = (String) info.get("role");
+            UserRoleEnum userrole = null;
+
+            if (role.equals("ROLE_ADMIN")) {
+                userrole = UserRoleEnum.ADMIN;
+            } else {
+                userrole = UserRoleEnum.MEMBER;
+            }
+            log.info("재발급 요청자 : " + username);
+
+            // refresh token 가져오기
+//            String refreshToken = redisUtil.getRefreshToken(username);
+
+            // refresh token 존재하고 유효하다면
+//            if (StringUtils.hasText(refreshToken) && validateToken(refreshToken)) {
+//                log.info("리프레시 토큰 존재하고 유효함");
+//                return createToken(username);
+//            }
+        }
+        return null;
+    }
+
+
     // JWT 검증
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            if (redisUtil.hasKeyBlackList(token)){
+                // TODO 에러 발생시키는 부분 수정
+                throw new RuntimeException("로그아웃한 토큰");
+            }
             return true;
         } catch (SecurityException | MalformedJwtException | SignatureException e) {
             log.error("Invalid JWT signature, 유효하지 않는 JWT 서명 입니다.");
@@ -117,6 +169,15 @@ public class JwtUtil {
             }
         }
         return null;
+    }
+    //  토큰 남은 만료 시간
+    public Long remainExpireTime(String token) {
+        // 토큰 만료 시간
+        Long expirationTime = getUserInfoFromToken(token).getExpiration().getTime();
+        // 현재 시간
+        Long dateTime = new Date().getTime();
+
+        return expirationTime - dateTime;
     }
 
     public String resolveToken(HttpServletRequest request) {

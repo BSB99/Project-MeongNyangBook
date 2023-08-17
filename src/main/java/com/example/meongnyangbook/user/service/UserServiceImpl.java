@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.user.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
@@ -9,6 +10,7 @@ import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
 import com.example.meongnyangbook.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,6 +27,7 @@ import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService{
     private final JwtUtil jwtUtil;
     @Value("${database.username}")
     private String ADMIN_TOKEN;
+    private final RedisUtil redisUtil;
 
     @Value("${coolsms.devHee.apikey}")
     private String apiKey;
@@ -92,6 +96,9 @@ public class UserServiceImpl implements UserService{
         return ResponseEntity.status(200).body(new ApiResponseDto("회원가입 성공", HttpStatus.OK.value()));
     }
 
+
+
+
     @Override
     public ResponseEntity<ApiResponseDto> signin(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         log.info("로그인 시도");
@@ -109,12 +116,13 @@ public class UserServiceImpl implements UserService{
         // Access Token 생성 및 헤더에 추가
         String accessToken = jwtUtil.createToken(user.get().getUsername() ,user.get().getRole());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
+        jwtUtil.addJwtToCookie(accessToken,response);
 
         return ResponseEntity.status(200).body(new ApiResponseDto("로그인 성공", HttpStatus.OK.value()));
     }
 
     @Override
-    public ResponseEntity<ApiResponseDto> sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException {
+    public ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException {
         Random random = new Random();
 
         // 0부터 9999 사이의 난수 생성
@@ -122,6 +130,8 @@ public class UserServiceImpl implements UserService{
 
         // 난수를 4자리 문자열로 변환 (앞에 0을 붙여줌)
         String formattedRandomNumber = String.format("%04d", randomNumber);
+
+        redisUtil.set(phoneRequestDto.getPhoneNumber(), formattedRandomNumber, 3);
 
         Message coolsms = new Message(apiKey, apiSecret);
 
@@ -139,11 +149,30 @@ public class UserServiceImpl implements UserService{
                 throw new CoolsmsException(e.getMessage(), e.getCode());
             }
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("핸드폰 인증번호 전송", HttpStatus.OK.value()));
+        return new ApiResponseDto("핸드폰 인증번호 전송", HttpStatus.OK.value());
     }
 
     @Override
-    public ResponseEntity<ApiResponseDto> sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {
+    public ApiResponseDto authMessageCode(PhoneRequestDto phoneRequestDto) {
+        Object getCode = redisUtil.get(phoneRequestDto.getPhoneNumber());
+
+        if (getCode == null) {
+            throw new IllegalArgumentException("만료시간이 지났습니다.");
+        }
+
+        int code = Integer.parseInt((String) getCode);
+
+        if(code == phoneRequestDto.getCode()) {
+            redisUtil.delete(phoneRequestDto.getPhoneNumber());
+        } else {
+            throw new IllegalArgumentException("인증 코드가 다릅니다.");
+        }
+
+        return new ApiResponseDto("핸드폰 인증번호 확인", HttpStatus.OK.value());
+    };
+
+    @Override
+    public ApiResponseDto sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         String content;
         try {
@@ -166,13 +195,29 @@ public class UserServiceImpl implements UserService{
         } catch(Exception e){
             throw new MessagingException(e.getMessage());
         }
-        return ResponseEntity.status(200).body(new ApiResponseDto("이메일 전송", HttpStatus.OK.value()));
+        return new ApiResponseDto("이메일 전송", HttpStatus.OK.value());
     }
 
-    private boolean checkAdmin(String adminToken) {
+    @Override
+    public boolean checkAdmin(String adminToken) {
         if(adminToken.equals(ADMIN_TOKEN)){
             return true;
         }
         return false;
+    }
+
+    @Transactional
+    @Override
+    public void logout(User user, HttpServletRequest request, HttpServletResponse response) {
+        log.info("로그아웃 서비스");
+        String bearerAccessToken = jwtUtil.getJwtFromRequest(request);
+        String accessToken = jwtUtil.substringToken(bearerAccessToken);
+//        String username = user.getUsername();
+
+
+
+        // access token blacklist 로 저장
+        log.info("액세스 토큰 블랙리스트로 저장 : " + accessToken);
+        redisUtil.setBlackList(accessToken, jwtUtil.remainExpireTime(accessToken));
     }
 }
