@@ -4,25 +4,22 @@ import com.example.meongnyangbook.entity.TimeStamped;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Entity
 @Getter
-@NoArgsConstructor
-@Table(name = "posts")
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Post extends TimeStamped {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Post extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
 
     @Column(name = "title", nullable = false)
-    private String title;
+    protected String title;
 
     @Column(name = "description", nullable = false)
-    private String description;
+    protected String description;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    protected User user;
 }
