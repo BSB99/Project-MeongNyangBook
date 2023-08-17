@@ -94,14 +94,6 @@ public class JwtUtil {
             // refresh token 가져오기
 //            String refreshToken = redisUtil.getRefreshToken(username);
 
-            // refresh token 존재하고 유효하다면
-//            if (StringUtils.hasText(refreshToken) && validateToken(refreshToken)) {
-//                log.info("리프레시 토큰 존재하고 유효함");
-//                return createToken(username,userrole);
-//            }
-        }
-        return null;
-    }
     // JWT 검증
     public boolean validateToken(String token) {
         try {
@@ -174,5 +166,14 @@ public class JwtUtil {
         Long dateTime = new Date().getTime();
 
         return expirationTime - dateTime;
+    }
+
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        // token 이 null 또는 공백인지 체크 && 토큰이 정상적으로 Bearer 를 가지고 있는지 체크
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            return bearerToken.substring(7); // JWT 토큰 substring
+        }
+        return null;
     }
 }

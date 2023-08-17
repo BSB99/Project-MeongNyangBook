@@ -1,15 +1,19 @@
 package com.example.meongnyangbook.user.controller;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
+import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
 import com.example.meongnyangbook.user.service.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -43,5 +47,15 @@ public class UserController {
         log.info("로그아웃 컨트롤러");
         userService.logout(userDetails.getUser(), request, response);
         return ResponseEntity.ok().body(new ApiResponseDto("로그아웃 완료", HttpStatus.OK.value()));
+    }
+
+    @PostMapping("/phone")
+    public ResponseEntity<ApiResponseDto> sendMessage(@RequestBody PhoneRequestDto phoneRequestDto) throws CoolsmsException {
+        return userService.sendMessage(phoneRequestDto);
+    }
+
+    @PostMapping("/email")
+    public ResponseEntity<ApiResponseDto> sendEmail(@Valid @RequestBody EmailRequestDto emailRequestDto) throws MessagingException {
+        return userService.sendEmail(emailRequestDto);
     }
 }

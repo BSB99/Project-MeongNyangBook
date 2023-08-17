@@ -2,25 +2,35 @@ package com.example.meongnyangbook.user.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.redis.RedisUtil;
+import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
+import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
 import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
 import com.example.meongnyangbook.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.nurigo.java_sdk.api.Message;
+import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +43,17 @@ public class UserServiceImpl implements UserService{
     @Value("${database.username}")
     private String ADMIN_TOKEN;
     private final RedisUtil redisUtil;
+
+    @Value("${coolsms.devHee.apikey}")
+    private String apiKey;
+
+    @Value("${coolsms.devHee.apisecret}")
+    private String apiSecret;
+
+    @Value("${coolsms.devHee.fromnumber}")
+    private String fromNumber;
+
+    private final JavaMailSender javaMailSender;
 
     @Override
     public ResponseEntity<ApiResponseDto> signup(SignupRequestDto requestDto) {
@@ -93,13 +114,6 @@ public class UserServiceImpl implements UserService{
         }
         // Access Token 생성 및 헤더에 추가
         String accessToken = jwtUtil.createToken(user.get().getUsername() ,user.get().getRole());
-
-        String refreshToken = jwtUtil.createRefreshToken();
-
-        // RefreshToken Redis 저장
-//        redisUtil.saveRefreshToken(user.getUsername(), refreshToken);
-
-
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
         jwtUtil.addJwtToCookie(accessToken,response);
 
@@ -107,6 +121,64 @@ public class UserServiceImpl implements UserService{
     }
     @Override
     public boolean checkAdmin(String adminToken) {
+
+    @Override
+    public ResponseEntity<ApiResponseDto> sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException {
+        Random random = new Random();
+
+        // 0부터 9999 사이의 난수 생성
+        int randomNumber = random.nextInt(10000);
+
+        // 난수를 4자리 문자열로 변환 (앞에 0을 붙여줌)
+        String formattedRandomNumber = String.format("%04d", randomNumber);
+
+        Message coolsms = new Message(apiKey, apiSecret);
+
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("to", phoneRequestDto.getPhoneNumber());
+            params.put("from", fromNumber);
+            params.put("type", "SMS");
+            params.put("text", "[grabMe] 인증번호 "+formattedRandomNumber+" 를 입력하세요.");
+            params.put("app_version", "test app 1.2"); // application name and version
+            try {
+                JSONObject obj = coolsms.send(params);
+                System.out.println(obj.toString());
+
+            } catch (CoolsmsException e) {
+                throw new CoolsmsException(e.getMessage(), e.getCode());
+            }
+
+        return ResponseEntity.status(200).body(new ApiResponseDto("핸드폰 인증번호 전송", HttpStatus.OK.value()));
+    }
+
+    @Override
+    public ResponseEntity<ApiResponseDto> sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        String content;
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+            messageHelper.setTo(emailRequestDto.getEmail());
+
+            if(emailRequestDto.getStatus()) {
+                messageHelper.setSubject("회원 영구 정지");
+
+                content = "영구정지 당했습니다. <b>테스트</b>";
+            } else {
+                messageHelper.setSubject("이메일 인증 메세지");
+
+                content = "이메일 인증 메세지. <b>테스트</b>";
+            }
+
+            messageHelper.setText(content, true);
+
+            javaMailSender.send(message);
+        } catch(Exception e){
+            throw new MessagingException(e.getMessage());
+        }
+        return ResponseEntity.status(200).body(new ApiResponseDto("이메일 전송", HttpStatus.OK.value()));
+    }
+
+    private boolean checkAdmin(String adminToken) {
         if(adminToken.equals(ADMIN_TOKEN)){
             return true;
         }

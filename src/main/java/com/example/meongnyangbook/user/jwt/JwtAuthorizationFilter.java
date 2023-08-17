@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -28,28 +29,23 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException, IOException {
-        String token = jwtUtil.getJwtFromRequest(request);
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String token = jwtUtil.resolveToken(request);
 
-        if(StringUtils.hasText(token)) {
-            token = jwtUtil.substringToken(token);
-
-            if (!jwtUtil.validateToken(token)) {
+        if(token != null) {
+            if(!jwtUtil.validateToken(token)){
                 log.error("Token Error");
                 return;
             }
-
-            //Jwt 토큰에서 Member 정보 추출
             Claims info = jwtUtil.getUserInfoFromToken(token);
-
-            try {
-                setAuthentication(info.getSubject());
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return;
-            }
+            setAuthentication(info.getSubject());
         }
-        filterChain.doFilter(request, response);
+        try {
+            log.info("AuthFilter -> filterChain");
+            filterChain.doFilter(request, response);
+        } catch (FileUploadException e) {
+            log.error(e.getMessage());
+        }
     }
 
     // 인증 처리

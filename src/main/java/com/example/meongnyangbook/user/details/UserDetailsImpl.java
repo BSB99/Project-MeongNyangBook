@@ -1,18 +1,16 @@
 package com.example.meongnyangbook.user.details;
 
 import com.example.meongnyangbook.user.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
     private final User user;
-
-    public UserDetailsImpl(User user){
-        this.user = user;
-    }
 
     public User getUser() {
         return this.user;
