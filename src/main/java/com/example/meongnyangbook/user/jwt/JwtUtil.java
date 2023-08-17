@@ -40,9 +40,10 @@ public class JwtUtil {
 
     public static final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
 
-    public JwtUtil(RedisUtil redisUtil){
+    public JwtUtil(RedisUtil redisUtil) {
         this.redisUtil = redisUtil;
     }
+
     @PostConstruct
     public void init() {
         byte[] bytes = Base64.getDecoder().decode(secretKey);
@@ -56,7 +57,7 @@ public class JwtUtil {
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username) // 사용자 식별자값(ID)
-                        .claim(AUTHORIZATION_KEY,role)  //사용자 권한
+                        .claim(AUTHORIZATION_KEY, role)  //사용자 권한
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
@@ -64,6 +65,7 @@ public class JwtUtil {
 
 
     }
+
     // refresh token 생성
     public String createRefreshToken() {
         log.info("리프레시 토큰 생성");
@@ -74,6 +76,7 @@ public class JwtUtil {
                 .signWith(key, signatureAlgorithm)
                 .compact();
     }
+
     //access토큰 재발급
     public String reissueAccessToken(String token) {
         log.info("액세스 토큰 재발급");
@@ -83,16 +86,25 @@ public class JwtUtil {
             String role = (String) info.get("role");
             UserRoleEnum userrole = null;
 
-            if(role.equals("ROLE_ADMIN")){
+            if (role.equals("ROLE_ADMIN")) {
                 userrole = UserRoleEnum.ADMIN;
-            }
-            else{
+            } else {
                 userrole = UserRoleEnum.MEMBER;
             }
             log.info("재발급 요청자 : " + username);
 
             // refresh token 가져오기
 //            String refreshToken = redisUtil.getRefreshToken(username);
+
+            // refresh token 존재하고 유효하다면
+//            if (StringUtils.hasText(refreshToken) && validateToken(refreshToken)) {
+//                log.info("리프레시 토큰 존재하고 유효함");
+//                return createToken(username);
+//            }
+        }
+        return null;
+    }
+
 
     // JWT 검증
     public boolean validateToken(String token) {

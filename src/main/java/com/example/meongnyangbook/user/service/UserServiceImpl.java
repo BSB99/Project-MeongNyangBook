@@ -27,6 +27,7 @@ import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -119,8 +120,6 @@ public class UserServiceImpl implements UserService{
 
         return ResponseEntity.status(200).body(new ApiResponseDto("로그인 성공", HttpStatus.OK.value()));
     }
-    @Override
-    public boolean checkAdmin(String adminToken) {
 
     @Override
     public ResponseEntity<ApiResponseDto> sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException {
@@ -178,7 +177,8 @@ public class UserServiceImpl implements UserService{
         return ResponseEntity.status(200).body(new ApiResponseDto("이메일 전송", HttpStatus.OK.value()));
     }
 
-    private boolean checkAdmin(String adminToken) {
+    @Override
+    public boolean checkAdmin(String adminToken) {
         if(adminToken.equals(ADMIN_TOKEN)){
             return true;
         }
