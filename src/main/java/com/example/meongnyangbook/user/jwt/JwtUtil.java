@@ -54,6 +54,8 @@ public class JwtUtil {
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact();
+
+
     }
 
     // JWT 검증
