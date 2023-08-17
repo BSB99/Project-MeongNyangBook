@@ -139,8 +139,13 @@ public class UserServiceImpl implements UserService{
                 throw new CoolsmsException(e.getMessage(), e.getCode());
             }
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("핸드폰 인증번호 전송", HttpStatus.OK.value()));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponseDto("핸드폰 인증번호 전송", HttpStatus.OK.value()));
     }
+
+    @Override
+    public ResponseEntity<ApiResponseDto> authMessageCode(PhoneRequestDto phoneRequestDto) {
+        return ResponseEntity.status(200).body(new ApiResponseDto("핸드폰 인증번호 확인", HttpStatus.OK.value()));
+    };
 
     @Override
     public ResponseEntity<ApiResponseDto> sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {

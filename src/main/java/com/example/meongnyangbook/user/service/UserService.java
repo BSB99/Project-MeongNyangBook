@@ -18,4 +18,6 @@ public interface UserService {
     ResponseEntity<ApiResponseDto> sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException;
 
     ResponseEntity<ApiResponseDto> sendEmail(EmailRequestDto emailRequestDto) throws MessagingException;
+
+    ResponseEntity<ApiResponseDto> authMessageCode(PhoneRequestDto phoneRequestDto);
 }

@@ -43,6 +43,11 @@ public class UserController {
         return userService.sendMessage(phoneRequestDto);
     }
 
+    @PostMapping("/phone/auth")
+    public ResponseEntity<ApiResponseDto> authMessageCode(@RequestBody PhoneRequestDto phoneRequestDto) {
+        return userService.authMessageCode(phoneRequestDto);
+    }
+
     @PostMapping("/email")
     public ResponseEntity<ApiResponseDto> sendEmail(@Valid @RequestBody EmailRequestDto emailRequestDto) throws MessagingException {
         return userService.sendEmail(emailRequestDto);
