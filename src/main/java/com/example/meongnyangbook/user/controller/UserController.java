@@ -1,10 +1,12 @@
 package com.example.meongnyangbook.user.controller;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
 import com.example.meongnyangbook.user.service.UserService;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +41,10 @@ public class UserController {
     @PostMapping("/phone")
     public ResponseEntity<ApiResponseDto> sendMessage(@RequestBody PhoneRequestDto phoneRequestDto) throws CoolsmsException {
         return userService.sendMessage(phoneRequestDto);
+    }
+
+    @PostMapping("/email")
+    public ResponseEntity<ApiResponseDto> sendEmail(@Valid @RequestBody EmailRequestDto emailRequestDto) throws MessagingException {
+        return userService.sendEmail(emailRequestDto);
     }
 }

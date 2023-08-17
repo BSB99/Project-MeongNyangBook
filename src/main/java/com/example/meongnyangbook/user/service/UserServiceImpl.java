@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.user.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
@@ -8,6 +9,8 @@ import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
 import com.example.meongnyangbook.user.repository.UserRepository;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +20,9 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +49,8 @@ public class UserServiceImpl implements UserService{
 
     @Value("${coolsms.devHee.fromnumber}")
     private String fromNumber;
+
+    private final JavaMailSender javaMailSender;
 
     @Override
     public ResponseEntity<ApiResponseDto> signup(SignupRequestDto requestDto) {
@@ -83,9 +91,6 @@ public class UserServiceImpl implements UserService{
 
         return ResponseEntity.status(200).body(new ApiResponseDto("회원가입 성공", HttpStatus.OK.value()));
     }
-
-
-
 
     @Override
     public ResponseEntity<ApiResponseDto> signin(LoginRequestDto loginRequestDto, HttpServletResponse response) {
@@ -133,8 +138,35 @@ public class UserServiceImpl implements UserService{
             } catch (CoolsmsException e) {
                 throw new CoolsmsException(e.getMessage(), e.getCode());
             }
-        return ResponseEntity.status(200).body(new ApiResponseDto("핸드폰 인증번호 전송", HttpStatus.OK.value()));
 
+        return ResponseEntity.status(200).body(new ApiResponseDto("핸드폰 인증번호 전송", HttpStatus.OK.value()));
+    }
+
+    @Override
+    public ResponseEntity<ApiResponseDto> sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {
+        MimeMessage message = javaMailSender.createMimeMessage();
+        String content;
+        try {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+            messageHelper.setTo(emailRequestDto.getEmail());
+
+            if(emailRequestDto.getStatus()) {
+                messageHelper.setSubject("회원 영구 정지");
+
+                content = "영구정지 당했습니다. <b>테스트</b>";
+            } else {
+                messageHelper.setSubject("이메일 인증 메세지");
+
+                content = "이메일 인증 메세지. <b>테스트</b>";
+            }
+
+            messageHelper.setText(content, true);
+
+            javaMailSender.send(message);
+        } catch(Exception e){
+            throw new MessagingException(e.getMessage());
+        }
+        return ResponseEntity.status(200).body(new ApiResponseDto("이메일 전송", HttpStatus.OK.value()));
     }
 
     private boolean checkAdmin(String adminToken) {
