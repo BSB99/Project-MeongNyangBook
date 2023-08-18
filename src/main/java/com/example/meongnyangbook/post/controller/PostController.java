@@ -2,6 +2,7 @@ package com.example.meongnyangbook.post.controller;
 
 import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.post.service.PostService;
+import com.example.meongnyangbook.user.details.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,9 +34,9 @@ public class PostController {
     @PostMapping("/adoptions/likes/{postId}")
     public ResponseEntity<String> likeAdoptionPost(
             @PathVariable Long postId,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        User user = (User) userDetails; // userDetails를 User로 캐스팅
+        User user = userDetails.getUser();
         Post post = postService.getPostById(postId); // postId에 해당하는 게시글 가져오기
 
         if (post == null) {
@@ -56,9 +57,9 @@ public class PostController {
     @PostMapping("/communities/likes/{postId}")
     public ResponseEntity<String> likeCommunityPost(
             @PathVariable Long postId,
-            @AuthenticationPrincipal UserDetails userDetails
+            @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        User user = (User) userDetails; // userDetails를 User로 캐스팅
+        User user = userDetails.getUser();
         Post post = postService.getPostById(postId); // postId에 해당하는 게시글 가져오기
 
         if (post == null) {
