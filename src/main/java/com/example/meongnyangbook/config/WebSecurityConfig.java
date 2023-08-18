@@ -70,7 +70,6 @@ public class WebSecurityConfig {
         );
 
         // 필터 관리
-        //jwtAuthorizationFilter -> jwtAuthenticationFilter -> UsernamePasswordAuthenticationFilter
         http.addFilterAfter(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

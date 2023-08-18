@@ -12,22 +12,22 @@ import lombok.NoArgsConstructor;
 public class User extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "nickname", nullable = false, unique = true)
-    private String nickname;
-
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "nickname", nullable = false)
+    private String nickname;
 
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "phone_number", nullable = false, unique = true)
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
     @Column(name = "role", nullable = false)
@@ -39,6 +39,6 @@ public class User extends TimeStamped {
         this.nickname = nickname;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.role =role;
+        this.role = role;
     }
 }
