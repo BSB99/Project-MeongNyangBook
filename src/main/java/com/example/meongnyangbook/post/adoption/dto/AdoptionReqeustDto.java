@@ -1,4 +1,4 @@
-package com.example.meongnyangbook.post.dto;
+package com.example.meongnyangbook.post.adoption.dto;
 
 import com.example.meongnyangbook.post.entity.AnimalGenderEnum;
 import com.example.meongnyangbook.post.entity.AreaEnum;

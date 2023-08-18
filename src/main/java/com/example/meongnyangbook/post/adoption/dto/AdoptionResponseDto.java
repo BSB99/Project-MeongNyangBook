@@ -1,19 +1,13 @@
-package com.example.meongnyangbook.post.dto;
+package com.example.meongnyangbook.post.adoption.dto;
 
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.entity.AnimalGenderEnum;
 import com.example.meongnyangbook.post.entity.AreaEnum;
 import com.example.meongnyangbook.post.entity.CategoryEnum;
 import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
-@Setter
-public class AdoptionDetailResponseDto {
+public class AdoptionResponseDto {
     private String title;
     private String description;
     private Boolean completion;
@@ -22,9 +16,8 @@ public class AdoptionDetailResponseDto {
     private Integer animalAge;
     private AreaEnum area;
     private CategoryEnum category;
-    private List<CommentResponseDto> commentList;
 
-    public AdoptionDetailResponseDto(Adoption adoption) {
+    public AdoptionResponseDto(Adoption adoption) {
         this.title = adoption.getTitle();
         this.description = adoption.getDescription();
         this.completion = adoption.getCompletion();
@@ -33,9 +26,5 @@ public class AdoptionDetailResponseDto {
         this.animalAge = adoption.getAnimalAge();
         this.area = adoption.getArea();
         this.category = adoption.getCategory();
-        this.commentList = adoption.getCommentList()
-                .stream()
-                .map(CommentResponseDto::new)
-                .collect(Collectors.toList());
     }
 }
