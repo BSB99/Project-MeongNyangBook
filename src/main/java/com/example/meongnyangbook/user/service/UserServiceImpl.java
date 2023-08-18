@@ -2,10 +2,7 @@ package com.example.meongnyangbook.user.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.redis.RedisUtil;
-import com.example.meongnyangbook.user.dto.EmailRequestDto;
-import com.example.meongnyangbook.user.dto.LoginRequestDto;
-import com.example.meongnyangbook.user.dto.PhoneRequestDto;
-import com.example.meongnyangbook.user.dto.SignupRequestDto;
+import com.example.meongnyangbook.user.dto.*;
 import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
@@ -56,18 +53,18 @@ public class UserServiceImpl implements UserService{
     private final JavaMailSender javaMailSender;
 
     @Override
-    public ResponseEntity<ApiResponseDto> signup(SignupRequestDto requestDto) {
+    public SignupResponseDto signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
         Optional<User> checkUsername = userRepository.findByUsername(username);
         if(checkUsername.isPresent()) {
-            return ResponseEntity.status(400).body(new ApiResponseDto("아이디가 중복됩니다.", HttpStatus.BAD_REQUEST.value()));
+            throw new IllegalArgumentException("아이디가 중복됩니다.");
         }
 
         String nickname = requestDto.getNickname();
         Optional<User> checkNickName = userRepository.findByNickname(nickname);
         if(checkNickName.isPresent()) {
-            return ResponseEntity.status(400).body(new ApiResponseDto("중복된 프로필명입니다.",HttpStatus.BAD_REQUEST.value()));
+            throw new IllegalArgumentException("프로필명이 중복됩니다.");
         }
         String address = requestDto.getAddress();
         String phoneNumber = requestDto.getPhoneNumber();
@@ -79,7 +76,7 @@ public class UserServiceImpl implements UserService{
         UserRoleEnum role = UserRoleEnum.MEMBER;
         if(requestDto.isAdmin()) {
             if(!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
-                return ResponseEntity.status(400).body(new ApiResponseDto("관리자 암호가 틀려 등록이 불가능합니다.",HttpStatus.BAD_REQUEST.value()));
+                throw new IllegalArgumentException("관리자 암호가 틀려 관리자 계정을 생성할 수 없습니다.");
             }
             role = UserRoleEnum.ADMIN;
         }
@@ -91,20 +88,20 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
 
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("회원가입 성공", HttpStatus.OK.value()));
+        return new SignupResponseDto(user);
     }
 
 
 
 
     @Override
-    public ResponseEntity<ApiResponseDto> signin(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public SigninResponseDto signin(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         log.info("로그인 시도");
         String username = loginRequestDto.getUsername();
         Optional<User> user = userRepository.findByUsername(username);
 
         if(!user.isPresent()){
-            return ResponseEntity.status(400).body(new ApiResponseDto("해당유저가 없습니다.", HttpStatus.FORBIDDEN.value()));
+            throw new IllegalArgumentException("해당 유저가 없습니다.");
         }
         String password = loginRequestDto.getPassword();
 
@@ -113,15 +110,19 @@ public class UserServiceImpl implements UserService{
         }
         // Access Token 생성 및 헤더에 추가
         String accessToken = jwtUtil.createToken(user.get().getUsername() ,user.get().getRole());
-        String refreshToken = jwtUtil.createRefreshToken();
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
+
+        String refreshToken = jwtUtil.createRefreshToken(user.get().getUsername(), user.get().getRole());
+        response.addHeader(JwtUtil.AUTHORIZATION_REFRESH_HEADER,refreshToken);
 
         // RefreshToken Redis 저장
         redisUtil.saveRefreshToken(user.get().getUsername(), refreshToken);
 
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
+
+
         jwtUtil.addJwtToCookie(accessToken,response);
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("로그인 성공", HttpStatus.OK.value()));
+        return new SigninResponseDto(username,password);
     }
 
     @Override

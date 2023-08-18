@@ -3,19 +3,16 @@ package com.example.meongnyangbook.user.jwt;
 import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
+import com.example.meongnyangbook.user.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -23,24 +20,24 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.Key;
-import java.util.Arrays;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Slf4j(topic = "JwtUtil")
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
+    private final UserRepository userRepository;
     // Header KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
+    // Header의 refresh
+    public static final String AUTHORIZATION_REFRESH_HEADER = "Authorization_Refresh";
     // 사용자 권한 값의 KEY
     public static final String AUTHORIZATION_KEY = "auth";
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
-    private final long TOKEN_TIME = 1 * 60 * 1000L; // 60분
+    private final long TOKEN_TIME = 60 * 60 * 1000L; // 60분
 
     @Value("${jwt.secret.key}")// Base64 Encoded SecretKey
     private String secretKey;
@@ -50,9 +47,6 @@ public class JwtUtil {
 
     public static final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
 
-    public JwtUtil(RedisUtil redisUtil) {
-        this.redisUtil = redisUtil;
-    }
 
     @PostConstruct
     public void init() {
@@ -77,39 +71,43 @@ public class JwtUtil {
     }
 
     // refresh token 생성
-    public String createRefreshToken(){
+    public String createRefreshToken(String username, UserRoleEnum role){
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + REFRESH_TOKEN_TIME);
 
-        String refreshToken = Jwts.builder()
-                .setIssuedAt(now)
-                .setExpiration(expireDate)
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+        String refreshToken = JwtUtil.BEARER_PREFIX + Jwts.builder()
+                .setSubject(username) // 사용자 식별자값(ID)
+                .claim(AUTHORIZATION_KEY, role)  //사용자 권한
+                .setExpiration(expireDate)  //만료시간
+                .signWith(key,signatureAlgorithm)
                 .compact();
 
         return refreshToken;
     }
 
     // access token 재발급
-    public String reissueAccessToken(String token) {
+    public String reissueAccessToken(String refresh) {
         log.info("액세스 토큰 재발급");
-        if (validateToken(token)) {
-            Claims info = getUserInfoFromToken(token);
-            Object user = info.get(AUTHORIZATION_KEY);
-            String username = info.getSubject();
+        log.info(refresh);
 
+            Claims info = getUserInfoFromToken(refresh);
+
+            String username = info.getSubject();
             log.info("재발급 요청자 : " + username);
 
             // refresh token 가져오기
-            String refreshToken = redisUtil.getRefreshToken(username);
+//            String refreshToken = redisUtil.getRefreshToken(username);
 
             // refresh token 존재하고 유효하다면
-            if (StringUtils.hasText(refreshToken) && validateToken(refreshToken)) {
-                log.info("리프레시 토큰 존재하고 유효함");
-                return createToken(username,UserRoleEnum.MEMBER);//claim에서 role값 받아와서 수정하기
-            }
-        }
-        return null;
+
+        log.info("리프레시 토큰 존재하고 유효함");
+
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException());
+        String newAccessToken = createToken(username, user.getRole());
+        log.info(newAccessToken);
+        return newAccessToken;
+
+
     }
 
 
@@ -189,6 +187,15 @@ public class JwtUtil {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        // token 이 null 또는 공백인지 체크 && 토큰이 정상적으로 Bearer 를 가지고 있는지 체크
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            return bearerToken.substring(7); // JWT 토큰 substring
+        }
+        return null;
+    }
+    //refresh 토큰을 헤더에서 찾아서 Bearer을 잘라주는 메서드
+    public String resolveRefreshToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_REFRESH_HEADER);
         // token 이 null 또는 공백인지 체크 && 토큰이 정상적으로 Bearer 를 가지고 있는지 체크
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7); // JWT 토큰 substring

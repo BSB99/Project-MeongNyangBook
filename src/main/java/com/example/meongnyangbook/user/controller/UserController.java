@@ -1,11 +1,8 @@
 package com.example.meongnyangbook.user.controller;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.user.dto.EmailRequestDto;
+import com.example.meongnyangbook.user.dto.*;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
-import com.example.meongnyangbook.user.dto.LoginRequestDto;
-import com.example.meongnyangbook.user.dto.PhoneRequestDto;
-import com.example.meongnyangbook.user.dto.SignupRequestDto;
 import com.example.meongnyangbook.user.service.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,12 +28,12 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponseDto> signup(@RequestBody SignupRequestDto requestDto) {
+    public SignupResponseDto signup(@RequestBody SignupRequestDto requestDto) {
 
         return userService.signup(requestDto);
     }
     @PostMapping("/login")
-    public ResponseEntity<ApiResponseDto> signin(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
+    public SigninResponseDto signin(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
         return userService.signin(loginRequestDto, response);
     }
     @PostMapping("/logout")
