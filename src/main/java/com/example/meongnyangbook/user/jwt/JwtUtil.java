@@ -4,6 +4,7 @@ import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.repository.UserRepository;
+import com.example.meongnyangbook.user.service.UserService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -27,7 +28,8 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
-    private final UserRepository userRepository;
+    private final UserService userService;
+
     // Header KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
     // Header의 refresh
@@ -102,12 +104,10 @@ public class JwtUtil {
 
         log.info("리프레시 토큰 존재하고 유효함");
 
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException());
+        User user = userService.findUser(username);
         String newAccessToken = createToken(username, user.getRole());
         log.info(newAccessToken);
         return newAccessToken;
-
-
     }
 
 

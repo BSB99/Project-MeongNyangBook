@@ -26,4 +26,6 @@ public interface UserService {
     ApiResponseDto sendEmail(EmailRequestDto emailRequestDto) throws MessagingException;
 
     ApiResponseDto authMessageCode(PhoneRequestDto phoneRequestDto);
+
+    User findUser(String username);
 }

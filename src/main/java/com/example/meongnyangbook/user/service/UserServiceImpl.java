@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
-import org.codehaus.plexus.components.io.resources.AbstractPlexusIoArchiveResourceCollection;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -104,7 +103,7 @@ public class UserServiceImpl implements UserService{
     public ResponseEntity<ApiResponseDto> signin(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         log.info("로그인 시도");
         String username = loginRequestDto.getUsername();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
+        User user = findUser(username);
 
         String password = loginRequestDto.getPassword();
 
@@ -227,5 +226,10 @@ public class UserServiceImpl implements UserService{
         redisUtil.setBlackList(accessToken, jwtUtil.remainExpireTime(accessToken));
 
         return ResponseEntity.status(200).body(new ApiResponseDto("로그아웃 완료", HttpStatus.OK.value()));
+    }
+    @Override
+    public User findUser(String username){
+
+        return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
     }
 }
