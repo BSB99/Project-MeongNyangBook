@@ -2,7 +2,12 @@ package com.example.meongnyangbook.user.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.redis.RedisUtil;
-import com.example.meongnyangbook.user.dto.*;
+
+import com.example.meongnyangbook.user.dto.LoginRequestDto;
+import com.example.meongnyangbook.user.dto.EmailRequestDto;
+import com.example.meongnyangbook.user.dto.PhoneRequestDto;
+import com.example.meongnyangbook.user.dto.SignupRequestDto;
+
 import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
@@ -15,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
+import org.codehaus.plexus.components.io.resources.AbstractPlexusIoArchiveResourceCollection;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -53,7 +59,7 @@ public class UserServiceImpl implements UserService{
     private final JavaMailSender javaMailSender;
 
     @Override
-    public SignupResponseDto signup(SignupRequestDto requestDto) {
+    public ResponseEntity<ApiResponseDto> signup(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = requestDto.getPassword();
         Optional<User> checkUsername = userRepository.findByUsername(username);
@@ -88,41 +94,38 @@ public class UserServiceImpl implements UserService{
         userRepository.save(user);
 
 
-        return new SignupResponseDto(user);
+        return ResponseEntity.status(200).body(new ApiResponseDto("회원가입 완료", HttpStatus.OK.value()));
     }
 
 
 
 
     @Override
-    public SigninResponseDto signin(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public ResponseEntity<ApiResponseDto> signin(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         log.info("로그인 시도");
         String username = loginRequestDto.getUsername();
-        Optional<User> user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("해당 유저가 없습니다."));
 
-        if(!user.isPresent()){
-            throw new IllegalArgumentException("해당 유저가 없습니다.");
-        }
         String password = loginRequestDto.getPassword();
 
-        if (!passwordEncoder.matches(password, user.get().getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
         // Access Token 생성 및 헤더에 추가
-        String accessToken = jwtUtil.createToken(user.get().getUsername() ,user.get().getRole());
+        String accessToken = jwtUtil.createToken(user.getUsername() ,user.getRole());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
 
-        String refreshToken = jwtUtil.createRefreshToken(user.get().getUsername(), user.get().getRole());
+        String refreshToken = jwtUtil.createRefreshToken(user.getUsername(), user.getRole());
         response.addHeader(JwtUtil.AUTHORIZATION_REFRESH_HEADER,refreshToken);
 
         // RefreshToken Redis 저장
-        redisUtil.saveRefreshToken(user.get().getUsername(), refreshToken);
+        redisUtil.saveRefreshToken(user.getUsername(), refreshToken);
 
 
 
         jwtUtil.addJwtToCookie(accessToken,response);
 
-        return new SigninResponseDto(username,password);
+        return ResponseEntity.status(200).body(new ApiResponseDto("로그인 완료", HttpStatus.OK.value()));
     }
 
     @Override
