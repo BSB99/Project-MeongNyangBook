@@ -19,13 +19,11 @@ public interface UserService {
 
     boolean checkAdmin(String adminToken);
 
-    void logout(User user, HttpServletRequest request, HttpServletResponse response);
+    ResponseEntity<ApiResponseDto> logout(User user, HttpServletRequest request, HttpServletResponse response);
 
     ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException;
 
     ApiResponseDto sendEmail(EmailRequestDto emailRequestDto) throws MessagingException;
 
     ApiResponseDto authMessageCode(PhoneRequestDto phoneRequestDto);
-
-
 }

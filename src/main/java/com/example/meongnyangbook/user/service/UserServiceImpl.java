@@ -2,7 +2,6 @@ package com.example.meongnyangbook.user.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.redis.RedisUtil;
-import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
 import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
@@ -87,7 +86,7 @@ public class UserServiceImpl implements UserService{
 
         //Email 검증 - 필요하다면
 
-        User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber, role, OAuthProviderEnum.ORIGIN);
+        User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber, role);
 
         userRepository.save(user);
 
@@ -96,26 +95,34 @@ public class UserServiceImpl implements UserService{
     }
 
 
+
+
     @Override
     public ResponseEntity<ApiResponseDto> signin(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         log.info("로그인 시도");
         String username = loginRequestDto.getUsername();
-        Optional<User> user = userRepository.findByUsername(username);
+        User user = findUser(username);
 
-        if(!user.isPresent()){
-            return ResponseEntity.status(400).body(new ApiResponseDto("해당유저가 없습니다.", HttpStatus.FORBIDDEN.value()));
-        }
         String password = loginRequestDto.getPassword();
 
-        if (!passwordEncoder.matches(password, user.get().getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
         // Access Token 생성 및 헤더에 추가
-        String accessToken = jwtUtil.createToken(user.get().getUsername() ,user.get().getRole());
+        String accessToken = jwtUtil.createToken(user.getUsername() ,user.getRole());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
+
+        String refreshToken = jwtUtil.createRefreshToken(user.getUsername(), user.getRole());
+        response.addHeader(JwtUtil.AUTHORIZATION_REFRESH_HEADER,refreshToken);
+
+        // RefreshToken Redis 저장
+        redisUtil.saveRefreshToken(user.getUsername(), refreshToken);
+
+
+
         jwtUtil.addJwtToCookie(accessToken,response);
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("로그인 성공", HttpStatus.OK.value()));
+        return ResponseEntity.status(200).body(new ApiResponseDto("로그인 완료", HttpStatus.OK.value()));
     }
 
     @Override
@@ -166,8 +173,7 @@ public class UserServiceImpl implements UserService{
         }
 
         return new ApiResponseDto("핸드폰 인증번호 확인", HttpStatus.OK.value());
-    }
-
+    };
 
     @Override
     public ApiResponseDto sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {
@@ -206,7 +212,7 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public void logout(User user, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<ApiResponseDto> logout(User user, HttpServletRequest request, HttpServletResponse response) {
         log.info("로그아웃 서비스");
         String bearerAccessToken = jwtUtil.getJwtFromRequest(request);
         String accessToken = jwtUtil.substringToken(bearerAccessToken);
@@ -217,5 +223,12 @@ public class UserServiceImpl implements UserService{
         // access token blacklist 로 저장
         log.info("액세스 토큰 블랙리스트로 저장 : " + accessToken);
         redisUtil.setBlackList(accessToken, jwtUtil.remainExpireTime(accessToken));
+
+        return ResponseEntity.status(200).body(new ApiResponseDto("로그아웃 완료", HttpStatus.OK.value()));
+    }
+    @Override
+    public User findUser(String username){
+
+        return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
     }
 }
