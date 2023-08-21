@@ -1,6 +1,6 @@
 package com.example.meongnyangbook.post.adoption.entity;
 
-import com.example.meongnyangbook.post.dto.AdoptionReqeustDto;
+import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.entity.AnimalGenderEnum;
 import com.example.meongnyangbook.post.entity.AreaEnum;
 import com.example.meongnyangbook.post.entity.CategoryEnum;

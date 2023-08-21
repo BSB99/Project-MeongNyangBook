@@ -1,13 +1,10 @@
 package com.example.meongnyangbook.post.comment.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
 import com.example.meongnyangbook.post.comment.entity.Comment;
 import com.example.meongnyangbook.post.comment.repository.CommentRepository;
-import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.repository.CommunityRepository;
-import com.example.meongnyangbook.post.community.service.CommunityService;
 import com.example.meongnyangbook.post.dto.CommentRequestDto;
 import com.example.meongnyangbook.post.dto.CommentResponseDto;
 import com.example.meongnyangbook.post.entity.Post;
@@ -58,7 +55,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public Post findPost(Long id) {
+    public Post findPost(Long id) { // 고쳐야됨, QueryDSL 사용 예정, 로직 수정
         if(adoptionRepository.findById(id).isPresent()) {
             return adoptionRepository.findById(id).orElseThrow(()-> {
                 throw new IllegalArgumentException("게시물이 존재하지 않습니다.");

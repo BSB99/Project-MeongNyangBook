@@ -2,6 +2,7 @@ package com.example.meongnyangbook.user.service.user;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.redis.RedisUtil;
+import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
 import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
@@ -12,6 +13,7 @@ import com.example.meongnyangbook.user.jwt.JwtUtil;
 import com.example.meongnyangbook.user.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +86,7 @@ public class UserServiceImpl implements UserService{
 
         //Email 검증 - 필요하다면
 
-        User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber, role);
+        User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber, role, OAuthProviderEnum.ORIGIN);
 
         userRepository.save(user);
 
@@ -212,7 +214,6 @@ public class UserServiceImpl implements UserService{
         }
         return false;
     }
-
 
     @Override
     public User findUser(String username){
