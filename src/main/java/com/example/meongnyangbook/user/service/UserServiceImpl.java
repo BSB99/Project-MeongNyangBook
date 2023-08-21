@@ -2,6 +2,7 @@ package com.example.meongnyangbook.user.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.redis.RedisUtil;
+import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
 import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
@@ -86,15 +87,13 @@ public class UserServiceImpl implements UserService{
 
         //Email 검증 - 필요하다면
 
-        User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber, role);
+        User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber, role, OAuthProviderEnum.ORIGIN);
 
         userRepository.save(user);
 
 
         return ResponseEntity.status(200).body(new ApiResponseDto("회원가입 성공", HttpStatus.OK.value()));
     }
-
-
 
 
     @Override
@@ -167,7 +166,8 @@ public class UserServiceImpl implements UserService{
         }
 
         return new ApiResponseDto("핸드폰 인증번호 확인", HttpStatus.OK.value());
-    };
+    }
+
 
     @Override
     public ApiResponseDto sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {
