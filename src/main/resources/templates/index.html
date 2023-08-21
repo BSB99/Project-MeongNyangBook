@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Example</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/webstomp-client@1.2.6/dist/webstomp.min.js
+"></script>
+</head>
+<body>
+<div>
+    <label for="roomId">Enter Chat Room Number:</label>
+    <input type="text" id="roomId">
+    <button onclick="joinChat()">Join Chat</button>
+</div>
+<div id="chatArea" style="display: none;">
+    <div id="messages"></div>
+    <input type="text" id="message" placeholder="Type your message..." style="display: block;">
+    <button onclick="sendMessage()">Send</button>
+</div>
+<script>
+    const socket = new SockJS('/ws/chat');
+    const stompClient = webstomp.over(socket);
+    let roomId = null;
+
+    function joinChat() {
+        roomId = document.getElementById('roomId').value;
+        if (roomId) {
+            stompClient.connect({}, (frame) => {
+                console.log('Connected to WebSocket:', frame);
+                document.getElementById('chatArea').style.display = 'block';
+                stompClient.subscribe(`/room/${roomId}`, (message) => {
+                    const payload = JSON.parse(message.body);
+                    displayMessage(payload.sender, payload.msg);
+                });
+            });
+        }
+    }
+
+    function sendMessage() {
+        const messageInput = document.getElementById('message');
+        const message = messageInput.value;
+        if (message) {
+            const payload = {
+                sender: 'User',
+                msg: message
+            };
+            stompClient.send(`/send/${roomId}`, {}, JSON.stringify(payload));
+            messageInput.value = '';
+            displayMessage('User', message); // Display sent message locally
+        }
+    }
+
+    function displayMessage(sender, message) {
+        const messagesDiv = document.getElementById('messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.textContent = `${sender}: ${message}`;
+        messagesDiv.appendChild(messageDiv);
+    }
+</script>
+</body>
+</html>
