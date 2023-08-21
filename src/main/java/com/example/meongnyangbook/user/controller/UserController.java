@@ -1,9 +1,8 @@
 package com.example.meongnyangbook.user.controller;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.user.OAuth.GoogleOAuth;
-import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
+import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
@@ -18,8 +17,10 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
