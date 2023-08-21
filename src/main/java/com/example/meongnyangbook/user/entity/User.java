@@ -35,9 +35,7 @@ public class User extends TimeStamped {
     private UserRoleEnum role;
 
 
-    //address, phoneNumber Dto 상에서 Blank
 
-    //직접 회원가입 시 소셜로그인 구분 Enum Origin값 넣어주기
     public User(String username, String password, String nickname, String address, String phoneNumber, UserRoleEnum role) {
         this.username = username;
         this.password = password;

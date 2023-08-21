@@ -19,8 +19,6 @@ public interface UserService {
 
     boolean checkAdmin(String adminToken);
 
-//    ResponseEntity<ApiResponseDto> logout(User user, HttpServletRequest request, HttpServletResponse response);
-
     ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException;
 
     ApiResponseDto sendEmail(EmailRequestDto emailRequestDto) throws MessagingException;

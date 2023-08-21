@@ -30,8 +30,6 @@ public class AuthUserService {
         log.info("로그아웃 서비스");
         String bearerAccessToken = jwtUtil.getJwtFromRequest(request);
         String accessToken = jwtUtil.substringToken(bearerAccessToken);
-//        String username = user.getUsername();
-
 
         // access token blacklist 로 저장
         log.info("액세스 토큰 블랙리스트로 저장 : " + accessToken);
@@ -49,6 +47,7 @@ public class AuthUserService {
         }
         log.info("권한 통과 Admin 맞음");
         //ADMIN일 시 뒤 기능 수행
+
         User blockUser = findUser(blockUsername);
         log.info(blockUser.getUsername());
 
