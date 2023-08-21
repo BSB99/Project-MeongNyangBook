@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.user.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
+import com.example.meongnyangbook.user.dto.ProfileRequestDto;
 import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -56,5 +57,16 @@ public class User extends TimeStamped {
         this.nickname = nickname;
         this.role = role;
         this.oAuthProvider = oAuthProvider;
+    }
+
+    public void setBlock(UserRoleEnum userRoleEnum) {
+
+        this.role =userRoleEnum;
+    }
+
+    public void setProfile(ProfileRequestDto profileRequestDto) {
+        this.nickname = profileRequestDto.getNickname();
+        this.address = profileRequestDto.getAddress();
+        this.phoneNumber = profileRequestDto.getPhoneNumber();
     }
 }
