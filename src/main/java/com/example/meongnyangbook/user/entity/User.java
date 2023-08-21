@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.user.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
+import com.example.meongnyangbook.user.dto.ProfileRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,8 @@ public class User extends TimeStamped {
     @Column(name = "role", nullable = false)
     private UserRoleEnum role;
 
+
+
     public User(String username, String password, String nickname, String address, String phoneNumber, UserRoleEnum role) {
         this.username = username;
         this.password = password;
@@ -40,5 +43,16 @@ public class User extends TimeStamped {
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.role = role;
+    }
+
+    public void setBlock(UserRoleEnum userRoleEnum) {
+
+        this.role =userRoleEnum;
+    }
+
+    public void setProfile(ProfileRequestDto profileRequestDto) {
+        this.nickname = profileRequestDto.getNickname();
+        this.address = profileRequestDto.getAddress();
+        this.phoneNumber = profileRequestDto.getPhoneNumber();
     }
 }
