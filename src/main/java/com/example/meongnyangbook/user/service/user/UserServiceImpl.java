@@ -1,18 +1,15 @@
-package com.example.meongnyangbook.user.service;
+package com.example.meongnyangbook.user.service.user;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.redis.RedisUtil;
-
-import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.EmailRequestDto;
+import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
-
 import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
 import com.example.meongnyangbook.user.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +25,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -110,6 +106,11 @@ public class UserServiceImpl implements UserService{
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
+        log.info("role : "+ user.getRole().getAuthority());
+        if(user.getRole().getAuthority().equals(UserRoleEnum.BLOCK.getAuthority())){
+            throw new IllegalArgumentException("정지당한 계정입니다.");
+        }
+
         // Access Token 생성 및 헤더에 추가
         String accessToken = jwtUtil.createToken(user.getUsername() ,user.getRole());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
@@ -212,21 +213,7 @@ public class UserServiceImpl implements UserService{
         return false;
     }
 
-    @Transactional
-    @Override
-    public ResponseEntity<ApiResponseDto> logout(User user, HttpServletRequest request, HttpServletResponse response) {
-        log.info("로그아웃 서비스");
-        String bearerAccessToken = jwtUtil.getJwtFromRequest(request);
-        String accessToken = jwtUtil.substringToken(bearerAccessToken);
-//        String username = user.getUsername();
 
-
-        // access token blacklist 로 저장
-        log.info("액세스 토큰 블랙리스트로 저장 : " + accessToken);
-        redisUtil.setBlackList(accessToken, jwtUtil.remainExpireTime(accessToken));
-
-        return ResponseEntity.status(200).body(new ApiResponseDto("로그아웃 완료", HttpStatus.OK.value()));
-    }
     @Override
     public User findUser(String username){
 
