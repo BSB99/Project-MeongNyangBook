@@ -3,6 +3,7 @@ package com.example.meongnyangbook.user.service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
+import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
 import com.example.meongnyangbook.user.entity.User;
@@ -19,7 +20,7 @@ public interface UserService {
 
     boolean checkAdmin(String adminToken);
 
-    void logout(User user, HttpServletRequest request, HttpServletResponse response);
+    ResponseEntity<ApiResponseDto> logout(User user, HttpServletRequest request, HttpServletResponse response);
 
     ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException;
 
@@ -27,5 +28,5 @@ public interface UserService {
 
     ApiResponseDto authMessageCode(PhoneRequestDto phoneRequestDto);
 
-
+    User findUser(String username);
 }
