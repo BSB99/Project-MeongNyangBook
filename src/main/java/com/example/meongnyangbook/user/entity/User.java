@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "users")
 public class User extends TimeStamped {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     @Column(name = "username", nullable = false, unique = true)
@@ -61,7 +61,7 @@ public class User extends TimeStamped {
 
     public void setBlock(UserRoleEnum userRoleEnum) {
 
-        this.role =userRoleEnum;
+        this.role = userRoleEnum;
     }
 
     public void setProfile(ProfileRequestDto profileRequestDto) {

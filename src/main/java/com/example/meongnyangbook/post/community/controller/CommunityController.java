@@ -49,7 +49,7 @@ public class CommunityController {
     }
 
     @PutMapping("/{communityNo}")
-    public CommunityResponseDto createCommunity(@RequestBody PostRequestDto requestDto, @PathVariable Long communityNo) throws Exception {
+    public CommunityResponseDto updateCommunity(@PathVariable Long communityNo, @AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostRequestDto requestDto) throws Exception {
         try {
             return communityService.updateCommunity(requestDto, communityNo);
         } catch (Error error) {
@@ -58,7 +58,7 @@ public class CommunityController {
     }
 
     @DeleteMapping("/{communityNo}")
-    public ResponseEntity<ApiResponseDto> deleteCommunity(@PathVariable Long communityNo) throws Exception {
+    public ResponseEntity<ApiResponseDto> deleteCommunity(@PathVariable Long communityNo, @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
         try {
             ApiResponseDto result = communityService.deleteCommunity(communityNo);
 

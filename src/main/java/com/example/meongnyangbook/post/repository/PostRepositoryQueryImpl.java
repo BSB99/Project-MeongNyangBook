@@ -23,35 +23,24 @@ public class PostRepositoryQueryImpl implements PostRepositoryQuery{
     // part: community, adoption -> RequestParam
     // controller -> adoptionController / communityController
     // queryDsl 다시 짜기
-    @Override
-    public List<Post> getPostFindByTitleList(String keyword, Pageable pageable) {
+
+    public List<Post> getPostPaging(String category, Pageable pageable) {
         QPost post = QPost.post;
 
         OrderSpecifier<?> orderSpecifier = post.createdAt.desc();
 
         return jpaQueryFactory.selectFrom(post)
-                .where(post.title.like("%" + keyword + "%"))
+//                .where(post.title.like("%" + keyword + "%"))
                 .orderBy(orderSpecifier) // 정렬 조건 추가
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
     }
 
-//    @Override
-//    public Post findPostByIdInAdoption(Long postId) {
-//        QAdoption qAdoption = QAdoption.adoption;
-//        return jpaQueryFactory.selectFrom(qAdoption)
-//                .where(qAdoption.id.eq(postId))
-//                .fetchOne();
-//    }
-//
-//    @Override
-//    public Post findPostByIdInCommunity(Long postId) {
-//        QCommunity qCommunity = QCommunity.community;
-//        return jpaQueryFactory.selectFrom(qCommunity)
-//                .where(qCommunity.id.eq(postId))
-//                .fetchOne();
-//    }
+    @Override
+    public List<Post> getPostPaging(Pageable pageable) {
+        return null;
+    }
 
     @Override
     public Post findPostById(Long postId) {
