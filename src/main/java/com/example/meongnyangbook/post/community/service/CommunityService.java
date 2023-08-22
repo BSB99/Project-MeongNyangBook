@@ -6,6 +6,7 @@ import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.user.entity.User;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface CommunityService {
 
     Community getCommunity(Long communityNo);
 
-    List<CommunityResponseDto> getCommunityList();
+    List<CommunityResponseDto> getCommunityList(Pageable pageable);
 
     CommunityDetailResponseDto getOneCommunity(Long communityNo);
 }

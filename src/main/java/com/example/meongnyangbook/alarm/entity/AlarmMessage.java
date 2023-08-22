@@ -1,6 +1,5 @@
 package com.example.meongnyangbook.alarm.entity;
 
-import com.example.meongnyangbook.chat.room.entity.MessageRoom;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,10 +17,10 @@ public class AlarmMessage {
     @Column(name = "message", nullable = false)
     private String message;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "message_room_no")
     private MessageRoom messageRoom;
-
+*/
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

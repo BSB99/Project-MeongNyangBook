@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PostRepositoryQuery {
-
-    List<Post> getPostFindByTitleList(String keyword, Pageable pageable);
     Post findPostById(Long postId);
 }
