@@ -1,7 +1,10 @@
 package com.example.meongnyangbook.user.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
+import com.example.meongnyangbook.user.dto.ProfileRequestDto;
+import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,21 +27,46 @@ public class User extends TimeStamped {
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
-    @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "phone_number", nullable = false)
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Column(name = "role", nullable = false)
     private UserRoleEnum role;
 
-    public User(String username, String password, String nickname, String address, String phoneNumber, UserRoleEnum role) {
+    @Column(name = "oauth_provier", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private OAuthProviderEnum oAuthProvider;
+
+
+    public User(String username, String password, String nickname, String address, String phoneNumber, UserRoleEnum role, OAuthProviderEnum oAuthProvider) {
         this.username = username;
         this.password = password;
         this.nickname = nickname;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.role = role;
+        this.oAuthProvider = oAuthProvider;
+    }
+
+    @Builder
+    public User(String username, String password, String nickname, UserRoleEnum role, OAuthProviderEnum oAuthProvider) {
+        this.username = username;
+        this.password = password;
+        this.nickname = nickname;
+        this.role = role;
+        this.oAuthProvider = oAuthProvider;
+    }
+
+    public void setBlock(UserRoleEnum userRoleEnum) {
+
+        this.role =userRoleEnum;
+    }
+
+    public void setProfile(ProfileRequestDto profileRequestDto) {
+        this.nickname = profileRequestDto.getNickname();
+        this.address = profileRequestDto.getAddress();
+        this.phoneNumber = profileRequestDto.getPhoneNumber();
     }
 }

@@ -1,13 +1,16 @@
 package com.example.meongnyangbook.user.jwt;
 
 import com.example.meongnyangbook.redis.RedisUtil;
+import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
+import com.example.meongnyangbook.user.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -22,9 +25,14 @@ import java.util.Date;
 
 @Slf4j(topic = "JwtUtil")
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
+    private final UserRepository userRepository;
+
     // Header KEY 값
     public static final String AUTHORIZATION_HEADER = "Authorization";
+    // Header의 refresh
+    public static final String AUTHORIZATION_REFRESH_HEADER = "Authorization_Refresh";
     // 사용자 권한 값의 KEY
     public static final String AUTHORIZATION_KEY = "auth";
     // Token 식별자
@@ -40,9 +48,6 @@ public class JwtUtil {
 
     public static final long REFRESH_TOKEN_TIME = 7 * 24 * 60 * 60 * 1000L; // 7일
 
-    public JwtUtil(RedisUtil redisUtil) {
-        this.redisUtil = redisUtil;
-    }
 
     @PostConstruct
     public void init() {
@@ -67,42 +72,41 @@ public class JwtUtil {
     }
 
     // refresh token 생성
-    public String createRefreshToken() {
-        log.info("리프레시 토큰 생성");
-        Date date = new Date();
+    public String createRefreshToken(String username, UserRoleEnum role){
+        Date now = new Date();
+        Date expireDate = new Date(now.getTime() + REFRESH_TOKEN_TIME);
 
-        return Jwts.builder()
-                .setExpiration(new Date(date.getTime() + REFRESH_TOKEN_TIME))
-                .signWith(key, signatureAlgorithm)
+        String refreshToken = JwtUtil.BEARER_PREFIX + Jwts.builder()
+                .setSubject(username) // 사용자 식별자값(ID)
+                .claim(AUTHORIZATION_KEY, role)  //사용자 권한
+                .setExpiration(expireDate)  //만료시간
+                .signWith(key,signatureAlgorithm)
                 .compact();
+
+        return refreshToken;
     }
 
-    //access토큰 재발급
-    public String reissueAccessToken(String token) {
+    // access token 재발급
+    public String reissueAccessToken(String refresh) {
         log.info("액세스 토큰 재발급");
-        if (validateToken(token)) {
-            Claims info = getUserInfoFromToken(token);
-            String username = info.getSubject();
-            String role = (String) info.get("role");
-            UserRoleEnum userrole = null;
+        log.info(refresh);
 
-            if (role.equals("ROLE_ADMIN")) {
-                userrole = UserRoleEnum.ADMIN;
-            } else {
-                userrole = UserRoleEnum.MEMBER;
-            }
+            Claims info = getUserInfoFromToken(refresh);
+
+            String username = info.getSubject();
             log.info("재발급 요청자 : " + username);
 
             // refresh token 가져오기
 //            String refreshToken = redisUtil.getRefreshToken(username);
 
             // refresh token 존재하고 유효하다면
-//            if (StringUtils.hasText(refreshToken) && validateToken(refreshToken)) {
-//                log.info("리프레시 토큰 존재하고 유효함");
-//                return createToken(username);
-//            }
-        }
-        return null;
+
+        log.info("리프레시 토큰 존재하고 유효함");
+
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+        String newAccessToken = createToken(username, user.getRole());
+        log.info(newAccessToken);
+        return newAccessToken;
     }
 
 
@@ -182,6 +186,15 @@ public class JwtUtil {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
+        // token 이 null 또는 공백인지 체크 && 토큰이 정상적으로 Bearer 를 가지고 있는지 체크
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
+            return bearerToken.substring(7); // JWT 토큰 substring
+        }
+        return null;
+    }
+    //refresh 토큰을 헤더에서 찾아서 Bearer을 잘라주는 메서드
+    public String resolveRefreshToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(AUTHORIZATION_REFRESH_HEADER);
         // token 이 null 또는 공백인지 체크 && 토큰이 정상적으로 Bearer 를 가지고 있는지 체크
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.substring(7); // JWT 토큰 substring

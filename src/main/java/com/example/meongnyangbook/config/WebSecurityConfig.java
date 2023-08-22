@@ -1,5 +1,6 @@
 package com.example.meongnyangbook.config;
 
+import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.details.UserDetailsServiceImpl;
 import com.example.meongnyangbook.user.jwt.JwtAuthorizationFilter;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
@@ -22,11 +23,14 @@ public class WebSecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final RedisUtil redisUtil;
 
-    public WebSecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService, AuthenticationConfiguration authenticationConfiguration) {
+    public WebSecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService,
+                             AuthenticationConfiguration authenticationConfiguration, RedisUtil redisUtil) {
         this.jwtUtil = jwtUtil;
         this.userDetailsService = userDetailsService;
         this.authenticationConfiguration = authenticationConfiguration;
+        this.redisUtil = redisUtil;
     }
 
     @Bean
@@ -41,15 +45,9 @@ public class WebSecurityConfig {
 
     @Bean
     public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtUtil, userDetailsService);
+        return new JwtAuthorizationFilter(jwtUtil, userDetailsService, redisUtil);
     }
 
-//    @Bean
-//    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-//        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtil);
-//        jwtAuthenticationFilter.setAuthenticationManager(authenticationManager(authenticationConfiguration));
-//        return jwtAuthenticationFilter;
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

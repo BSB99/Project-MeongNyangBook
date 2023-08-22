@@ -1,7 +1,8 @@
-package com.example.meongnyangbook.user.service;
+package com.example.meongnyangbook.user.service.user;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.redis.RedisUtil;
+import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
 import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
@@ -10,9 +11,9 @@ import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
 import com.example.meongnyangbook.user.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -61,13 +61,13 @@ public class UserServiceImpl implements UserService{
         String password = requestDto.getPassword();
         Optional<User> checkUsername = userRepository.findByUsername(username);
         if(checkUsername.isPresent()) {
-            return ResponseEntity.status(400).body(new ApiResponseDto("아이디가 중복됩니다.", HttpStatus.BAD_REQUEST.value()));
+            throw new IllegalArgumentException("아이디가 중복됩니다.");
         }
 
         String nickname = requestDto.getNickname();
         Optional<User> checkNickName = userRepository.findByNickname(nickname);
         if(checkNickName.isPresent()) {
-            return ResponseEntity.status(400).body(new ApiResponseDto("중복된 프로필명입니다.",HttpStatus.BAD_REQUEST.value()));
+            throw new IllegalArgumentException("프로필명이 중복됩니다.");
         }
         String address = requestDto.getAddress();
         String phoneNumber = requestDto.getPhoneNumber();
@@ -79,19 +79,19 @@ public class UserServiceImpl implements UserService{
         UserRoleEnum role = UserRoleEnum.MEMBER;
         if(requestDto.isAdmin()) {
             if(!ADMIN_TOKEN.equals(requestDto.getAdminToken())) {
-                return ResponseEntity.status(400).body(new ApiResponseDto("관리자 암호가 틀려 등록이 불가능합니다.",HttpStatus.BAD_REQUEST.value()));
+                throw new IllegalArgumentException("관리자 암호가 틀려 관리자 계정을 생성할 수 없습니다.");
             }
             role = UserRoleEnum.ADMIN;
         }
 
         //Email 검증 - 필요하다면
 
-        User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber, role);
+        User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber, role, OAuthProviderEnum.ORIGIN);
 
         userRepository.save(user);
 
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("회원가입 성공", HttpStatus.OK.value()));
+        return ResponseEntity.status(200).body(new ApiResponseDto("회원가입 완료", HttpStatus.OK.value()));
     }
 
 
@@ -101,22 +101,33 @@ public class UserServiceImpl implements UserService{
     public ResponseEntity<ApiResponseDto> signin(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         log.info("로그인 시도");
         String username = loginRequestDto.getUsername();
-        Optional<User> user = userRepository.findByUsername(username);
+        User user = findUser(username);
 
-        if(!user.isPresent()){
-            return ResponseEntity.status(400).body(new ApiResponseDto("해당유저가 없습니다.", HttpStatus.FORBIDDEN.value()));
-        }
         String password = loginRequestDto.getPassword();
 
-        if (!passwordEncoder.matches(password, user.get().getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 틀립니다.");
         }
+        log.info("role : "+ user.getRole().getAuthority());
+        if(user.getRole().getAuthority().equals(UserRoleEnum.BLOCK.getAuthority())){
+            throw new IllegalArgumentException("정지당한 계정입니다.");
+        }
+
         // Access Token 생성 및 헤더에 추가
-        String accessToken = jwtUtil.createToken(user.get().getUsername() ,user.get().getRole());
+        String accessToken = jwtUtil.createToken(user.getUsername() ,user.getRole());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
+
+        String refreshToken = jwtUtil.createRefreshToken(user.getUsername(), user.getRole());
+        response.addHeader(JwtUtil.AUTHORIZATION_REFRESH_HEADER,refreshToken);
+
+        // RefreshToken Redis 저장
+        redisUtil.saveRefreshToken(user.getUsername(), refreshToken);
+
+
+
         jwtUtil.addJwtToCookie(accessToken,response);
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("로그인 성공", HttpStatus.OK.value()));
+        return ResponseEntity.status(200).body(new ApiResponseDto("로그인 완료", HttpStatus.OK.value()));
     }
 
     @Override
@@ -204,18 +215,9 @@ public class UserServiceImpl implements UserService{
         return false;
     }
 
-    @Transactional
     @Override
-    public void logout(User user, HttpServletRequest request, HttpServletResponse response) {
-        log.info("로그아웃 서비스");
-        String bearerAccessToken = jwtUtil.getJwtFromRequest(request);
-        String accessToken = jwtUtil.substringToken(bearerAccessToken);
-//        String username = user.getUsername();
+    public User findUser(String username){
 
-
-
-        // access token blacklist 로 저장
-        log.info("액세스 토큰 블랙리스트로 저장 : " + accessToken);
-        redisUtil.setBlackList(accessToken, jwtUtil.remainExpireTime(accessToken));
+        return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
     }
 }

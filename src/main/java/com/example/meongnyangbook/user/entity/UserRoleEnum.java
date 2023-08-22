@@ -2,7 +2,8 @@ package com.example.meongnyangbook.user.entity;
 
 public enum UserRoleEnum {
     MEMBER(Authority.MEMBER),  // 사용자 권한
-    ADMIN(Authority.ADMIN);  // 관리자 권한
+    ADMIN(Authority.ADMIN),  // 관리자 권한
+    BLOCK(Authority.BLOCK);  // 차단 상태
 
     private final String authority;
 
@@ -17,5 +18,6 @@ public enum UserRoleEnum {
     public static class Authority {
         public static final String MEMBER = "ROLE_MEMBER";
         public static final String ADMIN = "ROLE_ADMIN";
+        public static final String BLOCK = "ROLE_BLOCK";
     }
 }
