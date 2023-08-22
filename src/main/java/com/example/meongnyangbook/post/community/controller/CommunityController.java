@@ -8,6 +8,7 @@ import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,10 +31,10 @@ public class CommunityController {
         }
     }
 
-    @GetMapping
-    public List<CommunityResponseDto> getCommunityList() throws Exception {
+    @GetMapping("/page")
+    public List<CommunityResponseDto> getCommunityList(Pageable pageable) throws Exception {
         try {
-            return communityService.getCommunityList();
+            return communityService.getCommunityList(pageable);
         } catch (Error error) {
             throw new Exception(error);
         }
