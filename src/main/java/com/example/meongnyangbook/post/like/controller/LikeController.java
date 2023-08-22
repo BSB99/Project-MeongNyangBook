@@ -16,13 +16,13 @@ public class LikeController {
     private final LikeService likeService;
 
     @PostMapping("/{post_id}/like")
-    public ResponseEntity<ApiResponseDto> createPostLike(@PathVariable Long post_id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<ApiResponseDto> createPostLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
-        return likeService.createPostLike(post_id, userDetails.getUser());
+        return likeService.createPostLike(postId, userDetails.getUser());
     }
     @DeleteMapping("/{post_id}/like")
-    public ResponseEntity<ApiResponseDto> deletePostLike(@PathVariable Long post_id, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<ApiResponseDto> deletePostLike(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails){
 
-        return likeService.deletePostLike(post_id, userDetails.getUser());
+        return likeService.deletePostLike(postId, userDetails.getUser());
     }
 }

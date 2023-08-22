@@ -8,9 +8,9 @@ import java.util.List;
 
 @Repository
 public interface LikeRepository extends JpaRepository<PostLike, Long> {
-        Boolean existsByPostIdAndUserId(Long post_id,Long user_id);
+        Boolean existsByPostIdAndUserId(Long postId,Long userId);
 
 
         //해당 포스트의 해당 유저가 누른 postLike
-        PostLike findByPostIdAndUserId(Long postId,Long user_id);
+        PostLike findByPostIdAndUserId(Long postId,Long userId);
 }

@@ -26,8 +26,6 @@ public class QAlarmMessage extends EntityPathBase<AlarmMessage> {
 
     public final StringPath message = createString("message");
 
-    public final com.example.meongnyangbook.chat.room.entity.QMessageRoom messageRoom;
-
     public final com.example.meongnyangbook.user.entity.QUser user;
 
     public QAlarmMessage(String variable) {
@@ -48,7 +46,6 @@ public class QAlarmMessage extends EntityPathBase<AlarmMessage> {
 
     public QAlarmMessage(Class<? extends AlarmMessage> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.messageRoom = inits.isInitialized("messageRoom") ? new com.example.meongnyangbook.chat.room.entity.QMessageRoom(forProperty("messageRoom"), inits.get("messageRoom")) : null;
         this.user = inits.isInitialized("user") ? new com.example.meongnyangbook.user.entity.QUser(forProperty("user")) : null;
     }
 
