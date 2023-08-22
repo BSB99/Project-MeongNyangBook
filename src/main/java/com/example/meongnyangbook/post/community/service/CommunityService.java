@@ -2,9 +2,9 @@ package com.example.meongnyangbook.post.community.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityDetailResponseDto;
-import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
+import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.user.entity.User;
 import org.springframework.data.domain.Pageable;
 
@@ -22,4 +22,7 @@ public interface CommunityService {
     List<CommunityResponseDto> getCommunityList(Pageable pageable);
 
     CommunityDetailResponseDto getOneCommunity(Long communityNo);
+
+    List<CommunityResponseDto> getMyCommunityPostList(User user);
+
 }

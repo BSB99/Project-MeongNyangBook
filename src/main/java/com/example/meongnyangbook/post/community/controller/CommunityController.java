@@ -6,7 +6,6 @@ import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.service.CommunityService;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -67,5 +66,13 @@ public class CommunityController {
         } catch (Error error) {
             throw new Exception(error);
         }
+    }
+
+    // 내가 쓴 게시물 조회
+    @GetMapping("/my-post")
+    public ResponseEntity<List<CommunityResponseDto>> getMyCommunityPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<CommunityResponseDto> result = communityService.getMyCommunityPostList(userDetails.getUser());
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+
     }
 }

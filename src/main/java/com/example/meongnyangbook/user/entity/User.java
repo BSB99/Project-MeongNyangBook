@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.user.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
-import com.example.meongnyangbook.user.dto.ProfileRequestDto;
 import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
+import com.example.meongnyangbook.user.dto.ProfileRequestDto;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,7 +38,6 @@ public class User extends TimeStamped {
     @Column(name = "oauth_provier", nullable = false)
     @Enumerated(value = EnumType.STRING)
     private OAuthProviderEnum oAuthProvider;
-
 
     public User(String username, String password, String nickname, String address, String phoneNumber, UserRoleEnum role, OAuthProviderEnum oAuthProvider) {
         this.username = username;
