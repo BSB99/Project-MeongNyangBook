@@ -8,6 +8,8 @@ import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.repository.CommunityRepository;
 import com.example.meongnyangbook.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,8 +51,8 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public List<CommunityResponseDto> getCommunityList() {
-        List<Community> communityList = communityRepository.findAllByOrderByCreatedAtDesc();
+    public List<CommunityResponseDto> getCommunityList(Pageable pageable) {
+        Page<Community> communityList = communityRepository.findAllByOrderByCreatedAtDesc(pageable);
 
         return communityList.stream().map(CommunityResponseDto::new).collect(Collectors.toList());
     }
