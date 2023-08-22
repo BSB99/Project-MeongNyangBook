@@ -67,8 +67,12 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
-    // OAuth
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    
+	// OAuth
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+	//slack
+	implementation 'com.slack.api:slack-api-client:1.30.0'
 }
 
 tasks.named('test') {

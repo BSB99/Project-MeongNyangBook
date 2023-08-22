@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.user.details;
 
 import com.example.meongnyangbook.user.entity.User;
+import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserDetailsImpl implements UserDetails {
     private final User user;
+
+    public UserRoleEnum getRole() {
+        return user.getRole();
+    }
 
     public User getUser() {
         return this.user;
