@@ -10,11 +10,13 @@ public class AlarmResponseDto {
     private String alarmTitle;
     private String alarmBody;
     private String alarmSender;
+    private String createdAt;
 
     public AlarmResponseDto(Alarm alarm) {
         this.id = alarm.getId();
         this.alarmTitle = alarm.getAlarmTitle();
         this.alarmBody = alarm.getAlarmBody();
         this.alarmSender = alarm.getAlarmSender();
+        this.createdAt = alarm.getCreatedAtAsString();
     }
 }

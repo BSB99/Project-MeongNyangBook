@@ -69,8 +69,10 @@ public class CommunityController {
     }
 
     // 내가 쓴 게시물 조회
-    @GetMapping("/myPost")
-    public List<CommunityResponseDto> getMyCommunityPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return communityService.getMyCommunityPostList(userDetails.getUser());
+    @GetMapping("/my-post")
+    public ResponseEntity<List<CommunityResponseDto>> getMyCommunityPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<CommunityResponseDto> result = communityService.getMyCommunityPostList(userDetails.getUser());
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+
     }
 }

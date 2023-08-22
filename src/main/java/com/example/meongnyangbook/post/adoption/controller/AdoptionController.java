@@ -52,8 +52,9 @@ public class AdoptionController {
     }
 
     // 내가 쓴 게시물 조회
-    @GetMapping("/myPost")
-    public List<AdoptionResponseDto> getMyAdoptionPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return adoptionService.getMyAdoptionPostList(userDetails.getUser());
+    @GetMapping("/my-post")
+    public ResponseEntity<List<AdoptionResponseDto>> getMyAdoptionPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<AdoptionResponseDto> result = adoptionService.getMyAdoptionPostList(userDetails.getUser());
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
