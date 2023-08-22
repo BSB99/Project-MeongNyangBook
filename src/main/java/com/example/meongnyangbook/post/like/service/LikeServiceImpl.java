@@ -11,7 +11,6 @@ import com.example.meongnyangbook.post.repository.PostRepository;
 import com.example.meongnyangbook.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,11 +21,11 @@ public class LikeServiceImpl implements LikeService {
     private final AlarmRepository alarmRepository;
 
 
-    public ResponseEntity<ApiResponseDto> createPostLike(Long postId, User user) {
+    @Override
+    public ApiResponseDto createPostLike(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시물이 없습니다."));
         if (likeRepository.existsByPostIdAndUserId(postId, user.getId())) {
             //좋아요를 이미 누른 유저
-
             throw new IllegalArgumentException("이미 좋아요를 눌렀습니다.");
         }
         PostLike postLike = PostLike.builder().post(post).user(user).build();
@@ -36,10 +35,11 @@ public class LikeServiceImpl implements LikeService {
         Alarm alarmLike = new Alarm(post.getTitle(), "좋아요!", user.getNickname(), post.getUser(), AlarmCategoryEnum.ALARM_LIKE);
         alarmRepository.save(alarmLike);
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("좋아요", HttpStatus.OK.value()));
+        return new ApiResponseDto("좋아요", HttpStatus.CREATED.value());
     }
 
-    public ResponseEntity<ApiResponseDto> deletePostLike(Long postId, User user) {
+    @Override
+    public ApiResponseDto deletePostLike(Long postId, User user) {
 
         if (likeRepository.existsByPostIdAndUserId(postId, user.getId())) {
             PostLike postLike = likeRepository.findByPostIdAndUserId(postId, user.getId());
@@ -48,6 +48,6 @@ public class LikeServiceImpl implements LikeService {
             throw new IllegalArgumentException("해당 게시글 좋아요를 누르지 않음");
         }
 
-        return ResponseEntity.status(200).body(new ApiResponseDto("좋아요 취소", HttpStatus.OK.value()));
+        return new ApiResponseDto("좋아요 취소", HttpStatus.OK.value());
     }
 }
