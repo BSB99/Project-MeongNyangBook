@@ -1,8 +1,11 @@
 package com.example.meongnyangbook.config;
 
+import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.details.UserDetailsServiceImpl;
 import com.example.meongnyangbook.user.jwt.JwtAuthorizationFilter;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

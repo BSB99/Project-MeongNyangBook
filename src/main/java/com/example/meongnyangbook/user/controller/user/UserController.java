@@ -31,6 +31,7 @@ public class UserController {
 
         return userService.signup(requestDto);
     }
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponseDto> signin(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
         return userService.signin(loginRequestDto, response);
