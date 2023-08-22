@@ -38,25 +38,22 @@ public class ErrorDetectAdvisor {
         try {
             slackClient.send(webhookUrl, payload(p -> p
                     .text("서버 에러 발생! 백엔드 측의 빠른 확인 요망")
-                    // attachment는 list 형태여야 합니다.
                     .attachments(
                             List.of(generateSlackAttachment(e, request))
                     )
             ));
         } catch (IOException slackError) {
-            // slack 통신 시 발생한 예외에서 Exception을 던져준다면 재귀적인 예외가 발생합니다.
-            // 따라서 로깅으로 처리하였고, 모카콩 서버 에러는 아니므로 `error` 레벨보다 낮은 레벨로 설정했습니다.
+            // slack 통신 시 발생한 예외에서 Exception을 던져준다면 재귀적인 예외가 발생
             log.debug("Slack 통신과의 예외 발생");
         }
     }
 
     private Attachment generateSlackAttachment(IllegalArgumentException e, HttpServletRequest request) {
         String requestTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").format(LocalDateTime.now());
-        String xffHeader = request.getHeader("X-FORWARDED-FOR");  // 프록시 서버일 경우 client IP는 여기에 담길 수 있습니다.
+        String xffHeader = request.getHeader("X-FORWARDED-FOR");  // 프록시 서버일 경우 client IP는 여기에 담김
         return Attachment.builder()
-                .color("ff0000")  // 붉은 색으로 보이도록
+                .color("ff0000")  // 붉은 색
                 .title(requestTime + " 발생 에러 로그")
-// Field도 List 형태로 담아주어야 합니다.
                 .fields(List.of(
                                 generateSlackField("Request IP", xffHeader == null ? request.getRemoteAddr() : xffHeader),
                                 generateSlackField("Request URL", request.getRequestURL() + " " + request.getMethod()),
