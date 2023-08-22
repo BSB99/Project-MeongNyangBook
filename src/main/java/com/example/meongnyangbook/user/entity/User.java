@@ -63,6 +63,10 @@ public class User extends TimeStamped {
         this.role = userRoleEnum;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setProfile(ProfileRequestDto profileRequestDto) {
         this.nickname = profileRequestDto.getNickname();
         this.address = profileRequestDto.getAddress();
