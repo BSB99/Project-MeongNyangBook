@@ -46,4 +46,11 @@ public class AuthUserController
     public ResponseEntity<ApiResponseDto> setProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ProfileRequestDto profileRequestDto){
         return authUserService.setProfile(userDetails.getUser(), profileRequestDto);
     }
+    @DeleteMapping("/account")
+    public ResponseEntity<ApiResponseDto> deleteAccount(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                        HttpServletRequest request,
+                                                        HttpServletResponse response){ //회원 탈퇴
+
+        return authUserService.deleteAccount(userDetails.getUser(),request,response);
+    }
 }

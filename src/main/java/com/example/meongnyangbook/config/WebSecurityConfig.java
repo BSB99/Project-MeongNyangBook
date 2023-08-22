@@ -4,9 +4,12 @@ import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.details.UserDetailsServiceImpl;
 import com.example.meongnyangbook.user.jwt.JwtAuthorizationFilter;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -65,6 +68,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/").permitAll() // '/' 로 접근 허용
                                 .requestMatchers("/mya/chats/**", "/mya-websocket", "/mya/main").permitAll()
                                 .requestMatchers("/mya/users/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
+                                .requestMatchers(HttpMethod.GET, "/mya/**").permitAll()
                                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 

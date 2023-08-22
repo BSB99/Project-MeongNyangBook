@@ -35,6 +35,8 @@ public class AuthUserService {
         log.info("액세스 토큰 블랙리스트로 저장 : " + accessToken);
         redisUtil.setBlackList(accessToken, jwtUtil.remainExpireTime(accessToken));
 
+
+
         return ResponseEntity.status(200).body(new ApiResponseDto("로그아웃 완료", HttpStatus.OK.value()));
     }
     @Transactional
@@ -76,7 +78,14 @@ public class AuthUserService {
 
         return ResponseEntity.status(200).body(new ApiResponseDto("프로필 수정 완료", HttpStatus.OK.value()));
     }
+    public ResponseEntity<ApiResponseDto> deleteAccount(User user,
+                                                        HttpServletRequest request,
+                                                        HttpServletResponse response){
+        logout(user,request,response);
+        userRepository.delete(user);
+        redisUtil.delete(user.getUsername());
 
-
+        return ResponseEntity.status(200).body(new ApiResponseDto("회원 탈퇴 완료", HttpStatus.OK.value()));
+    }
 
 }
