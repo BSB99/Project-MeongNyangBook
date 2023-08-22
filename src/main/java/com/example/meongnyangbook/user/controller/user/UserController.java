@@ -5,6 +5,9 @@ import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
 import com.example.meongnyangbook.user.service.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "User API", description = "계정인증 전 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/mya/users")
@@ -23,24 +27,29 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/signup")
-    public ResponseEntity<ApiResponseDto> signup(@RequestBody SignupRequestDto requestDto) {
+  @Operation(summary = "회원가입")
+  @PostMapping("/signup")
+  public ResponseEntity<ApiResponseDto> signup(@RequestBody SignupRequestDto requestDto) {
 
         return userService.signup(requestDto);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<ApiResponseDto> signin(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
-        return userService.signin(loginRequestDto, response);
-    }
+  @Operation(summary = "로그인")
+  @PostMapping("/login")
+  public ResponseEntity<ApiResponseDto> signin(@RequestBody LoginRequestDto loginRequestDto,
+      HttpServletResponse response) {
+    return userService.signin(loginRequestDto, response);
+  }
 
+  @Operation(summary = "핸드폰 인증")
+  @PostMapping("/phone")
+  public ResponseEntity<ApiResponseDto> sendMessage(@RequestBody PhoneRequestDto phoneRequestDto)
+      throws CoolsmsException {
+    ApiResponseDto result = userService.sendMessage(phoneRequestDto);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
 
-    @PostMapping("/phone")
-    public ResponseEntity<ApiResponseDto> sendMessage(@RequestBody PhoneRequestDto phoneRequestDto) throws CoolsmsException {
-        ApiResponseDto result = userService.sendMessage(phoneRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
+    @Operation(summary = "핸드폰 인증 확인")
     @PostMapping("/phone/auth")
     public ResponseEntity<ApiResponseDto> authMessageCode(@RequestBody PhoneRequestDto phoneRequestDto) {
         ApiResponseDto result = userService.authMessageCode(phoneRequestDto);

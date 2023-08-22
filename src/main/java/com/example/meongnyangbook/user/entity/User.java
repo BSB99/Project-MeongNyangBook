@@ -1,7 +1,17 @@
 package com.example.meongnyangbook.user.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
+import com.example.meongnyangbook.user.dto.ProfileRequestDto;
 import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
+import com.example.meongnyangbook.user.dto.ProfileRequestDto;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import com.example.meongnyangbook.user.dto.ProfileRequestDto;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -39,29 +49,32 @@ public class User extends TimeStamped {
     @Enumerated(value = EnumType.STRING)
     private OAuthProviderEnum oAuthProvider;
 
-    public User(String username, String password, String nickname, String address, String phoneNumber, UserRoleEnum role, OAuthProviderEnum oAuthProvider) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.role = role;
-        this.oAuthProvider = oAuthProvider;
-    }
 
-    @Builder
-    public User(String username, String password, String nickname, UserRoleEnum role, OAuthProviderEnum oAuthProvider) {
-        this.username = username;
-        this.password = password;
-        this.nickname = nickname;
-        this.role = role;
-        this.oAuthProvider = oAuthProvider;
-    }
+  public User(String username, String password, String nickname, String address, String phoneNumber,
+      UserRoleEnum role, OAuthProviderEnum oAuthProvider) {
+    this.username = username;
+    this.password = password;
+    this.nickname = nickname;
+    this.address = address;
+    this.phoneNumber = phoneNumber;
+    this.role = role;
+    this.oAuthProvider = oAuthProvider;
+  }
 
-    public void setBlock(UserRoleEnum userRoleEnum) {
+  @Builder
+  public User(String username, String password, String nickname, UserRoleEnum role,
+      OAuthProviderEnum oAuthProvider) {
+    this.username = username;
+    this.password = password;
+    this.nickname = nickname;
+    this.role = role;
+    this.oAuthProvider = oAuthProvider;
+  }
 
-        this.role = userRoleEnum;
-    }
+  public void setBlock(UserRoleEnum userRoleEnum) {
+
+    this.role = userRoleEnum;
+  }
 
     public void setPassword(String password) {
         this.password = password;
