@@ -16,6 +16,4 @@ public interface CommentService {
     ApiResponseDto deleteComment(Long Id, User user);
 
     Comment findComment(Long id);
-
-    Post findPost(Long id);
 }

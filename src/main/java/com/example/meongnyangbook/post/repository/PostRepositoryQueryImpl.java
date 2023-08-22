@@ -1,5 +1,7 @@
 package com.example.meongnyangbook.post.repository;
 
+import com.example.meongnyangbook.post.adoption.entity.QAdoption;
+import com.example.meongnyangbook.post.community.entity.QCommunity;
 import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.post.entity.QPost;
 import com.querydsl.core.types.OrderSpecifier;
@@ -33,5 +35,39 @@ public class PostRepositoryQueryImpl implements PostRepositoryQuery{
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
+    }
+
+//    @Override
+//    public Post findPostByIdInAdoption(Long postId) {
+//        QAdoption qAdoption = QAdoption.adoption;
+//        return jpaQueryFactory.selectFrom(qAdoption)
+//                .where(qAdoption.id.eq(postId))
+//                .fetchOne();
+//    }
+//
+//    @Override
+//    public Post findPostByIdInCommunity(Long postId) {
+//        QCommunity qCommunity = QCommunity.community;
+//        return jpaQueryFactory.selectFrom(qCommunity)
+//                .where(qCommunity.id.eq(postId))
+//                .fetchOne();
+//    }
+
+    @Override
+    public Post findPostById(Long postId) {
+        QAdoption qAdoption = QAdoption.adoption;
+        QCommunity qCommunity = QCommunity.community;
+
+        Post adoptionPost = jpaQueryFactory.selectFrom(qAdoption)
+                .where(qAdoption.id.eq(postId))
+                .fetchOne();
+
+        if(adoptionPost != null) {
+            return adoptionPost;
+        }
+
+        return jpaQueryFactory.selectFrom(qCommunity)
+                .where(qCommunity.id.eq(postId))
+                .fetchOne();
     }
 }
