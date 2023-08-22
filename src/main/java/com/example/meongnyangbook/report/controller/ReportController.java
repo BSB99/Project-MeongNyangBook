@@ -1,50 +1,35 @@
 package com.example.meongnyangbook.report.controller;
 
-import com.example.meongnyangbook.report.entity.Report;
+import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.report.dto.ReportRequestDto;
+import com.example.meongnyangbook.report.dto.ReportResponseDto;
 import com.example.meongnyangbook.report.service.ReportService;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import com.example.meongnyangbook.user.entity.User;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/mya/reports")
+@RequiredArgsConstructor
 public class ReportController {
 
     private final ReportService reportService;
-    private final UserDetailsService userDetailsService;
 
-    @Autowired
-    public ReportController(ReportService reportService, UserDetailsService userDetailsService) {
-        this.reportService = reportService;
-        this.userDetailsService = userDetailsService;
+    @PostMapping("/user/{userNo}")
+    public ApiResponseDto submitReport(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ReportRequestDto requestDto, @PathVariable Long userNo) {
+        return reportService.submitReport(userDetails.getUser(), userNo, requestDto);
     }
 
-    @PostMapping("/report")
-    public ResponseEntity<String> submitReport(@RequestBody Report report) {
-        User user = getCurrentUser();
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
-        }
-
-        report.setReporter(user);
-        reportService.submitReport(report);
-
-        return ResponseEntity.ok("신고 되었습니다.");
+    @DeleteMapping("{reportNo}")
+    public ApiResponseDto deleteReport(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long reportNo) {
+        return reportService.deleteReport(reportNo);
     }
 
-    private User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return ((UserDetailsImpl) userDetails).getUser();
-        }
-        return null;
+    @GetMapping
+    public List<ReportResponseDto> getReports(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return reportService.getReports();
     }
 }

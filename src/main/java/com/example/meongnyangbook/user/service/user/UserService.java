@@ -28,4 +28,6 @@ public interface UserService {
     ApiResponseDto authMessageCode(PhoneRequestDto phoneRequestDto);
 
     User findUser(String username);
+
+    User findUser(Long userNo);
 }
