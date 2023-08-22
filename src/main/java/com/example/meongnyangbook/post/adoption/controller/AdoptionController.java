@@ -2,10 +2,10 @@ package com.example.meongnyangbook.post.adoption.controller;
 
 
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.post.adoption.service.AdoptionService;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
+import com.example.meongnyangbook.post.adoption.service.AdoptionService;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class AdoptionController {
     private final AdoptionService adoptionService;
 
     @PostMapping
-    public ResponseEntity<AdoptionResponseDto> createAdoption (@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody AdoptionReqeustDto reqeustDto) {
+    public ResponseEntity<AdoptionResponseDto> createAdoption(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody AdoptionReqeustDto reqeustDto) {
         AdoptionResponseDto result = adoptionService.createAdoption(userDetails.getUser(), reqeustDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -51,4 +51,9 @@ public class AdoptionController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+    // 내가 쓴 게시물 조회
+    @GetMapping("/myPost")
+    public List<AdoptionResponseDto> getMyAdoptionPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return adoptionService.getMyAdoptionPostList(userDetails.getUser());
+    }
 }

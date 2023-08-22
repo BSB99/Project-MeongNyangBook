@@ -14,15 +14,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AdoptionServiceImpl implements AdoptionService{
+public class AdoptionServiceImpl implements AdoptionService {
 
     private final AdoptionRepository adoptionRepository;
+
     @Override
     public AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto) {
         Adoption adoption = new Adoption(reqeustDto, user);
@@ -63,6 +63,14 @@ public class AdoptionServiceImpl implements AdoptionService{
     public AdoptionDetailResponseDto getSingleAdoption(Long adoptionId) {
         Adoption adoption = getAdoption(adoptionId);
         return new AdoptionDetailResponseDto(adoption);
+    }
+
+    @Override
+    public List<AdoptionResponseDto> getMyAdoptionPostList(User user) {
+        return adoptionRepository.findByUserId(user.getId())
+                .stream()
+                .map(AdoptionResponseDto::new)
+                .collect(Collectors.toList());
     }
 
     @Override
