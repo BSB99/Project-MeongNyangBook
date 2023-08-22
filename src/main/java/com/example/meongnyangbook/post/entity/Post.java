@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // 변경해서 바꿀예정
 public abstract class Post extends TimeStamped {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,5 +1,6 @@
 package com.example.meongnyangbook.config;
 
+import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.details.UserDetailsServiceImpl;
 import com.example.meongnyangbook.user.jwt.JwtAuthorizationFilter;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
