@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.report.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
+import com.example.meongnyangbook.report.dto.ReportRequestDto;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,28 +21,21 @@ public class Report extends TimeStamped {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "reporter_id")
-    private User reporter;
+    @JoinColumn(name = "reported_user_no")
+    private User reportedUser;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "report_category", nullable = false)
-    private ReportCategory reportCategory; // ReportCategory Enum 사용
+    private ReportEnum reportCategory; // ReportCategory Enum 사용
 
-    public void setReporter(User reporter) {
-        this.reporter = reporter;
-    }
-
-    public void setUser(User user) {
+    public Report(User reportedUser, User user, ReportRequestDto requestDto) {
+        this.description = requestDto.getMsg();
+        this.reportCategory = requestDto.getReportEnum();
+        this.reportedUser = reportedUser;
         this.user = user;
-    }
-
-    public enum ReportCategory {
-        INAPPROPRIATE_BEHAVIOR,
-        FALSE_POSTING,
-        OTHER
     }
 }

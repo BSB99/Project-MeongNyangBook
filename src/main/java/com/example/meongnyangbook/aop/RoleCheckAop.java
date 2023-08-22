@@ -4,10 +4,13 @@ import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.service.AdoptionService;
 import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.service.CommunityService;
+import com.example.meongnyangbook.user.details.UserDetailsImpl;
+import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +41,12 @@ public class RoleCheckAop {
     @Pointcut("execution(* com.example.meongnyangbook.post.community.controller.CommunityController.deleteCommunity(..))")
     private void deleteCommunity() {}
 
+    @Pointcut("execution(* com.example.meongnyangbook.report.controller.ReportController.deleteReport(..))")
+    private void deleteReport() {}
+
+    @Pointcut("execution(* com.example.meongnyangbook.report.controller.ReportController.getReports(..))")
+    private void getReports() {}
+
     @Around("updateAdoption() || deleteAdoption()")
     public Object executePostAdoptionRoleCheck(ProceedingJoinPoint joinPoint) throws Throwable {
         // 1, 2번째 매개변수로 id, user값 가져오기
@@ -66,6 +75,19 @@ public class RoleCheckAop {
 
         if(!community.getUser().getUsername().equals(user.getUsername())) {
             throw new RejectedExecutionException("게시물 삭제 권한없습니다");
+        }
+
+        // 핵심 기능 수행
+        return joinPoint.proceed();
+    }
+
+    @Around("deleteReport() || getReports()")
+    public Object executeReportRoleCheck(ProceedingJoinPoint joinPoint) throws Throwable {
+
+        UserDetailsImpl user = (UserDetailsImpl) joinPoint.getArgs()[0];
+
+        if (!user.getRole().equals(UserRoleEnum.ADMIN)) {
+            throw new RejectedExecutionException("신고 관련 권한이 없습니다");
         }
 
         // 핵심 기능 수행

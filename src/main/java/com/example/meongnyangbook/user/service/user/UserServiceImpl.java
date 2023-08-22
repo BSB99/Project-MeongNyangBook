@@ -220,4 +220,9 @@ public class UserServiceImpl implements UserService{
 
         return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
     }
+
+    @Override
+    public User findUser(Long userNo) {
+        return userRepository.findById(userNo).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+    };
 }

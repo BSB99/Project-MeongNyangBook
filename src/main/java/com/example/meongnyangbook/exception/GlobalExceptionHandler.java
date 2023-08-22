@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 
 public class GlobalExceptionHandler {
     @ExceptionHandler({IllegalArgumentException.class})
@@ -89,5 +90,14 @@ public class GlobalExceptionHandler {
             MaxUploadSizeExceededException e) {
         ApiResponseDto response = new ApiResponseDto("업로드 할 수 있는 파일의 최대 크기는 10MB 입니다.", HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({RejectedExecutionException.class})
+    public ResponseEntity<ApiResponseDto> handleException(RejectedExecutionException ex) {
+        ApiResponseDto restApiException = new ApiResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(
+                restApiException,
+                HttpStatus.BAD_REQUEST
+        );
     }
 }
