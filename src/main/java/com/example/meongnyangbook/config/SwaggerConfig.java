@@ -39,32 +39,4 @@ public class SwaggerConfig {
 
   }
 
-//  @Bean
-//  public OperationCustomizer operationHeaderCustomizer() {
-//    return (Operation operation, HandlerMethod handlerMethod) -> {
-//      Parameter param = new Parameter()
-//          .in(ParameterIn.HEADER.toString())  // 전역 헤더 설정
-//          .schema(
-//              new StringSchema()._default(handlerMethod.).name("Authorization_Refresh")) // default값 설정
-//          .name("Authorization_Refresh")
-//          .description("TEST AppID")
-//          .required(true);
-//      operation.addParametersItem(param);
-//      return operation;
-//    };
-//  }
-//
-//  @Bean
-//  public OperationCustomizer operationCookieCustomizer() {
-//    return (Operation operation, HandlerMethod handlerMethod) -> {
-//      Parameter param = new Parameter()
-//          .in(ParameterIn.COOKIE.toString())  // 전역 헤더 설정
-//          .schema(new StringSchema()._default("1234567").name("Authorization")) // default값 설정
-//          .name("Authorization")
-//          .description("TEST AppID")
-//          .required(true);
-//      operation.addParametersItem(param);
-//      return operation;
-//    };
-//  }
 }
