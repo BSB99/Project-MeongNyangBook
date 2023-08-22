@@ -1,14 +1,11 @@
 package com.example.meongnyangbook.user.controller.user;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
 import com.example.meongnyangbook.user.service.user.UserService;
-import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -33,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ApiResponseDto> signin(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
+    public ResponseEntity<ApiResponseDto> signin(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         return userService.signin(loginRequestDto, response);
     }
 
@@ -47,12 +44,6 @@ public class UserController {
     @PostMapping("/phone/auth")
     public ResponseEntity<ApiResponseDto> authMessageCode(@RequestBody PhoneRequestDto phoneRequestDto) {
         ApiResponseDto result = userService.authMessageCode(phoneRequestDto);
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
-
-    @PostMapping("/email")
-    public ResponseEntity<ApiResponseDto> sendEmail(@Valid @RequestBody EmailRequestDto emailRequestDto) throws MessagingException {
-        ApiResponseDto result = userService.sendEmail(emailRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }
