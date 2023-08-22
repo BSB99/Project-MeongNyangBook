@@ -2,6 +2,8 @@ package com.example.meongnyangbook.aop;
 
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.service.AdoptionService;
+import com.example.meongnyangbook.post.community.entity.Community;
+import com.example.meongnyangbook.post.community.service.CommunityService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,6 +22,9 @@ public class RoleCheckAop {
 
     @Autowired
     private AdoptionService adoptionService;
+
+    @Autowired
+    private CommunityService communityService;
 
     @Pointcut("execution(* com.example.meongnyangbook.post.adoption.controller.AdoptionController.updateAdoption(..))")
     private void updateAdoption() {}
@@ -57,15 +62,13 @@ public class RoleCheckAop {
         UserDetails user = (UserDetails) joinPoint.getArgs()[1];
 
         // 타겟 메서드에서 post 객체 가져오기
-        Adoption adoption = adoptionService.getAdoption(CommunityId);
+        Community community = communityService.getCommunity(CommunityId);
 
-        if(!adoption.getUser().getUsername().equals(user.getUsername())) {
+        if(!community.getUser().getUsername().equals(user.getUsername())) {
             throw new RejectedExecutionException("게시물 삭제 권한없습니다");
         }
 
         // 핵심 기능 수행
         return joinPoint.proceed();
     }
-
-
 }
