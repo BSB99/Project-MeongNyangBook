@@ -28,8 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/mya/communities")
 public class CommunityController {
-
-  private final CommunityService communityService;
+    private final CommunityService communityService;
 
   @Operation(summary = "커뮤니티 포스트 등록")
   @PostMapping
@@ -81,9 +80,17 @@ public class CommunityController {
     try {
       ApiResponseDto result = communityService.deleteCommunity(communityNo);
 
-      return ResponseEntity.status(HttpStatus.OK).body(result);
-    } catch (Error error) {
-      throw new Exception(error);
+            return ResponseEntity.status(HttpStatus.OK).body(result);
+        } catch (Error error) {
+            throw new Exception(error);
+        }
     }
-  }
+
+    // 내가 쓴 게시물 조회
+    @GetMapping("/my-post")
+    public ResponseEntity<List<CommunityResponseDto>> getMyCommunityPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        List<CommunityResponseDto> result = communityService.getMyCommunityPostList(userDetails.getUser());
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+
+    }
 }

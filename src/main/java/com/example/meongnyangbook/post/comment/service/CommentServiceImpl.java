@@ -1,5 +1,8 @@
 package com.example.meongnyangbook.post.comment.service;
 
+import com.example.meongnyangbook.alarm.entity.Alarm;
+import com.example.meongnyangbook.alarm.entity.AlarmCategoryEnum;
+import com.example.meongnyangbook.alarm.repository.AlarmRepository;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.comment.entity.Comment;
 import com.example.meongnyangbook.post.comment.repository.CommentRepository;
@@ -14,10 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final AlarmRepository alarmRepository;
 
     @Override
     public CommentResponseDto createComment(User user, CommentRequestDto commentRequestDto) {
@@ -25,6 +29,12 @@ public class CommentServiceImpl implements CommentService{
 
         Comment comment = new Comment(commentRequestDto.getContent(), post, user);
         commentRepository.save(comment);
+
+        // AlarmComment DB에 저장
+        Alarm alarmComment = new Alarm(post.getTitle(), commentRequestDto.getContent(), user.getNickname(), post.getUser(), AlarmCategoryEnum.ALARM_COMMENT);
+
+        alarmRepository.save(alarmComment);
+
         return new CommentResponseDto(comment);
     }
 
@@ -47,7 +57,7 @@ public class CommentServiceImpl implements CommentService{
 
     @Override
     public Comment findComment(Long id) {
-        return commentRepository.findById(id).orElseThrow(()-> {
+        return commentRepository.findById(id).orElseThrow(() -> {
             throw new IllegalArgumentException("댓글이 없습니다.");
         });
     }
