@@ -65,7 +65,7 @@ public class WebSecurityConfig {
                         authorizeHttpRequests
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
                                 .requestMatchers("/").permitAll() // '/' 로 접근 허용
-                                .requestMatchers("/mya/chats/**", "/ws/chat/**", "/ws-stomp/**", "/mya/main", "/ws/chat/**").permitAll()
+                                .requestMatchers("/mya/chats/**", "/mya-websocket", "/mya/main").permitAll()
                                 .requestMatchers("/mya/users/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
                                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );

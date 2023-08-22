@@ -1,62 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Chat Example</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
-    <script src="
-https://cdn.jsdelivr.net/npm/webstomp-client@1.2.6/dist/webstomp.min.js
-"></script>
+    <title>Hello WebSocket</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="/css/main.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+    <script src="/js/app.js"></script>
 </head>
 <body>
-<div>
-    <label for="roomId">Enter Chat Room Number:</label>
-    <input type="text" id="roomId">
-    <button onclick="joinChat()">Join Chat</button>
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
+    Javascript and reload this page!</h2></noscript>
+<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="room-number">Chat Room ID</label>
+                    <input type="text" id="room-number" class="form-control" placeholder="Insert the Chat Room ID">
+                    <label for="connect">WebSocket connection:</label>
+                    <button id="connect" class="btn btn-default" type="submit">Connect</button>
+                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="name">What is your name?</label>
+                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
+                    <label for="message">What is your message?</label>
+                    <input type="text" id="message" class="form-control" placeholder="Your message here...">
+                </div>
+                <button id="send" class="btn btn-default" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="conversation" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Chat Messages</th>
+                </tr>
+                </thead>
+                <tbody id="chat-messages">
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<div id="chatArea" style="display: none;">
-    <div id="messages"></div>
-    <input type="text" id="message" placeholder="Type your message..." style="display: block;">
-    <button onclick="sendMessage()">Send</button>
-</div>
-<script>
-    const socket = new SockJS('/ws/chat');
-    const stompClient = webstomp.over(socket);
-    let roomId = null;
-
-    function joinChat() {
-        roomId = document.getElementById('roomId').value;
-        if (roomId) {
-            stompClient.connect({}, (frame) => {
-                console.log('Connected to WebSocket:', frame);
-                document.getElementById('chatArea').style.display = 'block';
-                stompClient.subscribe(`/room/${roomId}`, (message) => {
-                    const payload = JSON.parse(message.body);
-                    displayMessage(payload.sender, payload.msg);
-                });
-            });
-        }
-    }
-
-    function sendMessage() {
-        const messageInput = document.getElementById('message');
-        const message = messageInput.value;
-        if (message) {
-            const payload = {
-                sender: 'User',
-                msg: message
-            };
-            stompClient.send(`/send/${roomId}`, {}, JSON.stringify(payload));
-            messageInput.value = '';
-            displayMessage('User', message); // Display sent message locally
-        }
-    }
-
-    function displayMessage(sender, message) {
-        const messagesDiv = document.getElementById('messages');
-        const messageDiv = document.createElement('div');
-        messageDiv.textContent = `${sender}: ${message}`;
-        messagesDiv.appendChild(messageDiv);
-    }
-</script>
 </body>
 </html>

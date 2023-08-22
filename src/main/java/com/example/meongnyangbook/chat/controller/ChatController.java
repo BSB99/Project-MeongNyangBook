@@ -2,7 +2,7 @@ package com.example.meongnyangbook.chat.controller;
 
 import com.example.meongnyangbook.chat.dto.ChatRequestDto;
 import com.example.meongnyangbook.chat.entity.Chat;
-import com.example.meongnyangbook.chat.service.ChatService;
+import com.example.meongnyangbook.chat.service.ChatServiceImpl;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -10,15 +10,13 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/mya/chats")
 public class ChatController {
 
-    private final ChatService chatService;
+    private final ChatServiceImpl chatService;
 
     @MessageMapping("/{roomId}")
     @SendTo("/room/{roomId}")
