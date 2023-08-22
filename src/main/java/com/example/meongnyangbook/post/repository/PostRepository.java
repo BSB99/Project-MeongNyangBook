@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.post.repository;
 
 import com.example.meongnyangbook.post.entity.Post;
+import com.example.meongnyangbook.post.like.entity.PostLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
