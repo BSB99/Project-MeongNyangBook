@@ -8,9 +8,11 @@ import com.example.meongnyangbook.report.repository.ReportRepository;
 import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
 
