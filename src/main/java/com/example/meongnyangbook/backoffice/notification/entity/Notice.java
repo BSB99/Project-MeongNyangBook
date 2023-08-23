@@ -16,13 +16,20 @@ public class Notice extends TimeStamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
+
     private String description;
 
     public Notice(NoticeRequestDto requestDto) {
+        this.title = requestDto.getTitle();
         this.description = requestDto.getDescription();
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

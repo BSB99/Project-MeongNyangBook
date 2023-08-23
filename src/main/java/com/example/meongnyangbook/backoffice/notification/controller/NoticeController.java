@@ -34,7 +34,7 @@ public class NoticeController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PatchMapping("/{noticeNo}")
+    @PutMapping("/{noticeNo}")
     public ResponseEntity<ApiResponseDto> updateNotice(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody NoticeRequestDto requestDto, @PathVariable Long noticeNo) {
         ApiResponseDto result = noticeService.updateNotice(requestDto, noticeNo);
 

@@ -35,6 +35,7 @@ public class NoticeServiceImpl implements NoticeService{
     public  ApiResponseDto updateNotice(NoticeRequestDto requestDto, Long noticeNo) {
         Notice notice = getNotice(noticeNo);
 
+        notice.setTitle(requestDto.getTitle());
         notice.setDescription(requestDto.getDescription());
 
         return new ApiResponseDto("공지사항 수정", 200);
