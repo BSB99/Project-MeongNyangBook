@@ -88,4 +88,10 @@ public class RedisUtil {
     return redis.opsForZSet().reverseRange("view_count:", 0, count - 1);
   }
 
+  public Long getTopViewedPost() {
+    Set<String> topPostId = redis.opsForZSet().reverseRange("view_count:", 0, 0);
+
+    // Set에서 첫 번째 (그리고 유일한) 요소를 가져와 Long으로 변환
+    return topPostId.isEmpty() ? null : Long.valueOf(topPostId.iterator().next());
+  }
 }

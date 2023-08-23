@@ -38,7 +38,7 @@ public class AdoptionServiceImpl implements AdoptionService {
     Adoption adoption = getAdoption(adoptionId);
 
     // setter 사용
-    
+
     return new AdoptionResponseDto(adoption);
   }
 
@@ -86,6 +86,12 @@ public class AdoptionServiceImpl implements AdoptionService {
         .stream()
         .map(AdoptionResponseDto::new)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public AdoptionResponseDto getBestAdoptionPost() {
+    Long id = redisUtil.getTopViewedPost();
+    return new AdoptionResponseDto(getAdoption(id));
   }
 
   @Override

@@ -95,6 +95,12 @@ public class CommunityController {
     List<CommunityResponseDto> result = communityService.getMyCommunityPostList(
         userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
 
+  // Best 게시물 조회
+  @GetMapping("/best-post")
+  public ResponseEntity<CommunityResponseDto> getBestAdoptionPost() {
+    CommunityResponseDto result = communityService.getBestAdoptionPost();
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 }

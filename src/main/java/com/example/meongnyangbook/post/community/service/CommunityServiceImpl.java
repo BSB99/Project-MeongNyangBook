@@ -78,6 +78,12 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
   @Override
+  public CommunityResponseDto getBestAdoptionPost() {
+    Long id = redisUtil.getTopViewedPost();
+    return new CommunityResponseDto(getCommunity(id));
+  }
+
+  @Override
   public List<CommunityResponseDto> getMyCommunityPostList(User user) {
     return communityRepository.findByUserId(user.getId())
         .stream()
@@ -85,7 +91,6 @@ public class CommunityServiceImpl implements CommunityService {
         .toList();
   }
 
-  ;
 
   @Override
   public Community getCommunity(Long communityNo) {

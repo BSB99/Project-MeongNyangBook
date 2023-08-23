@@ -82,4 +82,10 @@ public class AdoptionController {
     List<AdoptionResponseDto> result = adoptionService.getMyAdoptionPostList(userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
+
+  @GetMapping("/best-post")
+  public ResponseEntity<AdoptionResponseDto> getBestAdoptionPost() {
+    AdoptionResponseDto result = adoptionService.getBestAdoptionPost();
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
 }
