@@ -64,9 +64,20 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
   @Override
+  @Transactional
   public CommunityDetailResponseDto getOneCommunity(Long communityNo, User user) {
     Community community = getCommunity(communityNo);
-    checkViewCount(community, user);
+
+    String redisUserKey = user.getId().toString();
+    Long viewCount = community.getViewCount();
+
+    if (redisUtil.checkAndIncrementViewCount(communityNo.toString(), user.getId().toString())) {
+//      redisUtil.incrementViewCount(communityNo.toString());
+      // 조회수 증가
+      Long newView = viewCount + 1;
+      community.setViewCount(newView);
+
+    }
     return new CommunityDetailResponseDto(community);
   }
 
@@ -85,19 +96,5 @@ public class CommunityServiceImpl implements CommunityService {
     return communityRepository.findById(communityNo).orElseThrow(() -> {
       throw new IllegalArgumentException("게시글이 존재하지 않습니다");
     });
-  }
-
-  // 조회수 증가 메서드
-  private void checkViewCount(Community community, User user) {
-    String redisUserKey = user.getId().toString();
-    Long viewCount = community.getViewCount();
-
-    if (!redisUtil.hasKey(redisUserKey)) { // redis에 userkey가 없다면 조회수 증가
-      // redis에 저장
-      redisUtil.set(redisUserKey, community.getId().toString(), 60);
-      // 조회수 증가
-      Long newView = viewCount + 1;
-      community.setViewCount(newView);
-    }
   }
 }

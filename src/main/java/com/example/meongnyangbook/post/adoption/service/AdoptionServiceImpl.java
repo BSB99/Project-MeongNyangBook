@@ -64,11 +64,21 @@ public class AdoptionServiceImpl implements AdoptionService {
   }
 
   @Override
+  @Transactional
   public AdoptionDetailResponseDto getSingleAdoption(Long adoptionId, User user) {
     Adoption adoption = getAdoption(adoptionId);
 
     // 조회수 증가 메서드
-    checkViewCount(adoption, user);
+    String redisUserKey = user.getId().toString();
+    Long viewCount = adoption.getViewCount();
+
+    if (redisUtil.checkAndIncrementViewCount(adoptionId.toString(), user.getId().toString())) {
+//      redisUtil.incrementViewCount(adoptionId.toString());
+      // 조회수 증가
+      Long newView = viewCount + 1;
+      adoption.setViewCount(newView);
+
+    }
 
     return new AdoptionDetailResponseDto(adoption);
 
@@ -88,17 +98,5 @@ public class AdoptionServiceImpl implements AdoptionService {
       throw new IllegalArgumentException("게시물이 존재하지 않습니다.");
     });
   }
-
-  private void checkViewCount(Adoption adoption, User user) {
-    String redisUserKey = user.getId().toString();
-    Long viewCount = adoption.getViewCount();
-
-    if (!redisUtil.hasKey(redisUserKey)) { // redis에 userkey가 없다면 조회수 증가
-      // redis에 저장
-      redisUtil.set(redisUserKey, adoption.getId().toString(), 60);
-      // 조회수 증가
-      Long newView = viewCount + 1;
-      adoption.setViewCount(newView);
-    }
-  }
 }
+

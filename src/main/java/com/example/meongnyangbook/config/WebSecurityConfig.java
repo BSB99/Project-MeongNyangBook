@@ -7,7 +7,6 @@ import com.example.meongnyangbook.user.jwt.JwtUtil;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -63,15 +62,15 @@ public class WebSecurityConfig {
     );
 
     http.authorizeHttpRequests((authorizeHttpRequests) ->
-        authorizeHttpRequests
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-            .permitAll() // resources 접근 허용 설정
-            .requestMatchers("/").permitAll() // '/' 로 접근 허용
-            .requestMatchers("/mya/chats/**", "/mya-websocket", "/mya/main").permitAll()
-            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // swagger 허용
-            .requestMatchers("/mya/users/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
-            .requestMatchers(HttpMethod.GET, "/mya/**").permitAll()
-            .anyRequest().authenticated() // 그 외 모든 요청 인증처리
+            authorizeHttpRequests
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .permitAll() // resources 접근 허용 설정
+                .requestMatchers("/").permitAll() // '/' 로 접근 허용
+                .requestMatchers("/mya/chats/**", "/mya-websocket", "/mya/main").permitAll()
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // swagger 허용
+                .requestMatchers("/mya/users/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
+//            .requestMatchers(HttpMethod.GET, "/mya/**").permitAll()
+                .anyRequest().authenticated() // 그 외 모든 요청 인증처리
     );
 
     // 필터 관리

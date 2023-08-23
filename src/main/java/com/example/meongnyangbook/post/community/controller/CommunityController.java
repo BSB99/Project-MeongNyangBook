@@ -75,7 +75,7 @@ public class CommunityController {
     }
   }
 
-  @Operation(summary = "커뮤니티 포스트 삭")
+  @Operation(summary = "커뮤니티 포스트 삭제")
   @DeleteMapping("/{communityNo}")
   public ResponseEntity<ApiResponseDto> deleteCommunity(@PathVariable Long communityNo,
       @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
