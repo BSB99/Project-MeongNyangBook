@@ -38,7 +38,7 @@ public class AdoptionServiceImpl implements AdoptionService {
     Adoption adoption = getAdoption(adoptionId);
 
     // setter 사용
-
+    
     return new AdoptionResponseDto(adoption);
   }
 
@@ -68,19 +68,15 @@ public class AdoptionServiceImpl implements AdoptionService {
   public AdoptionDetailResponseDto getSingleAdoption(Long adoptionId, User user) {
     Adoption adoption = getAdoption(adoptionId);
 
-    // 조회수 증가 메서드
-    String redisUserKey = user.getId().toString();
-    Long viewCount = adoption.getViewCount();
-
-    if (redisUtil.checkAndIncrementViewCount(adoptionId.toString(), user.getId().toString())) {
-//      redisUtil.incrementViewCount(adoptionId.toString());
-      // 조회수 증가
-      Long newView = viewCount + 1;
-      adoption.setViewCount(newView);
-
+    // 조회수 증가 로직
+    if (redisUtil.checkAndIncrementViewCount(adoptionId.toString(),
+        user.getId().toString())) { // 조회수를 1시간이내에 올린적이 있는지 없는지 판단
+      redisUtil.incrementViewCount(adoptionId.toString());
     }
 
-    return new AdoptionDetailResponseDto(adoption);
+    Double viewCount = redisUtil.getViewCount(adoptionId.toString());
+
+    return new AdoptionDetailResponseDto(adoption, viewCount);
 
   }
 

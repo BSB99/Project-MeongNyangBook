@@ -33,9 +33,6 @@ public abstract class Post extends TimeStamped {
   @Column(name = "description", nullable = false)
   protected String description;
 
-  @Column(name = "view_count")
-  protected Long viewCount = 0L;
-
   @ManyToOne
   @JoinColumn(name = "user_id")
   protected User user;
@@ -43,7 +40,4 @@ public abstract class Post extends TimeStamped {
   @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
   private List<Comment> commentList = new ArrayList<>();
 
-  public void setViewCount(Long viewCount) {
-    this.viewCount = viewCount;
-  }
 }

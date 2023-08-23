@@ -61,23 +61,31 @@ public class RedisUtil {
     return redisBlackListTemplate.opsForValue().get(key);
   }
 
+  // 조회수 증가 가능 여부 확인
   public boolean checkAndIncrementViewCount(String postId, String userId) {
-    String userKey = "view_count:" + postId + ":" + userId;
+    String userKey = "view_count_number:" + postId + ":" + userId;
     Long addedCount = redis.opsForSet().add(userKey, userId);
 
     if (addedCount == 1L) {
       redis.expire(userKey, 3600, TimeUnit.SECONDS);
       return true; // 조회 가능한 경우 조회수 증가
     }
-
     return false; // 이미 조회한 경우 조회수 증가하지 않음
   }
 
+  // post 조회수 확인
+  public Double getViewCount(String postId) {
+    return redis.opsForZSet().score("view_count:", postId);
+  }
+
+  // post 조회수 증가 로직
   public void incrementViewCount(String postId) {
     redis.opsForZSet().incrementScore("view_count:", postId, 1);
   }
 
+
   public Set<String> getTopViewedPosts(int count) {
     return redis.opsForZSet().reverseRange("view_count:", 0, count - 1);
   }
+
 }
