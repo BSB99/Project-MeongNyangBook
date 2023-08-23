@@ -1,10 +1,14 @@
 package com.example.meongnyangbook.post.adoption.repository;
 
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
+import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 public interface AdoptionRepository extends JpaRepository<Adoption, Long> {
-    List<Adoption> findByUserId(Long userId);
+
+  Page<Adoption> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+  List<Adoption> findByUserId(Long userId);
 }

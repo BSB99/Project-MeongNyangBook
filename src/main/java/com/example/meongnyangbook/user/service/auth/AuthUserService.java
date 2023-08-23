@@ -148,6 +148,7 @@ public class AuthUserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
     }
 
+
     private String generateAndSetTemporaryPassword(User user) {
         Random random = new Random();
         // 0부터 999999 사이의 난수 생성
