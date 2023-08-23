@@ -5,17 +5,20 @@ import lombok.Getter;
 
 @Getter
 public class CommunityDetailResponseDto {
-    private Long id;
-    private String title;
-    private String description;
-    private String createdAt;
-    private String updatedAt;
 
-    public CommunityDetailResponseDto(Community community) {
-        this.id = community.getId();
-        this.title = community.getTitle();
-        this.description = community.getDescription();
-        this.createdAt = community.getCreatedAtAsString();
-        this.updatedAt = community.getModifiedAtAsString();
-    }
+  private Long id;
+  private String title;
+  private String description;
+  private String createdAt;
+  private String updatedAt;
+  private Long viewCount;
+
+  public CommunityDetailResponseDto(Community community, Double viewCount) {
+    this.id = community.getId();
+    this.title = community.getTitle();
+    this.description = community.getDescription();
+    this.createdAt = community.getCreatedAtAsString();
+    this.updatedAt = community.getModifiedAtAsString();
+    this.viewCount = viewCount.longValue();
+  }
 }
