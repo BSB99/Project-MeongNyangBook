@@ -4,6 +4,8 @@ import com.example.meongnyangbook.chat.dto.ChatRequestDto;
 import com.example.meongnyangbook.chat.entity.Chat;
 import com.example.meongnyangbook.chat.service.ChatServiceImpl;
 import com.example.meongnyangbook.common.ApiResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -13,19 +15,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "채팅API")
 @RequiredArgsConstructor
 public class ChatController {
 
-    private final ChatServiceImpl chatService;
+  private final ChatServiceImpl chatService;
 
-    @MessageMapping("/{roomId}")
-    @SendTo("/room/{roomId}")
-    public Chat test(@DestinationVariable Long roomId, @RequestBody ChatRequestDto requestDto) {
-        return chatService.createChat(roomId, requestDto.getSender(), requestDto.getMsg());
-    }
+  @Operation(summary = "채팅방 접속 겸 채팅 보내")
+  @MessageMapping("/{roomId}")
+  @SendTo("/room/{roomId}")
+  public Chat test(@DestinationVariable Long roomId, @RequestBody ChatRequestDto requestDto) {
+    return chatService.createChat(roomId, requestDto.getSender(), requestDto.getMsg());
+  }
 
-    @PostMapping("/room")
-    public ApiResponseDto createChatRoom(@RequestBody ChatRequestDto requestDto) {
-        return chatService.createChatRoom(requestDto.getName());
-    }
+  @Operation(summary = "채팅방 생성")
+  @PostMapping("/room")
+  public ApiResponseDto createChatRoom(@RequestBody ChatRequestDto requestDto) {
+    return chatService.createChatRoom(requestDto.getName());
+  }
 }

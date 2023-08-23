@@ -2,10 +2,10 @@ package com.example.meongnyangbook.post.community.service;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityDetailResponseDto;
-import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.repository.CommunityRepository;
+import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,12 +23,14 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public CommunityResponseDto createCommunity(PostRequestDto requestDto, User user) {
-        Community community =  new Community(requestDto, user);
+        Community community = new Community(requestDto, user);
 
         communityRepository.save(community);
 
         return new CommunityResponseDto(community);
-    };
+    }
+
+    ;
 
     @Override
     @Transactional
@@ -39,7 +41,9 @@ public class CommunityServiceImpl implements CommunityService {
         //community.setDescription(requestDto.getDescription());
 
         return new CommunityResponseDto(community);
-    };
+    }
+
+    ;
 
     @Override
     public ApiResponseDto deleteCommunity(Long communityNo) {
@@ -47,7 +51,7 @@ public class CommunityServiceImpl implements CommunityService {
 
         communityRepository.delete(community);
 
-        return new ApiResponseDto("게시글 삭제가 완료되었습니다." ,200);
+        return new ApiResponseDto("게시글 삭제가 완료되었습니다.", 200);
     }
 
     @Override
@@ -60,7 +64,17 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public CommunityDetailResponseDto getOneCommunity(Long communityNo) {
         return new CommunityDetailResponseDto(getCommunity(communityNo));
-    };
+    }
+
+    @Override
+    public List<CommunityResponseDto> getMyCommunityPostList(User user) {
+        return communityRepository.findByUserId(user.getId())
+                .stream()
+                .map(CommunityResponseDto::new)
+                .toList();
+    }
+
+    ;
 
     @Override
     public Community getCommunity(Long communityNo) {
