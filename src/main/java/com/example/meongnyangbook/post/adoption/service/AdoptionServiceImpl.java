@@ -71,10 +71,10 @@ public class AdoptionServiceImpl implements AdoptionService {
     // 조회수 증가 로직
     if (redisUtil.checkAndIncrementViewCount(adoptionId.toString(),
         user.getId().toString())) { // 조회수를 1시간이내에 올린적이 있는지 없는지 판단
-      redisUtil.incrementViewCount(adoptionId.toString());
+      redisUtil.incrementAdoptionViewCount(adoptionId.toString());
     }
 
-    Double viewCount = redisUtil.getViewCount(adoptionId.toString());
+    Double viewCount = redisUtil.getViewAdoptionCount(adoptionId.toString());
 
     return new AdoptionDetailResponseDto(adoption, viewCount);
 
@@ -90,7 +90,7 @@ public class AdoptionServiceImpl implements AdoptionService {
 
   @Override
   public AdoptionResponseDto getBestAdoptionPost() {
-    Long id = redisUtil.getTopViewedPost();
+    Long id = redisUtil.getTopViewedAdoptionPost();
     return new AdoptionResponseDto(getAdoption(id));
   }
 
