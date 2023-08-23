@@ -1,6 +1,5 @@
 package com.example.meongnyangbook.post.adoption.service;
 
-
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +38,7 @@ public class AdoptionServiceImpl implements AdoptionService {
     Adoption adoption = getAdoption(adoptionId);
 
     // setter 사용
+
     return new AdoptionResponseDto(adoption);
   }
 
@@ -56,7 +55,8 @@ public class AdoptionServiceImpl implements AdoptionService {
 
   @Override
   public List<AdoptionResponseDto> getAdoptionList(Pageable pageable) {
-    List<AdoptionResponseDto> adoptionList = adoptionRepository.findAllByOrderByCreatedAtDesc(pageable)
+    List<AdoptionResponseDto> adoptionList = adoptionRepository.findAllByOrderByCreatedAtDesc(
+            pageable)
         .stream()
         .map(AdoptionResponseDto::new)
         .collect(Collectors.toList());
@@ -67,16 +67,8 @@ public class AdoptionServiceImpl implements AdoptionService {
   public AdoptionDetailResponseDto getSingleAdoption(Long adoptionId, User user) {
     Adoption adoption = getAdoption(adoptionId);
 
-    // 조회수 증가 로직
-    String redisUserKey = user.getId().toString();
-    Long viewCount = adoption.getViewCount();
-
-    redisUtil.set(redisUserKey, adoptionId.toString(), 60);
-    if (!redisUtil.hasKey(redisUserKey)) {
-        Long newView = viewCount + 1;
-        adoptionRepository.
-
-    }
+    // 조회수 증가 메서드
+    checkViewCount(adoption, user);
 
     return new AdoptionDetailResponseDto(adoption);
 
@@ -97,5 +89,16 @@ public class AdoptionServiceImpl implements AdoptionService {
     });
   }
 
+  private void checkViewCount(Adoption adoption, User user) {
+    String redisUserKey = user.getId().toString();
+    Long viewCount = adoption.getViewCount();
 
+    if (!redisUtil.hasKey(redisUserKey)) { // redis에 userkey가 없다면 조회수 증가
+      // redis에 저장
+      redisUtil.set(redisUserKey, adoption.getId().toString(), 60);
+      // 조회수 증가
+      Long newView = viewCount + 1;
+      adoption.setViewCount(newView);
+    }
+  }
 }

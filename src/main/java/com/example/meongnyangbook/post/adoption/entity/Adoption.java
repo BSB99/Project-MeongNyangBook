@@ -52,6 +52,4 @@ public class Adoption extends Post {
     this.category = requestDto.getCategory();
     this.user = user;
   }
-
-
 }
