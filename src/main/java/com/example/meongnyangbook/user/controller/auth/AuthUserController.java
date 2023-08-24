@@ -6,13 +6,14 @@ import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.PasswordRequestDto;
 import com.example.meongnyangbook.user.dto.ProfileRequestDto;
 import com.example.meongnyangbook.user.dto.ProfileResponseDto;
-import com.example.meongnyangbook.user.service.auth.AuthUserServiceImpl;
+import com.example.meongnyangbook.user.service.auth.AuthUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j(topic = "UserController")
 public class AuthUserController {
 
-  private final AuthUserServiceImpl authUserServiceImpl;
+  private final AuthUserService authUserServiceImpl;
 
   @Operation(summary = "로그아웃")
   @PostMapping("/logout")
@@ -71,7 +72,7 @@ public class AuthUserController {
   public ResponseEntity<ApiResponseDto> setProfile(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestPart("profileRequestDto") ProfileRequestDto profileRequestDto,
-      @RequestPart("fileName") MultipartFile multipartFiles) {
+      @RequestPart("fileName") MultipartFile multipartFiles) throws IOException {
     ApiResponseDto result = authUserServiceImpl.setProfile(userDetails.getUser(),
         profileRequestDto, multipartFiles);
     return ResponseEntity.status(HttpStatus.OK).body(result);
