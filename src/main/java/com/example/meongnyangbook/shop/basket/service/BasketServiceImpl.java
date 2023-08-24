@@ -65,8 +65,13 @@ public class BasketServiceImpl implements BasketService{
     };
 
     @Override
+    @Transactional
     public ApiResponseDto deleteBasket(User user) {
         List<Basket> basketList = basketRepository.findByUser(user);
+
+        for (Basket basket : basketList) {
+            basketRepository.setBasketToNull(basket.getId());
+        }
 
         basketRepository.deleteAll(basketList);
 
