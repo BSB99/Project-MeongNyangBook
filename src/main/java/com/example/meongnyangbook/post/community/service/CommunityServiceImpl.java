@@ -62,12 +62,12 @@ public class CommunityServiceImpl implements CommunityService {
     Community community = getCommunity(communityNo);
     S3PostFile s3PostFile = s3PostFileRepository.findByPostId(communityNo);
     String[] filenames = s3PostFile.getFileName().split(",");
-    String fileNames = "";
+    String deleteAfterFileNames = "";
 
     for (String filename : filenames) {
       for (String deleteFileName : deleteFileNames) {
         if (!filename.contains(deleteFileName)) {
-          fileNames = fileNames + "," + filename;
+          deleteAfterFileNames = deleteAfterFileNames + "," + filename;
 
 
         } else {
@@ -77,11 +77,11 @@ public class CommunityServiceImpl implements CommunityService {
     }
     List<String> uploadFileNames = s3Service.uploadFiles(multipartFiles);
 
-    String newFileName = CombineString(uploadFileNames);
+    String combineUploadFileName = CombineString(uploadFileNames);
 
-    String fileName = fileNames.replaceFirst("^,", "");
-    String newFile = newFileName.replaceFirst("^,", "");
-    s3PostFile.setFileName(fileName + "," + newFile);
+    String replaceDeleteAfterFileName = deleteAfterFileNames.replaceFirst("^,", "");
+    String replaceUploadFileName = combineUploadFileName.replaceFirst("^,", "");
+    s3PostFile.setFileName(replaceDeleteAfterFileName + "," + replaceUploadFileName);
 
     if (!community.getTitle().equals(requestDto.getTitle())) {
       community.setTitle(requestDto.getTitle());
@@ -93,12 +93,12 @@ public class CommunityServiceImpl implements CommunityService {
     return new CommunityResponseDto(community);
   }
 
-  private String CombineString(List<String> temp) {
-    String newString = "";
-    for (String t : temp) {
-      newString = newString + "," + t;
+  private String CombineString(List<String> stringList) {
+    String result = "";
+    for (String str : stringList) {
+      result = result + "," + str;
     }
-    return newString;
+    return result;
   }
 
   @Override
