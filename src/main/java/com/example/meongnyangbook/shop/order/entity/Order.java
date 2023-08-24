@@ -42,8 +42,8 @@ public class Order extends TimeStamped {
 
     public Order(OrderRequestDto requestDto, User user) {
         this.address = requestDto.getAddress();
-        this.reciveName = requestDto.getReciverName();
-        this.recivePhoneNumber = requestDto.getReciverPhoneNumber();
+        this.reciveName = requestDto.getReciveName();
+        this.recivePhoneNumber = requestDto.getRecivePhoneNumber();
         this.user = user;
     }
 

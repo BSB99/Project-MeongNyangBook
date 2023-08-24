@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.shop.order.controller;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.shop.order.dto.OrderListResponseDto;
 import com.example.meongnyangbook.shop.order.dto.OrderRequestDto;
-import com.example.meongnyangbook.shop.order.dto.OrderResponseDto;
 import com.example.meongnyangbook.shop.order.service.OrderService;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,8 +38,8 @@ public class OrderController {
 
     @Operation(summary = "주문완료된 항목 가져오기")
     @GetMapping
-    public ResponseEntity<OrderResponseDto> getOrderList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        OrderResponseDto result = orderService.getOrderList(userDetails.getUser());
+    public ResponseEntity<OrderListResponseDto> getOrderList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        OrderListResponseDto result = orderService.getOrderList(userDetails.getUser());
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

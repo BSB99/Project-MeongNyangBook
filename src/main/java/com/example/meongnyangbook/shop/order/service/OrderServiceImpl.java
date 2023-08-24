@@ -3,6 +3,7 @@ package com.example.meongnyangbook.shop.order.service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.basket.entity.Basket;
 import com.example.meongnyangbook.shop.basket.repository.BasketRepository;
+import com.example.meongnyangbook.shop.order.dto.OrderListResponseDto;
 import com.example.meongnyangbook.shop.order.dto.OrderRequestDto;
 import com.example.meongnyangbook.shop.order.dto.OrderResponseDto;
 import com.example.meongnyangbook.shop.order.entity.Order;
@@ -10,8 +11,6 @@ import com.example.meongnyangbook.shop.order.entity.OrderItem;
 import com.example.meongnyangbook.shop.order.entity.OrderStatusEnum;
 import com.example.meongnyangbook.shop.order.repository.OrderItemRepository;
 import com.example.meongnyangbook.shop.order.repository.OrderRepository;
-import com.example.meongnyangbook.user.details.UserDetailsImpl;
-import com.example.meongnyangbook.user.dto.OrderUserResponseDto;
 import com.example.meongnyangbook.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -58,9 +57,9 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public OrderResponseDto getOrderList(User user) {
-        List<Order> order = orderRepository.findAllByUserAndStatusEnum(user, OrderStatusEnum.ORDER_COMPLETED);
+    public OrderListResponseDto getOrderList(User user) {
+        List<OrderResponseDto> order = orderRepository.findAllByUserAndStatusEnum(user, OrderStatusEnum.ORDER_COMPLETED).stream().map(OrderResponseDto::new).toList();
 
-        return new OrderResponseDto(order);
+        return new OrderListResponseDto(order);
     };
 }
