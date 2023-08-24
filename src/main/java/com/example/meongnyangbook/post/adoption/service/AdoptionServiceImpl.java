@@ -10,8 +10,8 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
-import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.post.entity.Post;
+import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -136,4 +136,4 @@ public class AdoptionServiceImpl implements AdoptionService {
   }
 }
 
-}
+
