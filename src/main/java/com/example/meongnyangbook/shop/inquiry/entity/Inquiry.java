@@ -1,12 +1,10 @@
-package com.example.meongnyangbook.shop.inquiryReview.entity;
+package com.example.meongnyangbook.shop.inquiry.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
-import com.example.meongnyangbook.shop.inquiryReview.dto.InquiryReviewRequestDto;
+import com.example.meongnyangbook.shop.inquiry.dto.InquiryRequestDto;
 import com.example.meongnyangbook.shop.item.entity.Item;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,8 +17,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "inquiries_reviews")
-public class InquiryReview extends TimeStamped {
+@Table(name = "inquiries")
+public class Inquiry extends TimeStamped {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,9 +28,6 @@ public class InquiryReview extends TimeStamped {
 
   private String description;
 
-  @Enumerated(value = EnumType.STRING)
-  private InquiryReviewEnum category;
-
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
@@ -41,10 +36,9 @@ public class InquiryReview extends TimeStamped {
   @JoinColumn(name = "item_id")
   private Item item;
 
-  public InquiryReview(InquiryReviewRequestDto requestDto, User user, Item item) {
+  public Inquiry(InquiryRequestDto requestDto, User user, Item item) {
     this.title = requestDto.getTitle();
     this.description = requestDto.getDescription();
-    this.category = requestDto.getCategory();
     this.user = user;
     this.item = item;
   }
@@ -55,9 +49,5 @@ public class InquiryReview extends TimeStamped {
 
   public void setDescription(String description) {
     this.description = description;
-  }
-
-  public void setCategory(InquiryReviewEnum category) {
-    this.category = category;
   }
 }
