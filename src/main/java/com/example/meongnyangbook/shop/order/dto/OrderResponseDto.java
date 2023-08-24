@@ -4,7 +4,6 @@ import com.example.meongnyangbook.shop.order.entity.Order;
 import com.example.meongnyangbook.shop.order.entity.OrderItem;
 import com.example.meongnyangbook.shop.order.entity.OrderStatusEnum;
 import com.example.meongnyangbook.user.dto.OrderUserResponseDto;
-import com.example.meongnyangbook.user.entity.User;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -25,8 +24,8 @@ public class OrderResponseDto {
             this.id = orderInfo.getId();
             this.totalPrice = orderInfo.getTotalPrice();
             this.status = orderInfo.getStatusEnum();
-            this.reciverName = orderInfo.getReciverName();
-            this.reciverPhoneNumber = orderInfo.getReciverPhoneNumber();
+            this.reciverName = orderInfo.getReciveName();
+            this.reciverPhoneNumber = orderInfo.getRecivePhoneNumber();
             this.orderUser = new OrderUserResponseDto(orderInfo.getUser());
             for(OrderItem orderItem : orderInfo.getOrderItems()) {
                 orderItemList.add(new OrderItemResponseDto(orderItem));
