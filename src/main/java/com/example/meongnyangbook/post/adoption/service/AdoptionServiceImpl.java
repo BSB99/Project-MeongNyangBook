@@ -6,7 +6,7 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
-import com.example.meongnyangbook.redis.RedisUtil;
+import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AdoptionServiceImpl implements AdoptionService {
 
   private final AdoptionRepository adoptionRepository;
-  private final RedisUtil redisUtil;
+  private final RedisViewCountUtil redisViewCountUtil;
 
   @Override
   public AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto) {
@@ -69,12 +69,12 @@ public class AdoptionServiceImpl implements AdoptionService {
     Adoption adoption = getAdoption(adoptionId);
 
     // 조회수 증가 로직
-    if (redisUtil.checkAndIncrementViewCount(adoptionId.toString(),
+    if (redisViewCountUtil.checkAndIncrementViewCount(adoptionId.toString(),
         user.getId().toString())) { // 조회수를 1시간이내에 올린적이 있는지 없는지 판단
-      redisUtil.incrementAdoptionViewCount(adoptionId.toString());
+      redisViewCountUtil.incrementAdoptionViewCount(adoptionId.toString());
     }
 
-    Double viewCount = redisUtil.getViewAdoptionCount(adoptionId.toString());
+    Double viewCount = redisViewCountUtil.getViewAdoptionCount(adoptionId.toString());
 
     return new AdoptionDetailResponseDto(adoption, viewCount);
 
@@ -90,7 +90,7 @@ public class AdoptionServiceImpl implements AdoptionService {
 
   @Override
   public AdoptionResponseDto getBestAdoptionPost() {
-    Long id = redisUtil.getTopViewedAdoptionPost();
+    Long id = redisViewCountUtil.getTopViewedAdoptionPost();
     return new AdoptionResponseDto(getAdoption(id));
   }
 

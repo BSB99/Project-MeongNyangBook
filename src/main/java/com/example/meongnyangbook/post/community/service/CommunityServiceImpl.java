@@ -6,7 +6,7 @@ import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.repository.CommunityRepository;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
-import com.example.meongnyangbook.redis.RedisUtil;
+import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommunityServiceImpl implements CommunityService {
 
   private final CommunityRepository communityRepository;
-  private final RedisUtil redisUtil;
+  private final RedisViewCountUtil redisViewCountUtil;
 
   @Override
   public CommunityResponseDto createCommunity(PostRequestDto requestDto, User user) {
@@ -68,18 +68,19 @@ public class CommunityServiceImpl implements CommunityService {
   public CommunityDetailResponseDto getOneCommunity(Long communityNo, User user) {
     Community community = getCommunity(communityNo);
 
-    if (redisUtil.checkAndIncrementViewCount(communityNo.toString(), user.getId().toString())) {
-      redisUtil.incrementCommunityViewCount(communityNo.toString());
+    if (redisViewCountUtil.checkAndIncrementViewCount(communityNo.toString(),
+        user.getId().toString())) {
+      redisViewCountUtil.incrementCommunityViewCount(communityNo.toString());
 
 
     }
-    Double viewCount = redisUtil.getViewCommunityCount(communityNo.toString());
+    Double viewCount = redisViewCountUtil.getViewCommunityCount(communityNo.toString());
     return new CommunityDetailResponseDto(community, viewCount);
   }
 
   @Override
   public CommunityResponseDto getBestAdoptionPost() {
-    Long id = redisUtil.getTopViewedCommunityPost();
+    Long id = redisViewCountUtil.getTopViewedCommunityPost();
     return new CommunityResponseDto(getCommunity(id));
   }
 
