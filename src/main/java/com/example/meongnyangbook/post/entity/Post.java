@@ -39,5 +39,4 @@ public abstract class Post extends TimeStamped {
 
   @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
   private List<Comment> commentList = new ArrayList<>();
-
 }

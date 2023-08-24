@@ -8,6 +8,8 @@ import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Pageable;
 
 public interface CommunityService {
 
@@ -18,7 +20,8 @@ public interface CommunityService {
    * @param user
    * @return
    */
-  CommunityResponseDto createCommunity(PostRequestDto requestDto, User user);
+  CommunityResponseDto createCommunity(PostRequestDto requestDto, User user,
+    MultipartFile[] multipartFiles);
 
   /**
    * 커뮤니티 게시물 수정
