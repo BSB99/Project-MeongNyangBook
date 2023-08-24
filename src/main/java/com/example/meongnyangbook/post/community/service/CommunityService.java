@@ -6,23 +6,25 @@ import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.user.entity.User;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface CommunityService {
-    CommunityResponseDto createCommunity(PostRequestDto requestDto, User user);
 
-    CommunityResponseDto updateCommunity(PostRequestDto requestDto, Long communityNo);
+  CommunityResponseDto createCommunity(PostRequestDto requestDto, User user,
+      MultipartFile[] multipartFiles);
 
-    ApiResponseDto deleteCommunity(Long communityNo);
+  CommunityResponseDto updateCommunity(PostRequestDto requestDto, Long communityNo);
 
-    Community getCommunity(Long communityNo);
+  ApiResponseDto deleteCommunity(Long communityNo);
 
-    List<CommunityResponseDto> getCommunityList(Pageable pageable);
+  Community getCommunity(Long communityNo);
 
-    CommunityDetailResponseDto getOneCommunity(Long communityNo);
+  List<CommunityResponseDto> getCommunityList(Pageable pageable);
 
-    List<CommunityResponseDto> getMyCommunityPostList(User user);
+  CommunityDetailResponseDto getOneCommunity(Long communityNo);
+
+  List<CommunityResponseDto> getMyCommunityPostList(User user);
 
 }

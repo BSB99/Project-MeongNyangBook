@@ -2,7 +2,6 @@ package com.example.meongnyangbook.post.adoption.controller;
 
 
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.post.adoption.service.AdoptionService;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
@@ -22,21 +21,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "분양 포스트 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/mya/adoptions")
 public class AdoptionController {
-    private final AdoptionService adoptionService;
+
+  private final AdoptionService adoptionService;
 
   @Operation(summary = "분양 페이지 포스트 등록")
   @PostMapping
   public ResponseEntity<AdoptionResponseDto> createAdoption(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestBody AdoptionReqeustDto reqeustDto) {
-    AdoptionResponseDto result = adoptionService.createAdoption(userDetails.getUser(), reqeustDto);
+      @RequestPart("requestDto") AdoptionReqeustDto reqeustDto,
+      @RequestPart("fileName") MultipartFile[] multipartFiles) {
+    AdoptionResponseDto result = adoptionService.createAdoption(userDetails.getUser(), reqeustDto,
+        multipartFiles);
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
@@ -69,14 +73,16 @@ public class AdoptionController {
   @DeleteMapping("/{adoptionId}")
   public ResponseEntity<ApiResponseDto> deleteAdoption(@PathVariable Long adoptionId,
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
     ApiResponseDto result = adoptionService.deleteAdoption(adoptionId, userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
-    // 내가 쓴 게시물 조회
-    @GetMapping("/my-post")
-    public ResponseEntity<List<AdoptionResponseDto>> getMyAdoptionPostList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        List<AdoptionResponseDto> result = adoptionService.getMyAdoptionPostList(userDetails.getUser());
-        return ResponseEntity.status(HttpStatus.OK).body(result);
-    }
+  // 내가 쓴 게시물 조회
+  @GetMapping("/my-post")
+  public ResponseEntity<List<AdoptionResponseDto>> getMyAdoptionPostList(
+      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    List<AdoptionResponseDto> result = adoptionService.getMyAdoptionPostList(userDetails.getUser());
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
 }
