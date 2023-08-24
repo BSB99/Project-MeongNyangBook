@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService{
     @Transactional
     public ApiResponseDto createOrder(User user, OrderRequestDto requestDto) {
         Order order = new Order(requestDto, user);
-        Long totalPrice = 0L;
+        long totalPrice = 0L;
 
         List<Basket> basketList = basketRepository.findByUser(user);
 
@@ -61,5 +61,5 @@ public class OrderServiceImpl implements OrderService{
         List<OrderResponseDto> order = orderRepository.findAllByUserAndStatusEnum(user, OrderStatusEnum.ORDER_COMPLETED).stream().map(OrderResponseDto::new).toList();
 
         return new OrderListResponseDto(order);
-    };
+    }
 }
