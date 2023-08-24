@@ -14,22 +14,20 @@ public class OrderResponseDto {
     private Long id;
     private Long totalPrice;
     private OrderStatusEnum status;
-    private String reciverName;
-    private String reciverPhoneNumber;
+    private String receiverName;
+    private String receiverPhoneNumber;
     private OrderUserResponseDto orderUser;
     private List<OrderItemResponseDto> orderItemList = new ArrayList<>();
 
-    public OrderResponseDto(List<Order> order) {
-        for (Order orderInfo : order) {
-            this.id = orderInfo.getId();
-            this.totalPrice = orderInfo.getTotalPrice();
-            this.status = orderInfo.getStatusEnum();
-            this.reciverName = orderInfo.getReciveName();
-            this.reciverPhoneNumber = orderInfo.getRecivePhoneNumber();
-            this.orderUser = new OrderUserResponseDto(orderInfo.getUser());
-            for(OrderItem orderItem : orderInfo.getOrderItems()) {
+    public OrderResponseDto(Order order) {
+            this.id = order.getId();
+            this.totalPrice = order.getTotalPrice();
+            this.status = order.getStatusEnum();
+            this.receiverName = order.getReceiverName();
+            this.receiverPhoneNumber = order.getReceiverPhoneNumber();
+            this.orderUser = new OrderUserResponseDto(order.getUser());
+            for(OrderItem orderItem : order.getOrderItems()) {
                 orderItemList.add(new OrderItemResponseDto(orderItem));
-            }
         }
     }
 }
