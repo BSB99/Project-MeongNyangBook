@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class OrderRequestDto {
     private String address;
-    private String reciverName;
-    private String reciverPhoneNumber;
+    private String receiverName;
+    private String receiverPhoneNumber;
 }

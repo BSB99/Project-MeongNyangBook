@@ -27,11 +27,11 @@ public class Order extends TimeStamped {
     @Enumerated(value = EnumType.STRING)
     private OrderStatusEnum statusEnum = OrderStatusEnum.ORDER_IN_PROGRESS;
 
-    @Column(name = "recive_name")
-    private String reciveName;
+    @Column(name = "receiver_name")
+    private String receiverName;
 
-    @Column(name = "recive_phone_number")
-    private String recivePhoneNumber;
+    @Column(name = "receiver_phone_number")
+    private String receiverPhoneNumber;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -42,8 +42,8 @@ public class Order extends TimeStamped {
 
     public Order(OrderRequestDto requestDto, User user) {
         this.address = requestDto.getAddress();
-        this.reciveName = requestDto.getReciverName();
-        this.recivePhoneNumber = requestDto.getReciverPhoneNumber();
+        this.receiverName = requestDto.getReceiverName();
+        this.receiverPhoneNumber = requestDto.getReceiverPhoneNumber();
         this.user = user;
     }
 
