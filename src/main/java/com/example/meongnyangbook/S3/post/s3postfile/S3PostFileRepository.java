@@ -11,4 +11,6 @@ public interface S3PostFileRepository extends JpaRepository<S3PostFile, Long> {
   void deleteByPostId(Long id);
 
   S3PostFile findByPostId(Long id);
+
+  void deleteByFileName(String originalFilename);
 }
