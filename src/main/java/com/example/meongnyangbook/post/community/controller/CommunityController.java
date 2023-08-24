@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "커뮤니티 API", description = "커뮤니티 포스트 API")
 @RestController
@@ -33,10 +35,12 @@ public class CommunityController {
 
   @Operation(summary = "커뮤니티 포스트 등록")
   @PostMapping
-  public CommunityResponseDto createCommunity(@RequestBody PostRequestDto requestDto,
-      @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
+  public CommunityResponseDto createCommunity(@RequestPart("requestDto") PostRequestDto requestDto,
+      @AuthenticationPrincipal UserDetailsImpl userDetails,
+      @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
+
     try {
-      return communityService.createCommunity(requestDto, userDetails.getUser());
+      return communityService.createCommunity(requestDto, userDetails.getUser(), multipartFiles);
     } catch (Error error) {
       throw new Exception(error);
     }

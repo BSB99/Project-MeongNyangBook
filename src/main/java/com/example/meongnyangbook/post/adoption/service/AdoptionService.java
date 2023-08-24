@@ -6,20 +6,24 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.user.entity.User;
+
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.domain.Pageable;
 
 
 public interface AdoptionService {
+    /**
+     * 분양 게시물 생성
+     *
+     * @param user
+     * @param reqeustDto
+     * @return
+     */
+  AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
+      MultipartFile[] multipartFiles);
 
-  /**
-   * 분양 게시물 생성
-   *
-   * @param user
-   * @param reqeustDto
-   * @return
-   */
-  AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto);
+
 
   /**
    * 분양 게시물 수정
@@ -30,14 +34,13 @@ public interface AdoptionService {
    * @return
    */
   AdoptionResponseDto updateAdoption(Long adoptionId, User user, AdoptionReqeustDto reqeustDto);
-
-  /**
-   * 분양 게시물 삭제
-   *
-   * @param adoptionId
-   * @param user
-   * @return
-   */
+    /**
+     * 분양 게시물 삭제
+     *
+     * @param adoptionId
+     * @param user
+     * @return
+     */
   ApiResponseDto deleteAdoption(Long adoptionId, User user);
 
   /**
