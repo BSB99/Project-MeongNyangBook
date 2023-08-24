@@ -9,8 +9,8 @@ import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.repository.CommunityRepository;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
-import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.post.entity.Post;
+import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,15 +54,34 @@ public class CommunityServiceImpl implements CommunityService {
   }
 
 
-    @Override
-    @Transactional
-    public CommunityResponseDto updateCommunity(PostRequestDto requestDto, Long communityNo) {
-        Community community = getCommunity(communityNo);
+  @Override
+  @Transactional
+  public CommunityResponseDto updateCommunity(Long communityNo, PostRequestDto requestDto,
+      MultipartFile[] multipartFiles, String[] deleteFileNames) {
 
-//    S3CommunityPostFile s3CommunityPostFile = s3CommunityPostFileRepository.findByCommunityId(
-//        communityNo);
+    Community community = getCommunity(communityNo);
+    S3PostFile s3PostFile = s3PostFileRepository.findByPostId(communityNo);
+    String[] filenames = s3PostFile.getFileName().split(",");
+    String fileNames = "";
 
-//    String[] fileNames = s3CommunityPostFile.getFileName().split(",");
+    for (String filename : filenames) {
+      for (String deleteFileName : deleteFileNames) {
+        if (!filename.contains(deleteFileName)) {
+          fileNames = fileNames + "," + filename;
+
+
+        } else {
+          s3Service.deleteFile(filename);
+        }
+      }
+    }
+    List<String> uploadFileNames = s3Service.uploadFiles(multipartFiles);
+
+    String newFileName = CombineString(uploadFileNames);
+
+    fileNames.replaceFirst("^,", "");
+
+    s3PostFile.setFileName(fileNames + "," + newFileName);
 
     if (!community.getTitle().equals(requestDto.getTitle())) {
       community.setTitle(requestDto.getTitle());
@@ -71,9 +90,17 @@ public class CommunityServiceImpl implements CommunityService {
       community.setDescription(requestDto.getDescription());
     }
 
-        return new CommunityResponseDto(community);
-    }
+    return new CommunityResponseDto(community);
+  }
 
+  private String CombineString(List<String> temp) {
+    String newString = "";
+    for (String t : temp) {
+      newString = newString + "," + t;
+    }
+    newString.replaceFirst("^,", "");
+    return newString;
+  }
 
   @Override
   @Transactional

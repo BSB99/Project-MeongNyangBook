@@ -9,7 +9,6 @@ import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.data.domain.Pageable;
 
 public interface CommunityService {
 
@@ -21,7 +20,7 @@ public interface CommunityService {
    * @return
    */
   CommunityResponseDto createCommunity(PostRequestDto requestDto, User user,
-    MultipartFile[] multipartFiles);
+      MultipartFile[] multipartFiles);
 
   /**
    * 커뮤니티 게시물 수정
@@ -30,7 +29,8 @@ public interface CommunityService {
    * @param communityNo
    * @return
    */
-  CommunityResponseDto updateCommunity(PostRequestDto requestDto, Long communityNo);
+  CommunityResponseDto updateCommunity(Long communityNo, PostRequestDto requestDto,
+      MultipartFile[] multipartFiles, String[] deleteFileNames);
 
   /**
    * 커뮤니티 게시물 삭제

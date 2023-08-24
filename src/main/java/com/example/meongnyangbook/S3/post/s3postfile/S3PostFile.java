@@ -34,4 +34,8 @@ public class S3PostFile {
     this.fileName = fileName;
     this.post = post;
   }
+
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
 }
