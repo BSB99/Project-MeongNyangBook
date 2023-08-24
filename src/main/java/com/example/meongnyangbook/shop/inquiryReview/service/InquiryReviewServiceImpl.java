@@ -32,9 +32,11 @@ public class InquiryReviewServiceImpl implements InquiryReviewService {
   }
 
   @Override
-  public List<InquiryReviewResponseDto> getInquiryReviewList(InquiryReviewEnum categoryName,
+  public List<InquiryReviewResponseDto> getInquiryReviewList(String categoryName,
       Long id) {
-    return inquiryReviewRepository.findByCategory(categoryName)
+    InquiryReviewEnum categoryEnum = InquiryReviewEnum.fromString(categoryName);
+
+    return inquiryReviewRepository.findByCategory(categoryEnum)
         .stream()
         .map(InquiryReviewResponseDto::new)
         .toList();

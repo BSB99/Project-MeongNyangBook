@@ -3,7 +3,6 @@ package com.example.meongnyangbook.shop.inquiryReview.controller;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.inquiryReview.dto.InquiryReviewRequestDto;
 import com.example.meongnyangbook.shop.inquiryReview.dto.InquiryReviewResponseDto;
-import com.example.meongnyangbook.shop.inquiryReview.entity.InquiryReviewEnum;
 import com.example.meongnyangbook.shop.inquiryReview.service.InquiryReviewService;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,10 +39,10 @@ public class InquiryReviewController {
   }
 
   @Operation(summary = "문의, 리뷰 게시물 조회")
-  @GetMapping("/{itemId}")
+  @GetMapping("/all/{itemId}")
   public ResponseEntity<List<InquiryReviewResponseDto>> getInquiryReviewList(
       @RequestParam("category")
-      InquiryReviewEnum categoryName, @PathVariable Long itemId) {
+      String categoryName, @PathVariable Long itemId) {
     List<InquiryReviewResponseDto> result = inquiryReviewService.getInquiryReviewList(categoryName,
         itemId);
     return ResponseEntity.status(HttpStatus.OK).body(result);
