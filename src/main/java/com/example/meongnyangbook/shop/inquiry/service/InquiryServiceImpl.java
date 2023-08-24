@@ -10,6 +10,7 @@ import com.example.meongnyangbook.shop.item.service.ItemService;
 import com.example.meongnyangbook.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     @Override
+    @Transactional
     public InquiryResponseDto updateInquiry(Long id, User user, InquiryRequestDto requestDto) {
         Inquiry inquiry = getInquiry(id);
         inquiry.setTitle(requestDto.getTitle());

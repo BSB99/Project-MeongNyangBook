@@ -6,6 +6,7 @@ import com.example.meongnyangbook.shop.review.dto.ReviewRequestDto;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ public class Review extends TimeStamped {
 
     private String description;
 
+    @Min(1)
     @Max(5)
     @Column(name = "star_rating")
     private Integer starRating;

@@ -6,6 +6,7 @@ import com.example.meongnyangbook.shop.inquiry.dto.InquiryResponseDto;
 import com.example.meongnyangbook.shop.inquiry.service.InquiryService;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/mya/inquiries")
+@Tag(name = "아이템 문의 API")
 public class InquiryController {
 
     private final InquiryService inquiryService;
