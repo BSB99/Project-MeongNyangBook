@@ -79,9 +79,9 @@ public class CommunityServiceImpl implements CommunityService {
 
     String newFileName = CombineString(uploadFileNames);
 
-    fileNames.replaceFirst("^,", "");
-
-    s3PostFile.setFileName(fileNames + "," + newFileName);
+    String fileName = fileNames.replaceFirst("^,", "");
+    String newFile = newFileName.replaceFirst("^,", "");
+    s3PostFile.setFileName(fileName + "," + newFile);
 
     if (!community.getTitle().equals(requestDto.getTitle())) {
       community.setTitle(requestDto.getTitle());
