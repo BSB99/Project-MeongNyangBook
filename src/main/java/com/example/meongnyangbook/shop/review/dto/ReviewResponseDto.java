@@ -11,6 +11,7 @@ public class ReviewResponseDto {
     private String description;
     private Integer starRating;
     private Long userId;
+    private String nickname;
     private Long itemId;
 
     public ReviewResponseDto(Review review) {
@@ -19,6 +20,7 @@ public class ReviewResponseDto {
         this.description = review.getDescription();
         this.starRating = review.getStarRating();
         this.userId = review.getUser().getId();
+        this.nickname = review.getUser().getNickname();
         this.itemId = review.getItem().getId();
     }
 }
