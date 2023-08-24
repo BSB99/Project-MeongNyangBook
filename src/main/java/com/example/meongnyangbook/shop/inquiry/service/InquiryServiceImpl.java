@@ -26,6 +26,7 @@ public class InquiryServiceImpl implements InquiryService {
         Item item = itemService.getItem(id);
         Inquiry inquiry = new Inquiry(requestDto, user, item);
         inquiryRepository.save(inquiry);
+
         return new InquiryResponseDto(inquiry);
     }
 
@@ -46,8 +47,13 @@ public class InquiryServiceImpl implements InquiryService {
     @Transactional
     public InquiryResponseDto updateInquiry(Long id, User user, InquiryRequestDto requestDto) {
         Inquiry inquiry = getInquiry(id);
-        inquiry.setTitle(requestDto.getTitle());
-        inquiry.setDescription(requestDto.getDescription());
+        
+        if (!inquiry.getTitle().equals(requestDto.getTitle())) {
+            inquiry.setTitle(requestDto.getTitle());
+        }
+        if (!inquiry.getDescription().equals(requestDto.getDescription())) {
+            inquiry.setDescription(requestDto.getDescription());
+        }
 
         return new InquiryResponseDto(inquiry);
     }
@@ -56,6 +62,7 @@ public class InquiryServiceImpl implements InquiryService {
     public ApiResponseDto deleteInquiry(Long id, User user) {
         Inquiry inquiry = getInquiry(id);
         inquiryRepository.delete(inquiry);
+
         return new ApiResponseDto("문의 삭제 완료", 200);
     }
 

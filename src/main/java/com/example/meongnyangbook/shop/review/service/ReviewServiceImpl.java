@@ -26,6 +26,7 @@ public class ReviewServiceImpl implements ReviewService {
         Item item = itemService.getItem(id);
         Review review = new Review(requestDto, user, item);
         reviewRepository.save(review);
+
         return new ReviewResponseDto(review);
     }
 
@@ -46,9 +47,16 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     public ReviewResponseDto updateReview(Long id, User user, ReviewRequestDto requestDto) {
         Review review = getReview(id);
-        review.setTitle(requestDto.getTitle());
-        review.setDescription(requestDto.getDescription());
-        review.setStarRating(requestDto.getStarRating());
+        if (!review.getTitle().equals(requestDto.getTitle())) {
+            review.setTitle(requestDto.getTitle());
+        }
+        if (!review.getDescription().equals(requestDto.getDescription())) {
+            review.setDescription(requestDto.getDescription());
+        }
+        if (!review.getStarRating().equals(requestDto.getStarRating())) {
+            review.setStarRating(requestDto.getStarRating());
+        }
+
         return new ReviewResponseDto(review);
     }
 
@@ -56,6 +64,7 @@ public class ReviewServiceImpl implements ReviewService {
     public ApiResponseDto deleteReview(Long id, User user) {
         Review review = getReview(id);
         reviewRepository.delete(review);
+
         return new ApiResponseDto("리뷰 삭제 완료", 200);
     }
 
