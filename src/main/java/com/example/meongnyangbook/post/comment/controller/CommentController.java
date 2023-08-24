@@ -41,7 +41,7 @@ public class CommentController {
     return commentService.updateComment(commentId, userDetails.getUser(), commentRequestDto);
   }
 
-  @Operation(summary = "댓글 삭")
+  @Operation(summary = "댓글 삭제")
   @DeleteMapping("/{commentId}")
   public ResponseEntity<ApiResponseDto> deleteComment(@PathVariable Long commentId,
       @AuthenticationPrincipal UserDetailsImpl userDetails) {

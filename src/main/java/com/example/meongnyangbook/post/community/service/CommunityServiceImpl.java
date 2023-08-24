@@ -9,7 +9,7 @@ import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.repository.CommunityRepository;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
-import com.example.meongnyangbook.redis.RedisUtil;
+import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
@@ -28,7 +28,7 @@ public class CommunityServiceImpl implements CommunityService {
   private final CommunityRepository communityRepository;
   private final S3Service s3Service;
   private final S3PostFileRepository s3PostFileRepository;
-  private final RedisUtil redisUtil;
+  private final RedisViewCountUtil redisViewCountUtil;
 
   @Override
   public CommunityResponseDto createCommunity(PostRequestDto requestDto, User user,
@@ -53,7 +53,6 @@ public class CommunityServiceImpl implements CommunityService {
     return new CommunityResponseDto(community);
   }
 
-    ;
 
     @Override
     @Transactional
@@ -104,18 +103,19 @@ public class CommunityServiceImpl implements CommunityService {
   public CommunityDetailResponseDto getOneCommunity(Long communityNo, User user) {
     Community community = getCommunity(communityNo);
 
-    if (redisUtil.checkAndIncrementViewCount(communityNo.toString(), user.getId().toString())) {
-      redisUtil.incrementCommunityViewCount(communityNo.toString());
+    if (redisViewCountUtil.checkAndIncrementViewCount(communityNo.toString(),
+        user.getId().toString())) {
+      redisViewCountUtil.incrementCommunityViewCount(communityNo.toString());
 
 
     }
-    Double viewCount = redisUtil.getViewCommunityCount(communityNo.toString());
+    Double viewCount = redisViewCountUtil.getViewCommunityCount(communityNo.toString());
     return new CommunityDetailResponseDto(community, viewCount);
   }
 
   @Override
   public CommunityResponseDto getBestAdoptionPost() {
-    Long id = redisUtil.getTopViewedCommunityPost();
+    Long id = redisViewCountUtil.getTopViewedCommunityPost();
     return new CommunityResponseDto(getCommunity(id));
   }
 
@@ -127,7 +127,6 @@ public class CommunityServiceImpl implements CommunityService {
         .toList();
   }
 
-    ;
 
   @Override
   public Community getCommunity(Long communityNo) {
