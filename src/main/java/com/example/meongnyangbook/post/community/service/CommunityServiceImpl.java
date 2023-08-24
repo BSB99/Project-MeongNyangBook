@@ -98,7 +98,6 @@ public class CommunityServiceImpl implements CommunityService {
     for (String t : temp) {
       newString = newString + "," + t;
     }
-    newString.replaceFirst("^,", "");
     return newString;
   }
 
