@@ -70,7 +70,9 @@ public class WebSecurityConfig {
             .requestMatchers("/mya/chats/**", "/mya-websocket", "/mya/main").permitAll()
             .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // swagger 허용
             .requestMatchers("/mya/users/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
-            .requestMatchers(HttpMethod.GET, "/mya/**").permitAll()
+            .requestMatchers(HttpMethod.GET, "/mya/adoptions", "mya/adoptions/best-post")
+            .permitAll()
+            .requestMatchers(HttpMethod.GET, "/mya/items").permitAll()
             .anyRequest().authenticated() // 그 외 모든 요청 인증처리
     );
 

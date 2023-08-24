@@ -10,12 +10,14 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
+import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +30,7 @@ public class AdoptionServiceImpl implements AdoptionService {
   private final AdoptionRepository adoptionRepository;
   private final S3Service s3Service;
   private final S3PostFileRepository s3PostFileRepository;
-
+  private final RedisUtil redisUtil;
 
   @Override
   public AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
@@ -60,6 +62,7 @@ public class AdoptionServiceImpl implements AdoptionService {
     Adoption adoption = getAdoption(adoptionId);
 
     // setter 사용
+
     return new AdoptionResponseDto(adoption);
   }
 
@@ -85,18 +88,30 @@ public class AdoptionServiceImpl implements AdoptionService {
   }
 
   @Override
-  public List<AdoptionResponseDto> getAdoptionList() {
-    List<AdoptionResponseDto> adoptionResponseDtoList = adoptionRepository.findAll()
+  public List<AdoptionResponseDto> getAdoptionList(Pageable pageable) {
+    List<AdoptionResponseDto> adoptionList = adoptionRepository.findAllByOrderByCreatedAtDesc(
+            pageable)
         .stream()
         .map(AdoptionResponseDto::new)
         .collect(Collectors.toList());
-    return adoptionResponseDtoList;
+    return adoptionList;
   }
 
   @Override
-  public AdoptionDetailResponseDto getSingleAdoption(Long adoptionId) {
+  @Transactional
+  public AdoptionDetailResponseDto getSingleAdoption(Long adoptionId, User user) {
     Adoption adoption = getAdoption(adoptionId);
-    return new AdoptionDetailResponseDto(adoption);
+
+    // 조회수 증가 로직
+    if (redisUtil.checkAndIncrementViewCount(adoptionId.toString(),
+        user.getId().toString())) { // 조회수를 1시간이내에 올린적이 있는지 없는지 판단
+      redisUtil.incrementAdoptionViewCount(adoptionId.toString());
+    }
+
+    Double viewCount = redisUtil.getViewAdoptionCount(adoptionId.toString());
+
+    return new AdoptionDetailResponseDto(adoption, viewCount);
+
   }
 
   @Override
@@ -108,11 +123,17 @@ public class AdoptionServiceImpl implements AdoptionService {
   }
 
   @Override
+  public AdoptionResponseDto getBestAdoptionPost() {
+    Long id = redisUtil.getTopViewedAdoptionPost();
+    return new AdoptionResponseDto(getAdoption(id));
+  }
+
+  @Override
   public Adoption getAdoption(Long adoptionId) {
     return adoptionRepository.findById(adoptionId).orElseThrow(() -> {
       throw new IllegalArgumentException("게시물이 존재하지 않습니다.");
     });
   }
-
+}
 
 }

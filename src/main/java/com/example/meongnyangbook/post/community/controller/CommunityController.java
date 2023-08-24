@@ -58,9 +58,10 @@ public class CommunityController {
 
   @Operation(summary = "커뮤니티 단건 조회")
   @GetMapping("/{communityNo}")
-  public CommunityDetailResponseDto getCommunity(@PathVariable Long communityNo) throws Exception {
+  public CommunityDetailResponseDto getCommunity(@PathVariable Long communityNo,
+      @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
     try {
-      return communityService.getOneCommunity(communityNo);
+      return communityService.getOneCommunity(communityNo, userDetails.getUser());
     } catch (Error error) {
       throw new Exception(error);
     }
@@ -78,7 +79,7 @@ public class CommunityController {
     }
   }
 
-  @Operation(summary = "커뮤니티 포스트 삭")
+  @Operation(summary = "커뮤니티 포스트 삭제")
   @DeleteMapping("/{communityNo}")
   public ResponseEntity<ApiResponseDto> deleteCommunity(@PathVariable Long communityNo,
       @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
@@ -98,6 +99,12 @@ public class CommunityController {
     List<CommunityResponseDto> result = communityService.getMyCommunityPostList(
         userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
 
+  // Best 게시물 조회
+  @GetMapping("/best-post")
+  public ResponseEntity<CommunityResponseDto> getBestAdoptionPost() {
+    CommunityResponseDto result = communityService.getBestAdoptionPost();
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 }

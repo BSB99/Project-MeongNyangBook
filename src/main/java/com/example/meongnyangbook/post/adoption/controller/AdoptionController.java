@@ -2,6 +2,7 @@ package com.example.meongnyangbook.post.adoption.controller;
 
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.post.adoption.service.AdoptionService;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,18 +46,19 @@ public class AdoptionController {
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
-  @Operation(summary = "분양 페이지 전체 조회")
-  @GetMapping
-  public ResponseEntity<List<AdoptionResponseDto>> getAdoptionList() {
-    List<AdoptionResponseDto> result = adoptionService.getAdoptionList();
+  @Operation(summary = "분양 페이지 전체 조회(페이징)")
+  @GetMapping("/page")
+  public ResponseEntity<List<AdoptionResponseDto>> getAdoptionList(Pageable pageable) {
+    List<AdoptionResponseDto> result = adoptionService.getAdoptionList(pageable);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
   @Operation(summary = "분양 페이지 단건 조회")
   @GetMapping("/{adoptionId}")
   public ResponseEntity<AdoptionDetailResponseDto> getSingleAdoption(
-      @PathVariable Long adoptionId) {
-    AdoptionDetailResponseDto result = adoptionService.getSingleAdoption(adoptionId);
+      @PathVariable Long adoptionId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    AdoptionDetailResponseDto result = adoptionService.getSingleAdoption(adoptionId,
+        userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
@@ -83,6 +86,12 @@ public class AdoptionController {
   public ResponseEntity<List<AdoptionResponseDto>> getMyAdoptionPostList(
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
     List<AdoptionResponseDto> result = adoptionService.getMyAdoptionPostList(userDetails.getUser());
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @GetMapping("/best-post")
+  public ResponseEntity<AdoptionResponseDto> getBestAdoptionPost() {
+    AdoptionResponseDto result = adoptionService.getBestAdoptionPost();
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 }
