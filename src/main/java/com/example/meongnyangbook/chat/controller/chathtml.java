@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/mya/main")
 public class chathtml {
 
-    @GetMapping
-    public String main() {
-        return "index";
-    }
+  @GetMapping
+  public String main() {
+    return "chatchat";
+  }
 }
