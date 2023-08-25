@@ -1,9 +1,9 @@
 package com.example.meongnyangbook.post.adoption.service;
 
 
-import com.example.meongnyangbook.S3.S3Service;
 import com.example.meongnyangbook.S3.post.S3PostFile;
 import com.example.meongnyangbook.S3.post.S3PostFileRepository;
+import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;

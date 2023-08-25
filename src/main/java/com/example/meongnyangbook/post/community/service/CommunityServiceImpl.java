@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.post.community.service;
 
-import com.example.meongnyangbook.S3.S3Service;
 import com.example.meongnyangbook.S3.post.S3PostFile;
 import com.example.meongnyangbook.S3.post.S3PostFileRepository;
+import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityDetailResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;

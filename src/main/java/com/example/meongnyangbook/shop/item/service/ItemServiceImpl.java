@@ -1,7 +1,7 @@
 package com.example.meongnyangbook.shop.item.service;
 
-import com.example.meongnyangbook.S3.S3Service;
 import com.example.meongnyangbook.S3.item.S3ItemFileRepository;
+import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
