@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOMContentLoaded event fired");
-
 });
 const host = "http://" + window.location.host;
 

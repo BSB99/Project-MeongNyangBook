@@ -23,8 +23,17 @@
   <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css"/>
   <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css"/>
   <link rel="stylesheet" href="/css/style.css" type="text/css"/>
-</head>
 
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
+
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+</head>
+<script src="/js/index.js"></script>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -37,6 +46,7 @@
   <div class="offcanvas__option">
     <div class="offcanvas__links">
       <a href="/mya/view/users/sign-in">Sign in</a>
+
       <a href="#">FAQs</a>
     </div>
     <div class="offcanvas__top__hover">
@@ -74,8 +84,10 @@
         <div class="col-lg-6 col-md-5">
           <div class="header__top__right">
             <div class="header__top__links">
-              <a href="/mya/view/users/sign-in">Sign in</a>
-              <a href="#">FAQs</a>
+              <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
+              <a id="logout-text" href="#">Log Out</a>
+              <a id="mypage-text" href="#">My Profile</a>
+              <!--              <a href="#">FAQs</a>-->
             </div>
             <div class="header__top__hover">
               <span>Usd <i class="arrow_carrot-down"></i></span>
@@ -722,7 +734,33 @@
   </div>
 </div>
 <!-- Search End -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    start();
+  });
 
+  function start() {
+    const auth = Cookies.get('Authorization');
+    console.log("auth=", auth);
+
+    if (!auth) { // 쿠키가 없을 경우
+      console.log(1);
+      document.getElementById('login-text').style.display = 'block';
+      document.getElementById('logout-text').style.display = 'none';
+      document.getElementById('mypage-text').style.display = 'none';
+    } else { // 쿠키가 있을 경우
+      console.log(2);
+      document.getElementById('login-text').style.display = 'none';
+      document.getElementById('logout-text').style.display = 'block';
+      document.getElementById('mypage-text').style.display = 'block';
+
+      const postBoxes = document.getElementsByClassName('postbox');
+      for (let i = 0; i < postBoxes.length; i++) {
+        postBoxes[i].style.display = 'block';
+      }
+    }
+  }
+</script>
 <!-- Js Plugins -->
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
