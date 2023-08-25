@@ -14,7 +14,8 @@ public interface ItemService {
 
   List<ItemResponseDto> getItems(Pageable pageable);
 
-  ApiResponseDto updateItem(ItemRequestDto requestDto, Long itemNo);
+  ApiResponseDto updateItem(ItemRequestDto requestDto, Long itemNo, MultipartFile[] multipartFiles,
+      String[] deleteDto);
 
   ApiResponseDto deleteItem(Long itemNo);
 

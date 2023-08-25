@@ -1,9 +1,9 @@
 package com.example.meongnyangbook.post.community.service;
 
-import com.example.meongnyangbook.S3.post.S3PostFile;
-import com.example.meongnyangbook.S3.post.S3PostFileRepository;
 import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.post.attachment.entity.AttachmentUrl;
+import com.example.meongnyangbook.post.attachment.entity.AttachmentUrlRepository;
 import com.example.meongnyangbook.post.community.dto.CommunityDetailResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
@@ -28,9 +28,9 @@ public class CommunityServiceImpl implements CommunityService {
 
   private final CommunityRepository communityRepository;
   private final S3Service s3Service;
-  private final S3PostFileRepository s3PostFileRepository;
   private final RedisViewCountUtil redisViewCountUtil;
   private final PostServiceImpl postServiceImpl;
+  private final AttachmentUrlRepository attachmentUrlRepository;
 
   @Override
   public CommunityResponseDto createCommunity(PostRequestDto requestDto, User user,
@@ -48,9 +48,9 @@ public class CommunityServiceImpl implements CommunityService {
       fileUrls = fileUrls + "," + fileUrl;
     }
     String fileUrlResult = fileUrls.replaceFirst("^,", "");
-    S3PostFile file = new S3PostFile(fileUrlResult, post);
+    AttachmentUrl file = new AttachmentUrl(fileUrlResult, post);
 
-    s3PostFileRepository.save(file);
+    attachmentUrlRepository.save(file);
 
     return new CommunityResponseDto(community);
   }
@@ -81,12 +81,12 @@ public class CommunityServiceImpl implements CommunityService {
   public ApiResponseDto deleteCommunity(Long communityNo) {
 
     Community community = getCommunity(communityNo);
-    S3PostFile s3CommunityPostFile = s3PostFileRepository.findByPostId(communityNo);
-    String[] fileNames = s3CommunityPostFile.getFileName().split(",");
+    AttachmentUrl attachmentUrl = attachmentUrlRepository.findByPostId(communityNo);
+    String[] fileNames = attachmentUrl.getFileName().split(",");
     for (String fileName : fileNames) {
       s3Service.deleteFile(fileName);
     }
-    s3PostFileRepository.deleteByPostId(communityNo);
+    attachmentUrlRepository.deleteByPostId(communityNo);
     communityRepository.delete(community);
 
     return new ApiResponseDto("게시글 삭제가 완료되었습니다.", 200);

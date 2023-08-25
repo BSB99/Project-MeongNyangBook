@@ -1,6 +1,6 @@
-package com.example.meongnyangbook.S3.post;
+package com.example.meongnyangbook.shop.attachment;
 
-import com.example.meongnyangbook.post.entity.Post;
+import com.example.meongnyangbook.shop.item.entity.Item;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "s3PostFile")
-public class S3PostFile {
+@Table(name = "attachment_item_url")
+public class AttachmentItemUrl {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +27,12 @@ public class S3PostFile {
   private String fileName;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "post_id", nullable = false)
-  private Post post;
+  @JoinColumn(name = "item_id", nullable = false)
+  private Item item;
 
-  public S3PostFile(String fileName, Post post) {
+  public AttachmentItemUrl(String fileName, Item item) {
     this.fileName = fileName;
-    this.post = post;
+    this.item = item;
   }
 
   public void setFileName(String fileName) {
