@@ -10,7 +10,7 @@ import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.repository.CommunityRepository;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.post.entity.Post;
-import com.example.meongnyangbook.post.service.PostService;
+import com.example.meongnyangbook.post.service.PostServiceImpl;
 import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
@@ -30,7 +30,7 @@ public class CommunityServiceImpl implements CommunityService {
   private final S3Service s3Service;
   private final S3PostFileRepository s3PostFileRepository;
   private final RedisViewCountUtil redisViewCountUtil;
-  private final PostService postService;
+  private final PostServiceImpl postServiceImpl;
 
   @Override
   public CommunityResponseDto createCommunity(PostRequestDto requestDto, User user,
@@ -63,7 +63,7 @@ public class CommunityServiceImpl implements CommunityService {
 
     Community community = getCommunity(communityNo);
 
-    postService.update(communityNo, multipartFiles, deleteFileNames);
+    postServiceImpl.update(communityNo, multipartFiles, deleteFileNames);
 
     if (!community.getTitle().equals(requestDto.getTitle())) {
       community.setTitle(requestDto.getTitle());

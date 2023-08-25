@@ -11,7 +11,7 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
 import com.example.meongnyangbook.post.entity.Post;
-import com.example.meongnyangbook.post.service.PostService;
+import com.example.meongnyangbook.post.service.PostServiceImpl;
 import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
@@ -32,7 +32,7 @@ public class AdoptionServiceImpl implements AdoptionService {
   private final S3Service s3Service;
   private final S3PostFileRepository s3PostFileRepository;
   private final RedisViewCountUtil redisViewCountUtil;
-  private final PostService postService;
+  private final PostServiceImpl postServiceImpl;
 
   @Override
   public AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
@@ -63,7 +63,7 @@ public class AdoptionServiceImpl implements AdoptionService {
       MultipartFile[] multipartFiles, String[] deleteFileNames) {
     Adoption adoption = getAdoption(adoptionId);
 
-    postService.update(adoptionId, multipartFiles, deleteFileNames);
+    postServiceImpl.update(adoptionId, multipartFiles, deleteFileNames);
 
     //Dto 기본 내용 수정
     if (!adoption.getTitle().equals(requestDto.getTitle())) {

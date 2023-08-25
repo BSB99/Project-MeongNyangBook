@@ -31,15 +31,11 @@ public class ItemServiceImpl implements ItemService {
     return new ApiResponseDto("물품 등록 완료", 201);
   }
 
-  ;
-
   @Override
   public List<ItemResponseDto> getItems(Pageable pageable) {
     return itemRepository.findAllByOrderByCreatedAtDesc(pageable).stream().map(ItemResponseDto::new)
         .toList();
   }
-
-  ;
 
   @Override
   @Transactional
@@ -61,8 +57,6 @@ public class ItemServiceImpl implements ItemService {
     return new ApiResponseDto("물품 수정 완료", 200);
   }
 
-  ;
-
   @Override
   public ApiResponseDto deleteItem(Long itemNo) {
     Item item = getItem(itemNo);
@@ -71,8 +65,6 @@ public class ItemServiceImpl implements ItemService {
 
     return new ApiResponseDto("물품 삭제 완료", 200);
   }
-
-  ;
 
   @Override
   public Item getItem(Long itemNo) {
