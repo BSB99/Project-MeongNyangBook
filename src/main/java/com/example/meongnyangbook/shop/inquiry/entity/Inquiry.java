@@ -38,8 +38,7 @@ public class Inquiry extends TimeStamped {
   @JoinColumn(name = "item_id")
   private Item item;
 
-  @OneToOne
-  @JoinColumn(name = "inquiry_comment_id")
+  @OneToOne(mappedBy = "inquiry")
   private InquiryComment inquiryComment;
 
   public Inquiry(InquiryRequestDto requestDto, User user, Item item) {

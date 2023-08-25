@@ -2,6 +2,7 @@ package com.example.meongnyangbook.shop.inquiry.dto;
 
 import com.example.meongnyangbook.shop.inquiry.entity.Inquiry;
 import com.example.meongnyangbook.shop.inquiry.inquiryComment.dto.InquiryCommentResponseDto;
+import java.util.Optional;
 import lombok.Getter;
 
 @Getter
@@ -22,6 +23,8 @@ public class InquiryResponseDto {
     this.userId = inquiry.getUser().getId();
     this.nickname = inquiry.getUser().getNickname();
     this.itemId = inquiry.getItem().getId();
-    this.comment = new InquiryCommentResponseDto(inquiry.getInquiryComment());
+    this.comment = Optional.ofNullable(inquiry.getInquiryComment())
+        .map(InquiryCommentResponseDto::new)
+        .orElse(null);
   }
 }

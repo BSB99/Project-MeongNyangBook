@@ -23,8 +23,13 @@ public class InquiryCommentServiceImpl implements InquiryCommentService {
   public InquiryCommentResponseDto createInquiryComment(Long inquiryId, User user,
       InquiryCommentRequestDto requestDto) {
     Inquiry inquiry = inquiryService.getInquiry(inquiryId);
+    if (inquiryCommentRepository.findByInquiryId(inquiryId).isPresent()) {
+      throw new IllegalArgumentException("답글이 존재합니다.");
+    }
+
     InquiryComment inquiryComment = new InquiryComment(requestDto.getContents(), inquiry, user);
     inquiryCommentRepository.save(inquiryComment);
+
     return new InquiryCommentResponseDto(inquiryComment);
   }
 
