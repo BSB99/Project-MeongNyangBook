@@ -19,6 +19,8 @@ public class Item extends TimeStamped {
 
     private Long price;
 
+    private Long quantity = 10000L;
+
     @Enumerated(value = EnumType.STRING)
     private ItemCategoryEnum category;
 
@@ -38,5 +40,9 @@ public class Item extends TimeStamped {
 
     public void setCategory(ItemCategoryEnum category) {
         this.category = category;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
     }
 }

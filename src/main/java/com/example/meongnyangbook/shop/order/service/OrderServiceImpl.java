@@ -35,6 +35,10 @@ public class OrderServiceImpl implements OrderService{
 
         for (Basket basket : basketList) {
             OrderItem orderItem = new OrderItem(basket.getCnt(), basket.getItem(), order, basket);
+            if(basket.getItem().getQuantity() < basket.getCnt()) {
+                throw new IllegalArgumentException(basket.getItem().getName() + "의 수량이 부족합니다.");
+            }
+            basket.getItem().setQuantity(basket.getItem().getQuantity()-basket.getCnt());
 
             orderItemRepository.save(orderItem);
             totalPrice += basket.getCnt() * basket.getItem().getPrice();
