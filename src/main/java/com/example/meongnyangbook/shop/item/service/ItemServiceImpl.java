@@ -59,18 +59,21 @@ public class ItemServiceImpl implements ItemService {
 
     String[] filenames = attachmentItemUrl.getFileName().split(",");
     String deleteAfterFileNames = "";
-
+    int sizeCheck = 0;
     for (String filename : filenames) {
       for (String deleteFileName : deleteFileNames) {
         if (!filename.contains(deleteFileName)) {
           deleteAfterFileNames = deleteAfterFileNames + "," + filename;
+          sizeCheck++;
         } else {
           s3Service.deleteFile(filename);
         }
       }
     }
     List<String> uploadFileNames = s3Service.uploadFiles(multipartFiles);
-
+    if ((uploadFileNames.size() + sizeCheck) > 5) {
+      throw new IllegalArgumentException("사진의 최대 개수는 5개입니다.");
+    }
     String combineUploadFileName = s3Service.CombineString(uploadFileNames);
 
     String replaceDeleteAfterFileName = deleteAfterFileNames.replaceFirst("^,", "");
