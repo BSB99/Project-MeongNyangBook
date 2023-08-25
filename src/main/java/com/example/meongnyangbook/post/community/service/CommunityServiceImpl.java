@@ -3,7 +3,7 @@ package com.example.meongnyangbook.post.community.service;
 import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.attachment.entity.AttachmentUrl;
-import com.example.meongnyangbook.post.attachment.entity.AttachmentUrlRepository;
+import com.example.meongnyangbook.post.attachment.repository.AttachmentUrlRepository;
 import com.example.meongnyangbook.post.community.dto.CommunityDetailResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
 import com.example.meongnyangbook.post.community.entity.Community;
@@ -33,7 +33,7 @@ public class CommunityServiceImpl implements CommunityService {
   private final AttachmentUrlRepository attachmentUrlRepository;
 
   @Override
-  public CommunityResponseDto createCommunity(PostRequestDto requestDto, User user,
+  public ApiResponseDto createCommunity(PostRequestDto requestDto, User user,
       MultipartFile[] multipartFiles) {
     Community community = new Community(requestDto, user);
 
@@ -52,7 +52,7 @@ public class CommunityServiceImpl implements CommunityService {
 
     attachmentUrlRepository.save(file);
 
-    return new CommunityResponseDto(community);
+    return new ApiResponseDto("커뮤니티 게시글 생성", 201);
   }
 
 
@@ -107,8 +107,6 @@ public class CommunityServiceImpl implements CommunityService {
     if (redisViewCountUtil.checkAndIncrementViewCount(communityNo.toString(),
         user.getId().toString())) {
       redisViewCountUtil.incrementCommunityViewCount(communityNo.toString());
-
-
     }
     Double viewCount = redisViewCountUtil.getViewCommunityCount(communityNo.toString());
     return new CommunityDetailResponseDto(community, viewCount);

@@ -74,6 +74,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/mya/items").permitAll()
                         .requestMatchers(HttpMethod.GET, "/mya/inquiries/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/mya/reviews/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/mya/communities").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 

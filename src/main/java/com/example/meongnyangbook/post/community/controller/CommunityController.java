@@ -36,19 +36,21 @@ public class CommunityController {
 
   @Operation(summary = "커뮤니티 포스트 등록")
   @PostMapping
-  public CommunityResponseDto createCommunity(@RequestPart("requestDto") PostRequestDto requestDto,
+  public ResponseEntity<ApiResponseDto> createCommunity(@RequestPart("requestDto") PostRequestDto requestDto,
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
 
     try {
-      return communityService.createCommunity(requestDto, userDetails.getUser(), multipartFiles);
+      ApiResponseDto result = communityService.createCommunity(requestDto, userDetails.getUser(), multipartFiles);
+
+      return ResponseEntity.status(HttpStatus.CREATED).body(result);
     } catch (Error error) {
       throw new Exception(error);
     }
   }
 
   @Operation(summary = "커뮤니티 전체조회(페이징)")
-  @GetMapping("/page")
+  @GetMapping
   public List<CommunityResponseDto> getCommunityList(Pageable pageable) throws Exception {
     try {
       return communityService.getCommunityList(pageable);

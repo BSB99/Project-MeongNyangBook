@@ -19,7 +19,7 @@ public interface CommunityService {
    * @param user
    * @return
    */
-  CommunityResponseDto createCommunity(PostRequestDto requestDto, User user,
+  ApiResponseDto createCommunity(PostRequestDto requestDto, User user,
       MultipartFile[] multipartFiles);
 
   /**
