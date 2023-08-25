@@ -1,4 +1,4 @@
-package com.example.meongnyangbook.S3;
+package com.example.meongnyangbook.S3.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -61,6 +61,13 @@ public class S3Service {
     }
   }
 
+  public String CombineString(List<String> stringList) {
+    String result = "";
+    for (String str : stringList) {
+      result = result + "," + str;
+    }
+    return result;
+  }
 
   public void deleteFile(String originalFilename) {
     String fileName = originalFilename.substring(originalFilename.lastIndexOf("/") + 1);

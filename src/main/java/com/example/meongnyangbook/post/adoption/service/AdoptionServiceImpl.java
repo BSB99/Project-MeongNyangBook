@@ -1,9 +1,9 @@
 package com.example.meongnyangbook.post.adoption.service;
 
 
-import com.example.meongnyangbook.S3.S3Service;
-import com.example.meongnyangbook.S3.post.s3postfile.S3PostFile;
-import com.example.meongnyangbook.S3.post.s3postfile.S3PostFileRepository;
+import com.example.meongnyangbook.S3.post.S3PostFile;
+import com.example.meongnyangbook.S3.post.S3PostFileRepository;
+import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
@@ -11,6 +11,7 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
 import com.example.meongnyangbook.post.entity.Post;
+import com.example.meongnyangbook.post.service.PostServiceImpl;
 import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
@@ -31,6 +32,7 @@ public class AdoptionServiceImpl implements AdoptionService {
   private final S3Service s3Service;
   private final S3PostFileRepository s3PostFileRepository;
   private final RedisViewCountUtil redisViewCountUtil;
+  private final PostServiceImpl postServiceImpl;
 
   @Override
   public AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
@@ -57,13 +59,37 @@ public class AdoptionServiceImpl implements AdoptionService {
 
   @Override
   @Transactional
-  public AdoptionResponseDto updateAdoption(Long adoptionId, User user,
-      AdoptionReqeustDto reqeustDto) {
+  public AdoptionResponseDto updateAdoption(Long adoptionId, AdoptionReqeustDto requestDto,
+      MultipartFile[] multipartFiles, String[] deleteFileNames) {
     Adoption adoption = getAdoption(adoptionId);
 
-    // setter 사용
+    postServiceImpl.update(adoptionId, multipartFiles, deleteFileNames);
 
-    return new AdoptionResponseDto(adoption);
+    //Dto 기본 내용 수정
+    if (!adoption.getTitle().equals(requestDto.getTitle())) {
+      adoption.setTitle(requestDto.getTitle());
+    }
+    if (!adoption.getDescription().equals(requestDto.getDescription())) {
+      adoption.setDescription(requestDto.getDescription());
+    }
+    if (!adoption.getAnimalName().equals(requestDto.getAnimalName())) {
+      adoption.setAnimalName(requestDto.getAnimalName());
+    }
+    if (!adoption.getAnimalAge().equals(requestDto.getAnimalAge())) {
+      adoption.setAnimalAge(requestDto.getAnimalAge());
+    }
+    if (!adoption.getAnimalGender().equals(requestDto.getAnimalGender())) {
+      adoption.setAnimalGender(requestDto.getAnimalGender());
+    }
+    if (!adoption.getArea().equals(requestDto.getArea())) {
+      adoption.setArea(requestDto.getArea());
+    }
+    if (!adoption.getCategory().equals(requestDto.getCategory())) {
+      adoption.setCategory(requestDto.getCategory());
+    }
+    {
+      return new AdoptionResponseDto(adoption);
+    }
   }
 
 

@@ -1,6 +1,6 @@
 package com.example.meongnyangbook.user.service.auth;
 
-import com.example.meongnyangbook.S3.S3Service;
+import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.dto.EmailRequestDto;

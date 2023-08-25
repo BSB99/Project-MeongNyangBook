@@ -1,4 +1,4 @@
-package com.example.meongnyangbook.S3.post.s3postfile;
+package com.example.meongnyangbook.S3.post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

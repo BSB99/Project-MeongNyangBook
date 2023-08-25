@@ -1,4 +1,4 @@
-package com.example.meongnyangbook.S3.post.s3postfile;
+package com.example.meongnyangbook.S3.post;
 
 import com.example.meongnyangbook.post.entity.Post;
 import jakarta.persistence.Column;

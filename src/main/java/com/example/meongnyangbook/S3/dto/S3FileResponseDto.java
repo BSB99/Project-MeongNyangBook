@@ -1,4 +1,4 @@
-package com.example.meongnyangbook.S3;
+package com.example.meongnyangbook.S3.dto;
 
 import lombok.Getter;
 

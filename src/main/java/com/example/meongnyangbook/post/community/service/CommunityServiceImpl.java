@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.post.community.service;
 
-import com.example.meongnyangbook.S3.S3Service;
-import com.example.meongnyangbook.S3.post.s3postfile.S3PostFile;
-import com.example.meongnyangbook.S3.post.s3postfile.S3PostFileRepository;
+import com.example.meongnyangbook.S3.post.S3PostFile;
+import com.example.meongnyangbook.S3.post.S3PostFileRepository;
+import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityDetailResponseDto;
 import com.example.meongnyangbook.post.community.dto.CommunityResponseDto;
@@ -10,6 +10,7 @@ import com.example.meongnyangbook.post.community.entity.Community;
 import com.example.meongnyangbook.post.community.repository.CommunityRepository;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.post.entity.Post;
+import com.example.meongnyangbook.post.service.PostServiceImpl;
 import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
@@ -29,6 +30,7 @@ public class CommunityServiceImpl implements CommunityService {
   private final S3Service s3Service;
   private final S3PostFileRepository s3PostFileRepository;
   private final RedisViewCountUtil redisViewCountUtil;
+  private final PostServiceImpl postServiceImpl;
 
   @Override
   public CommunityResponseDto createCommunity(PostRequestDto requestDto, User user,
@@ -60,28 +62,8 @@ public class CommunityServiceImpl implements CommunityService {
       MultipartFile[] multipartFiles, String[] deleteFileNames) {
 
     Community community = getCommunity(communityNo);
-    S3PostFile s3PostFile = s3PostFileRepository.findByPostId(communityNo);
-    String[] filenames = s3PostFile.getFileName().split(",");
-    String deleteAfterFileNames = "";
 
-    for (String filename : filenames) {
-      for (String deleteFileName : deleteFileNames) {
-        if (!filename.contains(deleteFileName)) {
-          deleteAfterFileNames = deleteAfterFileNames + "," + filename;
-
-
-        } else {
-          s3Service.deleteFile(filename);
-        }
-      }
-    }
-    List<String> uploadFileNames = s3Service.uploadFiles(multipartFiles);
-
-    String combineUploadFileName = CombineString(uploadFileNames);
-
-    String replaceDeleteAfterFileName = deleteAfterFileNames.replaceFirst("^,", "");
-    String replaceUploadFileName = combineUploadFileName.replaceFirst("^,", "");
-    s3PostFile.setFileName(replaceDeleteAfterFileName + "," + replaceUploadFileName);
+    postServiceImpl.update(communityNo, multipartFiles, deleteFileNames);
 
     if (!community.getTitle().equals(requestDto.getTitle())) {
       community.setTitle(requestDto.getTitle());
@@ -93,13 +75,6 @@ public class CommunityServiceImpl implements CommunityService {
     return new CommunityResponseDto(community);
   }
 
-  private String CombineString(List<String> stringList) {
-    String result = "";
-    for (String str : stringList) {
-      result = result + "," + str;
-    }
-    return result;
-  }
 
   @Override
   @Transactional
