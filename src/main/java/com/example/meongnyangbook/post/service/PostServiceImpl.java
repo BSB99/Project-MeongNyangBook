@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.post.service;
 
-import com.example.meongnyangbook.S3.post.S3PostFile;
-import com.example.meongnyangbook.S3.post.S3PostFileRepository;
 import com.example.meongnyangbook.S3.service.S3Service;
+import com.example.meongnyangbook.post.attachment.entity.AttachmentUrl;
+import com.example.meongnyangbook.post.attachment.entity.AttachmentUrlRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-  private final S3PostFileRepository s3PostFileRepository;
+  private final AttachmentUrlRepository s3PostFileRepository;
   private final S3Service s3Service;
 
   @Override
@@ -21,9 +21,9 @@ public class PostServiceImpl implements PostService {
   public void update(Long id,
       MultipartFile[] multipartFiles, String[] deleteFileNames) {
 
-    S3PostFile s3PostFile = s3PostFileRepository.findByPostId(id);
+    AttachmentUrl attachmentUrl = s3PostFileRepository.findByPostId(id);
 
-    String[] filenames = s3PostFile.getFileName().split(",");
+    String[] filenames = attachmentUrl.getFileName().split(",");
     String deleteAfterFileNames = "";
 
     for (String filename : filenames) {
@@ -43,6 +43,6 @@ public class PostServiceImpl implements PostService {
     String replaceUploadFileName = combineUploadFileName.replaceFirst("^,", "");
     String result = (replaceDeleteAfterFileName + "," + replaceUploadFileName).replaceFirst("^,",
         "");
-    s3PostFile.setFileName(result);
+    attachmentUrl.setFileName(result);
   }
 }

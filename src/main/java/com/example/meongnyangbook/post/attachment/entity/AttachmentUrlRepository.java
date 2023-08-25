@@ -1,16 +1,14 @@
-package com.example.meongnyangbook.S3.post;
+package com.example.meongnyangbook.post.attachment.entity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface S3PostFileRepository extends JpaRepository<S3PostFile, Long> {
-
-//  List<S3PostFile> findAllById(Long id);
+public interface AttachmentUrlRepository extends JpaRepository<AttachmentUrl, Long> {
 
   void deleteByPostId(Long id);
 
-  S3PostFile findByPostId(Long id);
+  AttachmentUrl findByPostId(Long id);
 
   void deleteByFileName(String originalFilename);
 }

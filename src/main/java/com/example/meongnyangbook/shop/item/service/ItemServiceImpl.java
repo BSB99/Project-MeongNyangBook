@@ -1,8 +1,9 @@
 package com.example.meongnyangbook.shop.item.service;
 
-import com.example.meongnyangbook.S3.item.S3ItemFileRepository;
 import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.shop.attachment.AttachmentItemUrl;
+import com.example.meongnyangbook.shop.attachment.AttachmentItemUrlRepository;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
 import com.example.meongnyangbook.shop.item.entity.Item;
@@ -20,13 +21,24 @@ public class ItemServiceImpl implements ItemService {
 
   private final ItemRepository itemRepository;
   private final S3Service s3Service;
-  private final S3ItemFileRepository s3ItemFileRepository;
+  private final AttachmentItemUrlRepository attachmentItemUrlRepository;
+
 
   @Override
   public ApiResponseDto createItem(ItemRequestDto requestDto, MultipartFile[] multipartFiles) {
     Item item = new Item(requestDto);
 
     itemRepository.save(item);
+    List<String> filePaths = s3Service.uploadFiles(multipartFiles);
+
+    String fileUrls = "";
+    for (String fileUrl : filePaths) {
+      fileUrls = fileUrls + "," + fileUrl;
+    }
+    String fileUrlResult = fileUrls.replaceFirst("^,", "");
+    AttachmentItemUrl file = new AttachmentItemUrl(fileUrlResult, item);
+
+    attachmentItemUrlRepository.save(file);
 
     return new ApiResponseDto("물품 등록 완료", 201);
   }
@@ -39,8 +51,33 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   @Transactional
-  public ApiResponseDto updateItem(ItemRequestDto requestDto, Long itemNo) {
+  public ApiResponseDto updateItem(ItemRequestDto requestDto, Long itemNo,
+      MultipartFile[] multipartFiles, String[] deleteFileNames) {
     Item item = getItem(itemNo);
+
+    AttachmentItemUrl attachmentItemUrl = attachmentItemUrlRepository.findByItemId(itemNo);
+
+    String[] filenames = attachmentItemUrl.getFileName().split(",");
+    String deleteAfterFileNames = "";
+
+    for (String filename : filenames) {
+      for (String deleteFileName : deleteFileNames) {
+        if (!filename.contains(deleteFileName)) {
+          deleteAfterFileNames = deleteAfterFileNames + "," + filename;
+        } else {
+          s3Service.deleteFile(filename);
+        }
+      }
+    }
+    List<String> uploadFileNames = s3Service.uploadFiles(multipartFiles);
+
+    String combineUploadFileName = s3Service.CombineString(uploadFileNames);
+
+    String replaceDeleteAfterFileName = deleteAfterFileNames.replaceFirst("^,", "");
+    String replaceUploadFileName = combineUploadFileName.replaceFirst("^,", "");
+    String result = (replaceDeleteAfterFileName + "," + replaceUploadFileName).replaceFirst("^,",
+        "");
+    attachmentItemUrl.setFileName(result);
 
     if (!item.getName().equals(requestDto.getName())) {
       item.setName(requestDto.getName());
@@ -58,9 +95,16 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
+  @Transactional
   public ApiResponseDto deleteItem(Long itemNo) {
     Item item = getItem(itemNo);
 
+    AttachmentItemUrl attachmentItemUrl = attachmentItemUrlRepository.findByItemId(itemNo);
+    String[] fileNames = attachmentItemUrl.getFileName().split(",");
+    for (String fileName : fileNames) {
+      s3Service.deleteFile(fileName);
+    }
+    attachmentItemUrlRepository.deleteByItemId(itemNo);
     itemRepository.delete(item);
 
     return new ApiResponseDto("물품 삭제 완료", 200);
