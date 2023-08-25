@@ -1,8 +1,6 @@
 package com.example.meongnyangbook.post.adoption.service;
 
 
-import com.example.meongnyangbook.S3.post.S3PostFile;
-import com.example.meongnyangbook.S3.post.S3PostFileRepository;
 import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionDetailResponseDto;
@@ -10,6 +8,8 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
+import com.example.meongnyangbook.post.attachment.entity.AttachmentUrl;
+import com.example.meongnyangbook.post.attachment.entity.AttachmentUrlRepository;
 import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.post.service.PostServiceImpl;
 import com.example.meongnyangbook.redis.RedisViewCountUtil;
@@ -30,7 +30,7 @@ public class AdoptionServiceImpl implements AdoptionService {
 
   private final AdoptionRepository adoptionRepository;
   private final S3Service s3Service;
-  private final S3PostFileRepository s3PostFileRepository;
+  private final AttachmentUrlRepository attachmentUrlRepository;
   private final RedisViewCountUtil redisViewCountUtil;
   private final PostServiceImpl postServiceImpl;
 
@@ -49,9 +49,9 @@ public class AdoptionServiceImpl implements AdoptionService {
       fileUrls = fileUrls + "," + fileUrl;
     }
     String fileUrlResult = fileUrls.replaceFirst("^,", "");
-    S3PostFile file = new S3PostFile(fileUrlResult, post);
+    AttachmentUrl file = new AttachmentUrl(fileUrlResult, post);
 
-    s3PostFileRepository.save(file);
+    attachmentUrlRepository.save(file);
 
     adoptionRepository.save(adoption);
     return new AdoptionResponseDto(adoption);
@@ -99,14 +99,14 @@ public class AdoptionServiceImpl implements AdoptionService {
 
     Adoption adoption = getAdoption(adoptionId);
 
-    S3PostFile s3AdoptionFile = s3PostFileRepository.findByPostId(adoptionId);
-    String[] fileNames = s3AdoptionFile.getFileName().split(",");
+    AttachmentUrl attachmentUrl = attachmentUrlRepository.findByPostId(adoptionId);
+    String[] fileNames = attachmentUrl.getFileName().split(",");
 
     for (String fileName : fileNames) {
       s3Service.deleteFile(fileName);
     }
 
-    s3PostFileRepository.deleteByPostId(adoptionId);
+    attachmentUrlRepository.deleteByPostId(adoptionId);
 
     adoptionRepository.delete(adoption);
 
