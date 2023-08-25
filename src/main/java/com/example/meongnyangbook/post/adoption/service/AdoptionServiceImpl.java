@@ -2,8 +2,8 @@ package com.example.meongnyangbook.post.adoption.service;
 
 
 import com.example.meongnyangbook.S3.S3Service;
-import com.example.meongnyangbook.S3.post.s3postfile.S3PostFile;
-import com.example.meongnyangbook.S3.post.s3postfile.S3PostFileRepository;
+import com.example.meongnyangbook.S3.post.S3PostFile;
+import com.example.meongnyangbook.S3.post.S3PostFileRepository;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
@@ -11,6 +11,7 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
 import com.example.meongnyangbook.post.entity.Post;
+import com.example.meongnyangbook.post.service.PostService;
 import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
@@ -31,6 +32,7 @@ public class AdoptionServiceImpl implements AdoptionService {
   private final S3Service s3Service;
   private final S3PostFileRepository s3PostFileRepository;
   private final RedisViewCountUtil redisViewCountUtil;
+  private final PostService postService;
 
   @Override
   public AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
@@ -61,26 +63,7 @@ public class AdoptionServiceImpl implements AdoptionService {
       MultipartFile[] multipartFiles, String[] deleteFileNames) {
     Adoption adoption = getAdoption(adoptionId);
 
-    S3PostFile s3PostFile = s3PostFileRepository.findByPostId(adoptionId);
-    String[] filenames = s3PostFile.getFileName().split(",");
-    String deleteAfterFileNames = "";
-
-    for (String filename : filenames) {
-      for (String deleteFileName : deleteFileNames) {
-        if (!filename.contains(deleteFileName)) {
-          deleteAfterFileNames = deleteAfterFileNames + "," + filename;
-        } else {
-          s3Service.deleteFile(filename);
-        }
-      }
-    }
-    List<String> uploadFileNames = s3Service.uploadFiles(multipartFiles);
-
-    String combineUploadFileName = s3Service.CombineString(uploadFileNames);
-
-    String replaceDeleteAfterFileName = deleteAfterFileNames.replaceFirst("^,", "");
-    String replaceUploadFileName = combineUploadFileName.replaceFirst("^,", "");
-    s3PostFile.setFileName(replaceDeleteAfterFileName + "," + replaceUploadFileName);
+    postService.update(adoptionId, multipartFiles, deleteFileNames);
 
     //Dto 기본 내용 수정
     if (!adoption.getTitle().equals(requestDto.getTitle())) {

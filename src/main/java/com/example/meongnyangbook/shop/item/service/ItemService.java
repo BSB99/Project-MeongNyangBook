@@ -1,23 +1,22 @@
 package com.example.meongnyangbook.shop.item.service;
 
-import com.example.meongnyangbook.backoffice.notification.dto.NoticeRequestDto;
-import com.example.meongnyangbook.backoffice.notification.entity.Notice;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
 import com.example.meongnyangbook.shop.item.entity.Item;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface ItemService {
-    ApiResponseDto createItem(ItemRequestDto requestDto);
 
-    List<ItemResponseDto> getItems(Pageable pageable);
+  ApiResponseDto createItem(ItemRequestDto requestDto, MultipartFile[] multipartFiles);
 
-    ApiResponseDto updateItem(ItemRequestDto requestDto, Long itemNo);
+  List<ItemResponseDto> getItems(Pageable pageable);
 
-    ApiResponseDto deleteItem(Long itemNo);
+  ApiResponseDto updateItem(ItemRequestDto requestDto, Long itemNo);
 
-    Item getItem(Long itemNo);
+  ApiResponseDto deleteItem(Long itemNo);
+
+  Item getItem(Long itemNo);
 }
