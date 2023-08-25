@@ -1,24 +1,27 @@
 package com.example.meongnyangbook.shop.inquiry.dto;
 
 import com.example.meongnyangbook.shop.inquiry.entity.Inquiry;
+import com.example.meongnyangbook.shop.inquiry.inquiryComment.dto.InquiryCommentResponseDto;
 import lombok.Getter;
 
 @Getter
 public class InquiryResponseDto {
 
-    private Long inquiryId;
-    private String title;
-    private String description;
-    private Long userId;
-    private String nickname;
-    private Long itemId;
+  private Long inquiryId;
+  private String title;
+  private String description;
+  private Long userId;
+  private String nickname;
+  private Long itemId;
+  private InquiryCommentResponseDto comment;
 
-    public InquiryResponseDto(Inquiry inquiry) {
-        this.inquiryId = inquiry.getId();
-        this.title = inquiry.getTitle();
-        this.description = inquiry.getDescription();
-        this.userId = inquiry.getUser().getId();
-        this.nickname = inquiry.getUser().getNickname();
-        this.itemId = inquiry.getItem().getId();
-    }
+  public InquiryResponseDto(Inquiry inquiry) {
+    this.inquiryId = inquiry.getId();
+    this.title = inquiry.getTitle();
+    this.description = inquiry.getDescription();
+    this.userId = inquiry.getUser().getId();
+    this.nickname = inquiry.getUser().getNickname();
+    this.itemId = inquiry.getItem().getId();
+    this.comment = new InquiryCommentResponseDto(inquiry.getInquiryComment());
+  }
 }

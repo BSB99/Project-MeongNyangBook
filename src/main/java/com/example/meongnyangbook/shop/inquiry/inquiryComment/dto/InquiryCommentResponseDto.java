@@ -1,0 +1,21 @@
+package com.example.meongnyangbook.shop.inquiry.inquiryComment.dto;
+
+import com.example.meongnyangbook.shop.inquiry.inquiryComment.entity.InquiryComment;
+import lombok.Getter;
+
+@Getter
+public class InquiryCommentResponseDto {
+    private Long commentId;
+    private String contents;
+    private Long inquiryId;
+    private Long userId;
+    private String nickname;
+
+    public InquiryCommentResponseDto(InquiryComment inquiryComment) {
+        this.commentId = inquiryComment.getId();
+        this.contents = inquiryComment.getContents();
+        this.inquiryId = inquiryComment.getInquiry().getId();
+        this.userId = inquiryComment.getUser().getId();
+        this.nickname = inquiryComment.getUser().getNickname();
+    }
+}
