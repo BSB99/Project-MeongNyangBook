@@ -15,6 +15,7 @@ public class InquiryResponseDto {
   private String nickname;
   private Long itemId;
   private InquiryCommentResponseDto comment;
+  private String createdAt;
 
   public InquiryResponseDto(Inquiry inquiry) {
     this.inquiryId = inquiry.getId();
@@ -26,5 +27,6 @@ public class InquiryResponseDto {
     this.comment = Optional.ofNullable(inquiry.getInquiryComment())
         .map(InquiryCommentResponseDto::new)
         .orElse(null);
+    this.createdAt = inquiry.getCreatedAtAsString();
   }
 }

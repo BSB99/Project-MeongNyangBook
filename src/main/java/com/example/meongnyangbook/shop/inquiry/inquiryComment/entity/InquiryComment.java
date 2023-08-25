@@ -1,5 +1,6 @@
 package com.example.meongnyangbook.shop.inquiry.inquiryComment.entity;
 
+import com.example.meongnyangbook.entity.TimeStamped;
 import com.example.meongnyangbook.shop.inquiry.entity.Inquiry;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.Entity;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Table(name = "inquiry_comments")
-public class InquiryComment {
+public class InquiryComment extends TimeStamped {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
