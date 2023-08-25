@@ -1,5 +1,7 @@
 package com.example.meongnyangbook.post.community.dto;
 
+import com.example.meongnyangbook.post.attachment.dto.AttachmentUrlResponseDto;
+import com.example.meongnyangbook.post.attachment.entity.AttachmentUrl;
 import com.example.meongnyangbook.post.community.entity.Community;
 import lombok.Getter;
 
@@ -12,6 +14,7 @@ public class CommunityResponseDto {
     private String description;
     private String createdAt;
     private String updatedAt;
+    private AttachmentUrlResponseDto fileUrls;
 
     public CommunityResponseDto(Community community) {
         this.id = community.getId();
@@ -19,5 +22,6 @@ public class CommunityResponseDto {
         this.description = community.getDescription();
         this.createdAt = community.getCreatedAtAsString();
         this.updatedAt = community.getModifiedAtAsString();
+        this.fileUrls = new AttachmentUrlResponseDto(community.getAttachmentUrl());
     }
 }

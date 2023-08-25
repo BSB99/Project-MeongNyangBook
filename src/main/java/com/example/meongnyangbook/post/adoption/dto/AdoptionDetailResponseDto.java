@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.post.adoption.dto;
 
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
+import com.example.meongnyangbook.post.attachment.dto.AttachmentUrlResponseDto;
 import com.example.meongnyangbook.post.dto.CommentResponseDto;
 import com.example.meongnyangbook.post.entity.AnimalGenderEnum;
 import com.example.meongnyangbook.post.entity.AreaEnum;
@@ -24,6 +25,7 @@ public class AdoptionDetailResponseDto {
   private CategoryEnum category;
   private List<CommentResponseDto> commentList;
   private Long viewCount;
+  private AttachmentUrlResponseDto fileUrls;
 
   public AdoptionDetailResponseDto(Adoption adoption, Double viewCount) {
     this.title = adoption.getTitle();
@@ -39,5 +41,6 @@ public class AdoptionDetailResponseDto {
         .map(CommentResponseDto::new)
         .collect(Collectors.toList());
     this.viewCount = viewCount.longValue();
+    this.fileUrls = new AttachmentUrlResponseDto(adoption.getAttachmentUrl());
   }
 }
