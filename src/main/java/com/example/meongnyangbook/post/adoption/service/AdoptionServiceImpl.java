@@ -57,13 +57,56 @@ public class AdoptionServiceImpl implements AdoptionService {
 
   @Override
   @Transactional
-  public AdoptionResponseDto updateAdoption(Long adoptionId, User user,
-      AdoptionReqeustDto reqeustDto) {
+  public AdoptionResponseDto updateAdoption(Long adoptionId, AdoptionReqeustDto requestDto,
+      MultipartFile[] multipartFiles, String[] deleteFileNames) {
     Adoption adoption = getAdoption(adoptionId);
 
-    // setter 사용
+    S3PostFile s3PostFile = s3PostFileRepository.findByPostId(adoptionId);
+    String[] filenames = s3PostFile.getFileName().split(",");
+    String deleteAfterFileNames = "";
 
-    return new AdoptionResponseDto(adoption);
+    for (String filename : filenames) {
+      for (String deleteFileName : deleteFileNames) {
+        if (!filename.contains(deleteFileName)) {
+          deleteAfterFileNames = deleteAfterFileNames + "," + filename;
+        } else {
+          s3Service.deleteFile(filename);
+        }
+      }
+    }
+    List<String> uploadFileNames = s3Service.uploadFiles(multipartFiles);
+
+    String combineUploadFileName = s3Service.CombineString(uploadFileNames);
+
+    String replaceDeleteAfterFileName = deleteAfterFileNames.replaceFirst("^,", "");
+    String replaceUploadFileName = combineUploadFileName.replaceFirst("^,", "");
+    s3PostFile.setFileName(replaceDeleteAfterFileName + "," + replaceUploadFileName);
+
+    //Dto 기본 내용 수정
+    if (!adoption.getTitle().equals(requestDto.getTitle())) {
+      adoption.setTitle(requestDto.getTitle());
+    }
+    if (!adoption.getDescription().equals(requestDto.getDescription())) {
+      adoption.setDescription(requestDto.getDescription());
+    }
+    if (!adoption.getAnimalName().equals(requestDto.getAnimalName())) {
+      adoption.setAnimalName(requestDto.getAnimalName());
+    }
+    if (!adoption.getAnimalAge().equals(requestDto.getAnimalAge())) {
+      adoption.setAnimalAge(requestDto.getAnimalAge());
+    }
+    if (!adoption.getAnimalGender().equals(requestDto.getAnimalGender())) {
+      adoption.setAnimalGender(requestDto.getAnimalGender());
+    }
+    if (!adoption.getArea().equals(requestDto.getArea())) {
+      adoption.setArea(requestDto.getArea());
+    }
+    if (!adoption.getCategory().equals(requestDto.getCategory())) {
+      adoption.setCategory(requestDto.getCategory());
+    }
+    {
+      return new AdoptionResponseDto(adoption);
+    }
   }
 
 

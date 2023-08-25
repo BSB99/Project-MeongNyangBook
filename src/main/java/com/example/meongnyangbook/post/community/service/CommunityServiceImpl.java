@@ -68,8 +68,6 @@ public class CommunityServiceImpl implements CommunityService {
       for (String deleteFileName : deleteFileNames) {
         if (!filename.contains(deleteFileName)) {
           deleteAfterFileNames = deleteAfterFileNames + "," + filename;
-
-
         } else {
           s3Service.deleteFile(filename);
         }
@@ -77,7 +75,7 @@ public class CommunityServiceImpl implements CommunityService {
     }
     List<String> uploadFileNames = s3Service.uploadFiles(multipartFiles);
 
-    String combineUploadFileName = CombineString(uploadFileNames);
+    String combineUploadFileName = s3Service.CombineString(uploadFileNames);
 
     String replaceDeleteAfterFileName = deleteAfterFileNames.replaceFirst("^,", "");
     String replaceUploadFileName = combineUploadFileName.replaceFirst("^,", "");
@@ -93,13 +91,6 @@ public class CommunityServiceImpl implements CommunityService {
     return new CommunityResponseDto(community);
   }
 
-  private String CombineString(List<String> stringList) {
-    String result = "";
-    for (String str : stringList) {
-      result = result + "," + str;
-    }
-    return result;
-  }
 
   @Override
   @Transactional

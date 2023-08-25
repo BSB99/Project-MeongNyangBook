@@ -52,4 +52,33 @@ public class Adoption extends Post {
     this.category = requestDto.getCategory();
     this.user = user;
   }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public void setAnimalName(String animalName) {
+    this.animalName = animalName;
+  }
+
+  public void setAnimalAge(Integer age) {
+    this.animalAge = age;
+  }
+
+  public void setAnimalGender(AnimalGenderEnum animalGender) {
+    this.animalGender = animalGender;
+  }
+
+  public void setArea(AreaEnum area) {
+    this.area = area;
+  }
+
+  public void setCategory(CategoryEnum category) {
+    this.category = category;
+  }
+
 }

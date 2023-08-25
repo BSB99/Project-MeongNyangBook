@@ -61,6 +61,13 @@ public class S3Service {
     }
   }
 
+  public String CombineString(List<String> stringList) {
+    String result = "";
+    for (String str : stringList) {
+      result = result + "," + str;
+    }
+    return result;
+  }
 
   public void deleteFile(String originalFilename) {
     String fileName = originalFilename.substring(originalFilename.lastIndexOf("/") + 1);
