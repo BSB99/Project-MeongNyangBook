@@ -1,10 +1,14 @@
 package com.example.meongnyangbook.shop.item.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
+import com.example.meongnyangbook.shop.attachment.AttachmentItemUrl;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,6 +27,9 @@ public class Item extends TimeStamped {
 
     @Enumerated(value = EnumType.STRING)
     private ItemCategoryEnum category;
+
+    @OneToOne(mappedBy = "item")
+    private AttachmentItemUrl attachmentItemUrl;
 
     public Item(ItemRequestDto requestDto) {
         this.name = requestDto.getName();
