@@ -11,4 +11,9 @@ public class HomeViewController {
     return "index";
   }
 
+  @GetMapping("/mya/view/users/sign-in")
+  public String signIn() {
+    return "login";
+  }
+
 }
