@@ -24,10 +24,13 @@ public class KakaoController {
       throws JsonProcessingException {
     String token = kakaoService.kakaoLogin(code);
 
-    Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, token.substring(7));
+    String[] spTokens = token.split(",");
+
+    Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, spTokens[0].substring(7));
     cookie.setPath("/");
     response.addCookie(cookie);
-    response.addHeader(JwtUtil.AUTHORIZATION_HEADER, token);
+    response.addHeader(JwtUtil.AUTHORIZATION_HEADER, spTokens[0]);
+    response.addHeader(JwtUtil.AUTHORIZATION_REFRESH_HEADER, spTokens[1]);
 
     return "redirect:/";
   }

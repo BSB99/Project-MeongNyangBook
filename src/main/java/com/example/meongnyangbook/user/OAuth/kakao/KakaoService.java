@@ -44,6 +44,9 @@ public class KakaoService {
     User kakaoUser = registerKakaoUserIfNeeded(kakaoUserInfo);
     //JWT토큰 반환
     String token = jwtUtil.createToken(kakaoUser.getUsername(), kakaoUser.getRole());
+    String refreshToken = jwtUtil.createRefreshToken(kakaoUser.getUsername(), kakaoUser.getRole());
+
+    token = token + "," + refreshToken;
 
     return token;
   }
