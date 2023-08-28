@@ -21,8 +21,6 @@ public class ProfileResponseDto {
     this.address = user.getAddress();
     this.phoneNumber = user.getPhoneNumber();
     this.fileList = user.getProfileImgurl();
-
-
   }
 
 }
