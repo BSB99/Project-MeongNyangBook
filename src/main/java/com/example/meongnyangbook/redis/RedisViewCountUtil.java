@@ -40,7 +40,7 @@ public class RedisViewCountUtil {
   }
 
   public void incrementCommunityViewCount(String postId) {
-    redis.opsForZSet().incrementScore("view_count_adoption:", postId, 1);
+    redis.opsForZSet().incrementScore("view_count_community:", postId, 1);
   }
 
 

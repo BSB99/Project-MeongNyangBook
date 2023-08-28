@@ -20,7 +20,7 @@ public interface AdoptionService {
    * @param reqeustDto
    * @return
    */
-  AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
+  ApiResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
       MultipartFile[] multipartFiles);
 
 

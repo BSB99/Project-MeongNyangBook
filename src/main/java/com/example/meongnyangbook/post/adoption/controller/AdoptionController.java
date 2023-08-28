@@ -37,17 +37,17 @@ public class AdoptionController {
 
   @Operation(summary = "분양 페이지 포스트 등록")
   @PostMapping
-  public ResponseEntity<AdoptionResponseDto> createAdoption(
+  public ResponseEntity<ApiResponseDto> createAdoption(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestPart("requestDto") AdoptionReqeustDto reqeustDto,
       @RequestPart("fileName") MultipartFile[] multipartFiles) {
-    AdoptionResponseDto result = adoptionService.createAdoption(userDetails.getUser(), reqeustDto,
+    ApiResponseDto result = adoptionService.createAdoption(userDetails.getUser(), reqeustDto,
         multipartFiles);
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
   @Operation(summary = "분양 페이지 전체 조회(페이징)")
-  @GetMapping("/page")
+  @GetMapping
   public ResponseEntity<List<AdoptionResponseDto>> getAdoptionList(Pageable pageable) {
     List<AdoptionResponseDto> result = adoptionService.getAdoptionList(pageable);
     return ResponseEntity.status(HttpStatus.OK).body(result);

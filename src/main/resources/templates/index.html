@@ -23,8 +23,17 @@
   <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css"/>
   <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css"/>
   <link rel="stylesheet" href="/css/style.css" type="text/css"/>
-</head>
 
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
+
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+</head>
+<script src="/js/index.js"></script>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -36,7 +45,8 @@
 <div class="offcanvas-menu-wrapper">
   <div class="offcanvas__option">
     <div class="offcanvas__links">
-      <a href="#">Sign in</a>
+      <a href="/mya/view/users/sign-in">Sign in</a>
+
       <a href="#">FAQs</a>
     </div>
     <div class="offcanvas__top__hover">
@@ -74,12 +84,14 @@
         <div class="col-lg-6 col-md-5">
           <div class="header__top__right">
             <div class="header__top__links">
+              <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
+              <a id="logout-text" href="#">Log Out</a>
+              <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
+              <!--              <a href="#">FAQs</a>-->
               <button id="login-kakao-btn"
                       onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=8c7f61342cf07f12166db38dbbdda769&redirect_uri=http://localhost:8080/mya/users/login/oauth2/code/kakao&response_type=code'">
                 카카오로 로그인하기
               </button>
-              <a href="#">Sign in</a>
-              <a href="#">FAQs</a>
             </div>
             <div class="header__top__hover">
               <span>Usd <i class="arrow_carrot-down"></i></span>
@@ -98,14 +110,14 @@
     <div class="row">
       <div class="col-lg-3 col-md-3">
         <div class="header__logo">
-          <a href="./index.html"><img src="img/logo.png" alt=""></a>
+          <a href="./index.html"><img src="/img/logo.png" alt=""></a>
         </div>
       </div>
       <div class="col-lg-6 col-md-6">
         <nav class="header__menu mobile-menu">
           <ul>
-            <li class="active"><a href="./index.html">Home</a></li>
-            <li><a href="./shop.html">Shop</a></li>
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/mya/view/items">Shop</a></li>
             <li><a href="#">Pages</a>
               <ul class="dropdown">
                 <li><a href="./about.html">About Us</a></li>
@@ -115,16 +127,16 @@
                 <li><a href="./blog-details.html">Blog Details</a></li>
               </ul>
             </li>
-            <li><a href="./blog.html">Blog</a></li>
+            <li><a href="/mya/view/post/community">Community</a></li>
             <li><a href="./contact.html">Contacts</a></li>
           </ul>
         </nav>
       </div>
       <div class="col-lg-3 col-md-3">
         <div class="header__nav__option">
-          <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-          <a href="#"><img src="img/icon/heart.png" alt=""></a>
-          <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
+          <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
+          <a href="#"><img src="/img/icon/heart.png" alt=""></a>
+          <a href="#"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
           <div class="price">$0.00</div>
         </div>
       </div>
@@ -346,9 +358,9 @@
         <div class="product__item">
           <div class="product__item__pic set-bg" data-setbg="img/product/product-4.jpg">
             <ul class="product__hover">
-              <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-              <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-              <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+              <li><a href="#"><img src="/img/icon/heart.png" alt=""></a></li>
+              <li><a href="#"><img src="/img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+              <li><a href="#"><img src="/img/icon/search.png" alt=""></a></li>
             </ul>
           </div>
           <div class="product__item__text">
@@ -572,12 +584,18 @@
     <div class="row">
       <div class="col-lg-8">
         <div class="instagram__pic">
-          <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-1.jpg"></div>
-          <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-2.jpg"></div>
-          <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-3.jpg"></div>
-          <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-4.jpg"></div>
-          <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-5.jpg"></div>
-          <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-6.jpg"></div>
+          <div class="instagram__pic__item set-bg"
+               data-setbg="/img/instagram/instagram-1.jpg"></div>
+          <div class="instagram__pic__item set-bg"
+               data-setbg="/img/instagram/instagram-2.jpg"></div>
+          <div class="instagram__pic__item set-bg"
+               data-setbg="/img/instagram/instagram-3.jpg"></div>
+          <div class="instagram__pic__item set-bg"
+               data-setbg="/img/instagram/instagram-4.jpg"></div>
+          <div class="instagram__pic__item set-bg"
+               data-setbg="/img/instagram/instagram-5.jpg"></div>
+          <div class="instagram__pic__item set-bg"
+               data-setbg="/img/instagram/instagram-6.jpg"></div>
         </div>
       </div>
       <div class="col-lg-4">
@@ -608,9 +626,9 @@
     <div class="row">
       <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
-          <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-1.jpg"></div>
+          <div class="blog__item__pic set-bg" data-setbg="/img/blog/blog-1.jpg"></div>
           <div class="blog__item__text">
-            <span><img src="img/icon/calendar.png" alt=""> 16 February 2020</span>
+            <span><img src="/img/icon/calendar.png" alt=""> 16 February 2020</span>
             <h5>What Curling Irons Are The Best Ones</h5>
             <a href="#">Read More</a>
           </div>
@@ -618,9 +636,9 @@
       </div>
       <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
-          <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-2.jpg"></div>
+          <div class="blog__item__pic set-bg" data-setbg="/img/blog/blog-2.jpg"></div>
           <div class="blog__item__text">
-            <span><img src="img/icon/calendar.png" alt=""> 21 February 2020</span>
+            <span><img src="/img/icon/calendar.png" alt=""> 21 February 2020</span>
             <h5>Eternity Bands Do Last Forever</h5>
             <a href="#">Read More</a>
           </div>
@@ -628,9 +646,9 @@
       </div>
       <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
-          <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-3.jpg"></div>
+          <div class="blog__item__pic set-bg" data-setbg="/img/blog/blog-3.jpg"></div>
           <div class="blog__item__text">
-            <span><img src="img/icon/calendar.png" alt=""> 28 February 2020</span>
+            <span><img src="/img/icon/calendar.png" alt=""> 28 February 2020</span>
             <h5>The Health Benefits Of Sunglasses</h5>
             <a href="#">Read More</a>
           </div>
@@ -720,7 +738,33 @@
   </div>
 </div>
 <!-- Search End -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    start();
+  });
 
+  function start() {
+    const auth = Cookies.get('Authorization');
+    console.log("auth=", auth);
+
+    if (!auth) { // 쿠키가 없을 경우
+      console.log(1);
+      document.getElementById('login-text').style.display = 'block';
+      document.getElementById('logout-text').style.display = 'none';
+      document.getElementById('mypage-text').style.display = 'none';
+    } else { // 쿠키가 있을 경우
+      console.log(2);
+      document.getElementById('login-text').style.display = 'none';
+      document.getElementById('logout-text').style.display = 'block';
+      document.getElementById('mypage-text').style.display = 'block';
+
+      const postBoxes = document.getElementsByClassName('postbox');
+      for (let i = 0; i < postBoxes.length; i++) {
+        postBoxes[i].style.display = 'block';
+      }
+    }
+  }
+</script>
 <!-- Js Plugins -->
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
