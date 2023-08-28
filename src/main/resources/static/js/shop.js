@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     container.innerHTML = ''; // Clear existing content
                 });
 
-                const itemsHtml = response.map(item => `
+                const itemsHtml = response.itemList.map(item => `
            <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="product__item sale">
                         <div class="product__item__pic set-bg">
@@ -52,13 +52,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
         `).join('');
-
                 const rowHtml = `
                 <div class="row">${itemsHtml}</div>
                 <div class="row">
                   <div class="col-lg-12">
                     <div class="product__pagination">
-                      ${generatePaginationLinks(page)}
+                      ${generatePaginationLinks(response.len / 6 + 1, page)}
                     </div>
                   </div>
                 </div>`;
@@ -72,8 +71,8 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    function generatePaginationLinks(currentPage) {
-        const totalPages = 21; // Total number of pages
+    function generatePaginationLinks(totalLen, currentPage) {
+        const totalPages = totalLen; // Total number of pages
 
         let paginationLinks = '';
         for (let i = 1; i <= totalPages; i++) {
