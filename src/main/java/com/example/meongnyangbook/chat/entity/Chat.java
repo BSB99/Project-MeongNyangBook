@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.chat.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
+import com.example.meongnyangbook.user.entity.User;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,15 +17,17 @@ public class Chat extends TimeStamped {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
-    private Room room;
+    private ChatRoom chatRoom;
 
-    private String sender;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     private String message;
 
-    public Chat(Room room, String sender, String message) {
-        this.room = room;
-        this.sender = sender;
+    public Chat(ChatRoom chatRoom, User user, String message) {
+        this.chatRoom = chatRoom;
+        this.user = user;
         this.message = message;
     }
 }
