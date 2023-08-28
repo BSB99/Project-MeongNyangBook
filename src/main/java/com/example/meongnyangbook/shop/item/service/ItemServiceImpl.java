@@ -4,6 +4,7 @@ import com.example.meongnyangbook.S3.service.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.attachment.AttachmentItemUrl;
 import com.example.meongnyangbook.shop.attachment.AttachmentItemUrlRepository;
+import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
 import com.example.meongnyangbook.shop.item.entity.Item;
@@ -44,9 +45,12 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public List<ItemResponseDto> getItems(Pageable pageable) {
-    return itemRepository.findAllByOrderByCreatedAtDesc(pageable).stream().map(ItemResponseDto::new)
+  public ItemListResponseDto getItems(Pageable pageable) {
+    List<ItemResponseDto> itemResponseDto =  itemRepository.findAllByOrderByCreatedAtDesc(pageable).stream().map(ItemResponseDto::new)
         .toList();
+    int itemLen = itemRepository.findAll().size();
+
+    return new ItemListResponseDto(itemResponseDto, itemLen);
   }
 
   @Override
