@@ -28,6 +28,16 @@ public class HomeViewController {
 
   @GetMapping("/mya/view/post/community")
   public String community() {
-    return "blog";
+    return "post-community";
+  }
+
+  @GetMapping("/mya/view/post/add")
+  public String addPost() {
+    return "post-add";
+  }
+
+  @GetMapping("/mya/view/post/community/detail")
+  public String detailCommunityPost() {
+    return "post-community-details";
   }
 }

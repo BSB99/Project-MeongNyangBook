@@ -1,20 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let page = 0;
-    let size = 6;
-    const productContainers = document.querySelectorAll(".col-lg-9");
+  let page = 0;
+  let size = 6;
+  const productContainers = document.querySelectorAll(".col-lg-9");
 
-    function loadItemsForPage(page) {
-        $.ajax({
-            type: "GET",
-            url: `/mya/items?page=${page}&size=${size}`,
-        })
-            .done((response) => {
-                // Clear existing content before adding new content
-                productContainers.forEach(container => {
-                    container.innerHTML = ''; // Clear existing content
-                });
+  function loadItemsForPage(page) {
+    $.ajax({
+      type: "GET",
+      url: `/mya/items?page=${page}&size=${size}`,
+    })
+    .done((response) => {
+      console.log(response);
+      // Clear existing content before adding new content
+      productContainers.forEach(container => {
+        container.innerHTML = ''; // Clear existing content
+      });
 
-                const itemsHtml = response.itemList.map(item => `
+      const itemsHtml = response.itemList.map(item => `
            <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="product__item sale">
                         <div class="product__item__pic set-bg">
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                 </div>
         `).join('');
-                const rowHtml = `
+      const rowHtml = `
                 <div class="row">${itemsHtml}</div>
                 <div class="row">
                   <div class="col-lg-12">
@@ -62,41 +63,41 @@ document.addEventListener("DOMContentLoaded", function () {
                   </div>
                 </div>`;
 
-                productContainers.forEach(container => {
-                    container.innerHTML = rowHtml;
-                });
-            })
-            .fail((response) => {
-                console.log(response);
-            });
-    }
-
-    function generatePaginationLinks(totalLen, currentPage) {
-        const totalPages = totalLen; // Total number of pages
-
-        let paginationLinks = '';
-        for (let i = 1; i <= totalPages; i++) {
-            if (i === currentPage + 1) {
-                paginationLinks += `<a class="active" href="#">${i}</a>`;
-            } else {
-                paginationLinks += `<a href="#" data-page="${i - 1}">${i}</a>`;
-            }
-        }
-
-        return paginationLinks;
-    }
-
-    $(document).on("click", ".product__pagination a", function(event) {
-        event.preventDefault();
-        const newPage = parseInt($(this).data("page"));
-        changePage(newPage);
+      productContainers.forEach(container => {
+        container.innerHTML = rowHtml;
+      });
+    })
+    .fail((response) => {
+      console.log(response);
     });
+  }
 
-    function changePage(newPage) {
-        page = newPage;
-        loadItemsForPage(page);
+  function generatePaginationLinks(totalLen, currentPage) {
+    const totalPages = totalLen; // Total number of pages
+
+    let paginationLinks = '';
+    for (let i = 1; i <= totalPages; i++) {
+      if (i === currentPage + 1) {
+        paginationLinks += `<a class="active" href="#">${i}</a>`;
+      } else {
+        paginationLinks += `<a href="#" data-page="${i - 1}">${i}</a>`;
+      }
     }
 
-    // Load initial items for the first page
+    return paginationLinks;
+  }
+
+  $(document).on("click", ".product__pagination a", function (event) {
+    event.preventDefault();
+    const newPage = parseInt($(this).data("page"));
+    changePage(newPage);
+  });
+
+  function changePage(newPage) {
+    page = newPage;
     loadItemsForPage(page);
+  }
+
+  // Load initial items for the first page
+  loadItemsForPage(page);
 });
