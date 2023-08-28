@@ -55,11 +55,7 @@ public class BasketServiceImpl implements BasketService{
             throw new IllegalArgumentException("자신의 장바구니 항목이 아닙니다.");
         }
 
-        if(basket.getCnt() > 1) {
-          basket.setCnt(basket.getCnt() - 1);
-        } else {
-            basketRepository.delete(basket);
-        }
+        basketRepository.delete(basket);
 
         return new ApiResponseDto("원하는 항목이 제거되었습니다.", 200);
     };
