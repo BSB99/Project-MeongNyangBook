@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.post.adoption.dto;
 
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
+import com.example.meongnyangbook.post.attachment.dto.AttachmentUrlResponseDto;
 import com.example.meongnyangbook.post.entity.AnimalGenderEnum;
 import com.example.meongnyangbook.post.entity.AreaEnum;
 import com.example.meongnyangbook.post.entity.CategoryEnum;
@@ -17,6 +18,7 @@ public class AdoptionResponseDto {
   private Integer animalAge;
   private AreaEnum area;
   private CategoryEnum category;
+  private AttachmentUrlResponseDto fileUrls;
 
   public AdoptionResponseDto(Adoption adoption) {
     this.title = adoption.getTitle();
@@ -27,5 +29,6 @@ public class AdoptionResponseDto {
     this.animalAge = adoption.getAnimalAge();
     this.area = adoption.getArea();
     this.category = adoption.getCategory();
+    this.fileUrls = new AttachmentUrlResponseDto(adoption.getAttachmentUrl());
   }
 }

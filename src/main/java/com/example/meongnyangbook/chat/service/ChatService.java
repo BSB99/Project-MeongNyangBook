@@ -2,8 +2,9 @@ package com.example.meongnyangbook.chat.service;
 
 import com.example.meongnyangbook.chat.dto.ChatMessageResponseDto;
 import com.example.meongnyangbook.chat.entity.Chat;
-import com.example.meongnyangbook.chat.entity.Room;
+import com.example.meongnyangbook.chat.entity.ChatRoom;
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.user.entity.User;
 
 import java.util.List;
 
@@ -12,9 +13,9 @@ public interface ChatService {
 
     ApiResponseDto deleteChatMessages(Long roomNo);
 
-    Room getRoom(Long roomNo);
+    ChatRoom getRoom(Long roomNo);
 
-    ApiResponseDto createChatRoom(String name);
+    ApiResponseDto createChatRoom(Long userId, User user);
 
-    Chat createChat(Long roomNo, String sender, String msg);
+    Chat createChat(Long roomNo, User user, String msg);
 }

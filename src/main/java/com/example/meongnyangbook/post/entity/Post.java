@@ -1,19 +1,11 @@
 package com.example.meongnyangbook.post.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
+import com.example.meongnyangbook.post.attachment.entity.AttachmentUrl;
 import com.example.meongnyangbook.post.comment.entity.Comment;
 import com.example.meongnyangbook.user.entity.User;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -39,4 +31,7 @@ public abstract class Post extends TimeStamped {
 
   @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
   private List<Comment> commentList = new ArrayList<>();
+
+  @OneToOne(mappedBy = "post")
+  private AttachmentUrl attachmentUrl;
 }

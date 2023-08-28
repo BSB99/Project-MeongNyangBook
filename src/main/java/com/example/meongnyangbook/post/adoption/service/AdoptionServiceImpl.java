@@ -9,7 +9,7 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.entity.Adoption;
 import com.example.meongnyangbook.post.adoption.repository.AdoptionRepository;
 import com.example.meongnyangbook.post.attachment.entity.AttachmentUrl;
-import com.example.meongnyangbook.post.attachment.entity.AttachmentUrlRepository;
+import com.example.meongnyangbook.post.attachment.repository.AttachmentUrlRepository;
 import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.post.service.PostServiceImpl;
 import com.example.meongnyangbook.redis.RedisViewCountUtil;
@@ -35,7 +35,7 @@ public class AdoptionServiceImpl implements AdoptionService {
   private final PostServiceImpl postServiceImpl;
 
   @Override
-  public AdoptionResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
+  public ApiResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
       MultipartFile[] multipartFiles) {
 
     Adoption adoption = new Adoption(reqeustDto, user);
@@ -54,7 +54,7 @@ public class AdoptionServiceImpl implements AdoptionService {
     attachmentUrlRepository.save(file);
 
     adoptionRepository.save(adoption);
-    return new AdoptionResponseDto(adoption);
+    return new ApiResponseDto("분양 게시글 생성 완료", 201);
   }
 
   @Override
