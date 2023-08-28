@@ -16,4 +16,18 @@ public class HomeViewController {
     return "login";
   }
 
+  @GetMapping("/mya/view/users/my-profile")
+  public String myProfile() {
+    return "profile";
+  }
+
+  @GetMapping("/mya/view/items")
+  public String shop() {
+    return "shop";
+  }
+
+  @GetMapping("/mya/view/post/community")
+  public String community() {
+    return "blog";
+  }
 }
