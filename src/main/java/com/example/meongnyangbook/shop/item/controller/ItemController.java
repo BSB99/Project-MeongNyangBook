@@ -2,6 +2,7 @@ package com.example.meongnyangbook.shop.item.controller;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.dto.DeleteDto;
+import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
 import com.example.meongnyangbook.shop.item.service.ItemService;
@@ -46,8 +47,8 @@ public class ItemController {
 
   @Operation(summary = "상품 목록 조회")
   @GetMapping
-  public ResponseEntity<List<ItemResponseDto>> getItems(Pageable pageable) {
-    List<ItemResponseDto> result = itemService.getItems(pageable);
+  public ResponseEntity<ItemListResponseDto> getItems(Pageable pageable) {
+    ItemListResponseDto result = itemService.getItems(pageable);
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
