@@ -1,17 +1,12 @@
 package com.example.meongnyangbook.user.service.auth;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.redis.RedisUtil;
 import com.example.meongnyangbook.user.dto.EmailRequestDto;
 import com.example.meongnyangbook.user.dto.PasswordRequestDto;
 import com.example.meongnyangbook.user.dto.ProfileRequestDto;
 import com.example.meongnyangbook.user.dto.ProfileResponseDto;
 import com.example.meongnyangbook.user.entity.User;
-import com.example.meongnyangbook.user.entity.UserRoleEnum;
-import com.example.meongnyangbook.user.jwt.JwtUtil;
-import com.example.meongnyangbook.user.repository.UserRepository;
 import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;

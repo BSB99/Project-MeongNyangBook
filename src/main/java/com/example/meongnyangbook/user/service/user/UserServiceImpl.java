@@ -106,7 +106,8 @@ public class UserServiceImpl implements UserService {
     }
 
     // Access Token 생성 및 헤더에 추가
-    String accessToken = jwtUtil.createToken(user.getUsername(), user.getRole());
+    String accessToken = jwtUtil.createToken(user.getUsername(), user.getRole(),
+        OAuthProviderEnum.ORIGIN);
     response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
 
     String refreshToken = jwtUtil.createRefreshToken(user.getUsername(), user.getRole());
