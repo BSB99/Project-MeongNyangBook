@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.user.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,8 @@ import lombok.Setter;
 public class SignupRequestDto {
 
   @NotBlank
+  @Pattern(regexp = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$",
+      message = "username은 이메일 형식이어야 합니다. 예) tester123@gmail.com")
   private String username;
   @NotBlank
   private String nickname;
@@ -18,6 +21,7 @@ public class SignupRequestDto {
   @NotBlank
   private String address;
   @NotBlank
+  @Pattern(regexp = "^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$")
   private String phoneNumber;
 
   private boolean admin = false;

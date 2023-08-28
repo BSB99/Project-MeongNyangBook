@@ -104,23 +104,46 @@
 <!-- Breadcrumb Section End -->
 
 <section class="login-section">
+
   <h2></h2>
-  <div class="container" id="container">
+  <div class="container" id="container" style="min-height: 600px">
     <div class="form-container sign-up-container">
       <div class="form-page">
         <h1>SIGN UP</h1>
 
-        <input type="text" placeholder="ID"/>
-        <input type="password" placeholder="Password"/>
-        <input type="text" placeholder="NickName"/>
-        <input type="text" placeholder="Adress"/>
-        <input type="text" placeholder="PhoneNumber"/>
-        <button>인증번호 받기</button>
-        <!--        <input type="text" placeholder="AccessNumber"/>-->
-        <!--        모달창 사용 예정 -->
-        <button>회원가입</button>
+        <input id="signup-username" type="text" placeholder="ID"/>
+        <input id="signup-password" type="password" placeholder="Password"/>
+        <input id="signup-nickname" type="text" placeholder="NickName"/>
+        <input id="signup-introduce" type="text" placeholder="Introduce"/>
+        <select name="signup-adress" id="signup-adress" style="width: 100%">
+          <option value="">지역 선택</option>
+          <option value="SEOUL">서울특별시</option>
+          <option value="BUSAN">부산광역시</option>
+          <option value="DAEGU">대구광역시</option>
+          <option value="INCHEON">인천광역시</option>
+          <option value="GWANGJU">광주광역시</option>
+          <option value="DAEGEON">대전광역시</option>
+          <option value="ULSAN">울산광역시</option>
+          <option value="SEJONG">세종특별자치시</option>
+          <option value="JEJU">제주특별자치도</option>
+        </select>
+        <input id="signup-phone-number" type="text" placeholder="PhoneNumber"/>
+        <!--        모달창 띄우기-->
+        <button onclick="sendPhoneMessage()" id="access-button">인증번호 받기</button>
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick="closeModalBtn()">&times;</span>
+            <p>핸드폰 인증번호를 확인하고 아래에 입력해주세요.</p>
+            <input id="access-number" type="text" placeholder="ID"/>
+            <button onclick="accessPhone()">인증하기</button>
+          </div>
+        </div>
+
+        <br>
+        <button id="signup-btn" onclick="onSignup()">회원가입</button>
       </div>
     </div>
+
     <div class="form-container sign-in-container">
       <div class="form-page">
         <h1>SIGN IN</h1>
@@ -151,6 +174,7 @@
       </div>
     </div>
   </div>
+
 </section>
 
 
