@@ -123,21 +123,20 @@ function myCommunity() {
 
       console.log(response);
       let temp_html =
-          `<div className="gallery-item" tabIndex="0">
+          `<div class="gallery-item" tabIndex="0">
         <img
             src="${res.fileUrls.fileName.split(",")[0]}"
-            className="gallery-image"
-            alt=""
-        />
-        <div className="gallery-item-info">
+            class="gallery-image"
+            alt=""/>
+        <div class="gallery-item-info">
           <ul>
-            <li className="gallery-item-likes">
-                    <span className="visually-hidden">Like:</span
-                    ><i className="fas fa-heart" aria-hidden="true"></i> 56
+            <li class="gallery-item-likes">
+                    <span class="visually-hidden">Like:</span
+                    ><i class="fas fa-heart" aria-hidden="true"></i> 56
             </li>
-            <li className="gallery-item-comments">
-                    <span className="visually-hidden">Comments:</span
-                    ><i className="fas fa-comment" aria-hidden="true"></i> 2
+            <li class="gallery-item-comments">
+                    <span class="visually-hidden">Comments:</span
+                    ><i class="fas fa-comment" aria-hidden="true"></i> 2
             </li>
           </ul>
         </div>

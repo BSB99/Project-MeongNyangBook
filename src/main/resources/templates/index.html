@@ -34,7 +34,6 @@
 
 </head>
 <script src="/js/home.js"></script>
-<script src="/js/index.js"></script>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -139,7 +138,7 @@
           <!--          header__nav__option-->
           <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
           <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
-          <a href="./shopping-cart.html"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+          <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
           <div class="price">$0.00</div>
         </div>
       </div>
@@ -742,31 +741,6 @@
 </div>
 <!-- Search End -->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    start();
-  });
-
-  function start() {
-    const auth = Cookies.get('Authorization');
-    console.log("auth=", auth);
-
-    if (!auth) { // 쿠키가 없을 경우
-      console.log(1);
-      document.getElementById('login-text').style.display = 'block';
-      document.getElementById('logout-text').style.display = 'none';
-      document.getElementById('mypage-text').style.display = 'none';
-    } else { // 쿠키가 있을 경우
-      console.log(2);
-      document.getElementById('login-text').style.display = 'none';
-      document.getElementById('logout-text').style.display = 'block';
-      document.getElementById('mypage-text').style.display = 'block';
-
-      const postBoxes = document.getElementsByClassName('postbox');
-      for (let i = 0; i < postBoxes.length; i++) {
-        postBoxes[i].style.display = 'block';
-      }
-    }
-  }
 
 
 </script>
