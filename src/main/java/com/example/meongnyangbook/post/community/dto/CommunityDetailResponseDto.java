@@ -13,7 +13,9 @@ public class CommunityDetailResponseDto {
   private String createdAt;
   private String updatedAt;
   private Long viewCount;
+  private String username;
   private AttachmentUrlResponseDto fileUrls;
+
 
   public CommunityDetailResponseDto(Community community, Double viewCount) {
     this.id = community.getId();
@@ -22,6 +24,7 @@ public class CommunityDetailResponseDto {
     this.createdAt = community.getCreatedAtAsString();
     this.updatedAt = community.getModifiedAtAsString();
     this.viewCount = viewCount.longValue();
+    this.username = community.getUser().getNickname();
     this.fileUrls = new AttachmentUrlResponseDto(community.getAttachmentUrl());
   }
 }

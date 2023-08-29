@@ -127,5 +127,8 @@ function addCart(itemNo) {
                     alert("서버에러");
                 }
             })
+            .fail(function (response) {
+                alert(response.msg);
+            })
     }
 }

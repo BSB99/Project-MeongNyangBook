@@ -21,7 +21,7 @@
 
   <!-- js Cookie -->
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-  <script th:inline="javascript" src="/js/post-add.js"></script>
+  <!--  <script th:inline="javascript" src="/js/post-add.js"></script>-->
 
 
   <style>
@@ -125,7 +125,7 @@
                 <li><a href="./about.html">About Us</a></li>
                 <li><a href="./shop-details.html">Shop Details</a></li>
                 <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                <li><a href="./order.html">Check Out</a></li>
+                <li><a href="./checkout.html">Check Out</a></li>
                 <li><a href="./blog-details.html">Blog Details</a></li>
               </ul>
             </li>
@@ -177,10 +177,12 @@
           <tr>
             <td>
               <div>
-                <input class="title" type="text" name="title" value="My Title" placeholder="title"
+                <input class="title" type="text" name="title" id="communityTitle" value="My Title"
+                       placeholder="title"
                        style="width: 500px">
               </div>
-              <textarea type="text" name="description" class="image_upload_textarea"
+              <textarea type="text" name="description" id="communityDescription"
+                        class="image_upload_textarea"
                         placeholder="문구입력..."></textarea>
             </td>
           </tr>
@@ -196,6 +198,18 @@
   $(document).ready(function () {
     $("#multipartFiles").on("change", handleImgFileSelect);
   });
+
+  let currentURL = window.location.href;
+
+  // URL을 "/"로 분할하여 배열로 저장합니다.
+  let urlParts = currentURL.split("/");
+
+  // 배열에서 마지막 요소를 가져옵니다.
+  let lastPart = urlParts[urlParts.length - 1];
+
+  let imgArr;
+
+  const token = Cookies.get('Authorization');
 
   function handleInputClick(event) {
     // Prevent the default behavior of the click event
@@ -292,6 +306,7 @@
     }
 
     function init() {
+
       //초기 화면 상태
       backBtn.setAttribute("disabled", "true"); //속성이 disabled가 된다.
       backBtn.addEventListener("click", back); //클릭시 다음으로 이동한다.
@@ -301,38 +316,95 @@
     init();
   }
 
-  // function uploadData() {
-  //   const contents = document.querySelector('.image_upload_textarea').value;
-  //   const token = getToken();
-  //   const formData = new FormData();
-  //   const inputFiles = document.getElementById('multipartFiles').files;
-  //
-  //   for (let i = 0; i < inputFiles.length; i++) {
-  //     formData.append('multipartFiles', inputFiles[i]);
-  //   }
-  //
-  //   formData.append('contents', contents);
-  //   $.ajax({
-  //     url: "/tdl/post",
-  //     type: 'POST',
-  //     data: formData,
-  //     processData: false,
-  //     contentType: false,
-  //     headers: { Authorization: token },
-  //     success: function (data) {
-  //       console.log(data);
-  //       window.location.href = '/tdl/post';
-  //     },
-  //     error: function (xhr, status, error) {
-  //       console.error(error);
-  //       let entries = formData.entries();
-  //       for (const pair of entries) {
-  //         console.log(pair[0]+ ', ' + pair[1]);
-  //       }
-  //       alert("업로드 실패 또는 오류 발생");
-  //     }
-  //   });
-  // }
+  function uploadData() {
+    var formData = new FormData($('#uploadForm')[0]); // 폼의 데이터를 FormData 객체로 가져옵니다.
+
+    var requestDto = {
+      title: $(".title").val(),
+      description: $(".image_upload_textarea").val()
+    };
+
+    let deleteFileName = {deleteFileName: imgArr};
+
+    formData.append("requestDto", JSON.stringify(requestDto));
+
+    formData.append("deleteFileName", JSON.stringify(deleteFileName));
+
+    console.log(formData);
+
+    $.ajax({
+      url: "/mya/communities" + lastPart, // 백엔드 endpoint로 수정
+      type: "PUT",
+      data: formData,
+      processData: false, // 데이터를 query string으로 변환하는 jQuery 형식을 방지합니다.
+      contentType: false, // 서버에 데이터를 보낼 때 사용되는 content-type을 false로 지정하여 browser에게 multipart/form-data를 사용하도록 합니다.
+      headers: {"Authorization": token},
+      success: function (response) {
+        console.log(imgArr);
+        alert('업로드 성공 !', response);
+        // 다른 성공 동작 처리
+        window.location.href = "/mya/view/post/community";
+
+      },
+      error: function (error) {
+        alert('Upload failed. Status: ' + error.status + ', Text: ' + error.statusText);
+        console.error("Error:", error);
+      }
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const token = Cookies.get('Authorization');
+
+    $.ajax({
+      type: "GET",
+      url: "/mya/communities/" + lastPart,
+      headers: {"Authorization": token}
+    })
+    .done(function (response) {
+      console.log("단건 조회 성공");
+      console.log(response);
+      // fetchWorkerList(response);
+      setCardData(response);
+      // categoryId = response.categoryId;
+      // commentBtnUpdate();
+      imgList(response);
+
+    })
+    .fail(function (response, status, xhr) {
+      alert("카드 정보 불러오기 실패");
+      console.log(response);
+    })
+  })
+
+  function setCardData(response) {
+    let communityTitle = document.getElementById("communityTitle");
+    let communityDescription = document.getElementById("communityDescription");
+
+    communityTitle.innerText = response.title;
+    communityDescription.innerText = response.description;
+
+  }
+
+  function imgList(response) {
+    // var files = e.target.files;
+    var filesArr = response['fileUrls']['fileName'].split(",");
+    imgArr = filesArr;
+    $(".img_wrap").empty();
+
+    for (let f of filesArr) {
+      // if (!f.type.match("image.*")) {
+      //   alert("확장자는 이미지 확장자만 가능합니다.");
+      //   return;
+      // }
+      // Wrap FileReader in a Promise for async/await usage
+
+      var img_html = `<img class="img" style="transition: transform 0.5s;" src="${f}"/>`;
+      $(".img_wrap").append(img_html);
+    }
+    slideImage(); // Call slideImage() after all images have been processed
+  }
+
 
 </script>
 </body>
