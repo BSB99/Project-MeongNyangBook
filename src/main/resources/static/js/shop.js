@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .done((response) => {
       console.log(response);
-      // Clear existing content before adding new content
+      // Clear existing content before adding new conte성nt
       productContainers.forEach(container => {
         container.innerHTML = ''; // Clear existing content
       });

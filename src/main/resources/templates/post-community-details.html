@@ -12,8 +12,18 @@
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/style-detail.css">
 
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
+
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
 </head>
 <body>
+<script th:inline="javascript" src="/js/post-community-details.js"></script>
+
 <!-- Header Section Begin -->
 <header class="header">
   <div class="header__top">
@@ -111,17 +121,17 @@
             <div class="blog_info text-right">
               <ul class="blog_meta list">
                 <li>
-                  <a href="#">Mark wiens
+                  <a href="#" id="username">Mark wiens
                     <i class="lnr lnr-user"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#">12 Dec, 2017
+                  <a href="#" id="createdAt">12 Dec, 2017
                     <i class="lnr lnr-calendar-full"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="#">1.2M Views
+                  <a href="#" id="viewCount">1.2M Views
                     <i class="lnr lnr-eye"></i>
                   </a>
                 </li>
@@ -156,29 +166,13 @@
             </div>
           </div>
           <div class="col-lg-9 col-md-9 blog_details">
-            <h2>Astronomy Binoculars A Great Alternative</h2>
-            <p class="excert">
+            <button onclick="deleteCommunity()">삭제하기</button>
+            <button onclick="updateCommunity()">수정하기</button>
+            <h2 id="communityTitle">Astronomy Binoculars A Great Alternative</h2>
+            <p id="communityDescription" class="excert">
               MCSE boot camps have its supporters and its detractors. Some people do not understand
               why you should have to spend money
               on boot camp when you can get the MCSE study materials yourself at a fraction.
-            </p>
-            <p>
-              Boot camps have its supporters and its detractors. Some people do not understand why
-              you should have to spend money on boot
-              camp when you can get the MCSE study materials yourself at a fraction of the camp
-              price.
-              However, who has the willpower to actually sit through a self-imposed MCSE training.
-              who
-              has the willpower to actually sit through a self-imposed
-            </p>
-            <p>
-              Boot camps have its supporters and its detractors. Some people do not understand why
-              you should have to spend money on boot
-              camp when you can get the MCSE study materials yourself at a fraction of the camp
-              price.
-              However, who has the willpower to actually sit through a self-imposed MCSE training.
-              who
-              has the willpower to actually sit through a self-imposed
             </p>
           </div>
         </div>
@@ -230,7 +224,7 @@
             <div class="single-comment justify-content-between d-flex">
               <div class="user justify-content-between d-flex">
                 <div class="thumb">
-                  <img src="img/blog/c1.jpg" alt="">
+                  <img src="/img/blog/c1.jpg" alt="">
                 </div>
                 <div class="desc">
                   <h5>

@@ -2,6 +2,7 @@ package com.example.meongnyangbook.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class HomeViewController {
@@ -39,5 +40,16 @@ public class HomeViewController {
   @GetMapping("/mya/view/post/community/detail")
   public String detailCommunityPost() {
     return "post-community-details";
+  }
+
+  @GetMapping("/mya/view/communities/{communityId}")
+  public String detailsCommunityPost(@PathVariable Long communityId) {
+    return "post-community-details";
+  }
+
+  @GetMapping("/mya/view/post/community/update/{communityId}")
+  public String updateCommunityPost(@PathVariable Long communityId) {
+    return
+        "post-community-update";
   }
 }
