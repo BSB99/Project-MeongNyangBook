@@ -42,6 +42,15 @@ public class HomeViewController {
     return "post-community-details";
   }
 
+  @GetMapping("/mya/view/basket")
+  public String basket() {return "shopping-cart";}
+
+  @GetMapping("/mya/view/basket-detail")
+  public String basketDetail() {return "shop-details";}
+
+  @GetMapping("/mya/view/order")
+  public String checkOut() {return "checkout";}
+
   @GetMapping("/mya/view/communities/{communityId}")
   public String detailsCommunityPost(@PathVariable Long communityId) {
     return "post-community-details";

@@ -3,17 +3,16 @@ document.addEventListener("DOMContentLoaded", function () {
   let size = 6;
   const productContainers = document.querySelectorAll(".col-lg-9");
 
-  function loadItemsForPage(page) {
-    $.ajax({
-      type: "GET",
-      url: `/mya/items?page=${page}&size=${size}`,
-    })
-    .done((response) => {
-      console.log(response);
-      // Clear existing content before adding new conte성nt
-      productContainers.forEach(container => {
-        container.innerHTML = ''; // Clear existing content
-      });
+    function loadItemsForPage(page) {
+        $.ajax({
+            type: "GET",
+            url: `/mya/items?page=${page}&size=${size}`,
+        })
+            .done((response) => {
+                // Clear existing content before adding new content
+                productContainers.forEach(container => {
+                    container.innerHTML = ''; // Clear existing content
+                });
 
       const itemsHtml = response.itemList.map(item => `
            <div class="col-lg-4 col-md-6 col-sm-6">
@@ -29,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         </div>
                         <div class="product__item__text">
                             <h6>${item.name}</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <a class="add-cart" data-itemno="${item.id}" href="#">+ Add To Cart</a>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -93,11 +92,40 @@ document.addEventListener("DOMContentLoaded", function () {
     changePage(newPage);
   });
 
-  function changePage(newPage) {
-    page = newPage;
-    loadItemsForPage(page);
-  }
+    $(document).on("click", ".add-cart", function(event) {
+        event.preventDefault();
+        const itemNo = $(this).data("itemno");
+        addCart(itemNo);
+    });
+
+    function changePage(newPage) {
+        page = newPage;
+        loadItemsForPage(page);
+    }
 
   // Load initial items for the first page
   loadItemsForPage(page);
 });
+
+function addCart(itemNo) {
+    const token = Cookies.get('Authorization');
+
+    if (token === undefined) {
+        alert("로그인 해주세요");
+    } else {
+        $.ajax({
+            type: "POST",
+            url: `/mya/baskets/items/${itemNo}`,
+            headers: {
+                "Authorization": token,
+            }
+        })
+            .done((response) => {
+                if (response.statusCode == 201) {
+                    alert("장바구니에 물품이 담겼습니다");
+                } else {
+                    alert("서버에러");
+                }
+            })
+    }
+}
