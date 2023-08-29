@@ -49,7 +49,7 @@ public class HomeViewController {
   public String basketDetail() {return "shop-details";}
 
   @GetMapping("/mya/view/order")
-  public String checkOut() {return "checkout";}
+  public String checkOut() {return "order";}
 
   @GetMapping("/mya/view/communities/{communityId}")
   public String detailsCommunityPost(@PathVariable Long communityId) {

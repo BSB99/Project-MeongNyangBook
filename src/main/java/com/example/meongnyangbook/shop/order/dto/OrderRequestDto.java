@@ -7,4 +7,5 @@ public class OrderRequestDto {
     private String address;
     private String receiverName;
     private String receiverPhoneNumber;
+    private String request;
 }

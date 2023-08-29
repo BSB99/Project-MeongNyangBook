@@ -33,6 +33,8 @@ public class Order extends TimeStamped {
     @Column(name = "receiver_phone_number")
     private String receiverPhoneNumber;
 
+    private String request;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
@@ -44,6 +46,7 @@ public class Order extends TimeStamped {
         this.address = requestDto.getAddress();
         this.receiverName = requestDto.getReceiverName();
         this.receiverPhoneNumber = requestDto.getReceiverPhoneNumber();
+        this.request = requestDto.getRequest();
         this.user = user;
     }
 
