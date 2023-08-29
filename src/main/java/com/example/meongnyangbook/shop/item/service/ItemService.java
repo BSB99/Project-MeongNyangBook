@@ -21,4 +21,6 @@ public interface ItemService {
   ApiResponseDto deleteItem(Long itemNo);
 
   Item getItem(Long itemNo);
+
+  ItemResponseDto getSingleItem(Long itemNo);
 }
