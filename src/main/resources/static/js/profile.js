@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("address").value = response.address;
     document.getElementById("phone-number").value = response.phoneNumber;
     document.getElementById("user-image").src = response.fileList;
+
   })
   .fail(function (response) {
     alert(response.responseJSON.msg);
@@ -106,4 +107,93 @@ function updateBtn() {
     alert('프로필 수정 오류!');
     alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
   });
+}
+
+function myCommunity() {
+  const token = Cookies.get("Authorization");
+  $.ajax({
+    type: "GET",
+    url: "/mya/communities/my-post",
+    headers: {'Authorization': token}
+  })
+  .done(function (response) {
+    $('.gallery').empty();
+
+    for (let res of response) {
+
+      console.log(response);
+      let temp_html =
+          `<div className="gallery-item" tabIndex="0">
+        <img
+            src="${res.fileUrls.fileName.split(",")[0]}"
+            className="gallery-image"
+            alt=""
+        />
+        <div className="gallery-item-info">
+          <ul>
+            <li className="gallery-item-likes">
+                    <span className="visually-hidden">Like:</span
+                    ><i className="fas fa-heart" aria-hidden="true"></i> 56
+            </li>
+            <li className="gallery-item-comments">
+                    <span className="visually-hidden">Comments:</span
+                    ><i className="fas fa-comment" aria-hidden="true"></i> 2
+            </li>
+          </ul>
+        </div>
+      </div>`
+
+      $('.gallery').append(temp_html);
+
+    }
+  })
+  .fail(function (response) {
+    alert(response.responseJSON.msg);
+  })
+}
+
+function myAdoption() {
+  const token = Cookies.get("Authorization");
+  $.ajax({
+    type: "GET",
+    url: "/mya/adoptions/my-post",
+    headers: {'Authorization': token}
+  })
+  .done(function (response) {
+    $('.gallery').empty();
+
+    for (let res of response) {
+
+      console.log(response);
+      let file = res.fileUrls.fileName.split(",")[0];
+      console.log(file);
+      let temp_html =
+          `<div className="gallery-item" tabIndex="0">
+        <img
+            src="${file}"
+            className="gallery-image"
+            alt=""
+        />
+        
+        <div className="gallery-item-info">
+          <ul>
+            <li className="gallery-item-likes">
+                    <span className="visually-hidden">Like:</span
+                    ><i className="fas fa-heart" aria-hidden="true"></i> 56
+            </li>
+            <li className="gallery-item-comments">
+                    <span className="visually-hidden">Comments:</span
+                    ><i className="fas fa-comment" aria-hidden="true"></i> 2
+            </li>
+          </ul>
+        </div>
+      </div>`
+
+      $('.gallery').append(temp_html);
+
+    }
+  })
+  .fail(function (response) {
+    alert(response.responseJSON.msg);
+  })
 }

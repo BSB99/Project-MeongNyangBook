@@ -37,6 +37,7 @@ public class PostServiceImpl implements PostService {
         }
       }
     }
+    
     List<String> uploadFileNames = s3Service.uploadFiles(multipartFiles);
     if ((uploadFileNames.size() + sizeCheck) > 5) {
       throw new IllegalArgumentException("사진의 최대개수는 5개 입니다.");
