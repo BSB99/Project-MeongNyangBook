@@ -24,7 +24,7 @@ public class CommentServiceImpl implements CommentService {
     private final AlarmRepository alarmRepository;
 
     @Override
-    public CommentResponseDto createComment(User user, CommentRequestDto commentRequestDto) {
+    public ApiResponseDto createComment(User user, CommentRequestDto commentRequestDto) {
         Post post = postRepository.findPostById(commentRequestDto.getPostId());
 
         Comment comment = new Comment(commentRequestDto.getContent(), post, user);
@@ -35,7 +35,7 @@ public class CommentServiceImpl implements CommentService {
 
         alarmRepository.save(alarmComment);
 
-        return new CommentResponseDto(comment);
+        return new ApiResponseDto("댓글 작성 성공", 201);
     }
 
     @Override

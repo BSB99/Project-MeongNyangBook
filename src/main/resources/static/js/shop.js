@@ -18,7 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
            <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="product__item sale">
                         <div class="product__item__pic set-bg">
-                        <img src="${item.fileUrls.fileName.split(",")[0]}" alt="">    
+                        <a href="/mya/view/items/${item.id}">
+                        <img src="${item.fileUrls.fileName.split(",")[0]}" alt="" style="cursor: pointer;" onmouseover="this.style.cursor='pointer';" onmouseout="this.style.cursor='default';">
+                        </a>   
                             <ul class="product__hover"> 
                                 <li><a href="#"><img src="/img/icon/heart.png" alt=""></a></li>
                                 <li><a href="#"><img src="/img/icon/compare.png" alt=""> <span>Compare</span></a>

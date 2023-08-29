@@ -4,6 +4,7 @@ import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
+import com.example.meongnyangbook.user.dto.UserInfoResponseDto;
 import com.example.meongnyangbook.user.entity.User;
 import jakarta.servlet.http.HttpServletResponse;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -25,4 +26,6 @@ public interface UserService {
     User findUser(String username);
 
     User findUser(Long userNo);
+
+    UserInfoResponseDto getUserNickname(User user);
 }
