@@ -27,6 +27,10 @@ public class S3Service {
   public List<String> uploadFiles(MultipartFile[] files) {
     List<String> fileNames = new ArrayList<>();
 
+    if (files.length > 5) {
+      throw new IllegalArgumentException("사진 최대 추가개수는 5개 입니다.");
+    }
+
     for (MultipartFile file : files) {
 //            String fileName = file.getOriginalFilename();
       String fileName = UUID.randomUUID() + file.getOriginalFilename(); // fileName을 난수와 함께 저장

@@ -20,23 +20,27 @@
   <div class="container">
     <div class="profile">
       <div class="profile-image">
-        <img
-            src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
-            alt=""
+        <img id="user-image"
+             src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
+             alt=""
         />
+        <input type="file" name="file" id="file" class="file" value="등록" style="display: none;">
       </div>
 
       <div class="profile-user-settings">
-        <h1 class="profile-user-name">janedoe_</h1>
 
-        <button class="btn profile-edit-btn">Edit Profile</button>
-
-        <button
-            class="btn profile-settings-btn"
-            aria-label="profile settings"
-        >
-          <i class="fas fa-cog" aria-hidden="true"></i>
+        <input id="nickname" class="profile-user-name" disabled
+               style="outline: none; border: none; color: black">
+        <button id="doneButton" class="btn profile-edit-btn" style="display: none;"
+                onclick="updateBtn()">Done
         </button>
+        <button id="edit-button" class="btn profile-edit-btn" onclick="EditButton(this)">Edit
+          Profile
+        </button>
+
+        <input class="subProfile" id="address" disabled>
+        <input class="subProfile" id="phone-number" disabled>
+        <input class="subProfile" id="introduce" disabled>
       </div>
 
       <div class="profile-stats">
@@ -49,10 +53,14 @@
 
       <div class="profile-bio">
         <p>
-          <span class="profile-real-name" id="nickname">Jane Doe</span> Lorem ipsum dolor
+          <span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor
           sit, amet consectetur adipisicing elit 📷✈️🏕️
         </p>
       </div>
+    </div>
+    <div style="width: 100%">
+      <button onclick="myCommunity()">My CommunityPost</button>
+      <button onclick="myAdoption()">My AdoptionPost</button>
     </div>
     <!-- End of profile section -->
   </div>
@@ -61,7 +69,7 @@
 
 <main>
   <div class="container">
-    <div class="gallery">
+    <div class="gallery" id="gallery">
       <div class="gallery-item" tabindex="0">
         <img
             src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=500&h=500&fit=crop"

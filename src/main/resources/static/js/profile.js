@@ -3,67 +3,197 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // let userId = 1; // board 페이지에서 받아와야 하는 값
   const token = Cookies.get('Authorization');
-
+  console.log("profile화면 출력")
   $.ajax({
     type: "GET",
     url: "/mya/auth/profile",
     headers: {'Authorization': token}
   })
   .done(function (response) {
-    console.log(response);
+    console.log(response.nickname);
+    console.log(response.address);
+    console.log(response.introduce);
     document.getElementById("nickname").value = response.nickname;
-    // document.getElementById("introduction").value = response.introduction;
-    // document.getElementById("address").value = response.address;
+    document.getElementById("introduce").value = response.introduce;
+
+    document.getElementById("address").value = response.address;
+    document.getElementById("phone-number").value = response.phoneNumber;
+    document.getElementById("user-image").src = response.fileList;
+
   })
   .fail(function (response) {
     alert(response.responseJSON.msg);
   })
 
   // 수정 버튼 클릭시 필드 값 변경 & 버튼 전환
-  // function updateButton() {
-  //   const p = this.closest('p');
-  //   const input = p.querySelector('input');
-  //   const doneButton = p.querySelector('.done-btn');
-  //
-  //   this.style.display = 'none';
-  //   doneButton.style.display = 'block';
-  //
-  //   input.disabled = false;
-  // }
-  //
-  // const updateButtons = document.querySelectorAll('.update-btn');
-  // updateButtons.forEach(function (button) {
-  //   button.addEventListener('click', updateButton);
-  // });
-  //
-  // // 완료 버튼 클릭시 필드 값 기준으로 수정 요청
-  // function doneButton() {
-  //   let nickname = document.getElementById("nickname").value;
-  //   let introduction = document.getElementById("introduction").value;
-  //   let address = document.getElementById("address").value;
-  //
-  //   $.ajax({
-  //     type: "PUT",
-  //     url: "/okw/users/profile",
-  //     headers: {'Authorization': token},
-  //     contentType: "application/json; charset=utf-8",
-  //     data: JSON.stringify({
-  //       nickname: nickname,
-  //       introduction: introduction,
-  //       address: address
-  //     })
-  //   })
-  //   .done(function () {
-  //     alert("프로필 수정 완료");
-  //     window.location.reload();
-  //   })
-  //   .fail(function (response) {
-  //     alert("프로필 수정 오류: " + response.responseJSON.msg);
-  //   })
-  // }
 
   const doneButtons = document.querySelectorAll('.done-btn');
   doneButtons.forEach(function (button) {
-    button.addEventListener('click', doneButton);
+    button.addEventListener('click', doneButtons);
   });
 })
+
+function EditButton(btn) {
+  btn.style.display = 'none';
+  const doneButton = document.getElementById("doneButton");
+  doneButton.style.display = 'block';
+
+  const nickname = document.getElementById("nickname");
+  const address = document.getElementById("address");
+  const phoneNumber = document.getElementById("phone-number");
+  const introduce = document.getElementById("introduce");
+  const imgUpload = document.getElementById("file");
+
+  nickname.disabled = false;
+  address.disabled = false;
+  phoneNumber.disabled = false;
+  introduce.disabled = false;
+  imgUpload.style.display = "block";
+  //사진 수정 추가하기
+
+}
+
+function updateBtn() {
+
+  const doneButton = document.getElementById("doneButton");
+  doneButton.style.display = "none";
+  document.getElementById("edit-button").style.display = "block";
+
+  const nickname = document.getElementById("nickname");
+  const address = document.getElementById("address");
+  const phoneNumber = document.getElementById("phone-number");
+  const introduce = document.getElementById("introduce");
+  const imgUpload = document.getElementById("file");
+
+  nickname.disabled = true;
+  address.disabled = true;
+  phoneNumber.disabled = true;
+  introduce.disabled = true;
+  imgUpload.style.display = "none";
+
+  console.log(nickname.value);
+
+  const token = Cookies.get("Authorization");
+  let formData = new FormData();
+  const profileRequestDto = {
+    nickname: nickname.value,
+    address: address.value,
+    phoneNumber: phoneNumber.value,
+    introduce: introduce.value
+  };
+
+  console.log($('input[type="file"]')[0].files[0]);
+  formData.append('fileName', $('input[type="file"]')[0].files[0]);
+
+  formData.append("profileRequestDto", JSON.stringify(profileRequestDto));
+  console.log(profileRequestDto);
+  console.log(token);
+
+  $.ajax({
+    type: "PUT",
+    url: "/mya/auth/profile",
+    contentType: false,
+    data: formData,
+    headers: {'Authorization': token},
+    processData: false
+  })
+  .done(function (xhr) {
+    console.log(xhr);
+    alert("프로필 수정 성공");
+    location.href = "/";
+    logout();
+  })
+  .fail(function (xhr) {
+    alert('프로필 수정 오류!');
+    alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
+  });
+}
+
+function myCommunity() {
+  const token = Cookies.get("Authorization");
+  $.ajax({
+    type: "GET",
+    url: "/mya/communities/my-post",
+    headers: {'Authorization': token}
+  })
+  .done(function (response) {
+    $('.gallery').empty();
+
+    for (let res of response) {
+
+      console.log(response);
+      let temp_html =
+          `<div className="gallery-item" tabIndex="0">
+        <img
+            src="${res.fileUrls.fileName.split(",")[0]}"
+            className="gallery-image"
+            alt=""
+        />
+        <div className="gallery-item-info">
+          <ul>
+            <li className="gallery-item-likes">
+                    <span className="visually-hidden">Like:</span
+                    ><i className="fas fa-heart" aria-hidden="true"></i> 56
+            </li>
+            <li className="gallery-item-comments">
+                    <span className="visually-hidden">Comments:</span
+                    ><i className="fas fa-comment" aria-hidden="true"></i> 2
+            </li>
+          </ul>
+        </div>
+      </div>`
+
+      $('.gallery').append(temp_html);
+
+    }
+  })
+  .fail(function (response) {
+    alert(response.responseJSON.msg);
+  })
+}
+
+function myAdoption() {
+  const token = Cookies.get("Authorization");
+  $.ajax({
+    type: "GET",
+    url: "/mya/adoptions/my-post",
+    headers: {'Authorization': token}
+  })
+  .done(function (response) {
+    $('.gallery').empty();
+
+    for (let res of response) {
+
+      console.log(response);
+      let file = res.fileUrls.fileName.split(",")[0];
+      console.log(file);
+      let temp_html =
+          `<div className="gallery-item" tabIndex="0">
+        <img
+            src="${file}"
+            className="gallery-image"
+            alt=""
+        />
+        
+        <div className="gallery-item-info">
+          <ul>
+            <li className="gallery-item-likes">
+                    <span className="visually-hidden">Like:</span
+                    ><i className="fas fa-heart" aria-hidden="true"></i> 56
+            </li>
+            <li className="gallery-item-comments">
+                    <span className="visually-hidden">Comments:</span
+                    ><i className="fas fa-comment" aria-hidden="true"></i> 2
+            </li>
+          </ul>
+        </div>
+      </div>`
+
+      $('.gallery').append(temp_html);
+
+    }
+  })
+  .fail(function (response) {
+    alert(response.responseJSON.msg);
+  })
+}

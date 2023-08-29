@@ -33,6 +33,7 @@
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 
 </head>
+<script src="/js/home.js"></script>
 <script src="/js/index.js"></script>
 <body>
 <!-- Page Preloder -->
@@ -85,9 +86,12 @@
           <div class="header__top__right">
             <div class="header__top__links">
               <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
-              <a id="logout-text" href="#">Log Out</a>
+              <a id="logout-text"
+                 href="javascript:logout()">Log
+                Out</a>
               <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
               <!--              <a href="#">FAQs</a>-->
+
             </div>
             <div class="header__top__hover">
               <span>Usd <i class="arrow_carrot-down"></i></span>
@@ -760,6 +764,8 @@
       }
     }
   }
+
+
 </script>
 <!-- Js Plugins -->
 <script src="/js/jquery-3.3.1.min.js"></script>

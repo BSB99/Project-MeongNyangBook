@@ -34,6 +34,9 @@ public class User extends TimeStamped {
   @Column(name = "nickname", nullable = false)
   private String nickname;
 
+  @Column(name = "introduce")
+  private String introduce;
+
   private String address;
 
   @Column(name = "phone_number", unique = true)
@@ -51,16 +54,34 @@ public class User extends TimeStamped {
 
   private OAuthProviderEnum oAuthProvider;
 
+  private Long kakaoId;
 
-  public User(String username, String password, String nickname, String address, String phoneNumber,
+
+  public User(String username, String password, String nickname, String introduce, String address,
+      String phoneNumber,
       UserRoleEnum role, OAuthProviderEnum oAuthProvider) {
     this.username = username;
     this.password = password;
     this.nickname = nickname;
+    this.introduce = introduce;
     this.address = address;
     this.phoneNumber = phoneNumber;
     this.role = role;
     this.oAuthProvider = oAuthProvider;
+  }
+
+  public User(String username, String password, String nickname, String introduce, String address,
+      String phoneNumber,
+      UserRoleEnum role, OAuthProviderEnum oAuthProvider, Long kakaoId) {
+    this.username = username;
+    this.password = password;
+    this.nickname = nickname;
+    this.introduce = introduce;
+    this.address = address;
+    this.phoneNumber = phoneNumber;
+    this.role = role;
+    this.oAuthProvider = oAuthProvider;
+    this.kakaoId = kakaoId;
   }
 
   @Builder
@@ -86,9 +107,15 @@ public class User extends TimeStamped {
     this.nickname = profileRequestDto.getNickname();
     this.address = profileRequestDto.getAddress();
     this.phoneNumber = profileRequestDto.getPhoneNumber();
+    this.introduce = profileRequestDto.getIntroduce();
   }
 
   public void setProfileImgurl(String filePath) {
     this.profileImgurl = filePath;
+  }
+
+  public User kakaoIdUpdate(Long kakaoId) {
+    this.kakaoId = kakaoId;
+    return this;
   }
 }

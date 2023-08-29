@@ -43,14 +43,16 @@ public class AuthUserServiceImpl implements AuthUserService {
   public ApiResponseDto logout(User user, HttpServletRequest request,
       HttpServletResponse response) {
     log.info("로그아웃 서비스");
+
     String bearerAccessToken = jwtUtil.getJwtFromRequest(request);
     String accessToken = jwtUtil.substringToken(bearerAccessToken);
+    log.info(accessToken);
 
     // access token blacklist 로 저장
     log.info("액세스 토큰 블랙리스트로 저장 : " + accessToken);
     redisUtil.setBlackList(accessToken, jwtUtil.remainExpireTime(accessToken));
-
     return new ApiResponseDto("로그아웃 완료", HttpStatus.OK.value());
+
   }
 
   @Override

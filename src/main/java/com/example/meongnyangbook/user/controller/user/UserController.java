@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
@@ -26,14 +25,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/mya/users")
 @Slf4j(topic = "UserController")
 public class UserController {
-    private final UserService userService;
+
+  private final UserService userService;
 
   @Operation(summary = "회원가입")
   @PostMapping("/signup")
   public ResponseEntity<ApiResponseDto> signup(@RequestBody SignupRequestDto requestDto) {
 
-        return userService.signup(requestDto);
-    }
+    return userService.signup(requestDto);
+  }
 
   @Operation(summary = "로그인")
   @PostMapping("/login")
