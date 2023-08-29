@@ -22,45 +22,45 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity // Spring Security 지원을 가능하게 함
 public class WebSecurityConfig {
 
-    private final JwtUtil jwtUtil;
-    private final UserDetailsServiceImpl userDetailsService;
-    private final AuthenticationConfiguration authenticationConfiguration;
-    private final RedisUtil redisUtil;
+  private final JwtUtil jwtUtil;
+  private final UserDetailsServiceImpl userDetailsService;
+  private final AuthenticationConfiguration authenticationConfiguration;
+  private final RedisUtil redisUtil;
 
-    public WebSecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService,
-                             AuthenticationConfiguration authenticationConfiguration, RedisUtil redisUtil) {
-        this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
-        this.authenticationConfiguration = authenticationConfiguration;
-        this.redisUtil = redisUtil;
-    }
+  public WebSecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService,
+      AuthenticationConfiguration authenticationConfiguration, RedisUtil redisUtil) {
+    this.jwtUtil = jwtUtil;
+    this.userDetailsService = userDetailsService;
+    this.authenticationConfiguration = authenticationConfiguration;
+    this.redisUtil = redisUtil;
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
-            throws Exception {
-        return configuration.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
+      throws Exception {
+    return configuration.getAuthenticationManager();
+  }
 
-    @Bean
-    public JwtAuthorizationFilter jwtAuthorizationFilter() {
-        return new JwtAuthorizationFilter(jwtUtil, userDetailsService, redisUtil);
-    }
+  @Bean
+  public JwtAuthorizationFilter jwtAuthorizationFilter() {
+    return new JwtAuthorizationFilter(jwtUtil, userDetailsService, redisUtil);
+  }
 
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // CSRF 설정
-        http.csrf((csrf) -> csrf.disable());
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    // CSRF 설정
+    http.csrf((csrf) -> csrf.disable());
 
-        // 기본 설정인 Session 방식은 사용하지 않고 JWT 방식을 사용하기 위한 설정
-        http.sessionManagement((sessionManagement) ->
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
+    // 기본 설정인 Session 방식은 사용하지 않고 JWT 방식을 사용하기 위한 설정
+    http.sessionManagement((sessionManagement) ->
+        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    );
 
     http.authorizeHttpRequests((authorizeHttpRequests) ->
         authorizeHttpRequests
@@ -73,15 +73,16 @@ public class WebSecurityConfig {
             .requestMatchers(HttpMethod.GET, "/mya/adoptions", "mya/adoptions/best-post")
             .permitAll()
             .requestMatchers(HttpMethod.GET, "/mya/items").permitAll()
+            .requestMatchers(HttpMethod.GET, "/mya/communities").permitAll()
             .requestMatchers(HttpMethod.GET, "/mya/inquiries/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/mya/reviews/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll()
             .anyRequest().authenticated() // 그 외 모든 요청 인증처리
     );
 
-        // 필터 관리
-        http.addFilterAfter(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+    // 필터 관리
+    http.addFilterAfter(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+    return http.build();
+  }
 }

@@ -1,0 +1,132 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600");
+
+
+* {
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+
+header {
+  background-color: white;
+  width: 100%;
+  height: 65px;
+  border-bottom: 1px solid rgb(213, 213, 213);
+}
+
+.logo .brand_logo {
+  height: 55px;
+  padding-top: 0.5rem;
+  padding-left: 15rem;
+}
+
+.other_logo {
+  float: right;
+  padding-right: 15rem;
+}
+
+.icon img {
+  width: 28px;
+  margin-right: 1rem;
+  float: left;
+  margin-top: 1.1rem;
+}
+
+.other_logo .my_account {
+  width: 28px;
+  border-radius: 5rem;
+}
+
+.other_logo .icon li {
+  float: left;
+}
+
+.container {
+  width: 700px;
+  margin: auto;
+  margin-top: 130px;
+  margin-bottom: 130px;
+  text-align: center;
+}
+
+.bigbox {
+  width: 600px;
+  height: 900px;
+  text-align: center;
+  padding-bottom: 20px;
+  border: 1px solid lightgray;
+  position: relative;
+}
+
+.table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 600px;
+}
+
+.text {
+  font-size: 12px;
+  margin: 20px;
+  text-align: center;
+}
+
+input[type="file"] {
+  width: 268.02px;
+  margin-bottom: 10px;
+}
+
+input[type="button"],
+input[type="submit"] {
+  height: 50px;
+  width: 100px;
+  background-color: #121212;
+  border-radius: 5px;
+  border: 0px;
+  color: white;
+  float: right;
+  margin-right: 20px;
+}
+
+.box {
+  width: 600px;
+  display: inline-block;
+  background-color: white;
+}
+
+.img_wrap {
+  display: flex;
+  align-items: center;
+  width: 500px;
+  height: 500px;;
+  text-align: center;
+  line-height: 500px;
+}
+
+.img_wrap img {
+  max-width: 100%;
+  width: 500px;
+  height: auto;
+  object-fit: contain;
+}
+
+.image_upload_textarea {
+  width: 500px;
+  height: 130px;
+  background-color: transparent;
+  border: 0px solid #00000030;
+  padding: 8px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  resize: none;
+}
+
+.upload__form {
+  margin: 0px;
+  /* padding: 3px; */
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  height: 550px;
+}

@@ -7,13 +7,13 @@ import com.example.meongnyangbook.post.community.service.CommunityService;
 import com.example.meongnyangbook.post.dto.DeleteDto;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,12 +36,18 @@ public class CommunityController {
 
   @Operation(summary = "커뮤니티 포스트 등록")
   @PostMapping
-  public ResponseEntity<ApiResponseDto> createCommunity(@RequestPart("requestDto") PostRequestDto requestDto,
+  public ResponseEntity<ApiResponseDto> createCommunity(
+      @RequestPart("requestDto") String requestDto,
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
 
     try {
-      ApiResponseDto result = communityService.createCommunity(requestDto, userDetails.getUser(), multipartFiles);
+      // 문자열 형태의 requestDto를 Java 객체로 역직렬화
+      ObjectMapper objectMapper = new ObjectMapper();
+      PostRequestDto postRequestDto = objectMapper.readValue(requestDto, PostRequestDto.class);
+      ApiResponseDto result = communityService.createCommunity(postRequestDto,
+          userDetails.getUser(),
+          multipartFiles);
 
       return ResponseEntity.status(HttpStatus.CREATED).body(result);
     } catch (Error error) {
@@ -71,19 +77,25 @@ public class CommunityController {
   }
 
   @Operation(summary = "커뮤니티 포스트 수정")
-  @PutMapping(value = "/{communityNo}", consumes = {MediaType.APPLICATION_JSON_VALUE,
-      MediaType.MULTIPART_FORM_DATA_VALUE})
+  @PutMapping(value = "/{communityNo}")
+  //consumes = {MediaType.APPLICATION_JSON_VALUE,
+  //      MediaType.MULTIPART_FORM_DATA_VALUE}
   public CommunityResponseDto updateCommunity(@PathVariable Long communityNo,
       @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestPart("requestDto") PostRequestDto requestDto,
+      @RequestPart("requestDto") String requestDto,
       @RequestPart("fileName") MultipartFile[] multipartFiles,
-      @RequestPart("deleteFileName") DeleteDto deleteDto
+      @RequestPart("deleteFileName") String deleteDto
   )
     //추가된 파일들과 지운 파일들 따로 들고오기
       throws Exception {
     try {
-      return communityService.updateCommunity(communityNo, requestDto, multipartFiles,
-          deleteDto.getDeleteFileName());
+      ObjectMapper objectMapper = new ObjectMapper();
+      PostRequestDto postRequestDto = objectMapper.readValue(requestDto, PostRequestDto.class);
+
+      DeleteDto deleteFile = objectMapper.readValue(deleteDto, DeleteDto.class);
+
+      return communityService.updateCommunity(communityNo, postRequestDto, multipartFiles,
+          deleteFile.getDeleteFileName());
     } catch (Error error) {
       throw new Exception(error);
     }
@@ -97,6 +109,7 @@ public class CommunityController {
       ApiResponseDto result = communityService.deleteCommunity(communityNo);
 
       return ResponseEntity.status(HttpStatus.OK).body(result);
+
     } catch (Error error) {
       throw new Exception(error);
     }

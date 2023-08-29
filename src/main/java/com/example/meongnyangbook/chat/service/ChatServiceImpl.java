@@ -2,10 +2,13 @@ package com.example.meongnyangbook.chat.service;
 
 import com.example.meongnyangbook.chat.dto.ChatMessageResponseDto;
 import com.example.meongnyangbook.chat.entity.Chat;
-import com.example.meongnyangbook.chat.entity.Room;
+import com.example.meongnyangbook.chat.entity.ChatRoom;
 import com.example.meongnyangbook.chat.repository.ChatRepository;
 import com.example.meongnyangbook.chat.repository.ChatRoomRepository;
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.user.entity.User;
+import com.example.meongnyangbook.user.repository.UserRepository;
+import com.example.meongnyangbook.user.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +19,13 @@ import java.util.List;
 public class ChatServiceImpl implements ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatRepository chatRepository;
+    private final UserService userService;
 
     @Override
-    public Chat createChat(Long roomNo, String sender, String msg) {
-        Room chatRoom = getRoom(roomNo);
-        System.out.println(sender);
+    public Chat createChat(Long roomNo, User user, String msg) {
+        ChatRoom chatRoom = getRoom(roomNo);
 
-        Chat chat = new Chat(chatRoom, sender, msg);
+        Chat chat = new Chat(chatRoom, user, msg);
 
         chatRepository.save(chat);
 
@@ -30,15 +33,22 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public ApiResponseDto createChatRoom(String name) {
-        Room room = new Room(name);
+    public ApiResponseDto createChatRoom(Long userId, User constructor) {
+        User participant = userService.findUser(userId);
+        ChatRoom findChatRoom = chatRoomRepository.findByConstructorAndParticipant(constructor, participant);
 
-        chatRoomRepository.save(room);
+        if(findChatRoom != null) {
+            throw new IllegalArgumentException("생성되 있는 채팅방입니다");
+        }
+
+        ChatRoom chatRoom = new ChatRoom(participant, constructor);
+        chatRoomRepository.save(chatRoom);
+
         return new ApiResponseDto("채팅 방 생성 완료", 201);
     }
 
     @Override
-    public Room getRoom(Long roomNo) {
+    public ChatRoom getRoom(Long roomNo) {
         return chatRoomRepository.findById(roomNo).orElseThrow(() -> {
             throw new IllegalArgumentException("채팅방이 존재하지 않습니다.");
         });
@@ -46,14 +56,14 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public List<ChatMessageResponseDto> getChatMessages(Long roomNo) {
-        Room room = getRoom(roomNo);
-        return chatRepository.findByRoom(room).stream().map(ChatMessageResponseDto::new).toList();
+        ChatRoom chatRoom = getRoom(roomNo);
+        return chatRepository.findByChatRoom(chatRoom).stream().map(ChatMessageResponseDto::new).toList();
     }
 
     @Override
     public ApiResponseDto deleteChatMessages(Long roomNo) {
-        Room room = getRoom(roomNo);
-        chatRepository.deleteByRoom(room);
+        ChatRoom chatRoom = getRoom(roomNo);
+        chatRepository.deleteByChatRoom(chatRoom);
         return new ApiResponseDto("채팅방 제거", 200);
     }
 }
