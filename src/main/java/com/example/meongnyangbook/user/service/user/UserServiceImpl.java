@@ -63,6 +63,7 @@ public class UserServiceImpl implements UserService {
     String address = requestDto.getAddress();
     String phoneNumber = requestDto.getPhoneNumber();
     String adminToken = requestDto.getAdminToken();
+    String introduce = requestDto.getIntroduce();
     if (checkAdmin(adminToken)) {
       requestDto.setAdmin(true);
     }
@@ -77,7 +78,8 @@ public class UserServiceImpl implements UserService {
 
     //Email 검증 - 필요하다면
 
-    User user = new User(username, passwordEncoder.encode(password), nickname, address, phoneNumber,
+    User user = new User(username, passwordEncoder.encode(password), nickname, introduce, address,
+        phoneNumber,
         role, OAuthProviderEnum.ORIGIN);
 
     userRepository.save(user);
@@ -104,7 +106,8 @@ public class UserServiceImpl implements UserService {
     }
 
     // Access Token 생성 및 헤더에 추가
-    String accessToken = jwtUtil.createToken(user.getUsername(), user.getRole());
+    String accessToken = jwtUtil.createToken(user.getUsername(), user.getRole(),
+        OAuthProviderEnum.ORIGIN);
     response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken);
 
     String refreshToken = jwtUtil.createRefreshToken(user.getUsername(), user.getRole());

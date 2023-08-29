@@ -38,6 +38,13 @@ img {
   padding: 0 2rem;
 }
 
+.subProfile {
+  font-size: 20px;
+  outline: none;
+  border: none;
+  color: black;
+}
+
 .btn {
   display: inline-block;
   font: inherit;
@@ -239,6 +246,7 @@ img {
     float: none;
     width: auto;
   }
+  
 
   .profile-image img {
     width: 7.7rem;

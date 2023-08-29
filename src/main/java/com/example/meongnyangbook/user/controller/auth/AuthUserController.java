@@ -7,6 +7,7 @@ import com.example.meongnyangbook.user.dto.PasswordRequestDto;
 import com.example.meongnyangbook.user.dto.ProfileRequestDto;
 import com.example.meongnyangbook.user.dto.ProfileResponseDto;
 import com.example.meongnyangbook.user.service.auth.AuthUserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
@@ -42,13 +43,13 @@ public class AuthUserController {
 
   @Operation(summary = "로그아웃")
   @PostMapping("/logout")
-  public ResponseEntity<ApiResponseDto> logout(
+  public ApiResponseDto logout(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       HttpServletRequest request,
       HttpServletResponse response) {
     log.info("로그아웃 컨트롤러");
-    authUserServiceImpl.logout(userDetails.getUser(), request, response);
-    return ResponseEntity.ok().body(new ApiResponseDto("로그아웃 완료", HttpStatus.OK.value()));
+
+    return authUserServiceImpl.logout(userDetails.getUser(), request, response);
   }
 
   @Operation(summary = "유저 영구정지")
@@ -71,8 +72,11 @@ public class AuthUserController {
   @PutMapping("/profile")
   public ResponseEntity<ApiResponseDto> setProfile(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestPart("profileRequestDto") ProfileRequestDto profileRequestDto,
+      @RequestPart("profileRequestDto") String requestDto,
       @RequestPart("fileName") MultipartFile multipartFiles) throws IOException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    ProfileRequestDto profileRequestDto = objectMapper.readValue(requestDto,
+        ProfileRequestDto.class);
     ApiResponseDto result = authUserServiceImpl.setProfile(userDetails.getUser(),
         profileRequestDto, multipartFiles);
     return ResponseEntity.status(HttpStatus.OK).body(result);

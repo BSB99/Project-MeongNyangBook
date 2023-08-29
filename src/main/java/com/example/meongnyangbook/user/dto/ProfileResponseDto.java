@@ -12,6 +12,7 @@ public class ProfileResponseDto {
   private String nickname;
   private String address;
   private String phoneNumber;
+  private String introduce;
   private String fileList;
 
 
@@ -20,6 +21,7 @@ public class ProfileResponseDto {
     this.nickname = user.getNickname();
     this.address = user.getAddress();
     this.phoneNumber = user.getPhoneNumber();
+    this.introduce = user.getIntroduce();
     this.fileList = user.getProfileImgurl();
   }
 
