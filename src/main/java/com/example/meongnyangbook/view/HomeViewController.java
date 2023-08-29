@@ -45,8 +45,8 @@ public class HomeViewController {
   @GetMapping("/mya/view/basket")
   public String basket() {return "shopping-cart";}
 
-  @GetMapping("/mya/view/basket-detail")
-  public String basketDetail() {return "shop-details";}
+  @GetMapping("/mya/view/items/{itemId}")
+  public String itemDetail(@PathVariable Long itemId) {return "shop-details";}
 
   @GetMapping("/mya/view/order")
   public String checkOut() {return "order";}
@@ -61,4 +61,5 @@ public class HomeViewController {
     return
         "post-community-update";
   }
+
 }

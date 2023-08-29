@@ -6,6 +6,7 @@ import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
 import com.example.meongnyangbook.user.dto.LoginRequestDto;
 import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
+import com.example.meongnyangbook.user.dto.UserInfoResponseDto;
 import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
@@ -166,6 +167,11 @@ public class UserServiceImpl implements UserService {
     }
 
     return new ApiResponseDto("핸드폰 인증번호 확인", HttpStatus.OK.value());
+  }
+
+  @Override
+  public UserInfoResponseDto getUserNickname(User user) {
+    return new UserInfoResponseDto(user);
   }
 
   @Override
