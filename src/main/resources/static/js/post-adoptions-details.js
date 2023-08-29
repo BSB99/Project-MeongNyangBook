@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 function setCardData(response) {
+
   let adoptionTitle = document.getElementById("adoptionTitle");
   let communityDescription = document.getElementById("adoptionDescription");
   let viewCount = document.getElementById("viewCount");
@@ -43,6 +44,27 @@ function setCardData(response) {
   let animalAge = document.getElementById("animal-age");
   let area = document.getElementById("area");
   let category = document.getElementById("category");
+
+  $("#carousel-inner").empty();
+  let i = 0;
+  for (let file of fileNames) {
+    let temp_html
+    if (i == 0) {
+      temp_html = `<div class="carousel-item active">
+        <img
+            src="${file}"
+            class="d-block w-100" alt="...">
+      </div>`
+    } else {
+      temp_html = `<div class="carousel-item">
+        <img
+            src="${file}"
+            class="d-block w-100" alt="...">
+      </div>`
+    }
+    $("#carousel-inner").append(temp_html);
+    i++;
+  }
 
   adoptionTitle.innerText = response.title;
   communityDescription.innerText = response.description;
