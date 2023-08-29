@@ -10,6 +10,7 @@ import lombok.Getter;
 @Getter
 public class AdoptionResponseDto {
 
+  private Long id;
   private String title;
   private String description;
   private Boolean completion;
@@ -18,9 +19,11 @@ public class AdoptionResponseDto {
   private Integer animalAge;
   private AreaEnum area;
   private CategoryEnum category;
+  private String createdAt;
   private AttachmentUrlResponseDto fileUrls;
 
   public AdoptionResponseDto(Adoption adoption) {
+    this.id = adoption.getId();
     this.title = adoption.getTitle();
     this.description = adoption.getDescription();
     this.completion = adoption.getCompletion();
@@ -29,6 +32,7 @@ public class AdoptionResponseDto {
     this.animalAge = adoption.getAnimalAge();
     this.area = adoption.getArea();
     this.category = adoption.getCategory();
+    this.createdAt = adoption.getCreatedAtAsString();
     this.fileUrls = new AttachmentUrlResponseDto(adoption.getAttachmentUrl());
   }
 }

@@ -29,36 +29,58 @@ public class HomeViewController {
 
   @GetMapping("/mya/view/post/community")
   public String community() {
-    return "post-community";
+    return "/post/community/post-community";
+  }
+
+  @GetMapping("/mya/view/post/adoptions")
+  public String adoptions() {
+    return "/post/adoptions/post-adoptions";
   }
 
   @GetMapping("/mya/view/post/add")
   public String addPost() {
-    return "post-add";
+    return "/post/community/post-add";
+  }
+
+  @GetMapping("/mya/view/post/adoption-add")
+  public String addAdoptionPost() {
+    return "/post/adoptions/post-adoptions-add";
   }
 
   @GetMapping("/mya/view/post/community/detail")
   public String detailCommunityPost() {
-    return "post-community-details";
+    return "/post/community/post-community-details";
   }
 
   @GetMapping("/mya/view/basket")
-  public String basket() {return "shopping-cart";}
+  public String basket() {
+    return "shopping-cart";
+  }
 
   @GetMapping("/mya/view/basket-detail")
-  public String basketDetail() {return "shop-details";}
+  public String basketDetail() {
+    return "shop-details";
+  }
 
   @GetMapping("/mya/view/order")
-  public String checkOut() {return "order";}
+  public String checkOut() {
+    return "order";
+  }
 
   @GetMapping("/mya/view/communities/{communityId}")
   public String detailsCommunityPost(@PathVariable Long communityId) {
-    return "post-community-details";
+    return "/post/community/post-community-details";
   }
+
+  @GetMapping("/mya/view/adoptions/{adoptionId}")
+  public String detailsAdoptionsPost(@PathVariable Long adoptionId) {
+    return "/post/adoptions/post-adoptions-details";
+  }
+
 
   @GetMapping("/mya/view/post/community/update/{communityId}")
   public String updateCommunityPost(@PathVariable Long communityId) {
     return
-        "post-community-update";
+        "/post/community/post-community-update";
   }
 }
