@@ -16,48 +16,56 @@
 
 </head>
 <script th:inline="javascript" src="/js/login.js"></script>
+<script src="/js/home.js"></script>
+
 <!-- Header Section Begin -->
 <header class="header">
   <div class="header__top">
-    <div class="container-header">
+    <div class="container">
       <div class="row">
         <div class="col-lg-6 col-md-7">
           <div class="header__top__left">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
+            <p>멍냥북에 오신 것을 환영합니다 !</p>
           </div>
         </div>
         <div class="col-lg-6 col-md-5">
           <div class="header__top__right">
             <div class="header__top__links">
-              <a href="/mya/view/users/sign-in">Sign in</a>
+              <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
+              <a id="logout-text"
+                 href="javascript:logout()">Log Out</a>
+              <!--              <a href="#">FAQs</a>-->
+            </div>
+            <div class="header__top__links">
+              <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
+              <!--              <a href="#">FAQs</a>-->
+            </div>
 
-              <a href="#">FAQs</a>
-            </div>
-            <div class="header__top__hover">
-              <span>Usd <i class="arrow_carrot-down"></i></span>
-              <ul>
-                <li>USD</li>
-                <li>EUR</li>
-                <li>USD</li>
-              </ul>
-            </div>
+            <!--            <div class="header__top__hover">-->
+            <!--              <span>Usd <i class="arrow_carrot-down"></i></span>-->
+            <!--              <ul>-->
+            <!--                <li>USD</li>-->
+            <!--                <li>EUR</li>-->
+            <!--                <li>USD</li>-->
+            <!--              </ul>-->
+            <!--            </div>-->
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="container-header">
+  <div class="container">
     <div class="row">
       <div class="col-lg-3 col-md-3">
         <div class="header__logo">
-          <a href="/"><img src="/img/logo.png" alt=""></a>
+          <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
         </div>
       </div>
       <div class="col-lg-6 col-md-6">
         <nav class="header__menu mobile-menu">
           <ul>
-            <li class="active"><a href="./index.html">Home</a></li>
-            <li><a href="./shop.html">Shop</a></li>
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/mya/view/items">Shop</a></li>
             <li><a href="#">Pages</a>
               <ul class="dropdown">
                 <li><a href="./about.html">About Us</a></li>
@@ -67,16 +75,17 @@
                 <li><a href="./blog-details.html">Blog Details</a></li>
               </ul>
             </li>
-            <li><a href="./post-community.html">Blog</a></li>
-            <li><a href="./contact.html">Contacts</a></li>
+            <li><a href="/mya/view/post/community">Community</a></li>
+            <li><a href="/mya/view/post/adoptions">Adoptions</a></li>
           </ul>
         </nav>
       </div>
       <div class="col-lg-3 col-md-3">
         <div class="header__nav__option">
+          <!--          header__nav__option-->
           <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
-          <a href="#"><img src="/img/icon/heart.png" alt=""></a>
-          <a href="#"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+          <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
+          <a href="./shopping-cart.html"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
           <div class="price">$0.00</div>
         </div>
       </div>
@@ -84,6 +93,7 @@
     <div class="canvas__open"><i class="fa fa-bars"></i></div>
   </div>
 </header>
+<!-- Header Section End -->
 
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-option" style="padding: 40px 200px;">
@@ -106,7 +116,7 @@
 <section class="login-section">
 
   <h2></h2>
-  <div class="container" id="container" style="min-height: 600px">
+  <div class="container-login" id="containerLogin" style="min-height: 600px; margin: 50px">
     <div class="form-container sign-up-container">
       <div class="form-page">
         <h1>SIGN UP</h1>
@@ -115,7 +125,7 @@
         <input id="signup-password" type="password" placeholder="Password"/>
         <input id="signup-nickname" type="text" placeholder="NickName"/>
         <input id="signup-introduce" type="text" placeholder="Introduce"/>
-        <select name="signup-adress" id="signup-adress" style="width: 100%">
+        <select class="selecet-adress" name="signup-adress" id="signup-adress">
           <option value="">지역 선택</option>
           <option value="SEOUL">서울특별시</option>
           <option value="BUSAN">부산광역시</option>
@@ -131,7 +141,12 @@
         <!--        모달창 띄우기-->
         <button onclick="sendPhoneMessage()" id="access-button">인증번호 받기</button>
         <div id="modal" class="modal">
-          <div class="modal-content">
+          <div class="modal-content" style="top: 50%;
+                                            left: 50%;
+                                            transform: translate(-50%, -50%);
+                                            z-index: 1;
+                                            padding: 40px;
+                                            border: 1px solid #888;">
             <span class="close" onclick="closeModalBtn()">&times;</span>
             <p>핸드폰 인증번호를 확인하고 아래에 입력해주세요.</p>
             <input id="access-number" type="text" placeholder="ID"/>
@@ -149,8 +164,9 @@
         <h1>SIGN IN</h1>
         <div class="social-container">
           <a href="https://kauth.kakao.com/oauth/authorize?client_id=8c7f61342cf07f12166db38dbbdda769&redirect_uri=http://localhost:8080/mya/users/login/oauth2/code/kakao&response_type=code"
-             class="social"><i class="fab fa-kakao-f"></i></a>
-          <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+             class="social"><i class="fab fa-kakao-f"><img src="/img/icon/kakao.png" alt=""></i></a>
+          <a href="#" class="social"><i class="fab fa-google-plus-g"><img
+              src="/img/icon/google.jpeg" alt=""></i></a>
           <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
         </div>
         <input type="email" id="login-email" placeholder="Email"/>
@@ -164,12 +180,12 @@
         <div class="overlay-panel overlay-left">
           <h1>Welcome 멍냥북!</h1>
           <p>멍냥북 페이지에 로그인 해주세요 !</p>
-          <button class="ghost" id="signIn">Sign In</button>
+          <button class="ghost" id="signIn" style="color: #f3f2ee;">Sign In</button>
         </div>
         <div class="overlay-panel overlay-right">
           <h1>Hello, Mya!</h1>
           <p>멍냥북에 회원가입을 원하시면 아래 버튼을 눌러주세요</p>
-          <button class="ghost" id="signUp">Sign Up</button>
+          <button class="ghost" id="signUp" style="color: #f3f2ee;">Sign Up</button>
         </div>
       </div>
     </div>
@@ -199,7 +215,7 @@
     align-items: center;
     flex-direction: column;
     font-family: 'Montserrat', sans-serif;
-    height: 100vh;
+    height: 70vh;
     margin: -20px 0 50px;
   }
 
@@ -235,7 +251,7 @@
     border-radius: 20px;
     border: 1px solid #f3f2ee;;
     background-color: #f3f2ee;;
-    color: #272829;
+    color: #1b1e21;
     font-size: 12px;
     font-weight: bold;
     padding: 12px 45px;
@@ -276,7 +292,7 @@
     width: 100%;
   }
 
-  .container {
+  .container-login {
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
@@ -301,7 +317,7 @@
     z-index: 2;
   }
 
-  .container.right-panel-active .sign-in-container {
+  .container-login.right-panel-active .sign-in-container {
     transform: translateX(100%);
   }
 
@@ -312,7 +328,7 @@
     z-index: 1;
   }
 
-  .container.right-panel-active .sign-up-container {
+  .container-login.right-panel-active .sign-up-container {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
@@ -331,6 +347,14 @@
     }
   }
 
+  .selecet-adress {
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+  }
+
   .overlay-container {
     position: absolute;
     top: 0;
@@ -342,14 +366,14 @@
     z-index: 100;
   }
 
-  .container.right-panel-active .overlay-container {
+  .container-login.right-panel-active .overlay-container {
     transform: translateX(-100%);
   }
 
   .overlay {
     background: #FF416C;
-    background: -webkit-linear-gradient(to right, #FDFFBC, #FFEEBB);
-    background: linear-gradient(to right, #FDFFBC, #FFEEBB);
+    background: -webkit-linear-gradient(to right, #FA841A, #FFC619);
+    background: linear-gradient(to right, #FA841A, #FFC619);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 0 0;
@@ -362,7 +386,7 @@
     transition: transform 0.6s ease-in-out;
   }
 
-  .container.right-panel-active .overlay {
+  .container-login.right-panel-active .overlay {
     transform: translateX(50%);
   }
 
@@ -385,7 +409,7 @@
     transform: translateX(-20%);
   }
 
-  .container.right-panel-active .overlay-left {
+  .container-login.right-panel-active .overlay-left {
     transform: translateX(0);
   }
 
@@ -394,7 +418,7 @@
     transform: translateX(0);
   }
 
-  .container.right-panel-active .overlay-right {
+  .container-login.right-panel-active .overlay-right {
     transform: translateX(20%);
   }
 
@@ -441,7 +465,7 @@
 <script>
   const signUpButton = document.getElementById('signUp');
   const signInButton = document.getElementById('signIn');
-  const container = document.getElementById('container');
+  const container = document.getElementById('containerLogin');
 
   signUpButton.addEventListener('click', () => {
     container.classList.add("right-panel-active");
