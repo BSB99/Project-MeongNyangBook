@@ -60,10 +60,10 @@ public class AdoptionServiceImpl implements AdoptionService {
   @Override
   @Transactional
   public AdoptionResponseDto updateAdoption(Long adoptionId, AdoptionReqeustDto requestDto,
-      MultipartFile[] multipartFiles, String[] deleteFileNames) {
+      MultipartFile[] multipartFiles) {
     Adoption adoption = getAdoption(adoptionId);
 
-    postServiceImpl.update(adoptionId, multipartFiles, deleteFileNames);
+    postServiceImpl.update(adoptionId, multipartFiles);
 
     //Dto 기본 내용 수정
     if (!adoption.getTitle().equals(requestDto.getTitle())) {

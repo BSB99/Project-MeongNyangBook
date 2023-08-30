@@ -59,11 +59,11 @@ public class CommunityServiceImpl implements CommunityService {
   @Override
   @Transactional
   public CommunityResponseDto updateCommunity(Long communityNo, PostRequestDto requestDto,
-      MultipartFile[] multipartFiles, String[] deleteFileNames) {
+      MultipartFile[] multipartFiles) {
 
     Community community = getCommunity(communityNo);
 
-    postServiceImpl.update(communityNo, multipartFiles, deleteFileNames);
+    postServiceImpl.update(communityNo, multipartFiles);
 
     if (!community.getTitle().equals(requestDto.getTitle())) {
       community.setTitle(requestDto.getTitle());
