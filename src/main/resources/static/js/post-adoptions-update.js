@@ -154,7 +154,7 @@ function uploadData() {
       console.log(imgArr);
       alert('수정 성공 !', response);
       // 다른 성공 동작 처리
-      window.location.href = "/mya/view/post/apdoptions";
+      window.location.href = "/mya/view/post/adoptions";
 
     },
     error: function (error) {
