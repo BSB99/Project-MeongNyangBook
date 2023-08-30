@@ -25,6 +25,8 @@ public class Item extends TimeStamped {
 
     private Long quantity = 10000L;
 
+    private String content;
+
     @Enumerated(value = EnumType.STRING)
     private ItemCategoryEnum category;
 

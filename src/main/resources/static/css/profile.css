@@ -21,11 +21,16 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
 }
 
 body {
-  font-family: "Open Sans", Arial, sans-serif;
+  font-family: "Nunito Sans", sans-serif;
   min-height: 100vh;
   background-color: #fafafa;
   color: #262626;
   padding-bottom: 3rem;
+}
+
+.user-image {
+  width: 180px;
+  height: 180px;
 }
 
 img {
@@ -246,7 +251,7 @@ img {
     float: none;
     width: auto;
   }
-  
+
 
   .profile-image img {
     width: 7.7rem;

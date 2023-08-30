@@ -34,7 +34,6 @@
 
 </head>
 <script src="/js/home.js"></script>
-<script src="/js/index.js"></script>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -136,9 +135,10 @@
       </div>
       <div class="col-lg-3 col-md-3">
         <div class="header__nav__option">
+          <!--          header__nav__option-->
           <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
-          <a href="#"><img src="/img/icon/heart.png" alt=""></a>
-          <a href="#"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+          <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
+          <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
           <div class="price">$0.00</div>
         </div>
       </div>
@@ -151,16 +151,16 @@
 <!-- Hero Section Begin -->
 <section class="hero">
   <div class="hero__slider owl-carousel">
-    <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
+    <div class="hero__items set-bg" data-setbg="/img/hero/mainbanner2.png">
       <div class="container">
         <div class="row">
           <div class="col-xl-5 col-lg-7 col-md-8">
             <div class="hero__text">
-              <h6>Summer Collection</h6>
-              <h2>Fall - Winter Collections 2030</h2>
-              <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                commitment to exceptional quality.</p>
-              <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
+              <h6>멍냥북의 쇼핑 센터</h6>
+              <h2>모든 것을 즐길 수 있는 멍냥북!</h2>
+              <p>나의 반려동물에게 특별함을 선물해주세요!</p>
+              <a href="/mya/view/items" class="primary-btn">Shop now <span
+                  class="arrow_right"></span></a>
               <div class="hero__social">
                 <a href="#"><i class="fa fa-facebook"></i></a>
                 <a href="#"><i class="fa fa-twitter"></i></a>
@@ -172,16 +172,16 @@
         </div>
       </div>
     </div>
-    <div class="hero__items set-bg" data-setbg="img/hero/hero-2.jpg">
+    <div class="hero__items set-bg" data-setbg="img/hero/mainbanner1.png">
       <div class="container">
         <div class="row">
           <div class="col-xl-5 col-lg-7 col-md-8">
             <div class="hero__text">
-              <h6>Summer Collection</h6>
-              <h2>Fall - Winter Collections 2030</h2>
-              <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                commitment to exceptional quality.</p>
-              <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
+              <h6>반려동물 자랑 공간</h6>
+              <h2>모든 것을 자랑할 수 있는 멍냥북!</h2>
+              <p>우리 애기들이 얼마나 예쁜지 자랑하고 싶다구요? 멍냥북으로 오세요 !</p>
+              <a href="/mya/view/post/community" class="primary-btn">Community now <span
+                  class="arrow_right"></span></a>
               <div class="hero__social">
                 <a href="#"><i class="fa fa-facebook"></i></a>
                 <a href="#"><i class="fa fa-twitter"></i></a>
@@ -741,31 +741,6 @@
 </div>
 <!-- Search End -->
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    start();
-  });
-
-  function start() {
-    const auth = Cookies.get('Authorization');
-    console.log("auth=", auth);
-
-    if (!auth) { // 쿠키가 없을 경우
-      console.log(1);
-      document.getElementById('login-text').style.display = 'block';
-      document.getElementById('logout-text').style.display = 'none';
-      document.getElementById('mypage-text').style.display = 'none';
-    } else { // 쿠키가 있을 경우
-      console.log(2);
-      document.getElementById('login-text').style.display = 'none';
-      document.getElementById('logout-text').style.display = 'block';
-      document.getElementById('mypage-text').style.display = 'block';
-
-      const postBoxes = document.getElementsByClassName('postbox');
-      for (let i = 0; i < postBoxes.length; i++) {
-        postBoxes[i].style.display = 'block';
-      }
-    }
-  }
 
 
 </script>

@@ -68,6 +68,13 @@ public class ItemController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @GetMapping("/{itemNo}")
+  public ResponseEntity<ItemResponseDto> getSingleItem(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long itemNo) {
+    ItemResponseDto result = itemService.getSingleItem(itemNo);
+
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
   @Operation(summary = "상품 삭제")
   @DeleteMapping("/{itemNo}")
   public ResponseEntity<ApiResponseDto> deleteItem(
