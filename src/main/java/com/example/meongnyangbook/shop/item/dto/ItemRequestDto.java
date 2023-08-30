@@ -9,4 +9,5 @@ public class ItemRequestDto {
     private String name;
     private Long price;
     private ItemCategoryEnum category;
+    private String content;
 }

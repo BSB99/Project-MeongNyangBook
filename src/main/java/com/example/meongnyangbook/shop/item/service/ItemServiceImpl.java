@@ -118,6 +118,13 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
+  public ItemResponseDto getSingleItem(Long itemNo) {
+    Item item = getItem(itemNo);
+
+    return new ItemResponseDto(item);
+  };
+
+  @Override
   public Item getItem(Long itemNo) {
     return itemRepository.findById(itemNo).orElseThrow(() -> {
       throw new IllegalArgumentException("존재하지 않는 물품입니다.");

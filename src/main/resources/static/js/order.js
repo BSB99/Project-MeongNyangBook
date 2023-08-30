@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+
     const myOrder = document.querySelectorAll(".col-lg-4");
     const token = Cookies.get('Authorization');
 
@@ -41,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <ul class="checkout__total__all">
                     <li>총액 <span>${totalPrice}원</span></li>
                 </ul>
-                <button type="submit" class="site-btn" onclick="createOrder()">주문 하기</button>
+                <button type="submit" class="site-btn" onclick="showKg(${totalPrice})">주문 하기</button>
                 </div>
             `;
 
@@ -89,14 +90,18 @@ function createOrder() {
         additionalInfoInput = null;
     }
 
-    const token = Cookies.get('Authorization');
-
     const orderRequestDto = {
         address : address,
         receiverName : orderRecipientInput,
         receiverPhoneNumber : phoneNumberInput,
         request : additionalInfoInput
     }
+
+    return orderRequestDto;
+}
+
+function orderAjax(orderRequestDto) {
+    const token = Cookies.get('Authorization');
 
     $.ajax({
         type: "POST",
@@ -124,4 +129,44 @@ function createOrder() {
                     })
             }
         })
+}
+
+function showKg(totalPrice) {
+    let orderRequestDto =  createOrder();
+
+    if (!orderRequestDto) {
+        return;  // Exit function without proceeding to payment
+    }
+
+    IMP.init("imp08283636");
+
+    IMP.request_pay(
+        {
+        pg: 'html5_inicis',
+        pay_method: 'card',
+        merchant_uid: 'merchant_' + new Date().getTime(),
+
+        name: '예약 지점명 : ' + "멍냥북" + '점',
+        amount: 100,
+        buyer_email: "wer06099@naver.com",  /*필수 항목이라 "" 로 남겨둠*/
+        //buyer_name: bookName,
+    }, function(rsp) {
+        //결제 성공 시
+        if (rsp.success) {
+            orderAjax(orderRequestDto);
+
+            $.ajax({
+                type: "GET",
+                url: 'meongNyangPay',
+                data: {
+                    amount: 100,
+                    imp_uid: rsp.imp_uid,
+                    merchant_uid: rsp.merchant_uid
+                }
+            });
+        } else {
+            var msg = '결제에 실패하였습니다.';
+            msg += '에러내용 : ' + rsp.error_msg;
+        }
+    });
 }
