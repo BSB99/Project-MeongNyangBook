@@ -28,7 +28,7 @@ public class CommentController {
 
   @Operation(summary = "댓글 달기")
   @PostMapping
-  public CommentResponseDto createComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
+  public ApiResponseDto createComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestBody CommentRequestDto commentRequestDto) {
     return commentService.createComment(userDetails.getUser(), commentRequestDto);
   }
