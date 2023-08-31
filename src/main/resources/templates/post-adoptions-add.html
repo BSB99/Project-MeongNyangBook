@@ -22,7 +22,6 @@
   <!-- js Cookie -->
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
   <script th:inline="javascript" src="/js/post-add.js"></script>
-  <script src="/js/home.js"></script>
 
 
   <style>
@@ -30,143 +29,165 @@
     /*  list-style: none;*/
     /*}*/
 
-    /*.middle_Top {*/
-    /*  width: 600px;*/
-    /*  border-bottom: 1px solid lightgrey;*/
+    .middle_Top {
+      width: 600px;
+      border-bottom: 1px solid lightgrey;
 
-    /*}*/
+    }
 
-    /*.middle_Top .my_photo {*/
-    /*  width: 40px;*/
-    /*  height: 40px;*/
-    /*  border-radius: 3rem;*/
-    /*  float: left;*/
-    /*  position: absolute;*/
-    /*  left: 1%;*/
-    /*  top: 1%;*/
-    /*}*/
+    .middle_Top .my_photo {
+      width: 40px;
+      height: 40px;
+      border-radius: 3rem;
+      float: left;
+      position: absolute;
+      left: 1%;
+      top: 1%;
+    }
 
-    /*.middle_Top .my_account {*/
-    /*  width: 90px;*/
-    /*  display: inline-block;*/
-    /*  font-weight: bold;*/
-    /*}*/
+    .middle_Top .my_account {
+      width: 90px;
+      display: inline-block;
+      font-weight: bold;
+    }
 
-    /*.middle_Top .my_account a {*/
-    /*  color: black;*/
-    /*  position: absolute;*/
-    /*  left: 10%;*/
-    /*  top: 2%;*/
-    /*}*/
+    .middle_Top .my_account a {
+      color: black;
+      position: absolute;
+      left: 10%;
+      top: 2%;
+    }
 
 
-    /*.btn {*/
-    /*  display: inline-block;*/
-    /*  position: absolute;*/
-    /*  background-color: #cccccc;*/
+    .btn {
+      display: inline-block;
+      position: absolute;
+      background-color: #cccccc;
 
-    /*  padding: 10px;*/
-    /*  color: #ffffff;*/
-    /*}*/
+      padding: 10px;
+      color: #ffffff;
+    }
 
-    /*.prevBtn {*/
-    /*  top: 35%;*/
-    /*  left: 0;*/
-    /*}*/
+    .prevBtn {
+      top: 35%;
+      left: 0;
+    }
 
-    /*.nextBtn {*/
-    /*  top: 35%;*/
-    /*  right: 0;*/
-    /*}*/
-
+    .nextBtn {
+      top: 35%;
+      right: 0;
+    }
   </style>
-  <!-- Header Section Begin -->
-  <header class="header">
-    <div class="header__top">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6 col-md-7">
-            <div class="header__top__left">
-              <p>멍냥북에 오신 것을 환영합니다 !</p>
-            </div>
-          </div>
-          <div class="col-lg-6 col-md-5">
-            <div class="header__top__right">
-              <div class="header__top__links">
-                <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
-                <a id="logout-text"
-                   href="javascript:logout()">Log Out</a>
-                <!--              <a href="#">FAQs</a>-->
-              </div>
-              <div class="header__top__links">
-                <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
-                <!--              <a href="#">FAQs</a>-->
-              </div>
-
-              <!--            <div class="header__top__hover">-->
-              <!--              <span>Usd <i class="arrow_carrot-down"></i></span>-->
-              <!--              <ul>-->
-              <!--                <li>USD</li>-->
-              <!--                <li>EUR</li>-->
-              <!--                <li>USD</li>-->
-              <!--              </ul>-->
-              <!--            </div>-->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container">
+</head>
+<!-- Header Section Begin -->
+<header class="header">
+  <div class="header__top">
+    <div class="container-header">
       <div class="row">
-        <div class="col-lg-3 col-md-3">
-          <div class="header__logo">
-            <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
+        <div class="col-lg-6 col-md-7">
+          <div class="header__top__left">
+            <p>Free shipping, 30-day return or refund guarantee.</p>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6">
-          <nav class="header__menu mobile-menu">
-            <ul>
-              <li class="active"><a href="/">Home</a></li>
-              <li><a href="/mya/view/items">Shop</a></li>
-              <li><a href="#">Pages</a>
-                <ul class="dropdown">
-                  <li><a href="./about.html">About Us</a></li>
-                  <li><a href="./shop-details.html">Shop Details</a></li>
-                  <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                  <li><a href="./order.html">Check Out</a></li>
-                  <li><a href="./blog-details.html">Blog Details</a></li>
-                </ul>
-              </li>
-              <li><a href="/mya/view/post/community">Community</a></li>
-              <li><a href="/mya/view/post/adoptions">Adoptions</a></li>
-            </ul>
-          </nav>
-        </div>
-        <div class="col-lg-3 col-md-3">
-          <div class="header__nav__option">
-            <!--          header__nav__option-->
-            <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
-            <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
-            <a href="./shopping-cart.html"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
-            <div class="price">$0.00</div>
+        <div class="col-lg-6 col-md-5">
+          <div class="header__top__right">
+            <div class="header__top__links">
+              <a href="/mya/view/users/sign-in">Sign in</a>
+              <a href="#">FAQs</a>
+            </div>
+            <div class="header__top__hover">
+              <span>Usd <i class="arrow_carrot-down"></i></span>
+              <ul>
+                <li>USD</li>
+                <li>EUR</li>
+                <li>USD</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-      <div class="canvas__open"><i class="fa fa-bars"></i></div>
     </div>
-  </header>
-  <!-- Header Section End -->
+  </div>
+  <div class="container-header">
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <div class="header__logo">
+          <a href="/"><img src="/img/logo.png" alt=""></a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <nav class="header__menu mobile-menu">
+          <ul>
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/mya/view/items">Shop</a></li>
+            <li><a href="#">Pages</a>
+              <ul class="dropdown">
+                <li><a href="./about.html">About Us</a></li>
+                <li><a href="./shop-details.html">Shop Details</a></li>
+                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
+                <li><a href="./order.html">Check Out</a></li>
+                <li><a href="./blog-details.html">Blog Details</a></li>
+              </ul>
+            </li>
+            <li><a href="./post-community.html">Blog</a></li>
+            <li><a href="./contact.html">Contacts</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="header__nav__option">
+          <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
+          <a href="#"><img src="/img/icon/heart.png" alt=""></a>
+          <a href="#"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+          <div class="price">$0.00</div>
+        </div>
+      </div>
+    </div>
+    <div class="canvas__open"><i class="fa fa-bars"></i></div>
+  </div>
+</header>
+
 
 <body>
 <div class="container">
   <div class="box">
-    <div class="bigbox" style="top: 50%; /* 화면 상단으로부터 50% 떨어져 있습니다. */
-                               left: 50%; /* 화면 왼쪽으로부터 50% 떨어져 있습니다. */">
+    <div class="bigbox">
       <!-- 섬네일은 아래 주소 참고 -->
       <!-- https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1 -->
-      <form class="upload__form" id="uploadForm">
-
+      <form class="upload__form" id="uploadForms">
         <table class="table">
+
+          <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                      class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                      aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                      aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="..." class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="..." class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="..." class="d-block w-100" alt="...">
+              </div>
+            </div>
+            <button class="carousel-control-prev" type="button"
+                    data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button"
+                    data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
           <tr>
             <td style="height: 500px;">
               <div class="slide" style="width: 500px; height: 500px; overflow: hidden;">
@@ -175,10 +196,10 @@
                 </div>
               </div>
               <div style="border-top: 1px solid lightgrey;">
-                <input id="multipartFiles" type="file" name="fileName" multiple
+                <input id="multiparts" type="file" name="fileName" multiple
                        placeholder="사진파일" required
                        style="display: none;"/>
-                <input type="image" src="/img/icon/save.png" onclick="handleInputClick(event)"
+                <input type="image" src="/images/files.png" onclick="handleInputClick(event)"
                        style="height: 30px; position: relative; left: 270px; top: 10px; bottom: 10px;"/>
               </div>
             </td>
@@ -193,10 +214,41 @@
               </div>
               <textarea type="text" name="description" class="image_upload_textarea"
                         placeholder="문구입력..."></textarea>
+              <input class="animal-name" type="text" name="animal-name" id="animal-name" value=""
+                     placeholder="animalName"
+                     style="width: 500px">
+
+              <select class="animal-sex" name="animal-sex" id="animal-sex" style="width: 90%">
+                <option value="">성별 선택</option>
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+              </select>
+              <input class="animal-age" type="text" name="animal-age" id="animal-age" value=""
+                     placeholder="animalAge"
+                     style="width: 500px">
+              <select class="animal-address" name="animal-address" id="animal-address"
+                      style="width: 90%">
+                <option value="">지역 선택</option>
+                <option value="SEOUL">서울특별시</option>
+                <option value="BUSAN">부산광역시</option>
+                <option value="DAEGU">대구광역시</option>
+                <option value="INCHEON">인천광역시</option>
+                <option value="GWANGJU">광주광역시</option>
+                <option value="DAEGEON">대전광역시</option>
+                <option value="ULSAN">울산광역시</option>
+                <option value="SEJONG">세종특별자치시</option>
+                <option value="JEJU">제주특별자치도</option>
+              </select>
+              <select class="animal-category" name="animal-category" id="animal-category"
+                      style="width: 90%">
+                <option value="">동물 선택</option>
+                <option value="CAT">CAT</option>
+                <option value="DOG">DOG</option>
+              </select>
             </td>
           </tr>
         </table>
-        <input type="button" onclick="uploadData()" value="업로드"/>
+        <input type="button" onclick="uploadAdoptions()" value="업로드"/>
       </form>
     </div>
   </div>
@@ -205,7 +257,7 @@
 <script>
   var sel_file = [];
   $(document).ready(function () {
-    $("#multipartFiles").on("change", handleImgFileSelect);
+    $("#multiparts").on("change", handleImgFileSelect);
   });
 
   function handleInputClick(event) {
@@ -213,7 +265,7 @@
     event.preventDefault();
 
     // Trigger the hidden file input element programmatically
-    document.getElementById('multipartFiles').click();
+    document.getElementById('multiparts').click();
   }
 
   async function handleImgFileSelect(e) {

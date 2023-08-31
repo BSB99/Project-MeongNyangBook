@@ -33,8 +33,7 @@ public interface AdoptionService {
    * @return
    */
   AdoptionResponseDto updateAdoption(Long adoptionId, AdoptionReqeustDto reqeustDto,
-      MultipartFile[] multipartFiles,
-      String[] delteFileNames);
+      MultipartFile[] multipartFiles);
 
   /**
    * 분양 게시물 삭제

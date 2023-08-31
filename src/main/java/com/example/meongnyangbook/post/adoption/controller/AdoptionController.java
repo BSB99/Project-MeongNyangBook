@@ -6,8 +6,8 @@ import com.example.meongnyangbook.post.adoption.dto.AdoptionDetailResponseDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionReqeustDto;
 import com.example.meongnyangbook.post.adoption.dto.AdoptionResponseDto;
 import com.example.meongnyangbook.post.adoption.service.AdoptionService;
-import com.example.meongnyangbook.post.dto.DeleteDto;
 import com.example.meongnyangbook.user.details.UserDetailsImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -39,11 +39,20 @@ public class AdoptionController {
   @PostMapping
   public ResponseEntity<ApiResponseDto> createAdoption(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestPart("requestDto") AdoptionReqeustDto reqeustDto,
-      @RequestPart("fileName") MultipartFile[] multipartFiles) {
-    ApiResponseDto result = adoptionService.createAdoption(userDetails.getUser(), reqeustDto,
-        multipartFiles);
-    return ResponseEntity.status(HttpStatus.CREATED).body(result);
+      @RequestPart("requestDto") String requestDto,
+      @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
+    try {
+      ObjectMapper objectMapper = new ObjectMapper();
+      AdoptionReqeustDto adoptionReqeustDto = objectMapper.readValue(requestDto,
+          AdoptionReqeustDto.class);
+
+      ApiResponseDto result = adoptionService.createAdoption(userDetails.getUser(),
+          adoptionReqeustDto,
+          multipartFiles);
+      return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    } catch (Error error) {
+      throw new Exception(error);
+    }
   }
 
   @Operation(summary = "분양 페이지 전체 조회(페이징)")
@@ -67,12 +76,19 @@ public class AdoptionController {
       MediaType.MULTIPART_FORM_DATA_VALUE})
   public ResponseEntity<AdoptionResponseDto> updateAdoption(@PathVariable Long adoptionId,
       @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestPart("requestDto") AdoptionReqeustDto requestDto,
-      @RequestPart("fileName") MultipartFile[] multipartFiles,
-      @RequestPart("deleteFileName") DeleteDto deleteDto) {
-    AdoptionResponseDto result = adoptionService.updateAdoption(adoptionId, requestDto,
-        multipartFiles, deleteDto.getDeleteFileName());
-    return ResponseEntity.status(HttpStatus.OK).body(result);
+      @RequestPart("requestDto") String requestDto,
+      @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
+    try {
+      ObjectMapper objectMapper = new ObjectMapper();
+      AdoptionReqeustDto postRequestDto = objectMapper.readValue(requestDto,
+          AdoptionReqeustDto.class);
+
+      AdoptionResponseDto result = adoptionService.updateAdoption(adoptionId, postRequestDto,
+          multipartFiles);
+      return ResponseEntity.status(HttpStatus.OK).body(result);
+    } catch (Error error) {
+      throw new Exception(error);
+    }
   }
 
   @Operation(summary = "분양 페이지 포스트 삭제")

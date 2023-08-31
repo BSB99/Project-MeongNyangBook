@@ -30,7 +30,7 @@ public interface CommunityService {
    * @return
    */
   CommunityResponseDto updateCommunity(Long communityNo, PostRequestDto requestDto,
-      MultipartFile[] multipartFiles, String[] deleteFileNames);
+      MultipartFile[] multipartFiles);
 
   /**
    * 커뮤니티 게시물 삭제

@@ -25,9 +25,19 @@
   <link rel="stylesheet" href="/css/style.css" type="text/css">
   <script src="/js/home.js"></script>
 
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
+
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
 </head>
 
 <body>
+<script th:inline="javascript" src="/js/post-adoptions.js"></script>
 <!-- Page Preloder -->
 <div id="preloder">
   <div class="loader"></div>
@@ -51,7 +61,7 @@
     </div>
   </div>
   <div class="offcanvas__nav__option">
-    <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+    <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
     <a href="#"><img src="img/icon/heart.png" alt=""></a>
     <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
     <div class="price">$0.00</div>
@@ -113,7 +123,8 @@
                 <li><a href="./blog-details.html">Blog Details</a></li>
               </ul>
             </li>
-            <li class="active"><a href="./post-community.html">Blog</a></li>
+            <li><a href="/mya/view/post/community">Community</a></li>
+            <li class="active"><a href="/mya/view/post/adoptions">Adoptions</a></li>
             <li><a href="./contact.html">Contacts</a></li>
           </ul>
         </nav>
@@ -145,9 +156,10 @@
 <!-- Breadcrumb Section End -->
 
 <!-- Blog Section Begin -->
-<section class="blog spad">
+<section class="blog postList">
+  <a href="/mya/view/post/adoption-add">게시물 생성</a>
   <div class="container">
-    <div class="row">
+    <div id="adoptionPostList" class="row">
       <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
           <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-1.jpg"></div>
@@ -335,5 +347,4 @@
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/main.js"></script>
 </body>
-
 </html>
