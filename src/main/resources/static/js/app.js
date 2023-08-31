@@ -36,7 +36,6 @@ stompClient.onStompError = (frame) => {
     console.error('Broker reported error: ' + frame.headers['message']);
     console.error('Additional details: ' + frame.body);
 };
-
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
     $("#disconnect").prop("disabled", !connected);

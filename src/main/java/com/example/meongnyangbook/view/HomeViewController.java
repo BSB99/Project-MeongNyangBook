@@ -62,4 +62,7 @@ public class HomeViewController {
         "post-community-update";
   }
 
+  @GetMapping("/mya/view/chat")
+  public String chat() {return "chat";}
+
 }
