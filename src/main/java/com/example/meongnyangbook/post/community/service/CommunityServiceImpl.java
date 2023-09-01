@@ -15,6 +15,8 @@ import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.example.meongnyangbook.user.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ public class CommunityServiceImpl implements CommunityService {
   private final RedisViewCountUtil redisViewCountUtil;
   private final PostServiceImpl postServiceImpl;
   private final AttachmentUrlRepository attachmentUrlRepository;
+  private final UserService userService;
 
   @Override
   public ApiResponseDto createCommunity(PostRequestDto requestDto, User user,
@@ -125,6 +128,16 @@ public class CommunityServiceImpl implements CommunityService {
         .map(CommunityResponseDto::new)
         .toList();
   }
+
+  @Override
+  public List<CommunityResponseDto> getRelativeCommunityPostList(Long userNo) {
+    User user = userService.findUser(userNo);
+
+    return communityRepository.findByUserId(user.getId())
+            .stream()
+            .map(CommunityResponseDto::new)
+            .toList();
+  };
 
 
   @Override

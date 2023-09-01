@@ -16,6 +16,8 @@ import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.entity.User;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.example.meongnyangbook.user.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +35,7 @@ public class AdoptionServiceImpl implements AdoptionService {
   private final AttachmentUrlRepository attachmentUrlRepository;
   private final RedisViewCountUtil redisViewCountUtil;
   private final PostServiceImpl postServiceImpl;
+  private final UserService userService;
 
   @Override
   public ApiResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
@@ -147,6 +150,16 @@ public class AdoptionServiceImpl implements AdoptionService {
         .map(AdoptionResponseDto::new)
         .collect(Collectors.toList());
   }
+
+  @Override
+  public List<AdoptionResponseDto> getRelativeAdoptionPostList(Long userNo) {
+    User user = userService.findUser(userNo);
+
+    return adoptionRepository.findByUserId(user.getId())
+            .stream()
+            .map(AdoptionResponseDto::new)
+            .collect(Collectors.toList());
+  };
 
   @Override
   public AdoptionResponseDto getBestAdoptionPost() {

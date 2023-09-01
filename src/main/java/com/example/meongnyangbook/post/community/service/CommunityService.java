@@ -79,4 +79,6 @@ public interface CommunityService {
    * @return
    */
   Community getCommunity(Long communityNo);
+
+    List<CommunityResponseDto> getRelativeCommunityPostList(Long userNo);
 }

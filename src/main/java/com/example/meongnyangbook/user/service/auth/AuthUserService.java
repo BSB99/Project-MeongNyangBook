@@ -36,4 +36,5 @@ public interface AuthUserService {
 
   String generateAndSetTemporaryPassword(User user);
 
+  ProfileResponseDto getSingleProfle(Long userNo);
 }
