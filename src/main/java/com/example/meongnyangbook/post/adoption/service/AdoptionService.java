@@ -83,4 +83,6 @@ public interface AdoptionService {
    * @return
    */
   Adoption getAdoption(Long adoptionId);
+
+  List<AdoptionResponseDto> getRelativeAdoptionPostList(Long userNo);
 }

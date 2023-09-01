@@ -11,6 +11,7 @@ import com.example.meongnyangbook.user.entity.User;
 import com.example.meongnyangbook.user.entity.UserRoleEnum;
 import com.example.meongnyangbook.user.jwt.JwtUtil;
 import com.example.meongnyangbook.user.repository.UserRepository;
+import com.example.meongnyangbook.user.service.user.UserService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +38,7 @@ public class AuthUserServiceImpl implements AuthUserService {
   private final JavaMailSender javaMailSender;
   private final PasswordEncoder passwordEncoder;
   private final S3Service s3Service;
+  private final UserService userService;
 
   @Override
   @Transactional
@@ -80,6 +82,12 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     return new ProfileResponseDto(user);
   }
+
+  public ProfileResponseDto getSingleProfle(Long userNo) {
+    User user = userService.findUser(userNo);
+
+    return new ProfileResponseDto(user);
+  };
 
   @Override
   @Transactional
