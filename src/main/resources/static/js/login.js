@@ -54,6 +54,7 @@ function accessPhone() {
         code: accessNumber
       })
     })
+
     .done(function (response, status, xhr) {
       alert('인증번호 확인');
       document.getElementById('access-button').disabled = true;
