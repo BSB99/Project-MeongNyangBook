@@ -9,8 +9,18 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css">
 
 
-  <link rel="stylesheet" href="/css/style.css">
+<!--  <link rel="stylesheet" href="/css/style.css">-->
   <link rel="stylesheet" href="/css/style-detail.css">
+
+  <!-- Css Styles -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"
@@ -90,7 +100,7 @@
         <div class="header__nav__option">
           <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
           <a href="#"><img src="/img/icon/heart.png" alt=""></a>
-          <a href="#"><img src="/image/icon/cart.png" alt=""> <span>0</span></a>
+          <a href="#"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
           <div class="price">$0.00</div>
         </div>
       </div>
@@ -101,36 +111,14 @@
 <!-- Header Section End -->
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-blog set-bg" data-setbg="/img/breadcrumb-bg.jpg">
-  <div id="carouselExampleIndicators" class="carousel slide" style="width: 100%; height: 100%;">
-    <!--    이미지 케러셸 부분-->
-    <div class="carousel-inner" id="carousel-inners">
-      <div class="carousel-item active">
-        <img
-            src="https://meongnyangbook.s3.ap-northeast-2.amazonaws.com/03664978-4ceb-4d7d-b3a8-1fcca8664cd1test2.png"
-            class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img
-            src="https://meongnyangbook.s3.ap-northeast-2.amazonaws.com/03939c64-13ae-4713-8f53-1a592f2398e5Redis.png"
-            class="d-block w-100" alt="...">
-      </div>
-      <div class="carousel-item">
-        <img
-            src="https://meongnyangbook.s3.ap-northeast-2.amazonaws.com/0436b846-8f73-4ffd-9dc0-cef45bb9eaef%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA+2023-08-07+%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB+11.53.28.png"
-            class="d-block w-100" alt="...">
+<section class="breadcrumb-blog set-bg" data-setbg="/img/banner/puppybanner.jpg"
+         style="background-position: center bottom;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h2>Community</h2>
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
   </div>
 </section>
 <!-- Breadcrumb Section End -->
@@ -143,8 +131,34 @@
       <div class="col-lg-8 posts-list">
         <div class="single-post row">
           <div class="col-lg-12">
-            <div class="feature-img">
-              <img class="img-fluid" src="img/blog/feature-img1.jpg" alt="">
+<!--            <div class="feature-img carousel-inner" id="carousel-inners">-->
+<!--              <img class="img-fluid" src="/img/blog/blog-1.jpg" alt="">-->
+<!--            </div>-->
+            <div id="carouselExampleIndicators" class="feature-img carousel slide">
+              <!--    이미지 케러셸 부분-->
+              <div class="carousel-inner" id="carousel-inners">
+                <div class="carousel-item active">
+                  <img
+                      src="https://meongnyangbook.s3.ap-northeast-2.amazonaws.com/03664978-4ceb-4d7d-b3a8-1fcca8664cd1test2.png"
+                      class="img-fluid d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <img
+                      src="https://meongnyangbook.s3.ap-northeast-2.amazonaws.com/03939c64-13ae-4713-8f53-1a592f2398e5Redis.png"
+                      class="d-block" alt="...">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                      data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                      data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+<!--              끝-->
             </div>
           </div>
           <div class="col-lg-3  col-md-3">
@@ -171,41 +185,20 @@
                   </a>
                 </li>
               </ul>
-              <!-- <ul class="social-links">
-                  <li>
-                      <a href="#">
-                          <i class="fab fa-facebook-f"></i>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#">
-                        <i class="fab fa-twitter"></i>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#">
-                        <i class="fab fa-github"></i>
-                      </a>
-                  </li>
-                  <li>
-                      <a href="#">
-                        <i class="fab fa-behance"></i>
-                      </a>
-                  </li>
-              </ul> -->
             </div>
           </div>
           <div class="col-lg-9 col-md-9 blog_details">
-            <button onclick="deleteCommunity()" id="deleteCommunityBtn">삭제하기</button>
-            <button onclick="updateCommunity()" id="updateCommunityBtn">수정하기</button>
-            <h2 id="communityTitle">Astronomy Binoculars A Great Alternative</h2>
+            <h2 id="communityTitle">Astronomy Binoculars A Great Alternative</h2>기
             <p id="communityDescription" class="excert">
               MCSE boot camps have its supporters and its detractors. Some people do not understand
               why you should have to spend money
               on boot camp when you can get the MCSE study materials yourself at a fraction.
             </p>
           </div>
-        </div>
+          <div>
+            <button onclick="deleteCommunity()" id="deleteCommunityBtn">삭제하기</button>
+            <button onclick="updateCommunity()" id="updateCommunityBtn">수정하기</button>
+          </div>
         <div class="navigation-area">
           <div class="row">
             <div
@@ -242,7 +235,7 @@
               </div>
               <div class="thumb">
                 <a href="#">
-                  <img class="img-fluid" src="img/blog/next.jpg" alt="">
+                  <img class="img-fluid" src="/img/blog/next.jpg" alt="">
                 </a>
               </div>
             </div>
@@ -294,24 +287,24 @@
                                         required=""></textarea>
             </div>
             <a class="button button-postComment button--active" onclick="postComment()"
-               style="cursor: pointer;">Post Comment</a>
+               style="cursor: pointer;">댓글 달기</a>
           </form>
         </div>
       </div>
-      <div class="col-lg-4">
-        <div class="blog_right_sidebar">
-          <aside class="single_sidebar_widget search_widget">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search Posts">
-              <span class="input-group-btn">
-																	<button class="btn btn-default" type="button">
-																			<i class="lnr lnr-magnifier"></i>
-																	</button>
-															</span>
-            </div>
-            <!-- /input-group -->
-            <div class="br"></div>
-          </aside>
+<!--      <div class="col-lg-4">-->
+<!--        <div class="blog_right_sidebar">-->
+<!--          <aside class="single_sidebar_widget search_widget">-->
+<!--            <div class="input-group">-->
+<!--              <input type="text" class="form-control" placeholder="Search Posts">-->
+<!--              <span class="input-group-btn">-->
+<!--																	<button class="btn btn-default" type="button">-->
+<!--																			<i class="lnr lnr-magnifier"></i>-->
+<!--																	</button>-->
+<!--															</span>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; /input-group &ndash;&gt;-->
+<!--            <div class="br"></div>-->
+<!--          </aside>-->
           <!-- <aside class="single_sidebar_widget author_widget">
               <img class="author_img rounded-circle" src="img/blog/author.png" alt="">
               <h4>Charlie Barber</h4>
