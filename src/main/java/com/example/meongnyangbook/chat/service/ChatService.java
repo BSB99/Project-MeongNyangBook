@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.chat.service;
 
 import com.example.meongnyangbook.chat.dto.ChatMessageResponseDto;
+import com.example.meongnyangbook.chat.dto.ChatRoomListResponseDto;
 import com.example.meongnyangbook.chat.entity.Chat;
 import com.example.meongnyangbook.chat.entity.ChatRoom;
 import com.example.meongnyangbook.common.ApiResponseDto;
@@ -17,5 +18,7 @@ public interface ChatService {
 
     ApiResponseDto createChatRoom(Long userId, User user);
 
-    Chat createChat(Long roomNo, User user, String msg);
+    Chat createChat(Long roomNo,Long userId, String msg);
+
+    List<ChatRoomListResponseDto> getChatRooms(User user);
 }

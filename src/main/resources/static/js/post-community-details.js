@@ -109,13 +109,13 @@ function setCardData(response) {
       temp_html = `<div class="carousel-item active">
         <img
             src="${file}"
-            class="d-block w-100" alt="...">
+            class="img-fluid d-block w-100" alt="..." style="height: 550px">
       </div>`
     } else {
-      temp_html = `<div class="carousel-item">
+      temp_html = `<div class="carousel-item active">
         <img
             src="${file}"
-            class="d-block w-100" alt="...">
+            class="img-fluid d-block w-100 " alt="..." style="height: 550px">
       </div>`
     }
     $("#carousel-inners").append(temp_html);

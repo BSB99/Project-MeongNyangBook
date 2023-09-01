@@ -53,19 +53,13 @@ public class HomeViewController {
   }
 
   @GetMapping("/mya/view/basket")
-  public String basket() {
-    return "shopping-cart";
-  }
+  public String basket() {return "shopping-cart";}
 
   @GetMapping("/mya/view/items/{itemId}")
-  public String itemDetail(@PathVariable Long itemId) {
-    return "shop-details";
-  }
+  public String itemDetail(@PathVariable Long itemId) {return "shop-details";}
 
   @GetMapping("/mya/view/order")
-  public String checkOut() {
-    return "order";
-  }
+  public String checkOut() {return "order";}
 
   @GetMapping("/mya/view/communities/{communityId}")
   public String detailsCommunityPost(@PathVariable Long communityId) {
@@ -83,6 +77,9 @@ public class HomeViewController {
     return
         "post-community-update";
   }
+
+  @GetMapping("/mya/view/chat")
+  public String chat() {return "chat";}
 
   @GetMapping("/mya/view/post/adoptions/update/{adoptionsId}")
   public String updateAdoptionsPost(@PathVariable Long adoptionsId) {

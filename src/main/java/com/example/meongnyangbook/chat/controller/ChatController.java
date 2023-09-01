@@ -26,13 +26,13 @@ public class ChatController {
 
   @Operation(summary = "채팅방 접속 겸 채팅 보내")
   @MessageMapping("/{roomId}")
-  @SendTo("/room/{roomId}")
-  public Chat test(@DestinationVariable Long roomId,@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody ChatRequestDto requestDto) {
-    return chatService.createChat(roomId, userDetails.getUser(), requestDto.getMsg());
+  @SendTo("/send/room/{roomId}")
+  public Chat test(@DestinationVariable Long roomId, @RequestBody ChatRequestDto requestDto) {
+    return chatService.createChat(roomId, requestDto.getUserId(), requestDto.getMsg());
   }
 
   @Operation(summary = "채팅방 생성")
-  @PostMapping("/room/{userId}")
+  @PostMapping("/room/user/{userId}")
   public ApiResponseDto createChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long userId) {
     return chatService.createChatRoom(userId, userDetails.getUser());
   }
