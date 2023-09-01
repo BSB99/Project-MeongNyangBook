@@ -79,7 +79,10 @@ async function createConnect(chatRoomId) {
             document.getElementById('chatModalBody').innerHTML = chatContent;
 
             // 모달 표시
-            var chatModal = new bootstrap.Modal(document.getElementById('chatModal'));
+    var chatModal = new bootstrap.Modal(document.getElementById('chatModal'), {
+        backdrop: 'static',
+        keyboard: false
+    });
             chatModal.show();
 
             stompClient.activate();
@@ -224,5 +227,9 @@ async function getChatInfo(chatRoomId) {
 }
 
 function closeChatBtn() {
-    stompClient.deactivate();
+    try {
+        stompClient.deactivate();
+    } catch (error) {
+        console.error("Error deactivating stompClient:", error);
+    }
 }
