@@ -2199,7 +2199,7 @@ a {
   padding: 50px 30px;
   margin-top: 50px
 }
-}
+
 
 @media (max-width: 414px) {
   .comments-area {
@@ -2393,7 +2393,7 @@ a {
 
 .contact-banner-area {
   height: 280px;
-  background: url("../../assets/images/contact-bg.png") center center no-repeat;
+  /*background: url("../../img/contact-bg.png") center center no-repeat;*/
   background-size: cover;
   position: relative;
   z-index: 1
@@ -4588,7 +4588,7 @@ a {
   position: absolute;
   right: 0px;
   top: 14px;
-  @icnlude transition
+  /*@icnlude transition*/
 }
 
 .review_item .media .media-body .reply_btn:hover {
