@@ -66,9 +66,11 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error:", error);
         })
 });
+
 const stompClient = new StompJs.Client({
     brokerURL: 'ws://localhost:8080/mya-websocket'
 });
+
 async function createConnect(chatRoomId) {
     roomId = chatRoomId;
     let chatContent = await getChatInfo(chatRoomId);
@@ -84,12 +86,11 @@ async function createConnect(chatRoomId) {
 
             stompClient.onConnect = (frame) => {
                 //setConnected(true);
-                console.log(frame);
                 stompClient.subscribe('/send/room/' + chatRoomId, (message) => {
-                    console.log(message);
                     const receivedMessage = JSON.parse(message.body);
-                    if(receivedMessage.userId !== userId) {
-                        displayReceivedMessage(receivedMessage.msg);
+                    console.log(receivedMessage);
+                    if(receivedMessage.user.id !== userId) {
+                        displayReceivedMessage(receivedMessage.message);
                     }
                 });
                 $.ajax({
@@ -150,7 +151,7 @@ function displayReceivedMessage(message) {
 
     function sendMsg(message) {
         stompClient.publish({
-            destination: "/send/room/" + roomId,
+            destination: "/room/" + roomId,
             body: JSON.stringify({
                 'msg': message,
                 'userId': userId

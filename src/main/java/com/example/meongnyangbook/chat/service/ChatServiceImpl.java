@@ -27,7 +27,6 @@ public class ChatServiceImpl implements ChatService {
     public Chat createChat(Long roomNo, Long userId, String msg) {
         ChatRoom chatRoom = getRoom(roomNo);
         User user = userService.findUser(userId);
-
         Chat chat = new Chat(chatRoom, user, msg);
 
         chatRepository.save(chat);
