@@ -426,7 +426,7 @@ a {
 .nav-shop li button .nav-shop__circle {
   font-size: 9px;
   display: inline-block;
-  background: #384aeb;
+  background: #FFC619;
   color: #fff;
   padding: 0px 5px;
   border-radius: 50%;
@@ -742,7 +742,7 @@ a {
 }
 
 .section-intro__style {
-  border-bottom: 2px solid #384aeb;
+  border-bottom: 2px solid #FFC619;
   padding-bottom: 8px
 }
 
@@ -763,7 +763,7 @@ a {
   display: block;
   width: 5%;
   height: 100%;
-  background: #384aeb;
+  background: #FFC619;
   position: absolute;
   top: 0;
   left: 0
@@ -857,7 +857,7 @@ a {
 .hero-carousel__slideOverlay {
   position: absolute;
   bottom: 50px;
-  background: #384aeb;
+  background: #FFC619;
   padding: 23px 90px 23px 25px;
   transform: translateY(50px);
   opacity: 0;
@@ -931,7 +931,7 @@ a {
 }
 
 .card-product__imgOverlay li button:hover {
-  background: #384aeb
+  background: #FFC619
 }
 
 .card-product__imgOverlay li:not(:last-child) {
@@ -958,7 +958,7 @@ a {
 }
 
 .offer {
-  background: url("../img/home/parallax-bg.png") right center no-repeat;
+  background: url("../img/banner/puppybanner.jpg") right center no-repeat;
   background-size: cover
 }
 
@@ -1007,12 +1007,12 @@ a {
 
 #bestSellerCarousel .owl-prev i, #bestSellerCarousel .owl-prev span, #bestSellerCarousel .owl-next i, #bestSellerCarousel .owl-next span {
   font-size: 15px;
-  color: #384aeb;
+  color: #FFC619;
   line-height: 40px
 }
 
 #bestSellerCarousel .owl-prev:hover, #bestSellerCarousel .owl-next:hover {
-  background: #384aeb
+  background: #FFC619
 }
 
 #bestSellerCarousel .owl-prev:hover i, #bestSellerCarousel .owl-prev:hover span, #bestSellerCarousel .owl-next:hover i, #bestSellerCarousel .owl-next:hover span {
@@ -1098,11 +1098,11 @@ a {
 }
 
 .card-blog:hover .card-blog__title a {
-  color: #384aeb
+  color: #FFC619
 }
 
 .card-blog:hover .card-blog__link {
-  color: #384aeb
+  color: #FFC619
 }
 
 .card-blog:hover .card-blog__link i, .card-blog:hover .card-blog__link span {
@@ -1144,7 +1144,7 @@ a {
   position: absolute;
   top: 50px;
   left: 10px;
-  color: #384aeb
+  color: #FFC619
 }
 
 .subscribe-form .form-control {
@@ -1188,12 +1188,12 @@ a {
 
 .button {
   display: inline-block;
-  border: 1px solid #384aeb;
+  border: 1px solid #FFC619;
   border-radius: 30px;
   color: #222;
   font-weight: 500;
   padding: 12px 50px;
-  background: #384aeb;
+  background: #FFC619;
   color: #fff;
   transition: all .4s ease
 }
@@ -1226,7 +1226,7 @@ a {
 }
 
 .button-blog:hover {
-  background: #384aeb !important;
+  background: #FFC619 !important;
   color: #fff !important
 }
 
@@ -1283,12 +1283,12 @@ a {
 }
 
 .button--active {
-  background: #384aeb;
+  background: #FFC619;
   color: #fff
 }
 
 .button-contactForm {
-  border: 1px solid #384aeb !important;
+  border: 1px solid #FFC619 !important;
   border-radius: 0;
   padding: 11px 26px
 }
@@ -1299,7 +1299,7 @@ a {
 }
 
 .button:hover {
-  border-color: #384aeb;
+  border-color: #FFC619;
   background: transparent;
   color: #222
 }
@@ -1378,7 +1378,7 @@ a {
 }
 
 .blog-banner-btn {
-  border: 2px solid #384aeb;
+  border: 2px solid #FFC619;
   padding: 10px 45px
 }
 
@@ -2194,11 +2194,12 @@ a {
 }
 
 .comments-area {
-  background: #fafaff;
-  border: 1px solid #eee;
+  background: #FFF6DC;
+  border: 1px solid #FFC6AC;
   padding: 50px 30px;
   margin-top: 50px
 }
+
 
 @media (max-width: 414px) {
   .comments-area {
@@ -2283,9 +2284,9 @@ a {
 }
 
 .comment-form {
-  background: #fafaff;
+  background: #FFF6DC;
   text-align: center;
-  border: 1px solid #eee;
+  border: 1px solid #FFC6AC;
   padding: 47px 30px 43px;
   margin-top: 50px;
   margin-bottom: 20px
@@ -2392,7 +2393,7 @@ a {
 
 .contact-banner-area {
   height: 280px;
-  background: url("../../assets/images/contact-bg.png") center center no-repeat;
+  /*background: url("../../img/contact-bg.png") center center no-repeat;*/
   background-size: cover;
   position: relative;
   z-index: 1
@@ -4587,7 +4588,7 @@ a {
   position: absolute;
   right: 0px;
   top: 14px;
-  @icnlude transition
+  /*@icnlude transition*/
 }
 
 .review_item .media .media-body .reply_btn:hover {

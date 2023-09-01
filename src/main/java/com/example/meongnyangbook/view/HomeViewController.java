@@ -32,9 +32,19 @@ public class HomeViewController {
     return "post-community";
   }
 
+  @GetMapping("/mya/view/post/adoptions")
+  public String adoptions() {
+    return "post-adoptions";
+  }
+
   @GetMapping("/mya/view/post/add")
   public String addPost() {
     return "post-add";
+  }
+
+  @GetMapping("/mya/view/post/adoption-add")
+  public String addAdoptionPost() {
+    return "post-adoptions-add";
   }
 
   @GetMapping("/mya/view/post/community/detail")
@@ -56,10 +66,26 @@ public class HomeViewController {
     return "post-community-details";
   }
 
+  @GetMapping("/mya/view/adoptions/{adoptionId}")
+  public String detailsAdoptionsPost(@PathVariable Long adoptionId) {
+    return "post-adoptions-details";
+  }
+
+
   @GetMapping("/mya/view/post/community/update/{communityId}")
   public String updateCommunityPost(@PathVariable Long communityId) {
     return
         "post-community-update";
   }
+
+  @GetMapping("/mya/view/chat")
+  public String chat() {return "chat";}
+
+  @GetMapping("/mya/view/post/adoptions/update/{adoptionsId}")
+  public String updateAdoptionsPost(@PathVariable Long adoptionsId) {
+    return
+        "post-adoptions-update";
+  }
+
 
 }

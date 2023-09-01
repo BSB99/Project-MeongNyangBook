@@ -31,7 +31,7 @@ function setHtml(communityTitle, createdAt, imgUrl, communityId) {
        <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
           <div class="blog__item__pic set-bg" >
-          <img src="${imgUrl}" alt="">
+          <img src="${imgUrl}" alt="" style="height: 240.19px">
           </div>
           <div class="blog__item__text" value="${communityId}">
             <span><img src="/img/icon/calendar.png" alt="">${createdAt}</span>

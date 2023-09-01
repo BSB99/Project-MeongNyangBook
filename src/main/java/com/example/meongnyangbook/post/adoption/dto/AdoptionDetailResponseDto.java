@@ -16,6 +16,7 @@ import lombok.Setter;
 public class AdoptionDetailResponseDto {
 
   private String title;
+  private String username;
   private String description;
   private Boolean completion;
   private String animalName;
@@ -25,10 +26,12 @@ public class AdoptionDetailResponseDto {
   private CategoryEnum category;
   private List<CommentResponseDto> commentList;
   private Long viewCount;
+  private String createAt;
   private AttachmentUrlResponseDto fileUrls;
 
   public AdoptionDetailResponseDto(Adoption adoption, Double viewCount) {
     this.title = adoption.getTitle();
+    this.username = adoption.getUser().getUsername();
     this.description = adoption.getDescription();
     this.completion = adoption.getCompletion();
     this.animalName = adoption.getAnimalName();
@@ -41,6 +44,7 @@ public class AdoptionDetailResponseDto {
         .map(CommentResponseDto::new)
         .collect(Collectors.toList());
     this.viewCount = viewCount.longValue();
+    this.createAt = adoption.getCreatedAtAsString();
     this.fileUrls = new AttachmentUrlResponseDto(adoption.getAttachmentUrl());
   }
 }

@@ -1,6 +1,6 @@
 let lastPart;
 let userNickname;
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   const token = Cookies.get('Authorization');
 
   if (!token || token.length === 0) {
@@ -23,21 +23,21 @@ document.addEventListener("DOMContentLoaded", function() {
       "Authorization": token
     }
   })
-      .done(function(response) {
-        setCardData(response);
+  .done(function (response) {
+    setCardData(response);
 
-        commentBox.forEach(container => {
-          container.innerHTML = '';
-        });
+    commentBox.forEach(container => {
+      container.innerHTML = '';
+    });
 
-        let firstCommentBoxHtml = `<h4>댓글</h4>`;
-        let commentInfoHtml = ``;
-        if (response.commentList.length > 0) {
-          for (let commentInfo of response.commentList) {
-            let replyButtonHtml = ``;
+    let firstCommentBoxHtml = `<h4>댓글</h4>`;
+    let commentInfoHtml = ``;
+    if (response.commentList.length > 0) {
+      for (let commentInfo of response.commentList) {
+        let replyButtonHtml = ``;
 
-            if (commentInfo.userNickname === userNickname) {
-              replyButtonHtml = `
+        if (commentInfo.userNickname === userNickname) {
+          replyButtonHtml = `
                         <div class="btn" style="width: 100px; height: 100px">
                             <div class="reply-btn">
                                 <a class="btn-reply text-uppercase edit-button" onclick="editComment(this)">수정</a>
@@ -47,9 +47,9 @@ document.addEventListener("DOMContentLoaded", function() {
                                 <a class="btn-reply text-uppercase" onclick="deleteComment(${commentInfo.commentId})">삭제</a>
                             </div>
                         </div>`;
-            }
+        }
 
-            commentInfoHtml += `
+        commentInfoHtml += `
                     <div class="comment-list">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
@@ -70,18 +70,19 @@ document.addEventListener("DOMContentLoaded", function() {
                             ${replyButtonHtml}
                         </div>
                     </div>`;
-          }
-        }
+      }
+    }
 
-        let lastCommentBoxHtml = `</div>`;
-        commentBox.forEach(container => {
-          container.innerHTML = firstCommentBoxHtml + commentInfoHtml + lastCommentBoxHtml;
-        });
-      })
-      .fail(function(response, status, xhr) {
-        alert("카드 정보 불러오기 실패");
-        console.log(response);
-      });
+    let lastCommentBoxHtml = `</div>`;
+    commentBox.forEach(container => {
+      container.innerHTML = firstCommentBoxHtml + commentInfoHtml
+          + lastCommentBoxHtml;
+    });
+  })
+  .fail(function (response, status, xhr) {
+    alert("카드 정보 불러오기 실패");
+    console.log(response);
+  });
 });
 
 function setCardData(response) {
@@ -91,6 +92,8 @@ function setCardData(response) {
   let nickname = document.getElementById("username");
   let createdAt = document.getElementById("createdAt");
 
+  let fileNames = response.fileUrls.fileName.split(",");
+
   if (response.username !== userNickname) {
     let deleteCommunityBtn = document.getElementById("deleteCommunityBtn");
     let updateCommunityBtn = document.getElementById("updateCommunityBtn");
@@ -98,6 +101,26 @@ function setCardData(response) {
     updateCommunityBtn.style.display = "none";
   }
 
+  $("#carousel-inners").empty();
+  let i = 0;
+  for (let file of fileNames) {
+    let temp_html
+    if (i == 0) {
+      temp_html = `<div class="carousel-item active">
+        <img
+            src="${file}"
+            class="img-fluid d-block w-100" alt="..." style="height: 550px">
+      </div>`
+    } else {
+      temp_html = `<div class="carousel-item active">
+        <img
+            src="${file}"
+            class="img-fluid d-block w-100 " alt="..." style="height: 550px">
+      </div>`
+    }
+    $("#carousel-inners").append(temp_html);
+    i++;
+  }
   communityTitle.innerText = response.title;
   communityDescription.innerText = response.description;
 
@@ -147,8 +170,8 @@ function postComment() {
   }
 
   const requestDto = {
-    "postId" : lastPart,
-    "content" : orderRecipientInput
+    "postId": lastPart,
+    "content": orderRecipientInput
   }
 
   $.ajax({
@@ -160,16 +183,16 @@ function postComment() {
     },
     data: JSON.stringify(requestDto)
   })
-      .done((res) => {
-        if (res.statusCode === 201) {
-          alert("댓글 작성 완료");
-          location.reload();
-        }
-      })
-      .fail(function (response, status, xhr) {
-        alert("댓글 작성 실패");
-        console.log(response);
-      })
+  .done((res) => {
+    if (res.statusCode === 201) {
+      alert("댓글 작성 완료");
+      location.reload();
+    }
+  })
+  .fail(function (response, status, xhr) {
+    alert("댓글 작성 실패");
+    console.log(response);
+  })
 }
 
 function getUserNickname() {
@@ -178,13 +201,13 @@ function getUserNickname() {
     url: "/mya/users",
     headers: {"Authorization": token}
   })
-      .done((res) => {
-        userNickname = res.nickname;
-      })
-      .fail(function (response, status, xhr) {
-        alert("유저정보 가져오기 실패");
-        console.log(response);
-      })
+  .done((res) => {
+    userNickname = res.nickname;
+  })
+  .fail(function (response, status, xhr) {
+    alert("유저정보 가져오기 실패");
+    console.log(response);
+  })
 }
 
 function deleteComment(commentId) {
@@ -193,14 +216,14 @@ function deleteComment(commentId) {
     url: "/mya/comments/" + commentId,
     headers: {"Authorization": token}
   })
-      .done((res) => {
-        alert("댓글 삭제 완료");
-        location.reload();
-      })
-      .fail(function (response, status, xhr) {
-        alert("댓글 삭제 실패");
-        console.log(response);
-      })
+  .done((res) => {
+    alert("댓글 삭제 완료");
+    location.reload();
+  })
+  .fail(function (response, status, xhr) {
+    alert("댓글 삭제 실패");
+    console.log(response);
+  })
 }
 
 function editComment(button) {
@@ -228,7 +251,7 @@ function confirmEdit(button, commentId) {
   // TODO: Ajax 요청을 사용하여 댓글 수정 내용과 아이디를 서버로 전송
   // 아래는 예시로 console.log로 출력하는 코드입니다.
   const commentRequestDto = {
-    content : newComment
+    content: newComment
   }
   $.ajax({
     type: "PATCH",
@@ -239,13 +262,13 @@ function confirmEdit(button, commentId) {
     },
     data: JSON.stringify(commentRequestDto)
   })
-      .done((res) => {
-        alert("댓글 수정 완료");
-      })
-      .fail(function (response, status, xhr) {
-        alert("댓글 수정 실패");
-        console.log(response);
-      })
+  .done((res) => {
+    alert("댓글 수정 완료");
+  })
+  .fail(function (response, status, xhr) {
+    alert("댓글 수정 실패");
+    console.log(response);
+  })
 
   commentContent.innerText = newComment;
   commentContent.style.display = "inline";
