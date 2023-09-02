@@ -108,6 +108,13 @@ public class AdoptionController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @GetMapping("/relative-post/{userNo}")
+  public ResponseEntity<List<AdoptionResponseDto>> getRelativeAdoptionPostList(
+          @PathVariable Long userNo) {
+    List<AdoptionResponseDto> result = adoptionService.getRelativeAdoptionPostList(userNo);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
   @GetMapping("/best-post")
   public ResponseEntity<AdoptionResponseDto> getBestAdoptionPost() {
     AdoptionResponseDto result = adoptionService.getBestAdoptionPost();

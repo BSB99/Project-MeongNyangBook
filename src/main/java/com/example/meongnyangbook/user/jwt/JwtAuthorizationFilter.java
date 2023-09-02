@@ -75,7 +75,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             setAuthentication(info.getSubject());
         }
         try {
-            log.info("AuthFilter -> filterChain");
             filterChain.doFilter(request, response);
         } catch (FileUploadException e) {
             log.error(e.getMessage());

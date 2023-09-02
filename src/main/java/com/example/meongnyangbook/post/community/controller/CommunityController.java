@@ -126,6 +126,16 @@ public class CommunityController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @GetMapping("/relative-post/{userNo}")
+  public ResponseEntity<List<CommunityResponseDto>> getRelativeCommunityPostList(
+          @AuthenticationPrincipal UserDetailsImpl userDetails,
+          @PathVariable Long userNo
+          ) {
+    List<CommunityResponseDto> result = communityService.getRelativeCommunityPostList(
+            userNo);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
   // Best 게시물 조회
   @GetMapping("/best-post")
   public ResponseEntity<CommunityResponseDto> getBestAdoptionPost() {

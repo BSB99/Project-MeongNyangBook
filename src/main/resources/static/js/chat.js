@@ -2,6 +2,7 @@ const token = Cookies.get('Authorization');
 let userId;
 let roomId;
 let userNickname;
+
 document.addEventListener("DOMContentLoaded", function () {
 
     if (token === undefined) {
@@ -38,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (i.participant.nickname === userNickname) {
                     firstChatHtml += `
                 <div class="friend" onclick="createConnect(${i.id})">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg"/>
                 <p>
                 <strong>${i.constructor.nickname}</strong>
                 </p>
@@ -48,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 } else {
                     firstChatHtml += `
                 <div class="friend" onclick="createConnect(${i.id})">
-                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" "/>
                 <p>
                 <strong>${i.participant.nickname}</strong>
                 </p>
@@ -70,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
 const stompClient = new StompJs.Client({
     brokerURL: 'ws://localhost:8080/mya-websocket'
 });
-
+let chatModal;
 async function createConnect(chatRoomId) {
     roomId = chatRoomId;
     let chatContent = await getChatInfo(chatRoomId);
@@ -79,7 +80,10 @@ async function createConnect(chatRoomId) {
             document.getElementById('chatModalBody').innerHTML = chatContent;
 
             // 모달 표시
-            var chatModal = new bootstrap.Modal(document.getElementById('chatModal'));
+    chatModal = new bootstrap.Modal(document.getElementById('chatModal'), {
+        backdrop: 'static',
+        keyboard: false
+    });
             chatModal.show();
 
             stompClient.activate();
@@ -162,7 +166,7 @@ function displayReceivedMessage(message) {
     }
 
 function displayMyMessage(message) {
-    const chatModalBody = document.querySelectorAll('#chat-messages');
+    const chatMessagesElement = document.querySelectorAll('#chat-messages');
     const messageElement = `
         <div class="message right">
         <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
@@ -174,10 +178,10 @@ function displayMyMessage(message) {
         </div>
     `;
 
-    chatModalBody.forEach((container) => {
+    chatMessagesElement.forEach((container) => {
         container.innerHTML += messageElement;
     })
-    chatModalBody.scrollTop = chatModalBody.scrollHeight; // 스크롤을 메시지의 마지막 부분으로 이동
+    chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
 }
 async function getChatInfo(chatRoomId) {
     let chatContent = `<div id="chat-messages">`;
@@ -195,7 +199,9 @@ async function getChatInfo(chatRoomId) {
             if (message.responseDto.nickname === userNickname) {
                 chatContent += `
                     <div class="message right">
+                    <a href="/mya/view/users/my-profile">
                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+                    </a>
                     <div class="bubble">
                       ${message.msg}
                       <div class="corner"></div>
@@ -206,7 +212,9 @@ async function getChatInfo(chatRoomId) {
             } else {
                 chatContent += `
                     <div class="message">
+                    <a href="/mya/view/users/relative-profile/${message.responseDto.id}">
                     <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg" />
+                    </a>
                     <div class="bubble">
                       ${message.msg}
                       <div class="corner"></div>
@@ -219,10 +227,15 @@ async function getChatInfo(chatRoomId) {
         return chatContent;
     } catch (error) {
         console.error("Error fetching chat info:", error);
-        return chatContent;  // Error case
+        return chatContent;
     }
 }
 
 function closeChatBtn() {
-    stompClient.deactivate();
+    try {
+        stompClient.deactivate();
+    } catch (error) {
+        console.error("Error deactivating stompClient:", error);
+    }
+    chatModal.hide();
 }
