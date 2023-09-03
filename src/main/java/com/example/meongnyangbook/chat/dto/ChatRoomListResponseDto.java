@@ -12,7 +12,7 @@ public class ChatRoomListResponseDto {
 
     public ChatRoomListResponseDto(ChatRoom chatRoom) {
         this.id = chatRoom.getId();
-        this.participant = new ChatResponseDto(chatRoom.getParticipant());
-        this.constructor = new ChatResponseDto(chatRoom.getConstructor());
+        this.participant = new ChatResponseDto(chatRoom.getGuestUserId());
+        this.constructor = new ChatResponseDto(chatRoom.getHostUserId());
     }
 }
