@@ -1,7 +1,7 @@
 package com.example.meongnyangbook.chat.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
-import com.example.meongnyangbook.user.entity.User;
+import com.example.meongnyangbook.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

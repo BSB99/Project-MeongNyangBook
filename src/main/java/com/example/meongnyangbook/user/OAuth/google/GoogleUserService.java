@@ -1,10 +1,10 @@
 package com.example.meongnyangbook.user.OAuth.google;
 
+import com.example.meongnyangbook.jwt.JwtUtil;
 import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
-import com.example.meongnyangbook.user.entity.User;
-import com.example.meongnyangbook.user.entity.UserRoleEnum;
-import com.example.meongnyangbook.user.jwt.JwtUtil;
-import com.example.meongnyangbook.user.repository.UserRepository;
+import com.example.meongnyangbook.user.User;
+import com.example.meongnyangbook.user.UserRepository;
+import com.example.meongnyangbook.user.UserRoleEnum;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

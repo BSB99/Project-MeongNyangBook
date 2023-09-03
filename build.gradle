@@ -79,7 +79,7 @@ dependencies {
     //S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
-    //AWS Rambda
+    //AWS Lambda
     implementation group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.2.1'
     implementation group: 'com.amazonaws', name: 'aws-lambda-java-events', version: '3.7.0'
     implementation group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.969'

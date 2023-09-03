@@ -1,6 +1,6 @@
 package com.example.meongnyangbook.redis;
 
-import com.example.meongnyangbook.user.jwt.JwtUtil;
+import com.example.meongnyangbook.jwt.JwtUtil;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
