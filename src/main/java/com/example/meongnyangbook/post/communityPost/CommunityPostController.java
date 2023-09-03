@@ -1,5 +1,6 @@
 package com.example.meongnyangbook.post.communityPost;
 
+import com.amazonaws.services.dynamodbv2.xspec.L;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
@@ -39,8 +40,6 @@ public class CommunityPostController {
       @RequestPart("requestDto") String requestDto,
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
-
-    try {
       // 문자열 형태의 requestDto를 Java 객체로 역직렬화
       ObjectMapper objectMapper = new ObjectMapper();
       PostRequestDto postRequestDto = objectMapper.readValue(requestDto, PostRequestDto.class);
@@ -49,30 +48,23 @@ public class CommunityPostController {
           multipartFiles);
 
       return ResponseEntity.status(HttpStatus.CREATED).body(result);
-    } catch (Error error) {
-      throw new Exception(error);
-    }
   }
 
   @Operation(summary = "커뮤니티 전체조회(페이징)")
   @GetMapping
-  public List<CommunityPostResponseDto> getCommunityList(Pageable pageable) throws Exception {
-    try {
-      return communityPostService.getCommunityList(pageable);
-    } catch (Error error) {
-      throw new Exception(error);
-    }
+  public ResponseEntity<List<CommunityPostResponseDto>> getCommunityList(Pageable pageable) throws Exception {
+    List<CommunityPostResponseDto> result = communityPostService.getCommunityList(pageable);
+
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
   @Operation(summary = "커뮤니티 단건 조회")
   @GetMapping("/{communityNo}")
-  public CommunityPostDetailResponseDto getCommunity(@PathVariable Long communityNo,
+  public ResponseEntity<CommunityPostDetailResponseDto> getCommunity(@PathVariable Long communityNo,
       @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
-    try {
-      return communityPostService.getOneCommunity(communityNo, userDetails.getUser());
-    } catch (Error error) {
-      throw new Exception(error);
-    }
+      CommunityPostDetailResponseDto result = communityPostService.getOneCommunity(communityNo, userDetails.getUser());
+
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
   @Operation(summary = "커뮤니티 포스트 수정")
@@ -80,12 +72,11 @@ public class CommunityPostController {
       MediaType.MULTIPART_FORM_DATA_VALUE})
 //  , consumes = {"application/octet-stream",
 //      "multipart/form-data"}
-  public CommunityPostResponseDto updateCommunity(@PathVariable Long communityNo,
+  public ResponseEntity<CommunityPostResponseDto> updateCommunity(@PathVariable Long communityNo,
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestPart("requestDto") String requestDto,
       @RequestPart("fileName") MultipartFile[] multipartFiles
   ) throws Exception {
-    try {
       ObjectMapper objectMapper = new ObjectMapper();
       PostRequestDto postRequestDto = objectMapper.readValue(requestDto, PostRequestDto.class);
 
@@ -94,24 +85,18 @@ public class CommunityPostController {
 
 //      DeleteDto deleteFile = objectMapper.readValue(deleteDto, DeleteDto.class);
 
-      return communityPostService.updateCommunity(communityNo, postRequestDto, multipartFiles);
-    } catch (Error error) {
-      throw new Exception(error);
-    }
+    CommunityPostResponseDto result = communityPostService.updateCommunity(communityNo, postRequestDto, multipartFiles);
+
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
   @Operation(summary = "커뮤니티 포스트 삭제")
   @DeleteMapping("/{communityNo}")
   public ResponseEntity<ApiResponseDto> deleteCommunity(@PathVariable Long communityNo,
       @AuthenticationPrincipal UserDetailsImpl userDetails) throws Exception {
-    try {
       ApiResponseDto result = communityPostService.deleteCommunity(communityNo);
 
       return ResponseEntity.status(HttpStatus.OK).body(result);
-
-    } catch (Error error) {
-      throw new Exception(error);
-    }
   }
 
   // 내가 쓴 게시물 조회

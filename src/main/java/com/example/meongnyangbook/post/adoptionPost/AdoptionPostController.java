@@ -40,7 +40,6 @@ public class AdoptionPostController {
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestPart("requestDto") String requestDto,
       @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
-    try {
       ObjectMapper objectMapper = new ObjectMapper();
       AdoptionPostReqeustDto adoptionPostReqeustDto = objectMapper.readValue(requestDto,
           AdoptionPostReqeustDto.class);
@@ -49,9 +48,6 @@ public class AdoptionPostController {
           adoptionPostReqeustDto,
           multipartFiles);
       return ResponseEntity.status(HttpStatus.CREATED).body(result);
-    } catch (Error error) {
-      throw new Exception(error);
-    }
   }
 
   @Operation(summary = "분양 페이지 전체 조회(페이징)")
@@ -77,7 +73,6 @@ public class AdoptionPostController {
       @AuthenticationPrincipal UserDetailsImpl userDetails,
       @RequestPart("requestDto") String requestDto,
       @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
-    try {
       ObjectMapper objectMapper = new ObjectMapper();
       AdoptionPostReqeustDto postRequestDto = objectMapper.readValue(requestDto,
           AdoptionPostReqeustDto.class);
@@ -86,9 +81,6 @@ public class AdoptionPostController {
           postRequestDto,
           multipartFiles);
       return ResponseEntity.status(HttpStatus.OK).body(result);
-    } catch (Error error) {
-      throw new Exception(error);
-    }
   }
 
   @Operation(summary = "분양 페이지 포스트 삭제")

@@ -9,12 +9,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
+//com.example 하위 폴더에서 밑에 정의한 에러가 발생했을 경우 return 한 형식대로 err를 반환해준다
+@RestControllerAdvice(basePackages = "com.example")
 public class GlobalExceptionHandler {
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<ApiResponseDto> handleException(IllegalArgumentException ex) {
@@ -81,7 +85,7 @@ public class GlobalExceptionHandler {
         ApiResponseDto restApiException = new ApiResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(
                 restApiException,
-                HttpStatus.BAD_REQUEST
+                HttpStatus.INTERNAL_SERVER_ERROR
         );
     }
 
