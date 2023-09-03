@@ -4,7 +4,7 @@ import com.example.meongnyangbook.chat.dto.ChatRequestDto;
 import com.example.meongnyangbook.chat.entity.Chat;
 import com.example.meongnyangbook.chat.service.ChatServiceImpl;
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.user.details.UserDetailsImpl;
+import com.example.meongnyangbook.user.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,8 @@ public class ChatController {
 
   @Operation(summary = "채팅방 생성")
   @PostMapping("/room/user/{userId}")
-  public ApiResponseDto createChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long userId) {
+  public ApiResponseDto createChatRoom(@AuthenticationPrincipal UserDetailsImpl userDetails,
+      @PathVariable Long userId) {
     return chatService.createChatRoom(userId, userDetails.getUser());
   }
 }

@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.post.service;
 
-import com.example.meongnyangbook.S3.service.S3Service;
-import com.example.meongnyangbook.post.attachment.entity.AttachmentUrl;
-import com.example.meongnyangbook.post.attachment.repository.AttachmentUrlRepository;
+import com.example.meongnyangbook.S3.S3Service;
+import com.example.meongnyangbook.post.attachment.AttachmentUrl;
+import com.example.meongnyangbook.post.attachment.AttachmentUrlRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

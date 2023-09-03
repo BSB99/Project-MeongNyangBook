@@ -1,7 +1,7 @@
 package com.example.meongnyangbook.shop.basket.repository;
-import com.example.meongnyangbook.shop.basket.entity.Basket;
-import com.example.meongnyangbook.shop.item.entity.Item;
-import com.example.meongnyangbook.user.entity.User;
+import com.example.meongnyangbook.shop.basket.Basket;
+import com.example.meongnyangbook.shop.item.Item;
+import com.example.meongnyangbook.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

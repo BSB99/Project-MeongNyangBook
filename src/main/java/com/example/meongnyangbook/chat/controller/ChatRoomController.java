@@ -2,10 +2,9 @@ package com.example.meongnyangbook.chat.controller;
 
 import com.example.meongnyangbook.chat.dto.ChatMessageResponseDto;
 import com.example.meongnyangbook.chat.dto.ChatRoomListResponseDto;
-import com.example.meongnyangbook.chat.entity.ChatRoom;
 import com.example.meongnyangbook.chat.service.ChatServiceImpl;
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.user.details.UserDetailsImpl;
+import com.example.meongnyangbook.user.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -39,7 +38,8 @@ public class ChatRoomController {
 
   @Operation(summary = "채팅방 조회")
   @GetMapping("/rooms")
-  public List<ChatRoomListResponseDto> getChatRooms(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+  public List<ChatRoomListResponseDto> getChatRooms(
+      @AuthenticationPrincipal UserDetailsImpl userDetails) {
     return chatService.getChatRooms(userDetails.getUser());
   }
 }
