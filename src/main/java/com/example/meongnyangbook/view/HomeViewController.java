@@ -87,5 +87,8 @@ public class HomeViewController {
         "post-adoptions-update";
   }
 
-
+  @GetMapping("/mya/view/fcm")
+  public String testFcm() {
+    return "fcm";
+  }
 }

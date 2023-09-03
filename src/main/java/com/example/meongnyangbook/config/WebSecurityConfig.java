@@ -68,6 +68,7 @@ public class WebSecurityConfig {
                 .permitAll() // resources 접근 허용 설정
                 .requestMatchers("/img/**", "/fonts/**").permitAll()
                 .requestMatchers("/").permitAll() // '/' 로 접근 허용
+                     .requestMatchers("/api/notifications/send", "/firebase-messaging-sw.js").permitAll()
                 .requestMatchers("/mya/chats/**", "/mya-websocket", "/mya/main").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // swagger 허용
                 .requestMatchers("/mya/users/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용

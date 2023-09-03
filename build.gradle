@@ -73,11 +73,14 @@ dependencies {
     // OAuth
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
-    //slack
+    //slackbaskets
     implementation 'com.slack.api:slack-api-client:1.30.0'
 
     //S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+    //firebase
+    implementation group: 'com.google.firebase', name: 'firebase-admin', version: '6.8.1'
 
 }
 
