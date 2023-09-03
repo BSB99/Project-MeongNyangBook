@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.user.OAuth;
 
 
+import com.example.meongnyangbook.jwt.JwtUtil;
 import com.example.meongnyangbook.user.OAuth.google.GoogleUserService;
-import com.example.meongnyangbook.user.jwt.JwtUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

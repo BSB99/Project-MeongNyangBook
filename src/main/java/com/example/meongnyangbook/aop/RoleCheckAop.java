@@ -1,12 +1,12 @@
 package com.example.meongnyangbook.aop;
 
-import com.example.meongnyangbook.post.adoption.entity.Adoption;
-import com.example.meongnyangbook.post.adoption.service.AdoptionService;
-import com.example.meongnyangbook.post.community.entity.Community;
-import com.example.meongnyangbook.post.community.service.CommunityService;
-import com.example.meongnyangbook.shop.inquiry.entity.Inquiry;
-import com.example.meongnyangbook.shop.inquiry.service.InquiryService;
-import com.example.meongnyangbook.shop.review.service.ReviewService;
+import com.example.meongnyangbook.post.adoptionPost.AdoptionPost;
+import com.example.meongnyangbook.post.adoptionPost.AdoptionPostService;
+import com.example.meongnyangbook.post.communityPost.CommunityPost;
+import com.example.meongnyangbook.post.communityPost.CommunityPostService;
+import com.example.meongnyangbook.shop.inquiry.Inquiry;
+import com.example.meongnyangbook.shop.inquiry.InquiryService;
+import com.example.meongnyangbook.shop.review.ReviewService;
 import java.util.concurrent.RejectedExecutionException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -23,10 +23,10 @@ import org.springframework.stereotype.Component;
 public class RoleCheckAop {
 
   @Autowired
-  private AdoptionService adoptionService;
+  private AdoptionPostService adoptionPostService;
 
   @Autowired
-  private CommunityService communityService;
+  private CommunityPostService communityPostService;
 
   @Autowired
   private InquiryService inquiryService;
@@ -34,35 +34,35 @@ public class RoleCheckAop {
   @Autowired
   private ReviewService reviewService;
 
-  @Pointcut("execution(* com.example.meongnyangbook.post.adoption.controller.AdoptionController.updateAdoption(..))")
+  @Pointcut("execution(* com.example.meongnyangbook.post.adoptionPost.AdoptionPostController.updateAdoption(..))")
   private void updateAdoption() {
   }
 
-  @Pointcut("execution(* com.example.meongnyangbook.post.adoption.controller.AdoptionController.deleteAdoption(..))")
+  @Pointcut("execution(* com.example.meongnyangbook.post.adoptionPost.AdoptionPostController.deleteAdoption(..))")
   private void deleteAdoption() {
   }
 
-  @Pointcut("execution(* com.example.meongnyangbook.post.community.controller.CommunityController.updateCommunity(..))")
+  @Pointcut("execution(* com.example.meongnyangbook.post.communityPost.CommunityPostController.updateCommunity(..))")
   private void updateCommunity() {
   }
 
-  @Pointcut("execution(* com.example.meongnyangbook.post.community.controller.CommunityController.deleteCommunity(..))")
+  @Pointcut("execution(* com.example.meongnyangbook.post.communityPost.CommunityPostController.deleteCommunity(..))")
   private void deleteCommunity() {
   }
 
-  @Pointcut("execution(* com.example.meongnyangbook.shop.inquiry.controller.InquiryController.updateInquiry(..))")
+  @Pointcut("execution(* com.example.meongnyangbook.shop.inquiry.InquiryController.updateInquiry(..))")
   private void updateInquiry() {
   }
 
-  @Pointcut("execution(* com.example.meongnyangbook.shop.inquiry.controller.InquiryController.deleteInquiry(..))")
+  @Pointcut("execution(* com.example.meongnyangbook.shop.inquiry.InquiryController.deleteInquiry(..))")
   private void deleteInquiry() {
   }
 
-  @Pointcut("execution(* com.example.meongnyangbook.shop.review.controller.ReviewController.updateReview(..))")
+  @Pointcut("execution(* com.example.meongnyangbook.shop.review.ReviewController.updateReview(..))")
   private void updateReview() {
   }
 
-  @Pointcut("execution(* com.example.meongnyangbook.shop.review.controller.ReviewController.deleteReview(..))")
+  @Pointcut("execution(* com.example.meongnyangbook.shop.review.ReviewController.deleteReview(..))")
   private void deleteReview() {
   }
 
@@ -73,9 +73,9 @@ public class RoleCheckAop {
     UserDetails user = (UserDetails) joinPoint.getArgs()[1];
 
     // 타겟 메서드에서 post 객체 가져오기
-    Adoption adoption = adoptionService.getAdoption(AdoptionId);
+    AdoptionPost adoptionPost = adoptionPostService.getAdoption(AdoptionId);
 
-    if (!adoption.getUser().getUsername().equals(user.getUsername())) {
+    if (!adoptionPost.getUser().getUsername().equals(user.getUsername())) {
       throw new RejectedExecutionException("게시물 수정/삭제 권한없습니다");
     }
 
@@ -90,9 +90,9 @@ public class RoleCheckAop {
     UserDetails user = (UserDetails) joinPoint.getArgs()[1];
 
     // 타겟 메서드에서 post 객체 가져오기
-    Community community = communityService.getCommunity(CommunityId);
+    CommunityPost communityPost = communityPostService.getCommunity(CommunityId);
 
-    if (!community.getUser().getUsername().equals(user.getUsername())) {
+    if (!communityPost.getUser().getUsername().equals(user.getUsername())) {
       throw new RejectedExecutionException("게시물 수정/삭제 권한이 없습니다");
     }
 

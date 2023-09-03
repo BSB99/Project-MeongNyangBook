@@ -2,7 +2,7 @@ package com.example.meongnyangbook.chat.repository;
 
 import com.example.meongnyangbook.chat.entity.ChatRoom;
 import com.example.meongnyangbook.chat.entity.QChatRoom;
-import com.example.meongnyangbook.user.entity.User;
+import com.example.meongnyangbook.user.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

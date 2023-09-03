@@ -1,6 +1,6 @@
 package com.example.meongnyangbook.user.OAuth.kakao;
 
-import com.example.meongnyangbook.user.jwt.JwtUtil;
+import com.example.meongnyangbook.jwt.JwtUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.Cookie;
