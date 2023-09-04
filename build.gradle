@@ -79,6 +79,10 @@ dependencies {
     //S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    // Elastic Search
+    implementation 'org.springframework.data:spring-data-elasticsearch:5.1.2'
+
+
 }
 
 tasks.named('test') {

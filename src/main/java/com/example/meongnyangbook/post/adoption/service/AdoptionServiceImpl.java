@@ -33,6 +33,7 @@ public class AdoptionServiceImpl implements AdoptionService {
   private final AttachmentUrlRepository attachmentUrlRepository;
   private final RedisViewCountUtil redisViewCountUtil;
   private final PostServiceImpl postServiceImpl;
+//  private final ElasticsearchPostRepository elasticsearchPostRepository;
 
   @Override
   public ApiResponseDto createAdoption(User user, AdoptionReqeustDto reqeustDto,
@@ -153,6 +154,17 @@ public class AdoptionServiceImpl implements AdoptionService {
     Long id = redisViewCountUtil.getTopViewedAdoptionPost();
     return new AdoptionResponseDto(getAdoption(id));
   }
+
+//  @Override
+//  public List<AdoptionResponseDto> searchAdoptionPostList(String keyword) {
+//    List<AdoptionResponseDto> adoptionList = elasticsearchPostRepository.findByTitleIn(
+//            Collections.singleton(keyword))
+//        .stream()
+//        .filter(adoption -> adoption instanceof Adoption) // 여기서 Adoption 타입인지 확인
+//        .map(adoption -> new AdoptionResponseDto((Adoption) adoption))
+//        .toList();
+//    return adoptionList;
+//  }
 
   @Override
   public Adoption getAdoption(Long adoptionId) {

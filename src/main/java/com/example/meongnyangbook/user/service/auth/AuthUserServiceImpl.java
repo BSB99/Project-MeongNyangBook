@@ -68,10 +68,8 @@ public class AuthUserServiceImpl implements AuthUserService {
     //ADMIN일 시 뒤 기능 수행
 
     User blockUser = findUser(blockUsername);
-    log.info(blockUser.getUsername());
 
     blockUser.setBlock(UserRoleEnum.BLOCK);     //유저 권한을 차단 설정
-    log.info(blockUser.getRole().getAuthority());
 
     return new ApiResponseDto("계정 정지처리 완료", HttpStatus.OK.value());
   }
