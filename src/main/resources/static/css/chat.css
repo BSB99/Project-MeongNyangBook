@@ -14,7 +14,6 @@ body {
     left:50%;margin-left:-50px;
     z-index:200;
 }
-#view-code:hover{opacity:1;}
 #chatbox{
     width:290px;
     background:#fff;
@@ -208,6 +207,7 @@ body {
     border-radius: 50%;
     width: 30px;
     margin-top: 12px;
+    max-width: fit-content;
 }
 #chat-messages div.message.right img{
     float: right;
@@ -432,7 +432,7 @@ div.message.right .corner{
 
 /* 메시지의 기본 스타일 */
 .message {
-    display: flex;
+    display: flow-root;
     margin-bottom: 10px;
 }
 
@@ -499,3 +499,4 @@ div.message.right .corner{
     border-width: 10px 0 0 10px;
     border-color: #4caf50 transparent transparent transparent;
 }
+

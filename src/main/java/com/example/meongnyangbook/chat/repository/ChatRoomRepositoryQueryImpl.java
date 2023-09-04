@@ -2,7 +2,7 @@ package com.example.meongnyangbook.chat.repository;
 
 import com.example.meongnyangbook.chat.entity.ChatRoom;
 import com.example.meongnyangbook.chat.entity.QChatRoom;
-import com.example.meongnyangbook.user.entity.User;
+import com.example.meongnyangbook.user.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -15,10 +15,10 @@ public class ChatRoomRepositoryQueryImpl implements ChatRoomRepositoryQuery {
     public ChatRoom findByConstructorAndParticipant(User constructor, User participant) {
         return jpaQueryFactory
                 .selectFrom(QChatRoom.chatRoom)
-                .where(QChatRoom.chatRoom.constructor.eq(constructor)
-                        .and(QChatRoom.chatRoom.participant.eq(participant))
-                        .or(QChatRoom.chatRoom.constructor.eq(participant)
-                                .and(QChatRoom.chatRoom.participant.eq(constructor))))
+                .where(QChatRoom.chatRoom.hostUserId.eq(constructor)
+                        .and(QChatRoom.chatRoom.guestUserId.eq(participant))
+                        .or(QChatRoom.chatRoom.hostUserId.eq(participant)
+                                .and(QChatRoom.chatRoom.guestUserId.eq(constructor))))
                 .fetchOne();
     }
 
@@ -26,8 +26,8 @@ public class ChatRoomRepositoryQueryImpl implements ChatRoomRepositoryQuery {
     public List<ChatRoom> findByUserChatRoom(User currentUser) {
         return jpaQueryFactory
                 .selectFrom(QChatRoom.chatRoom)
-                .where(QChatRoom.chatRoom.constructor.eq(currentUser)
-                        .or(QChatRoom.chatRoom.participant.eq(currentUser)))
+                .where(QChatRoom.chatRoom.hostUserId.eq(currentUser)
+                        .or(QChatRoom.chatRoom.guestUserId.eq(currentUser)))
                 .fetch();
     }
 }

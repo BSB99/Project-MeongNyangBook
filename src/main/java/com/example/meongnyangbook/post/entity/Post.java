@@ -1,9 +1,9 @@
 package com.example.meongnyangbook.post.entity;
 
 import com.example.meongnyangbook.entity.TimeStamped;
-import com.example.meongnyangbook.post.attachment.entity.AttachmentUrl;
-import com.example.meongnyangbook.post.comment.entity.Comment;
-import com.example.meongnyangbook.user.entity.User;
+import com.example.meongnyangbook.post.attachment.AttachmentUrl;
+import com.example.meongnyangbook.post.comment.Comment;
+import com.example.meongnyangbook.user.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 
-//@Document(indexName = "posts")
 @Entity
 @Getter
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // 변경해서 바꿀예정

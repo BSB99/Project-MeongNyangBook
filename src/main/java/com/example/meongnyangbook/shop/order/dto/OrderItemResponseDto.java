@@ -1,8 +1,7 @@
 package com.example.meongnyangbook.shop.order.dto;
 
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
-import com.example.meongnyangbook.shop.item.entity.Item;
-import com.example.meongnyangbook.shop.order.entity.OrderItem;
+import com.example.meongnyangbook.shop.order.OrderItem;
 import lombok.Getter;
 
 @Getter

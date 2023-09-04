@@ -2,8 +2,6 @@ package com.example.meongnyangbook.chat.dto;
 
 import com.example.meongnyangbook.chat.entity.ChatRoom;
 import com.example.meongnyangbook.user.dto.ChatResponseDto;
-import com.example.meongnyangbook.user.dto.ProfileResponseDto;
-import com.example.meongnyangbook.user.entity.User;
 import lombok.Getter;
 
 @Getter
@@ -14,7 +12,7 @@ public class ChatRoomListResponseDto {
 
     public ChatRoomListResponseDto(ChatRoom chatRoom) {
         this.id = chatRoom.getId();
-        this.participant = new ChatResponseDto(chatRoom.getParticipant());
-        this.constructor = new ChatResponseDto(chatRoom.getConstructor());
+        this.participant = new ChatResponseDto(chatRoom.getGuestUserId());
+        this.constructor = new ChatResponseDto(chatRoom.getHostUserId());
     }
 }

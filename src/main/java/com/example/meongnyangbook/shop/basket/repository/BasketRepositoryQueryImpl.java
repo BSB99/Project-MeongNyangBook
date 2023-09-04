@@ -1,11 +1,8 @@
 package com.example.meongnyangbook.shop.basket.repository;
 
-import com.example.meongnyangbook.shop.basket.entity.Basket;
+import com.example.meongnyangbook.shop.basket.Basket;
 import com.example.meongnyangbook.shop.order.entity.QOrderItem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.querydsl.jpa.impl.JPAUpdateClause;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.shop.order.dto;
 
-import com.example.meongnyangbook.shop.order.entity.Order;
-import com.example.meongnyangbook.shop.order.entity.OrderItem;
-import com.example.meongnyangbook.shop.order.entity.OrderStatusEnum;
+import com.example.meongnyangbook.shop.order.Order;
+import com.example.meongnyangbook.shop.order.OrderItem;
+import com.example.meongnyangbook.shop.order.OrderStatusEnum;
 import com.example.meongnyangbook.user.dto.OrderUserResponseDto;
 import lombok.Getter;
 

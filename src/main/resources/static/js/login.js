@@ -9,21 +9,21 @@ function sendPhoneMessage() {
   console.log("인증번호 받기");
   let phone = $('#signup-phone-number').val();
 
-  // $.ajax({
-  //   type: "POST",
-  //   url: "/mya/users/phone",
-  //   contentType: "application/json; charset=utf-8",
-  //   data: JSON.stringify({
-  //     phoneNumber: phone
-  //   })
-  // })
-  // .done(function (response, status, xhr) {
-  //   alert('인증번호 전송 성공');
-  //
-  // })
-  // .fail(function (response) {
-  //   alert('인증번호 전송 오류: ' + response.responseJSON.msg);
-  // })
+  $.ajax({
+    type: "POST",
+    url: "/mya/users/phone",
+    contentType: "application/json; charset=utf-8",
+    data: JSON.stringify({
+      phoneNumber: phone
+    })
+  })
+  .done(function (response, status, xhr) {
+    alert('인증번호 전송 성공');
+
+  })
+  .fail(function (response) {
+    alert('인증번호 전송 오류: ' + response.responseJSON.msg);
+  })
 
   console.log("modalOpen");
   document.getElementById("modal").style.display = "block";
@@ -54,6 +54,7 @@ function accessPhone() {
         code: accessNumber
       })
     })
+
     .done(function (response, status, xhr) {
       alert('인증번호 확인');
       document.getElementById('access-button').disabled = true;
