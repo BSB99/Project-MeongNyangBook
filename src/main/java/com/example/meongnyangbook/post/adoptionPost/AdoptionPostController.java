@@ -121,4 +121,11 @@ public class AdoptionPostController {
     AdoptionPostResponseDto result = adoptionPostService.getBestAdoptionPost();
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
+
+//  @GetMapping("/search")
+//  public ResponseEntity<List<AdoptionResponseDto>> searchAdoptionPostList(
+//      @RequestParam("keyword") String keyword) {
+//    List<AdoptionResponseDto> result = adoptionService.searchAdoptionPostList(keyword);
+//    return ResponseEntity.status(HttpStatus.OK).body(result);
+//  }
 }

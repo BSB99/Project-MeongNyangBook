@@ -7,16 +7,15 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class BasketRepositoryQueryImpl implements BasketRepositoryQuery {
+    private final JPAQueryFactory jpaQueryFactory;
 
-  private final JPAQueryFactory jpaQueryFactory;
+    @Override
+    public void setBasketToNull(Long basketId) {
+        QOrderItem orderItem = QOrderItem.orderItem;
 
-  @Override
-  public void setBasketToNull(Long basketId) {
-    QOrderItem orderItem = QOrderItem.orderItem;
-
-    jpaQueryFactory.update(orderItem)
-        .set(orderItem.basket, (Basket) null)
-        .where(orderItem.basket.id.eq(basketId))
-        .execute();
-  }
+        jpaQueryFactory.update(orderItem)
+                .set(orderItem.basket, (Basket) null)
+                .where(orderItem.basket.id.eq(basketId))
+                .execute();
+    }
 }
