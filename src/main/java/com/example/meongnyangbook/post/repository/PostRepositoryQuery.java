@@ -1,4 +1,4 @@
-package com.example.meongnyangbook.post.repository.jpa;
+package com.example.meongnyangbook.post.repository;
 
 import com.example.meongnyangbook.post.entity.Post;
 import org.springframework.stereotype.Repository;
@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepositoryQuery {
 
-  Post findPostById(Long postId);
+    Post findPostById(Long postId);
 }
