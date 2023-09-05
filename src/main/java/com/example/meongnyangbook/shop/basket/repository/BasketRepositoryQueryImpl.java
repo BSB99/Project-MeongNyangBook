@@ -1,12 +1,12 @@
 package com.example.meongnyangbook.shop.basket.repository;
 
 import com.example.meongnyangbook.shop.basket.Basket;
-import com.example.meongnyangbook.shop.order.entity.QOrderItem;
+import com.example.meongnyangbook.shop.order.QOrderItem;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class BasketRepositoryQueryImpl implements BasketRepositoryQuery{
+public class BasketRepositoryQueryImpl implements BasketRepositoryQuery {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override

@@ -7,12 +7,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+//@EnableJpaRepositories(
+//    basePackages = "com.example.meongnyangbook",
+//    excludeFilters = @ComponentScan.Filter(
+//        type = FilterType.ASSIGNABLE_TYPE,
+//        classes = ElasticsearchPostRepository.class
+//    )
+//)
 public class JPAConfiguration {
-    @PersistenceContext
-    private EntityManager entityManager;
 
-    @Bean
-    public JPAQueryFactory jpaQueryFactory() {
-        return new JPAQueryFactory(entityManager);
-    }
+  @PersistenceContext
+  private EntityManager entityManager;
+
+  @Bean
+  public JPAQueryFactory jpaQueryFactory() {
+    return new JPAQueryFactory(entityManager);
+  }
 }
