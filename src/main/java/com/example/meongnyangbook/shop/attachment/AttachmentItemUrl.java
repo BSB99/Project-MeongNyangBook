@@ -1,6 +1,6 @@
 package com.example.meongnyangbook.shop.attachment;
 
-import com.example.meongnyangbook.shop.item.entity.Item;
+import com.example.meongnyangbook.shop.item.Item;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

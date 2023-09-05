@@ -71,7 +71,6 @@ public class HomeViewController {
     return "post-adoptions-details";
   }
 
-
   @GetMapping("/mya/view/post/community/update/{communityId}")
   public String updateCommunityPost(@PathVariable Long communityId) {
     return
@@ -90,5 +89,9 @@ public class HomeViewController {
   @GetMapping("/mya/view/fcm")
   public String testFcm() {
     return "fcm";
+  }
+  @GetMapping("/mya/view/users/relative-profile/{userNo}")
+  public String relativeProfile(@PathVariable Long userNo) {
+    return "relativeProfile";
   }
 }

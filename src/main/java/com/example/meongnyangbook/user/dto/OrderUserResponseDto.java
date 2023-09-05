@@ -1,6 +1,6 @@
 package com.example.meongnyangbook.user.dto;
 
-import com.example.meongnyangbook.user.entity.User;
+import com.example.meongnyangbook.user.User;
 import lombok.Getter;
 
 @Getter

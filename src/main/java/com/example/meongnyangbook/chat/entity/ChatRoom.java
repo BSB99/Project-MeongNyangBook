@@ -1,6 +1,6 @@
 package com.example.meongnyangbook.chat.entity;
 
-import com.example.meongnyangbook.user.entity.User;
+import com.example.meongnyangbook.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,15 +15,15 @@ public class ChatRoom {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "participant")
-    private User participant;
+    @JoinColumn(name = "guest_user_id")
+    private User guestUserId;
 
     @ManyToOne
-    @JoinColumn(name = "constructor")
-    private User constructor;
+    @JoinColumn(name = "host_user_id")
+    private User hostUserId;
 
-    public ChatRoom(User participant, User constructor) {
-        this.participant = participant;
-        this.constructor = constructor;
+    public ChatRoom(User guestUserId, User hostUserId) {
+        this.guestUserId = guestUserId;
+        this.hostUserId = hostUserId;
     }
 }
