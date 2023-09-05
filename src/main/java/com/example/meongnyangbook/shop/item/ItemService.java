@@ -54,6 +54,8 @@ public interface ItemService {
    */
   ItemResponseDto getSingleItem(Long itemNo);
 
+  ItemListResponseDto searchItem(String keyword);
+
   /**
    * 아이템 정보 찾아서 가져오기
    *

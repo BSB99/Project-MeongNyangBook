@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,4 +83,13 @@ public class ItemController {
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
+
+  @Operation(summary = "상품 키워드 검색")
+  @GetMapping("/search")
+  public ResponseEntity<ItemListResponseDto> searchItem(@RequestParam("keyword") String keyword) {
+    ItemListResponseDto result = itemService.searchItem(keyword);
+
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
 }

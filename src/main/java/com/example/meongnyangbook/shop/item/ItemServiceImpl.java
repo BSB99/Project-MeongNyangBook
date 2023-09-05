@@ -7,6 +7,8 @@ import com.example.meongnyangbook.shop.attachment.AttachmentItemUrlRepository;
 import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
+import com.example.meongnyangbook.shop.item.search.ElasticItemSearchRepository;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,7 @@ public class ItemServiceImpl implements ItemService {
   private final ItemRepository itemRepository;
   private final S3Service s3Service;
   private final AttachmentItemUrlRepository attachmentItemUrlRepository;
+  private final ElasticItemSearchRepository itemSearchRepository;
 
 
   @Override
@@ -123,7 +126,15 @@ public class ItemServiceImpl implements ItemService {
     return new ItemResponseDto(item);
   }
 
-  ;
+  @Override
+  public ItemListResponseDto searchItem(String keyword) {
+    List<ItemResponseDto> list = itemSearchRepository.findByNameIn(Collections.singleton(keyword))
+        .stream()
+        .map(ItemResponseDto::new)
+        .toList();
+    return new ItemListResponseDto(list);
+  }
+
 
   @Override
   public Item getItem(Long itemNo) {
