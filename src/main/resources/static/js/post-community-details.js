@@ -91,6 +91,7 @@ function setCardData(response) {
   let viewCount = document.getElementById("viewCount");
   let nickname = document.getElementById("username");
   let createdAt = document.getElementById("createdAt");
+  let boardWriteUserId = document.getElementById("userId");
 
   let fileNames = response.fileUrls.fileName.split(",");
 
@@ -128,6 +129,7 @@ function setCardData(response) {
   viewCount.innerText = response.viewCount + " Views";
   nickname.innerText = response.username;
   createdAt.innerText = response.createdAt;
+  boardWriteUserId.innerText = response.userNo;
 }
 
 let currentURL = window.location.href;
@@ -183,9 +185,11 @@ function postComment() {
     },
     data: JSON.stringify(requestDto)
   })
-  .done((res) => {
+  .done(async (res) => {
     if (res.statusCode === 201) {
       alert("댓글 작성 완료");
+      const userId = document.getElementById("userId").textContent;
+      await getToken("제목", orderRecipientInput, userId);
       location.reload();
     }
   })

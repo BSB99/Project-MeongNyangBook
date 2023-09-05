@@ -34,6 +34,12 @@
         crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
+
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -189,6 +195,7 @@
           </div>
           <div class="col-lg-9 col-md-9 blog_details">
             <h2 id="communityTitle">Astronomy Binoculars A Great Alternative</h2>기
+            <p id="userId" style="display: none;"></p>
             <p id="communityDescription" class="excert">
               MCSE boot camps have its supporters and its detractors. Some people do not understand
               why you should have to spend money
@@ -459,5 +466,6 @@
 <script src="vendors/nice-select/jquery.nice-select.min.js"></script>
 <script src="vendors/jquery.ajaxchimp.min.js"></script>
 <script src="vendors/mail-script.js"></script>
+<script src="/js/test-fcm.js"></script>
 </body>
 </html>

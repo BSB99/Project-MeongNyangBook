@@ -19,6 +19,7 @@ public class CommunityDetailResponseDto {
   private String updatedAt;
   private Long viewCount;
   private String username;
+  private Long userNo;
   private List<CommentResponseDto> commentList = new ArrayList<>();
   private AttachmentUrlResponseDto fileUrls;
 
@@ -31,6 +32,7 @@ public class CommunityDetailResponseDto {
     this.updatedAt = community.getModifiedAtAsString();
     this.viewCount = viewCount.longValue();
     this.username = community.getUser().getNickname();
+    this.userNo = community.getUser().getId();
     this.fileUrls = new AttachmentUrlResponseDto(community.getAttachmentUrl());
     for (Comment comment : community.getCommentList()) {
       commentList.add(new CommentResponseDto(comment));

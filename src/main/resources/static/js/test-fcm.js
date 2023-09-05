@@ -1,67 +1,87 @@
+const firebaseConfig = {
+    apiKey: "AIzaSyCIoZVCfP5XG038Jald_Q9BxphVkEPiCZc",
+    authDomain: "meongnyangbook.firebaseapp.com",
+    projectId: "meongnyangbook",
+    storageBucket: "meongnyangbook.appspot.com",
+    messagingSenderId: "1044918801546",
+    appId: "1:1044918801546:web:70dc543eaaac987c820973",
+    measurementId: "G-JYXQFCBL5J"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const messaging = firebase.messaging();
 
 document.addEventListener("DOMContentLoaded", function () {
-    import firebase from "firebase/compat/app";
-    import "firebase/compat/messaging";
-    import { getMessaging, getToken } from "firebase/messaging";
+        Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+                console.log('Notification permission granted.');
+                // 여기서 sendAlarm 함수 호출
+            } else {
+                console.log('Notification permission denied.');
+            }
+        });
+        const token = Cookies.get('Authorization');
+    getToken(1,1,1)
+    $.ajax({
+        type: "GET",
+        url: `/mya/users`,
+        headers: {
+            "Authorization": token,
+        }
+    })
+        .done((res) => {
+            sendAlarm(res.userId);
+        })
+});
 
-// TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
-    const firebaseConfig = {
-        apiKey: "AIzaSyCIoZVCfP5XG038Jald_Q9BxphVkEPiCZc",
-        authDomain: "meongnyangbook.firebaseapp.com",
-        projectId: "meongnyangbook",
-        storageBucket: "meongnyangbook.appspot.com",
-        messagingSenderId: "1044918801546",
-        appId: "1:1044918801546:web:70dc543eaaac987c820973",
-        measurementId: "G-JYXQFCBL5J"
-    };
-
-// Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-
-
-// Initialize Firebase Cloud Messaging and get a reference to the service
-    const messaging = firebase.messaging();
-
-
-// Get registration token. Initially this makes a network call, once retrieved
-// subsequent calls to getToken will return from cache.
-    const getMessaging = getMessaging();
-    getToken(getMessaging, { vapidKey: '<BOg78AzxKfvkR97RRlaejNe1WrkrRi4lWJYkYQqIpihuEmFM4ld_w-vl9Z1ydiYBp_ywFs_jHYmjDu-yBZEt52M>' }).then((currentToken) => {
+function getToken(titleContent, disc, user) {
+    messaging.getToken({ vapidKey: 'BOg78AzxKfvkR97RRlaejNe1WrkrRi4lWJYkYQqIpihuEmFM4ld_w-vl9Z1ydiYBp_ywFs_jHYmjDu-yBZEt52M' }).then((currentToken) => {
         if (currentToken) {
             console.log(currentToken);
+            sendNotification(currentToken, titleContent, disc, user);
         } else {
-            // Show permission request UI
             console.log('No registration token available. Request permission to generate one.');
-            // ...
         }
     }).catch((err) => {
         console.log('An error occurred while retrieving token. ', err);
-        // ...
     });
+}
 
-    let token;  // 위의 코드를 통해 얻은 토큰
-    const title = "알림 제목";
-    const body = "알림 내용";
-
-    sendNotification(token, title, body);
-
-});
-
-const sendNotification = async (token, title, body) => {
-    const url = '/api/notifications/send';
+async function sendNotification(token, title, body, userNo) {
+    const url = `/api/notifications/send?token=${token}&title=${title}&body=${body}&userNo=${userNo}`;
     const response = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            token: token,
-            title: title,
-            body: body
-        })
     });
 
     const data = await response.json();
     console.log(data);
-};
+}
+
+function sendAlarm(userId) {
+    messaging.onMessage((payload) => {
+        console.log('Message received:', payload);
+        console.log(payload.data.userNo && payload.data.userNo !== userId);
+        console.log(payload.data.userNo)
+        console.log(userId);
+        console.log(payload.data.userNo !== userId)
+
+        if (payload.data.userNo && parseInt(payload.data.userNo) !== userId) {
+            // 현재 사용자에게 해당하지 않는 알림은 무시
+            return;
+        }
+
+        // 페이로드를 사용하여 브라우저 알림 표시
+        const notificationTitle = payload.notification.title;
+        const notificationOptions = {
+            body: payload.notification.body,
+            icon: payload.notification.icon, // 필요하다면 아이콘도 설정
+            // 추가 옵션들...
+        };
+
+        new Notification(notificationTitle, notificationOptions);
+    });
+}

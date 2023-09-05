@@ -1,5 +1,6 @@
 package com.example.meongnyangbook.alarm.fcm;
 
+import com.example.meongnyangbook.kafka.AlarmRequestDto;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
@@ -8,12 +9,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FcmService {
-    public String sendMessageToToken(String token, String title, String body) throws FirebaseMessagingException {
+    public String sendMessageToToken(AlarmRequestDto alarmRequestDto) throws FirebaseMessagingException {
         Message message = Message.builder()
-                .setNotification(new Notification(title, body))
-                .setToken(token)
+                .setNotification(new Notification(alarmRequestDto.getTitle(), alarmRequestDto.getContent()))
+                .putData("userNo", alarmRequestDto.getUserNo())
+                .setToken(alarmRequestDto.getToken())
                 .build();
-
         return FirebaseMessaging.getInstance().send(message);
     }
 }
