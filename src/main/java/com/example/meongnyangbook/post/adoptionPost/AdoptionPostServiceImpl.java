@@ -34,6 +34,8 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
   private final PostServiceImpl postServiceImpl;
   private final UserService userService;
 
+  private final String resizeS3FirstName = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/";
+
   @Override
   public ApiResponseDto createAdoption(User user, AdoptionPostReqeustDto reqeustDto,
       MultipartFile[] multipartFiles) {
@@ -120,6 +122,13 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
         .stream()
         .map(AdoptionPostResponseDto::new)
         .collect(Collectors.toList());
+    for (AdoptionPostResponseDto postList : adoptionList) {
+      String[] fileName = postList.getFileUrls().getFileName().split(",")[0].split("/");
+
+      String resizeS3FileName = resizeS3FirstName + fileName[fileName.length - 1];
+      postList.getFileUrls().setFileName(resizeS3FileName);
+    }
+
     return adoptionList;
   }
 
