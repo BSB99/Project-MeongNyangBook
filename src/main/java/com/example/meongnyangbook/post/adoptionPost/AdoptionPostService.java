@@ -27,8 +27,8 @@ public interface AdoptionPostService {
    * 분양 게시물 수정
    *
    * @param adoptionId
-   * @param user
    * @param reqeustDto
+   * @param multipartFiles
    * @return
    */
   AdoptionPostResponseDto updateAdoption(Long adoptionId, AdoptionPostReqeustDto reqeustDto,
