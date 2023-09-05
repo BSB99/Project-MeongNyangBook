@@ -1,8 +1,8 @@
 package com.example.meongnyangbook.post.community.dto;
 
-import com.example.meongnyangbook.post.attachment.dto.AttachmentUrlResponseDto;
-import com.example.meongnyangbook.post.comment.entity.Comment;
-import com.example.meongnyangbook.post.community.entity.Community;
+import com.example.meongnyangbook.post.attachment.AttachmentUrlResponseDto;
+import com.example.meongnyangbook.post.comment.Comment;
+import com.example.meongnyangbook.post.communityPost.CommunityPost;
 import com.example.meongnyangbook.post.dto.CommentResponseDto;
 import lombok.Getter;
 
@@ -24,7 +24,7 @@ public class CommunityDetailResponseDto {
   private AttachmentUrlResponseDto fileUrls;
 
 
-  public CommunityDetailResponseDto(Community community, Double viewCount) {
+  public CommunityDetailResponseDto(CommunityPost community, Double viewCount) {
     this.id = community.getId();
     this.title = community.getTitle();
     this.description = community.getDescription();
