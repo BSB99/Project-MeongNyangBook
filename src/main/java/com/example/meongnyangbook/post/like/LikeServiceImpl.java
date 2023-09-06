@@ -9,6 +9,7 @@ import com.example.meongnyangbook.post.repository.PostRepository;
 import com.example.meongnyangbook.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -51,4 +52,15 @@ public class LikeServiceImpl implements LikeService {
 
     return new ApiResponseDto("좋아요 취소", HttpStatus.OK.value());
   }
+
+  @Override
+  public Boolean confirmPostLike(Long postId, User user) {
+    PostLike postLike = likeRepository.findByPostIdAndUserId(postId, user.getId());
+
+    if (postLike == null) {
+      return false;
+    } else {
+      return true;
+    }
+  };
 }
