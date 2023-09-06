@@ -5,11 +5,14 @@ import lombok.Getter;
 
 @Getter
 public class UserInfoResponseDto {
-    private Long userId;
-    private String nickname;
 
-    public UserInfoResponseDto(User user) {
-        this.userId = user.getId();
-        this.nickname = user.getNickname();
-    }
+  private Long userId;
+  private String nickname;
+  private String profileImg;
+
+  public UserInfoResponseDto(User user) {
+    this.userId = user.getId();
+    this.nickname = user.getNickname();
+    this.profileImg = user.getProfileImgurl();
+  }
 }

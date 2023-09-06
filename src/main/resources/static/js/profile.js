@@ -39,82 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 })
 
-function EditButton(btn) {
-  btn.style.display = 'none';
-  const doneButton = document.getElementById("doneButton");
-  doneButton.style.display = 'block';
-
-  const nickname = document.getElementById("nickname");
-  const address = document.getElementById("address");
-  const phoneNumber = document.getElementById("phone-number");
-  const introduce = document.getElementById("introduce");
-  const imgUpload = document.getElementById("file");
-
-  nickname.disabled = false;
-  address.disabled = false;
-  phoneNumber.disabled = false;
-  introduce.disabled = false;
-  imgUpload.style.display = "block";
-  //사진 수정 추가하기
-
-}
-
-function updateBtn() {
-
-  const doneButton = document.getElementById("doneButton");
-  doneButton.style.display = "none";
-  document.getElementById("edit-button").style.display = "block";
-
-  const nickname = document.getElementById("nickname");
-  const address = document.getElementById("address");
-  const phoneNumber = document.getElementById("phone-number");
-  const introduce = document.getElementById("introduce");
-  const imgUpload = document.getElementById("file");
-
-  nickname.disabled = true;
-  address.disabled = true;
-  phoneNumber.disabled = true;
-  introduce.disabled = true;
-  imgUpload.style.display = "none";
-
-  console.log(nickname.value);
-
-  const token = Cookies.get("Authorization");
-  let formData = new FormData();
-  const profileRequestDto = {
-    nickname: nickname.value,
-    address: address.value,
-    phoneNumber: phoneNumber.value,
-    introduce: introduce.value
-  };
-
-  console.log($('input[type="file"]')[0].files[0]);
-  formData.append('fileName', $('input[type="file"]')[0].files[0]);
-
-  formData.append("profileRequestDto", JSON.stringify(profileRequestDto));
-  console.log(profileRequestDto);
-  console.log(token);
-
-  $.ajax({
-    type: "PUT",
-    url: "/mya/auth/profile",
-    contentType: false,
-    data: formData,
-    headers: {'Authorization': token},
-    processData: false
-  })
-  .done(function (xhr) {
-    console.log(xhr);
-    alert("프로필 수정 성공");
-    location.href = "/";
-    logout();
-  })
-  .fail(function (xhr) {
-    alert('프로필 수정 오류!');
-    alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
-  });
-}
-
 function myCommunity() {
   const token = Cookies.get("Authorization");
   $.ajax({
@@ -206,4 +130,51 @@ function myAdoption() {
   .fail(function (response) {
     alert(response.responseJSON.msg);
   })
+}
+
+function openEditModal() {
+  $('.modale').addClass('opened');
+}
+
+function clsEditModal() {
+  $('.modale').removeClass('opened');
+}
+
+function editProfile() {
+  const token = Cookies.get("Authorization");
+  const nickname = document.getElementById("modal_nickname");
+  const address = document.getElementById("modal_address");
+  const phoneNumber = document.getElementById("modal_phone_number");
+  const introduce = document.getElementById("modal_introduce");
+
+  let formData = new FormData();
+  const profileRequestDto = {
+    nickname: nickname.value,
+    address: address.value,
+    phoneNumber: phoneNumber.value,
+    introduce: introduce.value
+  };
+
+  formData.append('fileName', $('input[type="file"]')[0].files[0]);
+
+  formData.append("profileRequestDto", JSON.stringify(profileRequestDto));
+
+  $.ajax({
+    type: "PUT",
+    url: "/mya/auth/profile",
+    contentType: false,
+    data: formData,
+    headers: {'Authorization': token},
+    processData: false
+  })
+  .done(function (xhr) {
+    console.log(xhr);
+    alert("프로필 수정 성공");
+    window.location.reload();
+
+  })
+  .fail(function (xhr) {
+    alert('프로필 수정 오류!');
+    alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
+  });
 }
