@@ -122,13 +122,12 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
         .stream()
         .map(AdoptionPostResponseDto::new)
         .collect(Collectors.toList());
-    for (AdoptionPostResponseDto postList : adoptionList) {
-      String[] fileName = postList.getFileUrls().getFileName().split(",")[0].split("/");
-
-      String resizeS3FileName = resizeS3FirstName + fileName[fileName.length - 1];
-      postList.getFileUrls().setFileName(resizeS3FileName);
-    }
-
+//    for (AdoptionPostResponseDto postList : adoptionList) {
+//      String[] fileName = postList.getFileUrls().getFileName().split(",")[0].split("/");
+//
+//      String resizeS3FileName = resizeS3FirstName + fileName[fileName.length - 1];
+//      postList.getFileUrls().setFileName(resizeS3FileName);
+//    }
     return adoptionList;
   }
 

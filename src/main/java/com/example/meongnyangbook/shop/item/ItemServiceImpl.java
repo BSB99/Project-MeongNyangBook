@@ -8,7 +8,8 @@ import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
 import com.example.meongnyangbook.shop.item.search.ElasticItemSearchRepository;
-import java.util.Collections;
+import com.example.meongnyangbook.shop.item.search.ItemDocument;
+import com.example.meongnyangbook.shop.item.search.ItemSearchResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +41,9 @@ public class ItemServiceImpl implements ItemService {
     String fileUrlResult = fileUrls.replaceFirst("^,", "");
     AttachmentItemUrl file = new AttachmentItemUrl(fileUrlResult, item);
 
+    ItemDocument itemDocument = new ItemDocument(item.getId(), item.getCreatedAt(), requestDto,
+        fileUrlResult);
+    itemSearchRepository.save(itemDocument);
     attachmentItemUrlRepository.save(file);
 
     return new ApiResponseDto("물품 등록 완료", 201);
@@ -127,12 +131,11 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public ItemListResponseDto searchItem(String keyword) {
-    List<ItemResponseDto> list = itemSearchRepository.findByNameIn(Collections.singleton(keyword))
+  public List<ItemSearchResponseDto> searchItem(String keyword) {
+    return itemSearchRepository.findByNameContaining(keyword)
         .stream()
-        .map(ItemResponseDto::new)
+        .map(ItemSearchResponseDto::new)
         .toList();
-    return new ItemListResponseDto(list);
   }
 
 

@@ -4,6 +4,8 @@ import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
+import com.example.meongnyangbook.shop.item.search.ItemSearchResponseDto;
+import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,7 +56,7 @@ public interface ItemService {
    */
   ItemResponseDto getSingleItem(Long itemNo);
 
-  ItemListResponseDto searchItem(String keyword);
+  List<ItemSearchResponseDto> searchItem(String keyword);
 
   /**
    * 아이템 정보 찾아서 가져오기

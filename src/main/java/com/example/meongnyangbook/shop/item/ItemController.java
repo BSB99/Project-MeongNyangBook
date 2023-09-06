@@ -5,9 +5,11 @@ import com.example.meongnyangbook.post.dto.DeleteDto;
 import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
+import com.example.meongnyangbook.shop.item.search.ItemSearchResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -86,8 +88,9 @@ public class ItemController {
 
   @Operation(summary = "상품 키워드 검색")
   @GetMapping("/search")
-  public ResponseEntity<ItemListResponseDto> searchItem(@RequestParam("keyword") String keyword) {
-    ItemListResponseDto result = itemService.searchItem(keyword);
+  public ResponseEntity<List<ItemSearchResponseDto>> searchItem(
+      @RequestParam("keyword") String keyword) {
+    List<ItemSearchResponseDto> result = itemService.searchItem(keyword);
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }

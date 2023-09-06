@@ -1,13 +1,13 @@
 package com.example.meongnyangbook.shop.item.search;
 
-import com.example.meongnyangbook.shop.item.Item;
-import java.util.Collection;
 import java.util.List;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 
-public interface ElasticItemSearchRepository extends ElasticsearchRepository<Item, Long> {
+public interface ElasticItemSearchRepository extends ElasticsearchRepository<ItemDocument, String> {
 
-  List<Item> findByNameIn(Collection<String> keywords);
+  List<ItemDocument> findByNameContaining(String keyword);
+
+  List<ItemDocument> findByNameContains(String keyword);
 
 }

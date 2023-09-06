@@ -73,7 +73,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/mya/users/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
                 .requestMatchers(HttpMethod.GET, "/mya/adoptions", "mya/adoptions/best-post")
                 .permitAll()
-                .requestMatchers(HttpMethod.GET, "/mya/items").permitAll()
+                .requestMatchers(HttpMethod.GET, "/mya/items", "/mya/items/search").permitAll()
                 .requestMatchers(HttpMethod.GET, "/mya/communities").permitAll()
                 .requestMatchers(HttpMethod.GET, "/mya/inquiries/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/mya/reviews/**").permitAll()
