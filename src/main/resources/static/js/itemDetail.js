@@ -1,79 +1,80 @@
 let itemNo;
 
-document.addEventListener("DOMContentLoaded", function() {
-    const token = Cookies.get('Authorization');
+document.addEventListener("DOMContentLoaded", function () {
+  start();
+  const token = Cookies.get('Authorization');
 
-    let urlParts = window.location.href.split("/");
-    itemNo = urlParts[urlParts.length - 1].replace("#", "");
+  let urlParts = window.location.href.split("/");
+  itemNo = urlParts[urlParts.length - 1].replace("#", "");
 
-    const imgList = document.querySelectorAll(".col-md-13");
-    const imgDetailList = document.querySelectorAll(".col-md-9");
-    const itemInfoList = document.querySelectorAll(".col-lg-8");
+  const imgList = document.querySelectorAll(".col-md-13");
+  const imgDetailList = document.querySelectorAll(".col-md-9");
+  const itemInfoList = document.querySelectorAll(".col-lg-8");
 
-    imgList.forEach((container) => {
-        container.innerHTML = ``;
-    })
-    imgDetailList.forEach((container) => {
-        container.innerHTML = ``;
-    })
-    itemInfoList.forEach((container) => {
-        container.innerHTML = ``;
-    })
+  imgList.forEach((container) => {
+    container.innerHTML = ``;
+  })
+  imgDetailList.forEach((container) => {
+    container.innerHTML = ``;
+  })
+  itemInfoList.forEach((container) => {
+    container.innerHTML = ``;
+  })
 
-    let imgFirstHtml = `<ul class="nav nav-tabs" role="tablist">`;
-    let imgSecondHtml = ``;
-    let imgThirdHtml = ``;
+  let imgFirstHtml = `<ul class="nav nav-tabs" role="tablist">`;
+  let imgSecondHtml = ``;
+  let imgThirdHtml = ``;
 
-    let imgDetailFirstHtml = `<div class="tab-content">`;
-    let imgDetailSecondHtml = ``;
-    let imgDetailThirdHtml = ``;
+  let imgDetailFirstHtml = `<div class="tab-content">`;
+  let imgDetailSecondHtml = ``;
+  let imgDetailThirdHtml = ``;
 
-    let itemInfoFirstHtml = `<div class="product__details__text">`;
-    let itemInfoSecondHtml = ``;
+  let itemInfoFirstHtml = `<div class="product__details__text">`;
+  let itemInfoSecondHtml = ``;
 
-    let desc = "설명 없음";
-    let no = 1;
-    $.ajax({
-        type: "GET",
-        url: "/mya/items/" + itemNo,
-        headers: {
-            "Authorization": token,
-        }
-    })
-        .done((res) => {
-            for (let fileUrls of res.fileUrls.fileName.split(",")) {
-                if (no >= 2) {
-                    imgSecondHtml += `<li class="nav-item">
+  let desc = "설명 없음";
+  let no = 1;
+  $.ajax({
+    type: "GET",
+    url: "/mya/items/" + itemNo,
+    headers: {
+      "Authorization": token,
+    }
+  })
+  .done((res) => {
+    for (let fileUrls of res.fileUrls.fileName.split(",")) {
+      if (no >= 2) {
+        imgSecondHtml += `<li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-${no}" role="tab">
                                     <div class="product__thumb__pic set-bg" data-setbg="${fileUrls}" style="background-image: url('${fileUrls}')">
                                     </div>
                                 </a>
                             </li>`
-                    imgDetailSecondHtml += `
+        imgDetailSecondHtml += `
                 <div class="tab-pane" id="tabs-${no}" role="tabpanel">
                                 <div class="product__details__pic__item">
                                     <img src="${fileUrls}" alt="">
                                 </div>
                             </div>
                 `
-                } else {
-                    imgSecondHtml += `<li class="nav-item">
+      } else {
+        imgSecondHtml += `<li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-${no}" role="tab">
                                     <div class="product__thumb__pic set-bg" data-setbg="${fileUrls}" style="background-image: url('${fileUrls}')">
                                     </div>
                                 </a>
                             </li>`
-                    imgDetailSecondHtml += `
+        imgDetailSecondHtml += `
                 <div class="tab-pane active" id="tabs-${no}" role="tabpanel">
                                 <div class="product__details__pic__item">
                                     <img src="${fileUrls}" alt="">
                                 </div>
                             </div>
                 `
-                }
-                no++;
-            }
-            itemInfoSecondHtml += `
+      }
+      no++;
+    }
+    itemInfoSecondHtml += `
             <h4>${res.name}</h4>
                             <div class="rating">
                                 <i class="fa fa-star"></i>
@@ -96,18 +97,41 @@ document.addEventListener("DOMContentLoaded", function() {
                             </div>
                         </div>
             `;
-            imgThirdHtml += `</ul>`;
-            imgDetailThirdHtml += `</div>`
-            imgList.forEach(container => {
-                container.innerHTML = imgFirstHtml + imgSecondHtml + imgThirdHtml;
-            });
+    imgThirdHtml += `</ul>`;
+    imgDetailThirdHtml += `</div>`
+    imgList.forEach(container => {
+      container.innerHTML = imgFirstHtml + imgSecondHtml + imgThirdHtml;
+    });
 
-            imgDetailList.forEach(container => {
-                container.innerHTML = imgDetailFirstHtml + imgDetailSecondHtml + imgDetailThirdHtml;
-            });
+    imgDetailList.forEach(container => {
+      container.innerHTML = imgDetailFirstHtml + imgDetailSecondHtml
+          + imgDetailThirdHtml;
+    });
 
-            itemInfoList.forEach(container => {
-                container.innerHTML = itemInfoFirstHtml + itemInfoSecondHtml;
-            });
-        })
+    itemInfoList.forEach(container => {
+      container.innerHTML = itemInfoFirstHtml + itemInfoSecondHtml;
+    });
+  })
 })
+
+function start() {
+  const auth = Cookies.get('Authorization');
+  console.log("auth=", auth);
+
+  if (!auth) { // 쿠키가 없을 경우
+    console.log(1);
+    document.getElementById('login-text').style.display = 'block';
+    document.getElementById('logout-text').style.display = 'none';
+    document.getElementById('mypage-text').style.display = 'none';
+  } else { // 쿠키가 있을 경우
+    console.log(2);
+    document.getElementById('login-text').style.display = 'none';
+    document.getElementById('logout-text').style.display = 'block';
+    document.getElementById('mypage-text').style.display = 'block';
+
+    const postBoxes = document.getElementsByClassName('postbox');
+    for (let i = 0; i < postBoxes.length; i++) {
+      postBoxes[i].style.display = 'block';
+    }
+  }
+}
