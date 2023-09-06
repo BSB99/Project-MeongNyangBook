@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let urlParts = currentURL.split("/");
   lastPart = urlParts[urlParts.length - 1].replace("#", "");
 
+  confirmHeart()
+
   $.ajax({
     type: "GET",
     url: "/mya/communities/" + lastPart,
@@ -297,4 +299,65 @@ function start() {
       postBoxes[i].style.display = 'block';
     }
   }
+}
+
+function commentLike() {
+  const heart = document.querySelector(".bi-heart");
+  const fillValue = heart.getAttribute("fill");
+  if (fillValue === "black") {
+    $.ajax({
+      type: "POST",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+        .done((res) => {
+          alert("좋아요 완료");
+          location.reload();
+        })
+        .fail(function (response, status, xhr) {
+          alert("좋아요 실패");
+          console.log(response);
+        })
+  } else {
+    $.ajax({
+      type: "DELETE",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+        .done((res) => {
+          alert("좋아요 취소 완료");
+          location.reload();
+        })
+        .fail(function (response, status, xhr) {
+          alert("좋아요 취소 실패");
+          console.log(response);
+        })
+  }
+}
+
+function confirmHeart() {
+  const heart = document.querySelector(".bi-heart");
+
+  $.ajax({
+    type: "GET",
+    url: "/mya/likes/" + lastPart,
+    headers: {
+      "Authorization": token
+    }
+  })
+      .done((res) => {
+        console.log(res);
+        if(res) {
+          heart.setAttribute("fill", "red");
+        } else {
+          heart.setAttribute("fill", "black");
+        }
+      })
+      .fail(function (response, status, xhr) {
+        console.log(response);
+      })
 }
