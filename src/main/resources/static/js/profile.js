@@ -1,6 +1,8 @@
+const resizeS3FirstName = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/";
 document.addEventListener("DOMContentLoaded", function () {
-  const host = "http://" + window.location.host;
 
+  const host = "http://" + window.location.host;
+  myCommunity();
   // let userId = 1; // board 페이지에서 받아와야 하는 값
   const token = Cookies.get('Authorization');
   console.log("profile화면 출력")
@@ -18,7 +20,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("address").value = response.address;
     document.getElementById("phone-number").value = response.phoneNumber;
-    document.getElementById("user-image").src = response.fileList;
+    console.log("fileName : " + response.fileList)
+    let fileNames = response.fileList.split("/");
+    resizeFileName = resizeS3FirstName + fileNames[fileNames.length - 1];
+    console.log(resizeFileName);
+    document.getElementById("user-image").src = resizeFileName;
 
   })
   .fail(function (response) {
@@ -121,11 +127,14 @@ function myCommunity() {
 
     for (let res of response) {
 
-      console.log(response);
+      let splitName = res.fileUrls.fileName.split(",")[0];
+      let resizefile = splitName.replace(
+          "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
+          resizeS3FirstName);
       let temp_html =
           `<div class="gallery-item" tabIndex="0">
         <img
-            src="${res.fileUrls.fileName.split(",")[0]}"
+            src="${resizefile}"
             class="gallery-image"
             alt=""/>
         <div class="gallery-item-info">
@@ -163,13 +172,15 @@ function myAdoption() {
 
     for (let res of response) {
 
-      console.log(response);
-      let file = res.fileUrls.fileName.split(",")[0];
-      console.log(file);
+      let splitName = res.fileUrls.fileName.split(",")[0];
+      let resizefile = splitName.replace(
+          "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
+          resizeS3FirstName);
+
       let temp_html =
           `<div className="gallery-item" tabIndex="0">
         <img
-            src="${file}"
+            src="${resizefile}"
             className="gallery-image"
             alt=""
         />

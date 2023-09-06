@@ -34,6 +34,7 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
   private final PostServiceImpl postServiceImpl;
   private final UserService userService;
 
+
   @Override
   public ApiResponseDto createAdoption(User user, AdoptionPostReqeustDto reqeustDto,
       MultipartFile[] multipartFiles) {
@@ -120,6 +121,14 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
         .stream()
         .map(AdoptionPostResponseDto::new)
         .collect(Collectors.toList());
+//    for (AdoptionPostResponseDto postList : adoptionList) {
+//      String[] fileNames = postList.getFileUrls().getFileName().split(",")[0].split("/");
+//
+//      String resizeS3FileName = resizeS3FirstName + fileNames[fileNames.length - 1];
+//
+//      postList.getFileUrls().setFileName(resizeS3FileName);
+//    }
+
     return adoptionList;
   }
 

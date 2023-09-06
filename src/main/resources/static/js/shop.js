@@ -1,25 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
+  start();
   let page = 0;
   let size = 6;
+  const resizeS3FirstName = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/";
   const productContainers = document.querySelectorAll(".col-lg-9");
 
-    function loadItemsForPage(page) {
-        $.ajax({
-            type: "GET",
-            url: `/mya/items?page=${page}&size=${size}`,
-        })
-            .done((response) => {
-                // Clear existing content before adding new content
-                productContainers.forEach(container => {
-                    container.innerHTML = ''; // Clear existing content
-                });
+  function loadItemsForPage(page) {
+    $.ajax({
+      type: "GET",
+      url: `/mya/items?page=${page}&size=${size}`,
+    })
+    .done((response) => {
+      // Clear existing content before adding new content
+      productContainers.forEach(container => {
+        container.innerHTML = ''; // Clear existing content
+      });
+      //리사이징된 이미지 가져오는 코드
+      let itemfileName = item.fileUrls.fileName.split(",")[0].split("/");
+      let resizeItemName = resizeS3FirstName + itemfileName[itemfileName.length
+      - 1]
 
       const itemsHtml = response.itemList.map(item => `
            <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="product__item sale">
                         <div class="product__item__pic set-bg">
                         <a href="/mya/view/items/${item.id}">
-                        <img src="${item.fileUrls.fileName.split(",")[0]}" alt="" style="cursor: pointer;" onmouseover="this.style.cursor='pointer';" onmouseout="this.style.cursor='default';">
+                        <img src="${resizeItemName}" alt="" style="cursor: pointer;" onmouseover="this.style.cursor='pointer';" onmouseout="this.style.cursor='default';">
                         </a>   
                             <ul class="product__hover"> 
                                 <li><a href="#"><img src="/img/icon/heart.png" alt=""></a></li>
@@ -94,43 +100,65 @@ document.addEventListener("DOMContentLoaded", function () {
     changePage(newPage);
   });
 
-    $(document).on("click", ".add-cart", function(event) {
-        event.preventDefault();
-        const itemNo = $(this).data("itemno");
-        addCart(itemNo);
-    });
+  $(document).on("click", ".add-cart", function (event) {
+    event.preventDefault();
+    const itemNo = $(this).data("itemno");
+    addCart(itemNo);
+  });
 
-    function changePage(newPage) {
-        page = newPage;
-        loadItemsForPage(page);
-    }
+  function changePage(newPage) {
+    page = newPage;
+    loadItemsForPage(page);
+  }
 
   // Load initial items for the first page
   loadItemsForPage(page);
 });
 
 function addCart(itemNo) {
-    const token = Cookies.get('Authorization');
+  const token = Cookies.get('Authorization');
 
-    if (token === undefined) {
-        alert("로그인 해주세요");
-    } else {
-        $.ajax({
-            type: "POST",
-            url: `/mya/baskets/items/${itemNo}`,
-            headers: {
-                "Authorization": token,
-            }
-        })
-            .done((response) => {
-                if (response.statusCode == 201) {
-                    alert("장바구니에 물품이 담겼습니다");
-                } else {
-                    alert("서버에러");
-                }
-            })
-            .fail(function (response) {
-                alert(response.msg);
-            })
+  if (token === undefined) {
+    alert("로그인 해주세요");
+  } else {
+    $.ajax({
+      type: "POST",
+      url: `/mya/baskets/items/${itemNo}`,
+      headers: {
+        "Authorization": token,
+      }
+    })
+    .done((response) => {
+      if (response.statusCode == 201) {
+        alert("장바구니에 물품이 담겼습니다");
+      } else {
+        alert("서버에러");
+      }
+    })
+    .fail(function (response) {
+      alert(response.msg);
+    })
+  }
+}
+
+function start() {
+  const auth = Cookies.get('Authorization');
+  console.log("auth=", auth);
+
+  if (!auth) { // 쿠키가 없을 경우
+    console.log(1);
+    document.getElementById('login-text').style.display = 'block';
+    document.getElementById('logout-text').style.display = 'none';
+    document.getElementById('mypage-text').style.display = 'none';
+  } else { // 쿠키가 있을 경우
+    console.log(2);
+    document.getElementById('login-text').style.display = 'none';
+    document.getElementById('logout-text').style.display = 'block';
+    document.getElementById('mypage-text').style.display = 'block';
+
+    const postBoxes = document.getElementsByClassName('postbox');
+    for (let i = 0; i < postBoxes.length; i++) {
+      postBoxes[i].style.display = 'block';
     }
+  }
 }

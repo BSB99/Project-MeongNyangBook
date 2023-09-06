@@ -70,4 +70,29 @@ function uploadAdoptions() {
   });
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  start();
+});
+
+function start() {
+  const auth = Cookies.get('Authorization');
+  console.log("auth=", auth);
+
+  if (!auth) { // 쿠키가 없을 경우
+    console.log(1);
+    document.getElementById('login-text').style.display = 'block';
+    document.getElementById('logout-text').style.display = 'none';
+    document.getElementById('mypage-text').style.display = 'none';
+  } else { // 쿠키가 있을 경우
+    console.log(2);
+    document.getElementById('login-text').style.display = 'none';
+    document.getElementById('logout-text').style.display = 'block';
+    document.getElementById('mypage-text').style.display = 'block';
+
+    const postBoxes = document.getElementsByClassName('postbox');
+    for (let i = 0; i < postBoxes.length; i++) {
+      postBoxes[i].style.display = 'block';
+    }
+  }
+}
 

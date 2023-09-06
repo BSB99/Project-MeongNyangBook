@@ -35,4 +35,8 @@ public class AdoptionPostResponseDto {
     this.createdAt = adoptionPost.getCreatedAtAsString();
     this.fileUrls = new AttachmentUrlResponseDto(adoptionPost.getAttachmentUrl());
   }
+
+  public void setFileUrls(AttachmentUrlResponseDto fileUrls) {
+    this.fileUrls = fileUrls;
+  }
 }
