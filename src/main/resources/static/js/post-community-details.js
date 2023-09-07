@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let urlParts = currentURL.split("/");
   lastPart = urlParts[urlParts.length - 1].replace("#", "");
 
+  confirmHeart()
+
   $.ajax({
     type: "GET",
     url: "/mya/communities/" + lastPart,
@@ -34,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let commentInfoHtml = ``;
     if (response.commentList.length > 0) {
       for (let commentInfo of response.commentList) {
+        let resizeImg = fileImgNullCheck(commentInfo.imgUrl);
         let replyButtonHtml = ``;
 
         if (commentInfo.userNickname === userNickname) {
@@ -53,12 +56,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="comment-list">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
-                                <div class="thumb">
-                                    <img src="/img/blog/c4.jpg" alt="">
-                                </div>
+                                <a href="/mya/view/users/relative-profile/${commentInfo.userId}" class="thumb">
+                                    <img src="${resizeImg}" alt="">
+                                </a>
                                 <div class="desc">
                                     <h5>
-                                        <a href="#">${commentInfo.userNickname}</a>
+                                        <a href="/mya/view/users/relative-profile/${commentInfo.userId}">${commentInfo.userNickname}</a>
                                     </h5>
                                     <p class="comment">
                                         ${commentInfo.content}
@@ -84,6 +87,20 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log(response);
   });
 });
+
+function fileImgNullCheck(imgFileName) {
+  console.log("fileImgNullCheck");
+  let profilePicture;
+  if (imgFileName == null) {
+    profilePicture = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg";
+  } else {
+    profilePicture = imgFileName.replace(
+        "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
+        "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/")
+  }
+  console.log("profilePicture : " + profilePicture);
+  return profilePicture;
+}
 
 function setCardData(response) {
   let communityTitle = document.getElementById("communityTitle");
@@ -297,4 +314,65 @@ function start() {
       postBoxes[i].style.display = 'block';
     }
   }
+}
+
+function commentLike() {
+  const heart = document.querySelector(".bi-heart");
+  const fillValue = heart.getAttribute("fill");
+  if (fillValue === "black") {
+    $.ajax({
+      type: "POST",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+        .done((res) => {
+          alert("좋아요 완료");
+          location.reload();
+        })
+        .fail(function (response, status, xhr) {
+          alert("좋아요 실패");
+          console.log(response);
+        })
+  } else {
+    $.ajax({
+      type: "DELETE",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+        .done((res) => {
+          alert("좋아요 취소 완료");
+          location.reload();
+        })
+        .fail(function (response, status, xhr) {
+          alert("좋아요 취소 실패");
+          console.log(response);
+        })
+  }
+}
+
+function confirmHeart() {
+  const heart = document.querySelector(".bi-heart");
+
+  $.ajax({
+    type: "GET",
+    url: "/mya/likes/" + lastPart,
+    headers: {
+      "Authorization": token
+    }
+  })
+      .done((res) => {
+        console.log(res);
+        if(res) {
+          heart.setAttribute("fill", "red");
+        } else {
+          heart.setAttribute("fill", "black");
+        }
+      })
+      .fail(function (response, status, xhr) {
+        console.log(response);
+      })
 }
