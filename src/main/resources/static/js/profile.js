@@ -39,6 +39,82 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 })
 
+function EditButton(btn) {
+  btn.style.display = 'none';
+  const doneButton = document.getElementById("doneButton");
+  doneButton.style.display = 'block';
+
+  const nickname = document.getElementById("nickname");
+  const address = document.getElementById("address");
+  const phoneNumber = document.getElementById("phone-number");
+  const introduce = document.getElementById("introduce");
+  const imgUpload = document.getElementById("file");
+
+  nickname.disabled = false;
+  address.disabled = false;
+  phoneNumber.disabled = false;
+  introduce.disabled = false;
+  imgUpload.style.display = "block";
+  //사진 수정 추가하기
+
+}
+
+function updateBtn() {
+
+  const doneButton = document.getElementById("doneButton");
+  doneButton.style.display = "none";
+  document.getElementById("edit-button").style.display = "block";
+
+  const nickname = document.getElementById("nickname");
+  const address = document.getElementById("address");
+  const phoneNumber = document.getElementById("phone-number");
+  const introduce = document.getElementById("introduce");
+  const imgUpload = document.getElementById("file");
+
+  nickname.disabled = true;
+  address.disabled = true;
+  phoneNumber.disabled = true;
+  introduce.disabled = true;
+  imgUpload.style.display = "none";
+
+  console.log(nickname.value);
+
+  const token = Cookies.get("Authorization");
+  let formData = new FormData();
+  const profileRequestDto = {
+    nickname: nickname.value,
+    address: address.value,
+    phoneNumber: phoneNumber.value,
+    introduce: introduce.value
+  };
+
+  console.log($('input[type="file"]')[0].files[0]);
+  formData.append('fileName', $('input[type="file"]')[0].files[0]);
+
+  formData.append("profileRequestDto", JSON.stringify(profileRequestDto));
+  console.log(profileRequestDto);
+  console.log(token);
+
+  $.ajax({
+    type: "PUT",
+    url: "/mya/auth/profile",
+    contentType: false,
+    data: formData,
+    headers: {'Authorization': token},
+    processData: false
+  })
+  .done(function (xhr) {
+    console.log(xhr);
+    alert("프로필 수정 성공");
+    location.href = "/";
+    logout();
+  })
+  .fail(function (xhr) {
+    alert('프로필 수정 오류!');
+    alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
+  });
+}
+
 function myCommunity() {
   const token = Cookies.get("Authorization");
   $.ajax({
@@ -177,4 +253,175 @@ function editProfile() {
     alert('프로필 수정 오류!');
     alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
   });
+}
+
+function myOrders() {
+  const token = Cookies.get("Authorization");
+  $.ajax({
+    type: "GET",
+    url: "/mya/orders",
+    headers: {'Authorization': token},
+  })
+      .done(res => {
+        $('.gallery').empty();
+        for (let order of res.orderList) {
+          let itemfileName = order.orderItemList[0].item.fileUrls.fileName.split(",")[0].split("/");
+          let resizeItemName = resizeS3FirstName + itemfileName[itemfileName.length - 1];
+
+          let galleryFirstHtml = `
+        <div class="gallery-item" tabIndex="0" onclick="openItemModal(${order.id})" >
+          <img src="${resizeItemName}" class="gallery-image" alt=""/>
+          <div class="gallery-item-info">
+            <ul>
+              <li class="gallery-item-likes">
+                <span class="visually-hidden">수령인:</span>
+                <i class="fas fa-heart" aria-hidden="true"></i> ${order.receiverName}
+              </li>
+              <li class="gallery-item-comments">
+                <span class="visually-hidden">가격:</span>
+                <i class="fas fa-comment" aria-hidden="true"></i> ${order.totalPrice}
+              </li>
+            </ul>
+          </div>
+        </div>
+      `;
+
+          $('.gallery').append(galleryFirstHtml);
+        }
+      })
+      .fail(res => {
+        alert('주문 정보 오류!');
+        console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
+      });
+}
+
+function openItemModal(orderId) {
+  const token = Cookies.get("Authorization");
+  // 모달 열기
+  $('#orderModal').addClass('opened');
+  let itemModalBody = document.querySelectorAll("#itme-modal-detail")
+
+  itemModalBody.forEach(container => {
+    container.innerHTML = "";
+  })
+
+  let itemModalData = "";
+  let itemModalDetailData = "";
+  $.ajax({
+    type: "GET",
+    url: "/mya/orders/" + orderId,
+    headers: {'Authorization': token},
+  })
+      .done(res => {
+        console.log(res);
+        itemModalData += `
+        <p>수령인 : ${res.receiverName}</p>
+        <p>수령인 전화번호 : ${res.receiverPhoneNumber}</p>
+        <p>총 금액 : ${res.totalPrice}</p>
+        <p>주문상황 : ${res.status === "ORDER_IN_PROGRESS" ?  "주문 완료" : "배송 완료"}
+        `
+
+        for ( let i of res.orderItemList) {
+          let itemName = i.item.name;
+          let itemCnt = i.itemCnt;
+          let itemPrice = i.itemPrice;
+          if (res.status === "ORDER_IN_PROGRESS") {
+            itemModalDetailData += `
+            <li class="list-item">
+                <span>상품 : ${itemName}</span>
+                <span>가격 : ${itemPrice}원</span>
+                <span>주문 개수 : ${itemCnt}개</span>
+            </li>
+            `;
+          } else {
+            itemModalDetailData += `
+            <li class="list-item">
+                <span>상품 : ${itemName}</span>
+                <span>가격 : ${itemPrice}원</span>
+                <span>주문 개수 : ${itemCnt}개</span>
+                <span><button name="리뷰쓰기" onclick="openReviewModal(${i.item.id})"></button></span>
+            </li>
+            `;
+          }
+        }
+
+
+        itemModalBody.forEach(container => {
+          container.innerHTML = itemModalData + "<ul>" + itemModalDetailData + "</ul>";
+        })
+      })
+      .fail(res => {
+        alert('아이템 모달 정보 오류!');
+        console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
+      })
+}
+
+function closeItemModal() {
+  // 모달 열기
+  $('#orderModal').removeClass("opened");
+}
+
+function closeReviewModal() {
+  // 모달 닫기
+  $('#reviewModal').removeClass("opened");
+}
+let starCnt = 0;
+let reviewItemId = 0;
+function openReviewModal(itemId) {
+  reviewItemId = itemId;
+  // 모달 열기
+  $('#reviewModal').addClass('opened');
+  const stars = document.querySelectorAll('.star');
+  const ratingInput = document.getElementById('rating');
+
+  stars.forEach(star => {
+    star.addEventListener('click', () => {
+      const rating = parseInt(star.getAttribute('data-rating'));
+      ratingInput.value = rating;
+      starCnt = rating;
+      updateStarRating(stars, rating);
+    });
+  });
+}
+
+function updateStarRating(stars, rating) {
+  stars.forEach(star => {
+    const starRating = parseInt(star.getAttribute('data-rating'));
+    if (starRating <= rating) {
+      star.textContent = '★';
+    } else {
+      star.textContent = '☆';
+    }
+  });
+}
+
+function submitReview() {
+  const token = Cookies.get("Authorization");
+  const reviewTitle = document.getElementById('reviewTitle').value;
+  const reviewText = document.getElementById('review').value;
+
+  if (starCnt === 0 || !reviewTitle || !reviewText) {
+    alert("리뷰 별점과 내용, 제목을 모두 입력해야 합니다.");
+    return; // 리뷰 전송하지 않고 함수 종료
+  }
+  const requestDto = {
+    "title" : reviewTitle,
+    "description" : reviewText,
+    "starRating" : starCnt
+  }
+ $.ajax({
+    type: "POST",
+    url: "/mya/reviews/" + reviewItemId,
+    headers: {'Authorization': token},
+    data : JSON.stringify(requestDto),
+    contentType: "application/json"
+  })
+      .done(res => {
+        alert("리뷰 작성 성공");
+        closeReviewModal();
+      })
+      .fail(res => {
+        alert('리뷰 전달 오류!');
+        console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
+      })
 }

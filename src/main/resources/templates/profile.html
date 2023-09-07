@@ -7,9 +7,13 @@
 </head>
 <link rel="stylesheet" href="/css/profile.css" type="text/css"/>
 
+<!-- jQuery (Bootstrap가 jQuery에 의존하기 때문에 jQuery를 먼저 로드해야 합니다.) -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
         crossorigin="anonymous"></script>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 <!-- js Cookie -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
@@ -90,12 +94,13 @@
     <div class="button-post" style="width: 100%">
       <button onclick="myCommunity()">My CommunityPost</button>
       <button onclick="myAdoption()">My AdoptionPost</button>
+      <button onclick="myOrders()">My Order</button>
     </div>
     <!-- End of profile section -->
   </div>
   <!-- End of container -->
+  </div>
 </header>
-
 
 <main>
   <div class="container">
@@ -388,5 +393,59 @@
   </div>
   <!-- End of container -->
 </main>
+<div class="modal" tabindex="-1" id="orderModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">주문 정보</h5>
+            </div>
+            <div class="modal-body" id="itme-modal-detail">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeItemModal()">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="reviewModal" style="font-family: Arial, sans-serif;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #007BFF; color: #fff;">
+                <h5 class="modal-title">리뷰</h5>
+            </div>
+            <div class="modal-body" id="review-modal-detail">
+                <!-- 별점 선택 -->
+                <div class="form-group">
+                    <label for="rating" style="font-size: 1.2rem; color: #555;">별점 선택:</label>
+                    <div id="starRating" style="font-size: 2rem; cursor: pointer;">
+                        <span class="star" data-rating="1" style="color: #FFD700;" title="별점 1">☆</span>
+                        <span class="star" data-rating="2" style="color: #FFD700;" title="별점 2">☆</span>
+                        <span class="star" data-rating="3" style="color: #FFD700;" title="별점 3">☆</span>
+                        <span class="star" data-rating="4" style="color: #FFD700;" title="별점 4">☆</span>
+                        <span class="star" data-rating="5" style="color: #FFD700;" title="별점 5">☆</span>
+                    </div>
+                    <input type="hidden" name="rating" id="rating" value="0">
+                </div>
+                <!-- 제목 입력 -->
+                <div class="form-group">
+                    <label for="reviewTitle" style="font-size: 1.2rem; color: #555;">리뷰 제목:</label>
+                    <input type="text" class="form-control" id="reviewTitle" placeholder="리뷰 제목을 입력하세요" style="resize: none;">
+                </div>
+                <!-- 리뷰 입력 -->
+                <div class="form-group">
+                    <label for="review" style="font-size: 1.2rem; color: #555;">리뷰 내용:</label>
+                    <textarea class="form-control" id="review" rows="3" style="resize: none;" title="리뷰 내용을 작성하세요"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeReviewModal()" style="background-color: #ccc; color: #333;">닫기</button>
+                <button type="button" class="btn btn-primary" onclick="submitReview()" style="background-color: #007BFF; color: #fff;">제출</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>
