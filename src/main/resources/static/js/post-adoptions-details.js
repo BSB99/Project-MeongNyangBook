@@ -101,41 +101,43 @@ function fileImgNullCheck(imgFileName) {
 function setCardData(response) {
 
   let adoptionTitle = document.getElementById("adoptionTitle");
-  let communityDescription = document.getElementById("adoptionDescription");
+  let adoptionDescription = document.getElementById("adoptionDescription");
   let viewCount = document.getElementById("viewCount");
   let nickname = document.getElementById("username");
   let createdAt = document.getElementById("createdAt");
 
   let fileNames = response.fileUrls.fileName.split(",");
-  let animalName = document.getElementById("animal-name");
-  let animalGender = document.getElementById("animal-gender");
-  let animalAge = document.getElementById("animal-age");
+  let animalName = document.getElementById("animalName");
+  let animalGender = document.getElementById("animalGender");
+  let animalAge = document.getElementById("animalAge");
   let area = document.getElementById("area");
   let category = document.getElementById("category");
 
-  $("#carousel-inner").empty();
+  $("#carousel-inners").empty();
   let i = 0;
   for (let file of fileNames) {
-    let temp_html
+    let resizeFile = fileImgNullCheck(file);
+    console.log("resize :" + resizeFile);
+    let temp_html;
     if (i == 0) {
       temp_html = `<div class="carousel-item active">
         <img
-            src="${file}"
+            src="${resizeFile}"
             class="d-block w-100" alt="...">
       </div>`
     } else {
       temp_html = `<div class="carousel-item">
         <img
-            src="${file}"
+            src="${resizeFile}"
             class="d-block w-100" alt="...">
       </div>`
     }
-    $("#carousel-inner").append(temp_html);
+    $("#carousel-inners").append(temp_html);
     i++;
   }
-
+  console.log(response.title);
   adoptionTitle.innerText = response.title;
-  communityDescription.innerText = response.description;
+  adoptionDescription.innerText = response.description;
   // 아래 부분은 응답 데이터 구조에 따라 약간 다를 수 있습니다.
   viewCount.innerText = response.viewCount + " Views";
   nickname.innerText = response.username;

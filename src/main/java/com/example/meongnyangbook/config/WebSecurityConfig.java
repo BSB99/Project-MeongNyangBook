@@ -66,7 +66,7 @@ public class WebSecurityConfig {
             authorizeHttpRequests
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                 .permitAll() // resources 접근 허용 설정
-                .requestMatchers("/img/**", "/fonts/**").permitAll()
+                .requestMatchers("/img/**", "/fonts/**", "/assets/**").permitAll()
                 .requestMatchers("/").permitAll() // '/' 로 접근 허용
                 .requestMatchers("/mya/chats/**", "/mya-websocket", "/mya/main").permitAll()
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // swagger 허용
@@ -78,6 +78,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/mya/inquiries/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/mya/reviews/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/mya/back-office").permitAll()
 //            .requestMatchers("/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/*.gif").permitAll()
                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
     );
