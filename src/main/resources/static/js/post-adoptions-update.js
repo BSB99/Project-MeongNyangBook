@@ -127,8 +127,8 @@ function uploadData() {
     console.log(pair[0] + ', ' + pair[1]);
   }
   var requestDto = {
-    title: $(".title").val(),
-    description: $(".image_upload_textarea").val(),
+    title: $("#adoptionsTitle").val(),
+    description: $("#adoptionsDescription").val(),
     animalName: $("#animal-name").val(),
     animalGender: $("#animal-gender").val(),
     animalAge: $("#animal-age").val(),

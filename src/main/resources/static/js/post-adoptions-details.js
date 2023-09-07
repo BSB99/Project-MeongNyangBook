@@ -1,5 +1,14 @@
+let currentPageUserId;
 document.addEventListener("DOMContentLoaded", function () {
   start();
+  confirmHeart();
+  var aTagUsername = document.getElementById("username");
+
+  aTagUsername.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default behavior of the link
+    usernameClick(); // Call your function
+  });
+
   const token = Cookies.get('Authorization');
 
   getUserNickname();
@@ -100,6 +109,8 @@ function fileImgNullCheck(imgFileName) {
 
 function setCardData(response) {
 
+  currentPageUserId = response.userId;
+
   let adoptionTitle = document.getElementById("adoptionTitle");
   let adoptionDescription = document.getElementById("adoptionDescription");
   let viewCount = document.getElementById("viewCount");
@@ -116,19 +127,18 @@ function setCardData(response) {
   $("#carousel-inners").empty();
   let i = 0;
   for (let file of fileNames) {
-    let resizeFile = fileImgNullCheck(file);
-    console.log("resize :" + resizeFile);
+
     let temp_html;
     if (i == 0) {
       temp_html = `<div class="carousel-item active">
         <img
-            src="${resizeFile}"
+            src="${file}"
             class="d-block w-100" alt="...">
       </div>`
     } else {
       temp_html = `<div class="carousel-item">
         <img
-            src="${resizeFile}"
+            src="${file}"
             class="d-block w-100" alt="...">
       </div>`
     }
@@ -321,4 +331,71 @@ function start() {
       postBoxes[i].style.display = 'block';
     }
   }
+}
+
+function commentLike() {
+  const heart = document.querySelector(".bi-heart");
+  const fillValue = heart.getAttribute("fill");
+  if (fillValue === "black") {
+    $.ajax({
+      type: "POST",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+    .done((res) => {
+      alert("좋아요 완료");
+      location.reload();
+    })
+    .fail(function (response, status, xhr) {
+      alert("좋아요 실패");
+      console.log(response);
+    })
+  } else {
+    $.ajax({
+      type: "DELETE",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+    .done((res) => {
+      alert("좋아요 취소 완료");
+      location.reload();
+    })
+    .fail(function (response, status, xhr) {
+      alert("좋아요 취소 실패");
+      console.log(response);
+    })
+  }
+}
+
+function confirmHeart() {
+  const heart = document.querySelector(".bi-heart");
+  console.log(heart);
+  $.ajax({
+    type: "GET",
+    url: "/mya/likes/" + lastPart,
+    headers: {
+      "Authorization": token
+    }
+  })
+  .done((res) => {
+    console.log(res);
+    if (res) {
+      heart.setAttribute("fill", "red");
+    } else {
+      heart.setAttribute("fill", "black");
+    }
+  })
+  .fail(function (response, status, xhr) {
+    console.log(response);
+  })
+}
+
+function usernameClick() {
+
+  window.location.href = "/mya/view/users/relative-profile/"
+      + currentPageUserId;
 }

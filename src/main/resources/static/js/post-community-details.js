@@ -1,8 +1,17 @@
 let lastPart;
 let userNickname;
+let currentPageUserId;
 document.addEventListener("DOMContentLoaded", function () {
   const token = Cookies.get('Authorization');
   start();
+
+  var aTagUsername = document.getElementById("username");
+
+  aTagUsername.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default behavior of the link
+    usernameClick(); // Call your function
+  });
+
   if (!token || token.length === 0) {
     alert("로그인 후 이용해주세요");
     location.href = "/mya/view/users/sign-in";
@@ -103,6 +112,9 @@ function fileImgNullCheck(imgFileName) {
 }
 
 function setCardData(response) {
+
+  currentPageUserId = response.userId;
+
   let communityTitle = document.getElementById("communityTitle");
   let communityDescription = document.getElementById("communityDescription");
   let viewCount = document.getElementById("viewCount");
@@ -327,14 +339,14 @@ function commentLike() {
         "Authorization": token
       }
     })
-        .done((res) => {
-          alert("좋아요 완료");
-          location.reload();
-        })
-        .fail(function (response, status, xhr) {
-          alert("좋아요 실패");
-          console.log(response);
-        })
+    .done((res) => {
+      alert("좋아요 완료");
+      location.reload();
+    })
+    .fail(function (response, status, xhr) {
+      alert("좋아요 실패");
+      console.log(response);
+    })
   } else {
     $.ajax({
       type: "DELETE",
@@ -343,14 +355,14 @@ function commentLike() {
         "Authorization": token
       }
     })
-        .done((res) => {
-          alert("좋아요 취소 완료");
-          location.reload();
-        })
-        .fail(function (response, status, xhr) {
-          alert("좋아요 취소 실패");
-          console.log(response);
-        })
+    .done((res) => {
+      alert("좋아요 취소 완료");
+      location.reload();
+    })
+    .fail(function (response, status, xhr) {
+      alert("좋아요 취소 실패");
+      console.log(response);
+    })
   }
 }
 
@@ -364,15 +376,21 @@ function confirmHeart() {
       "Authorization": token
     }
   })
-      .done((res) => {
-        console.log(res);
-        if(res) {
-          heart.setAttribute("fill", "red");
-        } else {
-          heart.setAttribute("fill", "black");
-        }
-      })
-      .fail(function (response, status, xhr) {
-        console.log(response);
-      })
+  .done((res) => {
+    console.log(res);
+    if (res) {
+      heart.setAttribute("fill", "red");
+    } else {
+      heart.setAttribute("fill", "black");
+    }
+  })
+  .fail(function (response, status, xhr) {
+    console.log(response);
+  })
+}
+
+function usernameClick() {
+
+  window.location.href = "/mya/view/users/relative-profile/"
+      + currentPageUserId;
 }
