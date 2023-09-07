@@ -3,6 +3,7 @@ let itemNo;
 document.addEventListener("DOMContentLoaded", function () {
   start();
   const token = Cookies.get('Authorization');
+  const resizeS3FirstName = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/";
 
   let urlParts = window.location.href.split("/");
   itemNo = urlParts[urlParts.length - 1].replace("#", "");
@@ -43,10 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
   })
   .done((res) => {
     for (let fileUrls of res.fileUrls.fileName.split(",")) {
+      let itemfileName = fileUrls.split(",")[0].split("/");
+      let resizeItemName = resizeS3FirstName + itemfileName[itemfileName.length - 1];
       if (no >= 2) {
         imgSecondHtml += `<li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#tabs-${no}" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="${fileUrls}" style="background-image: url('${fileUrls}')">
+                                    <div class="product__thumb__pic set-bg" data-setbg="${resizeItemName}" style="background-image: url('${fileUrls}')">
                                     </div>
                                 </a>
                             </li>`
@@ -60,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         imgSecondHtml += `<li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#tabs-${no}" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="${fileUrls}" style="background-image: url('${fileUrls}')">
+                                    <div class="product__thumb__pic set-bg" data-setbg="${resizeItemName}" style="background-image: url('${fileUrls}')">
                                     </div>
                                 </a>
                             </li>`
@@ -88,11 +91,6 @@ document.addEventListener("DOMContentLoaded", function () {
                             <p>남은 수량(${res.quantity})</p>
                             <p>${res.content === undefined ? desc : res.content}</p>
                             <div class="product__details__cart__option">
-                                <div class="quantity">
-                                    <div class="pro-qty">
-                                        <input type="text" value="1">
-                                    </div>
-                                </div>
                                 <a href="#" class="primary-btn">add to cart</a>
                             </div>
                         </div>

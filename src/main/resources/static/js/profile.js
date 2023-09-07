@@ -207,3 +207,20 @@ function myAdoption() {
     alert(response.responseJSON.msg);
   })
 }
+
+function myOrders() {
+  const token = Cookies.get("Authorization");
+
+  console.log(1);
+  /*$.ajax({
+    type: "GET",
+    url: "/mya/adoptions/my-post",
+    headers: {'Authorization': token}
+  })
+      .done(function (response) {
+
+      })
+      .fail(res => {
+
+      })*/
+}
