@@ -24,7 +24,7 @@
              src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
              alt=""
         />
-        <input type="file" name="file" id="file" class="file" value="등록" style="display: none;">
+
       </div>
 
       <div class="profile-user-settings">
@@ -34,9 +34,39 @@
         <button id="doneButton" class="btn profile-edit-btn" style="display: none;"
                 onclick="updateBtn()">Done
         </button>
-        <button id="edit-button" class="btn profile-edit-btn" onclick="EditButton(this)">Edit
-          Profile
-        </button>
+        <p><a onclick="openEditModal()" class="btn btn-big openmodale">수정하기</a></p>
+        <!-- Modal -->
+        <div class="modale" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-header">
+              <a onclick="clsEditModal()" class="btn-close closemodale"
+                 aria-hidden="true">&times;</a>
+            </div>
+            <div class="modal-body">
+              <input type="file" name="file" id="file" class="file" value="등록">
+              <input type="text" id="modal_nickname" name="u" placeholder="닉네임" size="20"/><br>
+              <select class="modal_address" name="modal_address" id="modal_address"
+                      style="width: 62.5%">
+                <option value="">지역 선택</option>
+                <option value="SEOUL">서울특별시</option>
+                <option value="BUSAN">부산광역시</option>
+                <option value="DAEGU">대구광역시</option>
+                <option value="INCHEON">인천광역시</option>
+                <option value="GWANGJU">광주광역시</option>
+                <option value="DAEGEON">대전광역시</option>
+                <option value="ULSAN">울산광역시</option>
+                <option value="SEJONG">세종특별자치시</option>
+                <option value="JEJU">제주특별자치도</option>
+              </select>
+              <input type="text" id="modal_phone_number" name="u" placeholder="000-0000-0000" size="20"/><br>
+              <input type="text" id="modal_introduce" name="u" placeholder="자기소개" size="20"/><br>
+
+              <div class="modal-footer">
+                <a onclick="editProfile()" class="btn" id="btn_ingresar">Edit Profile</a>
+              </div>
+            </div>
+          </div>
+          <!-- /Modal -->
 
         <input class="subProfile" id="address" disabled>
         <input class="subProfile" id="phone-number" disabled>
@@ -65,6 +95,7 @@
   </div>
   <!-- End of container -->
 </header>
+
 
 <main>
   <div class="container">

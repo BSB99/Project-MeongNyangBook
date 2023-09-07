@@ -31,8 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (response.commentList.length > 0) {
       for (let commentInfo of response.commentList) {
         let replyButtonHtml = ``;
-
+        console.log("response:" + commentInfo.imgUrl);
+        let resizeImg = fileImgNullCheck(commentInfo.imgUrl);
         if (commentInfo.userNickname === userNickname) {
+
           replyButtonHtml = `
                         <div class="btn" style="width: 100px; height: 100px">
                             <div class="reply-btn">
@@ -49,12 +51,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="comment-list">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
-                                <div class="thumb">
-                                    <img src="/img/blog/c4.jpg" alt="">
-                                </div>
+                                <a href="/mya/view/users/relative-profile/${commentInfo.userId}" class="thumb">
+                                    <img src="${resizeImg}" alt="">
+                                </a>
                                 <div class="desc">
                                     <h5>
-                                        <a href="#">${commentInfo.userNickname}</a>
+                                        <a href="/mya/view/users/relative-profile/${commentInfo.userId}">${commentInfo.userNickname}</a>
                                     </h5>
                                     <p class="comment">
                                         ${commentInfo.content}
@@ -81,6 +83,20 @@ document.addEventListener("DOMContentLoaded", function () {
   })
 
 })
+
+function fileImgNullCheck(imgFileName) {
+  console.log("fileImgNullCheck");
+  let profilePicture;
+  if (imgFileName == null) {
+    profilePicture = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg";
+  } else {
+    profilePicture = imgFileName.replace(
+        "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
+        "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/")
+  }
+  console.log("profilePicture : " + profilePicture);
+  return profilePicture;
+}
 
 function setCardData(response) {
 
