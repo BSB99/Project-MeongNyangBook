@@ -78,7 +78,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/mya/inquiries/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/mya/reviews/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/mya/back-office").permitAll()
+                .requestMatchers(HttpMethod.GET, "/mya/back-office/**").permitAll()
 //            .requestMatchers("/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/*.gif").permitAll()
                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
     );
