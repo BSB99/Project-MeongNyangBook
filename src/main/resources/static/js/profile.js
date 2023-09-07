@@ -50,13 +50,14 @@ function myCommunity() {
     $('.gallery').empty();
 
     for (let res of response) {
+      let postId = res.id;
 
       let splitName = res.fileUrls.fileName.split(",")[0];
       let resizefile = splitName.replace(
           "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
           resizeS3FirstName);
       let temp_html =
-          `<div class="gallery-item" tabIndex="0">
+          `<div onclick="moveCommunityPost(${postId})" class="gallery-item" tabIndex="0">
         <img
             src="${resizefile}"
             class="gallery-image"
@@ -95,14 +96,15 @@ function myAdoption() {
     $('.gallery').empty();
 
     for (let res of response) {
-
+      let postId = res.id;
+      console.log(postId);
       let splitName = res.fileUrls.fileName.split(",")[0];
       let resizefile = splitName.replace(
           "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
           resizeS3FirstName);
 
       let temp_html =
-          `<div className="gallery-item" tabIndex="0">
+          `<div onclick="moveAdoptionPost(${postId})" className="gallery-item" tabIndex="0">
         <img
             src="${resizefile}"
             className="gallery-image"
@@ -177,4 +179,12 @@ function editProfile() {
     alert('프로필 수정 오류!');
     alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
   });
+}
+
+function moveCommunityPost(postId) {
+  window.location.href = "/mya/view/communities/" + postId;
+}
+
+function moveAdoptionPost(postId) {
+  window.location.href = "/mya/view/adoptions/" + postId;
 }
