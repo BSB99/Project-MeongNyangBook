@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css">
 
 
-<!--  <link rel="stylesheet" href="/css/style.css">-->
+  <!--  <link rel="stylesheet" href="/css/style.css">-->
   <link rel="stylesheet" href="/css/style-detail.css">
 
   <!-- Css Styles -->
@@ -35,6 +35,8 @@
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 
 </head>
+
+
 <body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
@@ -52,6 +54,7 @@
     font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif
   }
 </style>
+
 <!-- Header Section Begin -->
 <header class="header">
   <div class="header__top">
@@ -127,7 +130,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <h2>Community</h2>
+        <h2>커뮤니티</h2>
       </div>
     </div>
   </div>
@@ -192,202 +195,119 @@
                     <i class="lnr lnr-eye"></i>
                   </a>
                 </li>
-                /*<li>*/
-                /*  <a href="#">06 Comments*/
-                /*    <i class="lnr lnr-bubble"></i>*/
-                /*  </a>*/
-                /*</li>*/
+                <!--                <li>-->
+                <!--                  <a href="#">06 Comments-->
+                <!--                    <i class="lnr lnr-bubble"></i>-->
+                <!--                  </a>-->
+                <!--                </li>-->
               </ul>
             </div>
           </div>
           <div class="col-lg-9 col-md-9 blog_details">
-            <h2 id="communityTitle">Astronomy Binoculars A Great Alternative</h2>기
+            <h2 id="communityTitle">Astronomy Binoculars A Great Alternative</h2>
             <p id="communityDescription" class="excert">
               MCSE boot camps have its supporters and its detractors. Some people do not understand
               why you should have to spend money
               on boot camp when you can get the MCSE study materials yourself at a fraction.
             </p>
           </div>
-          <div>
-            <button onclick="deleteCommunity()" id="deleteCommunityBtn">삭제하기</button>
-            <button onclick="updateCommunity()" id="updateCommunityBtn">수정하기</button>
+          <div style="display: flex; justify-content: center; margin: 20px;">
+            <a class="button button-postComment button--active" onclick="updateCommunity()"
+               style="cursor: pointer; margin: 5px 10px">수정하기</a>
+            <a class="button button-postComment button--active" onclick="deleteCommunity()"
+               style="cursor: pointer; margin: 5px 10px">삭제하기</a>
           </div>
-        <div class="navigation-area">
-          <div class="row">
-            <div
-                class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
-              <div class="thumb">
-                <a href="#">
-                  <img class="img-fluid" src="img/blog/prev.jpg" alt="">
-                </a>
-              </div>
-              <div class="arrow">
-                <a href="#">
-                  <span class="lnr text-white lnr-arrow-left"></span>
-                </a>
-              </div>
-              <div class="detials">
-                <p>Prev Post</p>
-                <a href="#">
-                  <h4>Space The Final Frontier</h4>
-                </a>
-              </div>
-            </div>
-            <div
-                class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
-              <div class="detials">
-                <p>Next Post</p>
-                <a href="#">
-                  <h4>Telescopes 101</h4>
-                </a>
-              </div>
-              <div class="arrow">
-                <a href="#">
-                  <span class="lnr text-white lnr-arrow-right"></span>
-                </a>
-              </div>
-              <div class="thumb">
-                <a href="#">
-                  <img class="img-fluid" src="/img/blog/next.jpg" alt="">
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="comments-area">
-          <h4>05 Comments</h4>
-          <div class="comment-list">
-            <div class="single-comment justify-content-between d-flex">
-              <div class="user justify-content-between d-flex">
-                <div class="thumb">
-                  <img src="img/blog/c4.jpg" alt="">
+          <!--        <div class="navigation-area">-->
+          <!--          <div class="row">-->
+          <!--            <div-->
+          <!--                class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">-->
+          <!--              <div class="thumb">-->
+          <!--                <a href="#">-->
+          <!--                  <img class="img-fluid" src="img/blog/prev.jpg" alt="">-->
+          <!--                </a>-->
+          <!--              </div>-->
+          <!--              <div class="arrow">-->
+          <!--                <a href="#">-->
+          <!--                  <span class="lnr text-white lnr-arrow-left"></span>-->
+          <!--                </a>-->
+          <!--              </div>-->
+          <!--              <div class="detials">-->
+          <!--                <p>Prev Post</p>-->
+          <!--                <a href="#">-->
+          <!--                  <h4>Space The Final Frontier</h4>-->
+          <!--                </a>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div-->
+          <!--                class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">-->
+          <!--              <div class="detials">-->
+          <!--                <p>Next Post</p>-->
+          <!--                <a href="#">-->
+          <!--                  <h4>Telescopes 101</h4>-->
+          <!--                </a>-->
+          <!--              </div>-->
+          <!--              <div class="arrow">-->
+          <!--                <a href="#">-->
+          <!--                  <span class="lnr text-white lnr-arrow-right"></span>-->
+          <!--                </a>-->
+          <!--              </div>-->
+          <!--              <div class="thumb">-->
+          <!--                <a href="#">-->
+          <!--                  <img class="img-fluid" src="/img/blog/next.jpg" alt="">-->
+          <!--                </a>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--        </div>-->
+          <div class="comments-area">
+            <h4>05 Comments</h4>
+            <div class="comment-list">
+              <div class="single-comment justify-content-between d-flex">
+                <div class="user justify-content-between d-flex">
+                  <div class="thumb">
+                    <img src="img/blog/c4.jpg" alt="">
+                  </div>
+                  <div class="desc">
+                    <h5>
+                      <a href="#">Maria Luna</a>
+                    </h5>
+                    <p class="date">December 4, 2017 at 3:12 pm </p>
+                    <p class="comment">
+                      Never say goodbye till the end comes!
+                    </p>
+                  </div>
                 </div>
-                <div class="desc">
-                  <h5>
-                    <a href="#">Maria Luna</a>
-                  </h5>
-                  <p class="date">December 4, 2017 at 3:12 pm </p>
-                  <p class="comment">
-                    Never say goodbye till the end comes!
-                  </p>
+                <div class="reply-btn">
+                  <a href="#" class="btn-reply text-uppercase">reply</a>
                 </div>
-              </div>
-              <div class="reply-btn">
-                <a href="#" class="btn-reply text-uppercase">reply</a>
               </div>
             </div>
           </div>
-        </div>
-        <div class="comment-form">
-          <h4>Leave a Reply</h4>
-          <form>
-            <div class="form-group form-inline">
-              <!-- <div class="form-group col-lg-6 col-md-6 name">
-                  <input type="text" class="form-control" id="name" placeholder="Enter Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'">
+          <div class="comment-form">
+            <h4>Leave a Reply</h4>
+            <form>
+              <div class="form-group form-inline">
+                <!-- <div class="form-group col-lg-6 col-md-6 name">
+                    <input type="text" class="form-control" id="name" placeholder="Enter Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'">
+                </div>
+                <div class="form-group col-lg-6 col-md-6 email">
+                    <input type="email" class="form-control" id="email" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
+                </div> -->
               </div>
-              <div class="form-group col-lg-6 col-md-6 email">
-                  <input type="email" class="form-control" id="email" placeholder="Enter email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'">
-              </div> -->
-            </div>
-            <div class="form-group">
-              <!-- <input type="text" class="form-control" id="subject" placeholder="Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'"> -->
-            </div>
-            <div class="form-group">
+              <div class="form-group">
+                <!-- <input type="text" class="form-control" id="subject" placeholder="Subject" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Subject'"> -->
+              </div>
+              <div class="form-group">
 															<textarea class="form-control mb-10" id="requestComment" rows="5"
                                         name="message"
                                         placeholder="Messege" onfocus="this.placeholder = ''"
                                         onblur="this.placeholder = 'Messege'"
                                         required=""></textarea>
-            </div>
-            <a class="button button-postComment button--active" onclick="postComment()"
-               style="cursor: pointer;">댓글 달기</a>
-          </form>
-        </div>
-      </div>
-<!--      <div class="col-lg-4">-->
-<!--        <div class="blog_right_sidebar">-->
-<!--          <aside class="single_sidebar_widget search_widget">-->
-<!--            <div class="input-group">-->
-<!--              <input type="text" class="form-control" placeholder="Search Posts">-->
-<!--              <span class="input-group-btn">-->
-<!--																	<button class="btn btn-default" type="button">-->
-<!--																			<i class="lnr lnr-magnifier"></i>-->
-<!--																	</button>-->
-<!--															</span>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; /input-group &ndash;&gt;-->
-<!--            <div class="br"></div>-->
-<!--          </aside>-->
-          <!-- <aside class="single_sidebar_widget author_widget">
-              <img class="author_img rounded-circle" src="img/blog/author.png" alt="">
-              <h4>Charlie Barber</h4>
-              <p>Senior blog writer</p>
-              <div class="social_icon">
-                  <a href="#">
-                      <i class="fab fa-facebook-f"></i>
-                  </a>
-                  <a href="#">
-                      <i class="fab fa-twitter"></i>
-                  </a>
-                  <a href="#">
-                      <i class="fab fa-github"></i>
-                  </a>
-                  <a href="#">
-                    <i class="fab fa-behance"></i>
-                  </a>
               </div>
-              <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you should
-                  have to spend money on boot camp when you can get. Boot camps have itssuppor ters andits
-                  detractors.
-              </p>
-              <div class="br"></div>
-          </aside>
-          <aside class="single_sidebar_widget popular_post_widget">
-              <h3 class="widget_title">Popular Posts</h3>
-              <div class="media post_item">
-                  <img src="img/blog/popular-post/post1.jpg" alt="post">
-                  <div class="media-body">
-                      <a href="blog-details.html">
-                          <h3>Space The Final Frontier</h3>
-                      </a>
-                      <p>02 Hours ago</p>
-                  </div>
-              </div>
-              <div class="media post_item">
-                  <img src="img/blog/popular-post/post2.jpg" alt="post">
-                  <div class="media-body">
-                      <a href="blog-details.html">
-                          <h3>The Amazing Hubble</h3>
-                      </a>
-                      <p>02 Hours ago</p>
-                  </div>
-              </div>
-              <div class="media post_item">
-                  <img src="img/blog/popular-post/post3.jpg" alt="post">
-                  <div class="media-body">
-                      <a href="blog-details.html">
-                          <h3>Astronomy Or Astrology</h3>
-                      </a>
-                      <p>03 Hours ago</p>
-                  </div>
-              </div>
-              <div class="media post_item">
-                  <img src="img/blog/popular-post/post4.jpg" alt="post">
-                  <div class="media-body">
-                      <a href="blog-details.html">
-                          <h3>Asteroids telescope</h3>
-                      </a>
-                      <p>01 Hours ago</p>
-                  </div>
-              </div>
-              <div class="br"></div>
-          </aside>
-          <aside class="single_sidebar_widget ads_widget">
-              <a href="#">
-                  <img class="img-fluid" src="img/blog/add.jpg" alt="">
-              </a>
-              <div class="br"></div>
-          </aside> -->
+              <a class="button button-postComment button--active" onclick="postComment()"
+                 style="cursor: pointer;">댓글 달기</a>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -463,7 +383,15 @@
   </div>
 </footer>
 <!-- Footer Section End -->
+<style>
+  .blog_info {
+    border: 2px solid #FFF6DC; /* 연한 테두리 설정 */
+    border-radius: 10px; /* 테두리의 모서리를 둥글게 설정 */
+    padding: 10px; /* 테두리 안의 내용에 대한 여백 설정 */
+    margin: 15px 5px;
+  }
 
+</style>
 
 <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
 <script src="vendors/bootstrap/bootstrap.bundle.min.js"></script>
