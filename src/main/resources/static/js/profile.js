@@ -39,24 +39,43 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 })
 
-function EditButton(btn) {
-  btn.style.display = 'none';
-  const doneButton = document.getElementById("doneButton");
-  doneButton.style.display = 'block';
+function editProfile() {
+  const token = Cookies.get("Authorization");
+  const nickname = document.getElementById("modal_nickname");
+  const address = document.getElementById("modal_address");
+  const phoneNumber = document.getElementById("modal_phone_number");
+  const introduce = document.getElementById("modal_introduce");
 
-  const nickname = document.getElementById("nickname");
-  const address = document.getElementById("address");
-  const phoneNumber = document.getElementById("phone-number");
-  const introduce = document.getElementById("introduce");
-  const imgUpload = document.getElementById("file");
+  let formData = new FormData();
+  const profileRequestDto = {
+    nickname: nickname.value,
+    address: address.value,
+    phoneNumber: phoneNumber.value,
+    introduce: introduce.value
+  };
 
-  nickname.disabled = false;
-  address.disabled = false;
-  phoneNumber.disabled = false;
-  introduce.disabled = false;
-  imgUpload.style.display = "block";
-  //사진 수정 추가하기
+  formData.append('fileName', $('input[type="file"]')[0].files[0]);
 
+  formData.append("profileRequestDto", JSON.stringify(profileRequestDto));
+
+  $.ajax({
+    type: "PUT",
+    url: "/mya/auth/profile",
+    contentType: false,
+    data: formData,
+    headers: {'Authorization': token},
+    processData: false
+  })
+  .done(function (xhr) {
+    console.log(xhr);
+    alert("프로필 수정 성공");
+    window.location.reload();
+
+  })
+  .fail(function (xhr) {
+    alert('프로필 수정 오류!');
+    alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
+  });
 }
 
 function updateBtn() {
@@ -217,8 +236,6 @@ function clsEditModal() {
   $('.modale').removeClass('opened');
 }
 
-
-
 function myOrders() {
   const token = Cookies.get("Authorization");
   $.ajax({
@@ -226,13 +243,15 @@ function myOrders() {
     url: "/mya/orders",
     headers: {'Authorization': token},
   })
-      .done(res => {
-        $('.gallery').empty();
-        for (let order of res.orderList) {
-          let itemfileName = order.orderItemList[0].item.fileUrls.fileName.split(",")[0].split("/");
-          let resizeItemName = resizeS3FirstName + itemfileName[itemfileName.length - 1];
+  .done(res => {
+    $('.gallery').empty();
+    for (let order of res.orderList) {
+      let itemfileName = order.orderItemList[0].item.fileUrls.fileName.split(
+          ",")[0].split("/");
+      let resizeItemName = resizeS3FirstName + itemfileName[itemfileName.length
+      - 1];
 
-          let galleryFirstHtml = `
+      let galleryFirstHtml = `
         <div class="gallery-item" tabIndex="0" onclick="openItemModal(${order.id})" >
           <img src="${resizeItemName}" class="gallery-image" alt=""/>
           <div class="gallery-item-info">
@@ -250,13 +269,13 @@ function myOrders() {
         </div>
       `;
 
-          $('.gallery').append(galleryFirstHtml);
-        }
-      })
-      .fail(res => {
-        alert('주문 정보 오류!');
-        console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
-      });
+      $('.gallery').append(galleryFirstHtml);
+    }
+  })
+  .fail(res => {
+    alert('주문 정보 오류!');
+    console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
+  });
 }
 
 function openItemModal(orderId) {
@@ -276,29 +295,29 @@ function openItemModal(orderId) {
     url: "/mya/orders/" + orderId,
     headers: {'Authorization': token},
   })
-      .done(res => {
-        console.log(res);
-        itemModalData += `
+  .done(res => {
+    console.log(res);
+    itemModalData += `
         <p>수령인 : ${res.receiverName}</p>
         <p>수령인 전화번호 : ${res.receiverPhoneNumber}</p>
         <p>총 금액 : ${res.totalPrice}</p>
-        <p>주문상황 : ${res.status === "ORDER_IN_PROGRESS" ?  "주문 완료" : "배송 완료"}
+        <p>주문상황 : ${res.status === "ORDER_IN_PROGRESS" ? "주문 완료" : "배송 완료"}
         `
 
-        for ( let i of res.orderItemList) {
-          let itemName = i.item.name;
-          let itemCnt = i.itemCnt;
-          let itemPrice = i.itemPrice;
-          if (res.status === "ORDER_IN_PROGRESS") {
-            itemModalDetailData += `
+    for (let i of res.orderItemList) {
+      let itemName = i.item.name;
+      let itemCnt = i.itemCnt;
+      let itemPrice = i.itemPrice;
+      if (res.status === "ORDER_IN_PROGRESS") {
+        itemModalDetailData += `
             <li class="list-item">
                 <span>상품 : ${itemName}</span>
                 <span>가격 : ${itemPrice}원</span>
                 <span>주문 개수 : ${itemCnt}개</span>
             </li>
             `;
-          } else {
-            itemModalDetailData += `
+      } else {
+        itemModalDetailData += `
             <li class="list-item">
                 <span>상품 : ${itemName}</span>
                 <span>가격 : ${itemPrice}원</span>
@@ -306,18 +325,18 @@ function openItemModal(orderId) {
                 <span><button name="리뷰쓰기" onclick="openReviewModal(${i.item.id})"></button></span>
             </li>
             `;
-          }
-        }
+      }
+    }
 
-
-        itemModalBody.forEach(container => {
-          container.innerHTML = itemModalData + "<ul>" + itemModalDetailData + "</ul>";
-        })
-      })
-      .fail(res => {
-        alert('아이템 모달 정보 오류!');
-        console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
-      })
+    itemModalBody.forEach(container => {
+      container.innerHTML = itemModalData + "<ul>" + itemModalDetailData
+          + "</ul>";
+    })
+  })
+  .fail(res => {
+    alert('아이템 모달 정보 오류!');
+    console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
+  })
 }
 
 function closeItemModal() {
@@ -329,8 +348,10 @@ function closeReviewModal() {
   // 모달 닫기
   $('#reviewModal').removeClass("opened");
 }
+
 let starCnt = 0;
 let reviewItemId = 0;
+
 function openReviewModal(itemId) {
   reviewItemId = itemId;
   // 모달 열기
@@ -369,27 +390,26 @@ function submitReview() {
     return; // 리뷰 전송하지 않고 함수 종료
   }
   const requestDto = {
-    "title" : reviewTitle,
-    "description" : reviewText,
-    "starRating" : starCnt
+    "title": reviewTitle,
+    "description": reviewText,
+    "starRating": starCnt
   }
- $.ajax({
+  $.ajax({
     type: "POST",
     url: "/mya/reviews/" + reviewItemId,
     headers: {'Authorization': token},
-    data : JSON.stringify(requestDto),
+    data: JSON.stringify(requestDto),
     contentType: "application/json"
   })
-      .done(res => {
-        alert("리뷰 작성 성공");
-        closeReviewModal();
-      })
-      .fail(res => {
-        alert('리뷰 전달 오류!');
-        console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
-      })
+  .done(res => {
+    alert("리뷰 작성 성공");
+    closeReviewModal();
+  })
+  .fail(res => {
+    alert('리뷰 전달 오류!');
+    console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
+  })
 }
-
 
 function moveCommunityPost(postId) {
   window.location.href = "/mya/view/communities/" + postId;
