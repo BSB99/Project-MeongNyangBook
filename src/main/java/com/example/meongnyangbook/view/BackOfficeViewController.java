@@ -32,5 +32,10 @@ public class BackOfficeViewController {
   public String backOfficeItemSave() {
     return "back-office/ecommerce-product-save";
   }
+
+  @GetMapping("/order")
+  public String backOfficeOrder() {
+    return "back-office/pages/order-table";
+  }
 }
 
