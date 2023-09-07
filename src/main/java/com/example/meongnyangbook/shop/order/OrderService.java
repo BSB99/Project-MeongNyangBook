@@ -3,6 +3,7 @@ package com.example.meongnyangbook.shop.order;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.order.dto.OrderListResponseDto;
 import com.example.meongnyangbook.shop.order.dto.OrderRequestDto;
+import com.example.meongnyangbook.shop.order.dto.OrderResponseDto;
 import com.example.meongnyangbook.user.User;
 
 public interface OrderService {
@@ -31,4 +32,6 @@ public interface OrderService {
    * @return
    */
   OrderListResponseDto getOrderList(User user);
+
+  OrderResponseDto getSingleOrderList(User user, Long orderNo);
 }

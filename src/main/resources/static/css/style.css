@@ -3960,3 +3960,7 @@ ol {
 .bi-heart:hover {
   cursor: pointer;
 }
+
+.product__details__tab {
+  height: 760px;
+}

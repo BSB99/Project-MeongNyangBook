@@ -3,6 +3,7 @@ package com.example.meongnyangbook.shop.order;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.order.dto.OrderListResponseDto;
 import com.example.meongnyangbook.shop.order.dto.OrderRequestDto;
+import com.example.meongnyangbook.shop.order.dto.OrderResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,12 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "주문 API")
 @RestController
@@ -49,6 +45,17 @@ public class OrderController {
   public ResponseEntity<OrderListResponseDto> getOrderList(
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
     OrderListResponseDto result = orderService.getOrderList(userDetails.getUser());
+
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @Operation(summary = "주문된 항목하나 가져오기")
+  @GetMapping("/{orderNo}")
+  public ResponseEntity<OrderResponseDto> getSingleOrderList(
+          @AuthenticationPrincipal UserDetailsImpl userDetails,
+          @PathVariable Long orderNo
+          ) {
+    OrderResponseDto result = orderService.getSingleOrderList(userDetails.getUser(), orderNo);
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
