@@ -1,8 +1,9 @@
 let lastPart;
 let userNickname;
 let currentPageUserId;
+const token = Cookies.get('Authorization');
 document.addEventListener("DOMContentLoaded", function () {
-  const token = Cookies.get('Authorization');
+
   start();
 
   var aTagUsername = document.getElementById("username");
@@ -123,12 +124,12 @@ function setCardData(response) {
 
   let fileNames = response.fileUrls.fileName.split(",");
 
-  if (response.username !== userNickname) {
-    let deleteCommunityBtn = document.getElementById("deleteCommunityBtn");
-    let updateCommunityBtn = document.getElementById("updateCommunityBtn");
-    deleteCommunityBtn.style.display = "none";
-    updateCommunityBtn.style.display = "none";
-  }
+  // if (response.username !== userNickname) {
+  //   let deleteCommunityBtn = document.getElementById("deleteCommunityBtn");
+  //   let updateCommunityBtn = document.getElementById("updateCommunityBtn");
+  //   deleteCommunityBtn.style.display = "none";
+  //   updateCommunityBtn.style.display = "none";
+  // }
 
   $("#carousel-inners").empty();
   let i = 0;
@@ -141,7 +142,7 @@ function setCardData(response) {
             class="img-fluid d-block w-100" alt="..." style="height: 550px">
       </div>`
     } else {
-      temp_html = `<div class="carousel-item active">
+      temp_html = `<div class="carousel-item">
         <img
             src="${file}"
             class="img-fluid d-block w-100 " alt="..." style="height: 550px">
@@ -158,14 +159,6 @@ function setCardData(response) {
   nickname.innerText = response.username;
   createdAt.innerText = response.createdAt;
 }
-
-let currentURL = window.location.href;
-
-// URL을 "/"로 분할하여 배열로 저장합니다.
-let urlParts = currentURL.split("/");
-
-// 배열에서 마지막 요소를 가져옵니다.
-const token = Cookies.get('Authorization');
 
 function deleteCommunity() {
 
@@ -308,7 +301,6 @@ function confirmEdit(button, commentId) {
 
 function start() {
   const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
     console.log(1);

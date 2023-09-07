@@ -47,9 +47,10 @@ function myCommunity() {
 
     for (let res of response) {
 
+      let postId = res.id;
       console.log(response);
       let temp_html =
-          `<div class="gallery-item" tabIndex="0">
+          `<div onclick="moveCommunityPost(${postId})" class="gallery-item" tabIndex="0">
         <img
             src="${res.fileUrls.fileName.split(",")[0]}"
             class="gallery-image"
@@ -89,11 +90,12 @@ function myAdoption() {
 
     for (let res of response) {
 
+      let postId = res.id;
       console.log(response);
       let file = res.fileUrls.fileName.split(",")[0];
       console.log(file);
       let temp_html =
-          `<div className="gallery-item" tabIndex="0">
+          `<div onclick="moveAdoptionPost(${postId})" className="gallery-item" tabIndex="0">
         <img
             src="${file}"
             className="gallery-image"
@@ -174,4 +176,12 @@ function report() {
   .fail(function (response) {
     alert(response.responseJSON.msg);
   })
+}
+
+function moveCommunityPost(postId) {
+  window.location.href = "/mya/view/communities/" + postId;
+}
+
+function moveAdoptionPost(postId) {
+  window.location.href = "/mya/view/adoptions/" + postId;
 }
