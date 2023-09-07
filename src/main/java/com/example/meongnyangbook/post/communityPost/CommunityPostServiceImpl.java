@@ -63,12 +63,8 @@ public class CommunityPostServiceImpl implements CommunityPostService {
 
     postServiceImpl.update(communityNo, multipartFiles);
 
-    if (!communityPost.getTitle().equals(requestDto.getTitle())) {
-      communityPost.setTitle(requestDto.getTitle());
-    }
-    if (!communityPost.getDescription().equals(requestDto.getDescription())) {
-      communityPost.setDescription(requestDto.getDescription());
-    }
+    communityPost.setTitle(requestDto.getTitle());
+    communityPost.setDescription(requestDto.getDescription());
 
     return new CommunityPostResponseDto(communityPost);
   }

@@ -65,32 +65,9 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
     AdoptionPost adoptionPost = getAdoption(adoptionId);
 
     postServiceImpl.update(adoptionId, multipartFiles);
+    adoptionPost.update(requestDto);
 
-    //Dto 기본 내용 수정
-    if (!adoptionPost.getTitle().equals(requestDto.getTitle())) {
-      adoptionPost.setTitle(requestDto.getTitle());
-    }
-    if (!adoptionPost.getDescription().equals(requestDto.getDescription())) {
-      adoptionPost.setDescription(requestDto.getDescription());
-    }
-    if (!adoptionPost.getAnimalName().equals(requestDto.getAnimalName())) {
-      adoptionPost.setAnimalName(requestDto.getAnimalName());
-    }
-    if (!adoptionPost.getAnimalAge().equals(requestDto.getAnimalAge())) {
-      adoptionPost.setAnimalAge(requestDto.getAnimalAge());
-    }
-    if (!adoptionPost.getAnimalGender().equals(requestDto.getAnimalGender())) {
-      adoptionPost.setAnimalGender(requestDto.getAnimalGender());
-    }
-    if (!adoptionPost.getArea().equals(requestDto.getArea())) {
-      adoptionPost.setArea(requestDto.getArea());
-    }
-    if (!adoptionPost.getCategory().equals(requestDto.getCategory())) {
-      adoptionPost.setCategory(requestDto.getCategory());
-    }
-    {
-      return new AdoptionPostResponseDto(adoptionPost);
-    }
+    return new AdoptionPostResponseDto(adoptionPost);
   }
 
 

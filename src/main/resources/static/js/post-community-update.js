@@ -2,6 +2,7 @@ var sel_file = [];
 $(document).ready(function () {
   $("#multipartFiles").on("change", handleImgFileSelect);
   start();
+  confirmHeart();
 });
 
 let currentURL = window.location.href;
@@ -162,7 +163,6 @@ function uploadData() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  const token = Cookies.get('Authorization');
 
   $.ajax({
     type: "GET",
@@ -171,7 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
   })
   .done(function (response) {
     console.log("단건 조회 성공");
-    console.log(response);
     // fetchWorkerList(response);
     setCardData(response);
     // categoryId = response.categoryId;
@@ -189,8 +188,8 @@ function setCardData(response) {
   let communityTitle = document.getElementById("communityTitle");
   let communityDescription = document.getElementById("communityDescription");
 
-  communityTitle.innerText = response.title;
-  communityDescription.innerText = response.description;
+  communityTitle.value = response.title;
+  communityDescription.value = response.description;
 }
 
 // let deleteFileName = [];
@@ -203,7 +202,7 @@ function imgList(response) {
 
   for (let f of filesArr) {
 
-    var img_html = `<img class="img" style="transition: transform 0.5s;" src="${f}"/>`;
+    var img_html = `<img src="${f}" class="img" style="transition: transform 0.5s;"/>`;
     // deleteFileName = deleteFileName + "," + f;
     // deleteFileName.push(f);
     // console.log(deleteFileName);

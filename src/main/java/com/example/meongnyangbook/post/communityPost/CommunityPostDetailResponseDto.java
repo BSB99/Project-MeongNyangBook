@@ -11,6 +11,7 @@ import lombok.Getter;
 public class CommunityPostDetailResponseDto {
 
   private Long id;
+  private Long userId;
   private String title;
   private String description;
   private String createdAt;
@@ -23,6 +24,7 @@ public class CommunityPostDetailResponseDto {
 
   public CommunityPostDetailResponseDto(CommunityPost communityPost, Double viewCount) {
     this.id = communityPost.getId();
+    this.userId = communityPost.getUser().getId();
     this.title = communityPost.getTitle();
     this.description = communityPost.getDescription();
     this.createdAt = communityPost.getCreatedAtAsString();

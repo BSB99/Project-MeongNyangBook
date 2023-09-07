@@ -85,17 +85,9 @@ public class ItemServiceImpl implements ItemService {
         "");
     attachmentItemUrl.setFileName(result);
 
-    if (!item.getName().equals(requestDto.getName())) {
-      item.setName(requestDto.getName());
-    }
-
-    if (!item.getCategory().equals(requestDto.getCategory())) {
-      item.setCategory(requestDto.getCategory());
-    }
-
-    if (!item.getPrice().equals(requestDto.getPrice())) {
-      item.setPrice(requestDto.getPrice());
-    }
+    item.setName(requestDto.getName());
+    item.setCategory(requestDto.getCategory());
+    item.setPrice(requestDto.getPrice());
 
     return new ApiResponseDto("물품 수정 완료", 200);
   }

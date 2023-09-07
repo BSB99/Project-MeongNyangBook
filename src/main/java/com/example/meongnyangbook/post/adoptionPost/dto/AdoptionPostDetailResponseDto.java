@@ -15,6 +15,7 @@ import lombok.Setter;
 @Setter
 public class AdoptionPostDetailResponseDto {
 
+  private Long userId;
   private String title;
   private String username;
   private String description;
@@ -30,6 +31,7 @@ public class AdoptionPostDetailResponseDto {
   private AttachmentUrlResponseDto fileUrls;
 
   public AdoptionPostDetailResponseDto(AdoptionPost adoptionPost, Double viewCount) {
+    this.userId = adoptionPost.getUser().getId();
     this.title = adoptionPost.getTitle();
     this.username = adoptionPost.getUser().getUsername();
     this.description = adoptionPost.getDescription();

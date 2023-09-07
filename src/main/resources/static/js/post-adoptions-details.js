@@ -1,5 +1,14 @@
+let currentPageUserId;
 document.addEventListener("DOMContentLoaded", function () {
   start();
+  confirmHeart();
+  var aTagUsername = document.getElementById("username");
+
+  aTagUsername.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default behavior of the link
+    usernameClick(); // Call your function
+  });
+
   const token = Cookies.get('Authorization');
 
   getUserNickname();
@@ -100,23 +109,26 @@ function fileImgNullCheck(imgFileName) {
 
 function setCardData(response) {
 
+  currentPageUserId = response.userId;
+
   let adoptionTitle = document.getElementById("adoptionTitle");
-  let communityDescription = document.getElementById("adoptionDescription");
+  let adoptionDescription = document.getElementById("adoptionDescription");
   let viewCount = document.getElementById("viewCount");
   let nickname = document.getElementById("username");
   let createdAt = document.getElementById("createdAt");
 
   let fileNames = response.fileUrls.fileName.split(",");
-  let animalName = document.getElementById("animal-name");
-  let animalGender = document.getElementById("animal-gender");
-  let animalAge = document.getElementById("animal-age");
+  let animalName = document.getElementById("animalName");
+  let animalGender = document.getElementById("animalGender");
+  let animalAge = document.getElementById("animalAge");
   let area = document.getElementById("area");
   let category = document.getElementById("category");
 
-  $("#carousel-inner").empty();
+  $("#carousel-inners").empty();
   let i = 0;
   for (let file of fileNames) {
-    let temp_html
+
+    let temp_html;
     if (i == 0) {
       temp_html = `<div class="carousel-item active">
         <img
@@ -130,12 +142,12 @@ function setCardData(response) {
             class="d-block w-100" alt="...">
       </div>`
     }
-    $("#carousel-inner").append(temp_html);
+    $("#carousel-inners").append(temp_html);
     i++;
   }
-
+  console.log(response.title);
   adoptionTitle.innerText = response.title;
-  communityDescription.innerText = response.description;
+  adoptionDescription.innerText = response.description;
   // 아래 부분은 응답 데이터 구조에 따라 약간 다를 수 있습니다.
   viewCount.innerText = response.viewCount + " Views";
   nickname.innerText = response.username;
@@ -319,4 +331,71 @@ function start() {
       postBoxes[i].style.display = 'block';
     }
   }
+}
+
+function commentLike() {
+  const heart = document.querySelector(".bi-heart");
+  const fillValue = heart.getAttribute("fill");
+  if (fillValue === "black") {
+    $.ajax({
+      type: "POST",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+    .done((res) => {
+      alert("좋아요 완료");
+      location.reload();
+    })
+    .fail(function (response, status, xhr) {
+      alert("좋아요 실패");
+      console.log(response);
+    })
+  } else {
+    $.ajax({
+      type: "DELETE",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+    .done((res) => {
+      alert("좋아요 취소 완료");
+      location.reload();
+    })
+    .fail(function (response, status, xhr) {
+      alert("좋아요 취소 실패");
+      console.log(response);
+    })
+  }
+}
+
+function confirmHeart() {
+  const heart = document.querySelector(".bi-heart");
+  console.log(heart);
+  $.ajax({
+    type: "GET",
+    url: "/mya/likes/" + lastPart,
+    headers: {
+      "Authorization": token
+    }
+  })
+  .done((res) => {
+    console.log(res);
+    if (res) {
+      heart.setAttribute("fill", "red");
+    } else {
+      heart.setAttribute("fill", "black");
+    }
+  })
+  .fail(function (response, status, xhr) {
+    console.log(response);
+  })
+}
+
+function usernameClick() {
+
+  window.location.href = "/mya/view/users/relative-profile/"
+      + currentPageUserId;
 }
