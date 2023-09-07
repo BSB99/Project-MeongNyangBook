@@ -208,6 +208,53 @@ function myAdoption() {
   })
 }
 
+function openEditModal() {
+  $('.modale').addClass('opened');
+}
+
+function clsEditModal() {
+  $('.modale').removeClass('opened');
+}
+
+function editProfile() {
+  const token = Cookies.get("Authorization");
+  const nickname = document.getElementById("modal_nickname");
+  const address = document.getElementById("modal_address");
+  const phoneNumber = document.getElementById("modal_phone_number");
+  const introduce = document.getElementById("modal_introduce");
+
+  let formData = new FormData();
+  const profileRequestDto = {
+    nickname: nickname.value,
+    address: address.value,
+    phoneNumber: phoneNumber.value,
+    introduce: introduce.value
+  };
+
+  formData.append('fileName', $('input[type="file"]')[0].files[0]);
+
+  formData.append("profileRequestDto", JSON.stringify(profileRequestDto));
+
+  $.ajax({
+    type: "PUT",
+    url: "/mya/auth/profile",
+    contentType: false,
+    data: formData,
+    headers: {'Authorization': token},
+    processData: false
+  })
+  .done(function (xhr) {
+    console.log(xhr);
+    alert("프로필 수정 성공");
+    window.location.reload();
+
+  })
+  .fail(function (xhr) {
+    alert('프로필 수정 오류!');
+    alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
+  });
+}
+
 function myOrders() {
   const token = Cookies.get("Authorization");
 

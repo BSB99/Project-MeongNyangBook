@@ -1,9 +1,10 @@
 let urlParts = window.location.href.split("/");
 userNo = urlParts[urlParts.length - 1].replace("#", "");
-
+const token = Cookies.get("Authorization");
 document.addEventListener("DOMContentLoaded", function () {
   const host = "http://" + window.location.host;
-  start();
+  console.log("userNo :" + userNo);
+  myCommunity();
   // let userId = 1; // board 페이지에서 받아와야 하는 값
   const token = Cookies.get('Authorization');
 
@@ -13,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     headers: {'Authorization': token}
   })
   .done((response) => {
+    console.log(response);
     document.getElementById("nickname").value = response.nickname;
     document.getElementById("introduce").value = response.introduce;
 
@@ -76,7 +78,7 @@ function myCommunity() {
 }
 
 function myAdoption() {
-  const token = Cookies.get("Authorization");
+
   $.ajax({
     type: "GET",
     url: "/mya/adoptions/relative-post/" + userNo,
@@ -121,24 +123,55 @@ function myAdoption() {
   })
 }
 
-function start() {
-  const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
+function onChat() {
+  $.ajax({
+    type: "POST",
+    url: "/room/user/" + userNo,
+    headers: {'Authorization': token}
+  })
+  .done(function (response) {
 
-  if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
-    document.getElementById('login-text').style.display = 'block';
-    document.getElementById('logout-text').style.display = 'none';
-    document.getElementById('mypage-text').style.display = 'none';
-  } else { // 쿠키가 있을 경우
-    console.log(2);
-    document.getElementById('login-text').style.display = 'none';
-    document.getElementById('logout-text').style.display = 'block';
-    document.getElementById('mypage-text').style.display = 'block';
+        window.location.href = "/mya/view/chat";
 
-    const postBoxes = document.getElementsByClassName('postbox');
-    for (let i = 0; i < postBoxes.length; i++) {
-      postBoxes[i].style.display = 'block';
-    }
+      }
+  )
+  .fail(function (response) {
+    alert(response.responseJSON.msg);
+  })
+}
+
+function openReportModal() {
+  $('.modale').addClass('opened');
+}
+
+function clsReportModal() {
+  $('.modale').removeClass('opened');
+}
+
+function report() {
+
+  let reportContent = document.getElementById("report_content").value;
+  let reportCategory = document.getElementById("report_category").value;
+
+  let requestDto = {
+    "msg": reportContent,
+    "reportEnum": reportCategory
   }
+
+  $.ajax({
+    type: "POST",
+    url: "/mya/reports/user/" + userNo,
+    contentType: "application/json",
+    data: JSON.stringify(requestDto),
+    headers: {'Authorization': token}
+
+  })
+  .done(function (response) {
+        alert("유저 신고 완료");
+        window.location.reload();
+      }
+  )
+  .fail(function (response) {
+    alert(response.responseJSON.msg);
+  })
 }

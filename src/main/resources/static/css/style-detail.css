@@ -1,9 +1,16 @@
 @import url("https://fonts.googleapis.com/css?family=Oswald:400,500,600");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
 
+@font-face {
+  font-family: 'Cafe24Supermagic-Bold-v1.0';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
 body {
   color: #777;
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   font-size: 15px;
   font-weight: 400;
   line-height: 1.667
@@ -29,7 +36,7 @@ button:focus {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Oswald", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   color: #222;
   line-height: 1.1
 }
@@ -398,7 +405,7 @@ a {
   line-height: 40px;
   font-size: 14px;
   font-weight: 600;
-  font-family: "Oswald", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   background: transparent;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
@@ -800,13 +807,13 @@ a {
 
 .hero-banner__content h4 {
   font-size: 30px;
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   color: #555555;
   margin-bottom: 12px
 }
 
 .hero-banner__content h1 {
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   font-size: 25px;
   text-transform: uppercase;
   font-weight: 700;
@@ -2553,7 +2560,7 @@ a {
 }
 
 .sidebar-categories .head {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Cafe24Supermagic-Bold-v1.0', sans-serif;
   line-height: 50px;
   background: #384aeb;
   padding: 0 30px;
@@ -2602,7 +2609,7 @@ a {
 }
 
 .sidebar-filter .top-filter-head {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Cafe24Supermagic-Bold-v1.0', sans-serif;
   line-height: 50px;
   background: #384aeb;
   padding: 0 30px;
@@ -2852,7 +2859,7 @@ a {
 }
 
 .single-search-product .desc .title {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Cafe24Supermagic-Bold-v1.0', sans-serif;
   color: #222;
   margin-bottom: 0;
   display: inline-block
@@ -2967,7 +2974,7 @@ a {
 .order_details_table .table thead tr th {
   border-bottom: 1px solid #ddd;
   font-size: 16px;
-  font-family: "Oswald", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   font-weight: normal;
   color: #222
 }
@@ -2988,7 +2995,7 @@ a {
 }
 
 .order_details_table .table tbody tr td h5 {
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   color: #222;
   margin-bottom: 0px;
   font-size: 15px;
@@ -2997,7 +3004,7 @@ a {
 }
 
 .order_details_table .table tbody tr td h4 {
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   text-transform: uppercase;
   margin-bottom: 0px;
   color: #222;
@@ -3076,7 +3083,7 @@ a {
 .check_title h2 {
   font-size: 15px;
   font-weight: normal;
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   background: #f1f6f7;
   line-height: 40px !important;
   padding-left: 30px;
@@ -3326,7 +3333,7 @@ a {
 }
 
 .order_box .list li a h4 {
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   font-size: 15px;
   margin-top: 15px
 }
@@ -3879,7 +3886,7 @@ a {
   border-top: 0px;
   font-size: 16px;
   font-weight: 500;
-  font-family: "Oswald", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   color: #222;
   border-bottom: 0px !important
 }
@@ -3918,7 +3925,7 @@ a {
 .cart_inner .table tbody tr td h5 {
   font-size: 15px;
   color: #222;
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   margin-bottom: 0px
 }
 
@@ -4249,7 +4256,7 @@ a {
 }
 
 .s_product_text h2 {
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   font-size: 24px;
   font-weight: 700;
   color: #384aeb;
@@ -4478,7 +4485,7 @@ a {
 }
 
 .product_description_area .tab-content .total_rate .box_total h6 {
-  font-family: "Roboto", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   margin-bottom: 0px;
   font-size: 14px;
   color: #555555;
@@ -4713,7 +4720,7 @@ a {
 
 .tp_widgets .list li a {
   color: #7b838a;
-  font-family: "Roboto", sans-serif
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif
 }
 
 .tp_widgets .list li a:hover {
@@ -4732,7 +4739,7 @@ a {
   font-size: 18px;
   line-height: 24px;
   font-weight: 500;
-  font-family: "Oswald", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   text-transform: capitalize;
   color: #fff;
   margin-bottom: 28px
