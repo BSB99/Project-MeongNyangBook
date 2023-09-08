@@ -153,7 +153,6 @@ function uploadData() {
     headers: {"Authorization": token},
     success: function (response) {
       console.log(imgArr);
-      alert('수정 성공 !', response);
       // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/adoptions";
 
@@ -175,12 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
     headers: {"Authorization": token}
   })
   .done(function (response) {
-    console.log("단건 조회 성공");
-    console.log(response);
-    // fetchWorkerList(response);
     setCardData(response);
-    // categoryId = response.categoryId;
-    // commentBtnUpdate();
     imgList(response);
 
   })
@@ -191,14 +185,6 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 function setCardData(response) {
-  // title: $(".title").val(),
-  //     description: $(".image_upload_textarea").val(),
-  //     animalName:$("#animal-name").val(),
-  //     animalGender:$("#animal-sex").val(),
-  //     animalAge:$("#animal-age").val(),
-  //     area:$("#animal-address").val(),
-  //     category:$("#animal-category").val()
-
   let adoptionsTitle = document.getElementById("adoptionsTitle");
   let adoptionDescription = document.getElementById("adoptionsDescription");
   let animalName = document.getElementById("animal-name");
@@ -228,9 +214,6 @@ function imgList(response) {
   for (let f of filesArr) {
 
     var img_html = `<img class="img" style="transition: transform 0.5s;" src="${f}"/>`;
-    // deleteFileName = deleteFileName + "," + f;
-    // deleteFileName.push(f);
-    // console.log(deleteFileName);
     $(".img_wrap").append(img_html);
   }
   slideImage(); // Call slideImage() after all images have been processed
@@ -238,15 +221,12 @@ function imgList(response) {
 
 function start() {
   const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
     document.getElementById('login-text').style.display = 'block';
     document.getElementById('logout-text').style.display = 'none';
     document.getElementById('mypage-text').style.display = 'none';
   } else { // 쿠키가 있을 경우
-    console.log(2);
     document.getElementById('login-text').style.display = 'none';
     document.getElementById('logout-text').style.display = 'block';
     document.getElementById('mypage-text').style.display = 'block';

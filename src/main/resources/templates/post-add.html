@@ -2,349 +2,350 @@
 <html>
 
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>멍냥북</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css"/>
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-          rel="stylesheet"/>
-    <link rel="shortcut icon" href="/images/favicon.ico"/>
-    <link rel="stylesheet" href="/css/post-add.css"/>
-    <script src="/js/token.js"></script>
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
-            crossorigin="anonymous"></script>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>멍냥북</title>
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css"/>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        rel="stylesheet"/>
+  <link rel="shortcut icon" href="/images/favicon.ico"/>
+  <link rel="stylesheet" href="/css/post-add.css"/>
+  <script src="/js/token.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
 
-    <!-- js Cookie -->
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-    <script th:inline="javascript" src="/js/post-add.js"></script>
-    <script src="/js/home.js"></script>
-
-
-    <style>
-        /*li {*/
-        /*  list-style: none;*/
-        /*}*/
-
-        /*.middle_Top {*/
-        /*  width: 600px;*/
-        /*  border-bottom: 1px solid lightgrey;*/
-
-        /*}*/
-
-        /*.middle_Top .my_photo {*/
-        /*  width: 40px;*/
-        /*  height: 40px;*/
-        /*  border-radius: 3rem;*/
-        /*  float: left;*/
-        /*  position: absolute;*/
-        /*  left: 1%;*/
-        /*  top: 1%;*/
-        /*}*/
-
-        /*.middle_Top .my_account {*/
-        /*  width: 90px;*/
-        /*  display: inline-block;*/
-        /*  font-weight: bold;*/
-        /*}*/
-
-        /*.middle_Top .my_account a {*/
-        /*  color: black;*/
-        /*  position: absolute;*/
-        /*  left: 10%;*/
-        /*  top: 2%;*/
-        /*}*/
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+  <script th:inline="javascript" src="/js/post-add.js"></script>
+  <script src="/js/home.js"></script>
 
 
-        /*.btn {*/
-        /*  display: inline-block;*/
-        /*  position: absolute;*/
-        /*  background-color: #cccccc;*/
+  <style>
+    /*li {*/
+    /*  list-style: none;*/
+    /*}*/
 
-        /*  padding: 10px;*/
-        /*  color: #ffffff;*/
-        /*}*/
+    /*.middle_Top {*/
+    /*  width: 600px;*/
+    /*  border-bottom: 1px solid lightgrey;*/
 
-        /*.prevBtn {*/
-        /*  top: 35%;*/
-        /*  left: 0;*/
-        /*}*/
+    /*}*/
 
-        /*.nextBtn {*/
-        /*  top: 35%;*/
-        /*  right: 0;*/
-        /*}*/
+    /*.middle_Top .my_photo {*/
+    /*  width: 40px;*/
+    /*  height: 40px;*/
+    /*  border-radius: 3rem;*/
+    /*  float: left;*/
+    /*  position: absolute;*/
+    /*  left: 1%;*/
+    /*  top: 1%;*/
+    /*}*/
 
-    </style>
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-7">
-                        <div class="header__top__left">
-                            <p>멍냥북에 오신 것을 환영합니다 !</p>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-5">
-                        <div class="header__top__right">
-                            <div class="header__top__links">
-                                <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
-                                <a id="logout-text"
-                                   href="javascript:logout()">Log Out</a>
-                                <!--              <a href="#">FAQs</a>-->
-                            </div>
-                            <div class="header__top__links">
-                                <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
-                                <!--              <a href="#">FAQs</a>-->
-                            </div>
+    /*.middle_Top .my_account {*/
+    /*  width: 90px;*/
+    /*  display: inline-block;*/
+    /*  font-weight: bold;*/
+    /*}*/
 
-                            <!--            <div class="header__top__hover">-->
-                            <!--              <span>Usd <i class="arrow_carrot-down"></i></span>-->
-                            <!--              <ul>-->
-                            <!--                <li>USD</li>-->
-                            <!--                <li>EUR</li>-->
-                            <!--                <li>USD</li>-->
-                            <!--              </ul>-->
-                            <!--            </div>-->
-                        </div>
-                    </div>
-                </div>
+    /*.middle_Top .my_account a {*/
+    /*  color: black;*/
+    /*  position: absolute;*/
+    /*  left: 10%;*/
+    /*  top: 2%;*/
+    /*}*/
+
+
+    /*.btn {*/
+    /*  display: inline-block;*/
+    /*  position: absolute;*/
+    /*  background-color: #cccccc;*/
+
+    /*  padding: 10px;*/
+    /*  color: #ffffff;*/
+    /*}*/
+
+    /*.prevBtn {*/
+    /*  top: 35%;*/
+    /*  left: 0;*/
+    /*}*/
+
+    /*.nextBtn {*/
+    /*  top: 35%;*/
+    /*  right: 0;*/
+    /*}*/
+
+  </style>
+  <!-- Header Section Begin -->
+  <header class="header">
+    <div class="header__top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-7">
+            <div class="header__top__left">
+              <p>멍냥북에 오신 것을 환영합니다 !</p>
             </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li><a href="/">Home</a></li>
-                            <li><a href="/mya/view/items">Shop</a></li>
-                            <!--            <li><a href="#">Pages</a>-->
-                            <!--              <ul class="dropdown">-->
-                            <!--                <li><a href="./about.html">About Us</a></li>-->
-                            <!--                <li><a href="./shop-details.html">Shop Details</a></li>-->
-                            <!--                <li><a href="./shopping-cart.html">Shopping Cart</a></li>-->
-                            <!--                <li><a href="./order.html">Check Out</a></li>-->
-                            <!--                <li><a href="./blog-details.html">Blog Details</a></li>-->
-                            <!--              </ul>-->
-                            <!--            </li>-->
-                            <li class="active"><a href="/mya/view/post/community">Community</a></li>
-                            <li><a href="/mya/view/post/adoptions">Adoptions</a></li>
-                        </ul>
-                    </nav>
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <!--          header__nav__option-->
-                        <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
-                        <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
-                        <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
-                        <a href="/mya/view/chat"><img src="/img/icon/messages.png" alt=""
-                                                      style="width: 18px; height: 18px"> <span></span></a>
-                    </div>
-                </div>
+          </div>
+          <div class="col-lg-6 col-md-5">
+            <div class="header__top__right">
+              <div class="header__top__links">
+                <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
+                <a id="logout-text"
+                   href="javascript:logout()">Log Out</a>
+                <!--              <a href="#">FAQs</a>-->
+              </div>
+              <div class="header__top__links">
+                <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
+                <!--              <a href="#">FAQs</a>-->
+              </div>
+
+              <!--            <div class="header__top__hover">-->
+              <!--              <span>Usd <i class="arrow_carrot-down"></i></span>-->
+              <!--              <ul>-->
+              <!--                <li>USD</li>-->
+              <!--                <li>EUR</li>-->
+              <!--                <li>USD</li>-->
+              <!--              </ul>-->
+              <!--            </div>-->
             </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+          </div>
         </div>
-    </header>
-    <!-- Header Section End -->
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-3">
+          <div class="header__logo">
+            <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/mya/view/items">Shop</a></li>
+              <!--            <li><a href="#">Pages</a>-->
+              <!--              <ul class="dropdown">-->
+              <!--                <li><a href="./about.html">About Us</a></li>-->
+              <!--                <li><a href="./shop-details.html">Shop Details</a></li>-->
+              <!--                <li><a href="./shopping-cart.html">Shopping Cart</a></li>-->
+              <!--                <li><a href="./order.html">Check Out</a></li>-->
+              <!--                <li><a href="./blog-details.html">Blog Details</a></li>-->
+              <!--              </ul>-->
+              <!--            </li>-->
+              <li class="active"><a href="/mya/view/post/community">Community</a></li>
+              <li><a href="/mya/view/post/adoptions">Adoptions</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="header__nav__option">
+            <!--          header__nav__option-->
+            <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
+            <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
+            <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+            <a href="/mya/view/chat"><img src="/img/icon/messages.png" alt=""
+                                          style="width: 18px; height: 18px"> <span></span></a>
+          </div>
+        </div>
+      </div>
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+  </header>
+  <!-- Header Section End -->
 
 <body>
 <div class="container">
-    <div class="box">
-        <div class="bigbox" style="top: 50%; /* 화면 상단으로부터 50% 떨어져 있습니다. */
+  <div class="box">
+    <div class="bigbox" style="top: 50%; /* 화면 상단으로부터 50% 떨어져 있습니다. */
                                left: 50%; /* 화면 왼쪽으로부터 50% 떨어져 있습니다. */">
-            <!-- 섬네일은 아래 주소 참고 -->
-            <!-- https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1 -->
-            <form class="upload__form" id="uploadForm">
+      <!-- 섬네일은 아래 주소 참고 -->
+      <!-- https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1 -->
+      <form class="upload__form" id="uploadForm">
 
-                <table class="table">
-                    <tr>
-                        <td style="height: 500px;">
-                            <div class="slide" style="width: 500px; height: 500px; overflow: hidden;">
-                                <div class="img_wrap" id="my_div">
+        <table class="table">
+          <tr>
+            <td style="height: 500px;">
+              <div class="slide" style="width: 500px; height: 500px; overflow: hidden;">
+                <div class="img_wrap" id="my_div">
 
-                                </div>
-                            </div>
-                            <div style="border-top: 1px solid lightgrey;">
-                                <input id="multipartFiles" type="file" name="fileName" multiple
-                                       placeholder="사진파일" required
-                                       style="display: none;"/>
-                                <input type="image" src="/img/icon/save.png" onclick="handleInputClick(event)"
-                                       style="height: 30px; position: relative; left: 270px; top: 10px; bottom: 10px;"/>
-                            </div>
-                        </td>
-                        <a class="btn prevBtn">Prev</a>
-                        <a class="btn nextBtn">Next</a>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>
-                                <input class="title" type="text" name="title" value="" placeholder="title"
-                                       style="width: 500px">
-                            </div>
-                            <textarea type="text" name="description" class="image_upload_textarea"
-                                      placeholder="문구입력..."></textarea>
-                        </td>
-                    </tr>
-                </table>
-                <input type="button" onclick="uploadData()" value="업로드"/>
-            </form>
-        </div>
+                </div>
+              </div>
+              <div style="border-top: 1px solid lightgrey;">
+                <input id="multipartFiles" type="file" name="fileName" multiple
+                       placeholder="사진파일" required
+                       style="display: none;"/>
+                <input type="image" src="/img/icon/save.png" onclick="handleInputClick(event)"
+                       style="height: 30px; position: relative; left: 270px; top: 10px; bottom: 10px;"/>
+              </div>
+            </td>
+            <a class="btn prevBtn">Prev</a>
+            <a class="btn nextBtn">Next</a>
+          </tr>
+          <tr>
+            <td>
+              <div>
+                <input class="title" type="text" name="title" value="" placeholder="title"
+                       style="width: 500px">
+              </div>
+              <textarea type="text" name="description" class="image_upload_textarea"
+                        placeholder="문구입력..."></textarea>
+            </td>
+          </tr>
+        </table>
+        <input type="button" onclick="uploadData()" value="업로드"/>
+      </form>
     </div>
+  </div>
 </div>
 
 <script>
-    var sel_file = [];
-    $(document).ready(function () {
-        $("#multipartFiles").on("change", handleImgFileSelect);
+  var sel_file = [];
+  $(document).ready(function () {
+    $("#multipartFiles").on("change", handleImgFileSelect);
+  });
+
+  function handleInputClick(event) {
+    // Prevent the default behavior of the click event
+    event.preventDefault();
+
+    // Trigger the hidden file input element programmatically
+    document.getElementById('multipartFiles').click();
+  }
+
+  async function handleImgFileSelect(e) {
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+
+    $(".img_wrap").empty();
+
+    for (const f of filesArr) {
+      if (!f.type.match("image.*")) {
+        alert("확장자는 이미지 확장자만 가능합니다.");
+        return;
+      }
+
+      sel_file.push(f);
+
+      // Wrap FileReader in a Promise for async/await usage
+      const imgData = await readFileAsync(f);
+
+      var img_html = `<img class="img" style="transition: transform 0.5s;" src="${imgData}"/>`;
+      $(".img_wrap").append(img_html);
+    }
+
+    slideImage(); // Call slideImage() after all images have been processed
+  }
+
+  // Promisify FileReader.readAsDataURL
+  function readFileAsync(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (event) => resolve(event.target.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
     });
+  }
 
-    function handleInputClick(event) {
-        // Prevent the default behavior of the click event
-        event.preventDefault();
+  function slideImage() {
 
-        // Trigger the hidden file input element programmatically
-        document.getElementById('multipartFiles').click();
+    let pages = 0; //현재 인덱스 번호
+    let positionValue = 0; //images 위치값
+    const IMAGE_WIDTH = 500; //한번 이동 시 IMAGE_WIDTH만큼 이동한다.
+    const images = document.querySelectorAll(".img");
+    console.log(images)
+    //DOM
+    const backBtn = document.querySelector(".prevBtn");
+    const nextBtn = document.querySelector(".nextBtn");
+
+    function moveImages() {
+      images.forEach(function (image) {
+        image.style.transform = `translateX(${positionValue}px)`;
+      });
     }
 
-    async function handleImgFileSelect(e) {
-        var files = e.target.files;
-        var filesArr = Array.prototype.slice.call(files);
-
-        $(".img_wrap").empty();
-
-        for (const f of filesArr) {
-            if (!f.type.match("image.*")) {
-                alert("확장자는 이미지 확장자만 가능합니다.");
-                return;
-            }
-
-            sel_file.push(f);
-
-            // Wrap FileReader in a Promise for async/await usage
-            const imgData = await readFileAsync(f);
-
-            var img_html = `<img class="img" style="transition: transform 0.5s;" src="${imgData}"/>`;
-            $(".img_wrap").append(img_html);
-        }
-
-        slideImage(); // Call slideImage() after all images have been processed
+    function back() {
+      if (pages > 0) {
+        nextBtn.removeAttribute("disabled");
+        positionValue += IMAGE_WIDTH;
+        moveImages();
+        pages -= 1; //이전 페이지로 이동해서 pages를 1감소 시킨다.
+      }
+      if (pages === 0) {
+        backBtn.setAttribute("disabled", "true"); //마지막 장일 때 back버튼이 disabled된다.
+      }
     }
 
-    // Promisify FileReader.readAsDataURL
-    function readFileAsync(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onload = (event) => resolve(event.target.result);
-            reader.onerror = (error) => reject(error);
-            reader.readAsDataURL(file);
-        });
+    function next() {
+      const myDiv = document.getElementById("my_div");
+      const imgTags = myDiv.getElementsByTagName("img");
+      const imagesSize = imgTags.length;
+      console.log("이미지 사이즈 : " + imagesSize);
+      console.log("현재 인덱스 번호 : " + pages);
+      if (pages < imagesSize - 1) {
+        console.log("다음장으로");
+        backBtn.removeAttribute("disabled"); //뒤로 이동해 더이상 disabled가 아니여서 속성을 삭제한다.
+        positionValue -= IMAGE_WIDTH; //IMAGE_WIDTH의 증감을 positionValue에 저장한다.
+        console.log(positionValue);
+        moveImages();
+        //x축으로 positionValue만큼의 px을 이동한다.
+        pages += 1; //다음 페이지로 이동해서 pages를 1증가 시킨다.
+        console.log(pages);
+      }
+      if (pages == imagesSize) {
+        //
+        console.log("마지막장");
+        nextBtn.setAttribute("disabled", "true"); //마지막 장일 때 next버튼이 disabled된다.
+      }
     }
 
-    function slideImage() {
-
-        let pages = 0; //현재 인덱스 번호
-        let positionValue = 0; //images 위치값
-        const IMAGE_WIDTH = 500; //한번 이동 시 IMAGE_WIDTH만큼 이동한다.
-        const images = document.querySelectorAll(".img");
-        console.log(images)
-        //DOM
-        const backBtn = document.querySelector(".prevBtn");
-        const nextBtn = document.querySelector(".nextBtn");
-
-        function moveImages() {
-            images.forEach(function (image) {
-                image.style.transform = `translateX(${positionValue}px)`;
-            });
-        }
-
-        function back() {
-            if (pages > 0) {
-                nextBtn.removeAttribute("disabled");
-                positionValue += IMAGE_WIDTH;
-                moveImages();
-                pages -= 1; //이전 페이지로 이동해서 pages를 1감소 시킨다.
-            }
-            if (pages === 0) {
-                backBtn.setAttribute("disabled", "true"); //마지막 장일 때 back버튼이 disabled된다.
-            }
-        }
-
-        function next() {
-            const myDiv = document.getElementById("my_div");
-            const imgTags = myDiv.getElementsByTagName("img");
-            const imagesSize = imgTags.length;
-            console.log("이미지 사이즈 : " + imagesSize);
-            console.log("현재 인덱스 번호 : " + pages);
-            if (pages < imagesSize - 1) {
-                console.log("다음장으로");
-                backBtn.removeAttribute("disabled"); //뒤로 이동해 더이상 disabled가 아니여서 속성을 삭제한다.
-                positionValue -= IMAGE_WIDTH; //IMAGE_WIDTH의 증감을 positionValue에 저장한다.
-                console.log(positionValue);
-                moveImages();
-                //x축으로 positionValue만큼의 px을 이동한다.
-                pages += 1; //다음 페이지로 이동해서 pages를 1증가 시킨다.
-                console.log(pages);
-            }
-            if (pages == imagesSize) {
-                //
-                console.log("마지막장");
-                nextBtn.setAttribute("disabled", "true"); //마지막 장일 때 next버튼이 disabled된다.
-            }
-        }
-
-        function init() {
-            //초기 화면 상태
-            backBtn.setAttribute("disabled", "true"); //속성이 disabled가 된다.
-            backBtn.addEventListener("click", back); //클릭시 다음으로 이동한다.
-            nextBtn.addEventListener("click", next); //클릭시 이전으로 이동한다.
-        }
-
-        init();
+    function init() {
+      //초기 화면 상태
+      backBtn.setAttribute("disabled", "true"); //속성이 disabled가 된다.
+      backBtn.addEventListener("click", back); //클릭시 다음으로 이동한다.
+      nextBtn.addEventListener("click", next); //클릭시 이전으로 이동한다.
     }
 
-    // function uploadData() {
-    //   const contents = document.querySelector('.image_upload_textarea').value;
-    //   const token = getToken();
-    //   const formData = new FormData();
-    //   const inputFiles = document.getElementById('multipartFiles').files;
-    //
-    //   for (let i = 0; i < inputFiles.length; i++) {
-    //     formData.append('multipartFiles', inputFiles[i]);
-    //   }
-    //
-    //   formData.append('contents', contents);
-    //   $.ajax({
-    //     url: "/tdl/post",
-    //     type: 'POST',
-    //     data: formData,
-    //     processData: false,
-    //     contentType: false,
-    //     headers: { Authorization: token },
-    //     success: function (data) {
-    //       console.log(data);
-    //       window.location.href = '/tdl/post';
-    //     },
-    //     error: function (xhr, status, error) {
-    //       console.error(error);
-    //       let entries = formData.entries();
-    //       for (const pair of entries) {
-    //         console.log(pair[0]+ ', ' + pair[1]);
-    //       }
-    //       alert("업로드 실패 또는 오류 발생");
-    //     }
-    //   });
-    // }
+    init();
+  }
+
+  // function uploadData() {
+  //   const contents = document.querySelector('.image_upload_textarea').value;
+  //   const token = getToken();
+  //   const formData = new FormData();
+  //   const inputFiles = document.getElementById('multipartFiles').files;
+  //
+  //   for (let i = 0; i < inputFiles.length; i++) {
+  //     formData.append('multipartFiles', inputFiles[i]);
+  //   }
+  //
+  //   formData.append('contents', contents);
+  //   $.ajax({
+  //     url: "/tdl/post",
+  //     type: 'POST',
+  //     data: formData,
+  //     processData: false,
+  //     contentType: false,
+  //     headers: { Authorization: token },
+  //     success: function (data) {
+  //       console.log(data);
+  //       window.location.href = '/tdl/post';
+  //     },
+  //     error: function (xhr, status, error) {
+  //       console.error(error);
+  //       let entries = formData.entries();
+  //       for (const pair of entries) {
+  //         console.log(pair[0]+ ', ' + pair[1]);
+  //       }
+  //       alert("업로드 실패 또는 오류 발생");
+  //     }
+  //   });
+  // }
 
 </script>
 </body>
