@@ -151,6 +151,19 @@ function setCardData(response) {
     $("#carousel-inners").append(temp_html);
     i++;
   }
+
+  //수정 삭제 버튼 활성,비활성
+  let modifyBtn = document.getElementById("community_modify_btn");
+  let deleteBtn = document.getElementById("community_delete_btn");
+  getUserNickname();
+  if (userNickname === response.username) {
+    modifyBtn.style.display = "block";
+    deleteBtn.style.display = "block";
+  } else {
+    modifyBtn.style.display = "none";
+    deleteBtn.style.display = "none";
+  }
+
   communityTitle.innerText = response.title;
   communityDescription.innerText = response.description;
 

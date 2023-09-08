@@ -145,6 +145,17 @@ function setCardData(response) {
     $("#carousel-inners").append(temp_html);
     i++;
   }
+  //수정 삭제 버튼 활성,비활성
+  let modifyBtn = document.getElementById("adoption_modify_btn");
+  let deleteBtn = document.getElementById("adoption_delete_btn");
+  getUserNickname();
+  if (userNickname === response.username) {
+    modifyBtn.style.display = "block";
+    deleteBtn.style.display = "block";
+  } else {
+    modifyBtn.style.display = "none";
+    deleteBtn.style.display = "none";
+  }
   console.log(response.title);
   adoptionTitle.innerText = response.title;
   adoptionDescription.innerText = response.description;
@@ -331,6 +342,7 @@ function start() {
       postBoxes[i].style.display = 'block';
     }
   }
+
 }
 
 function commentLike() {

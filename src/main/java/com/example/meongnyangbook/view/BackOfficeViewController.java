@@ -13,6 +13,7 @@ public class BackOfficeViewController {
     return "back-office/index";
   }
 
+
   @GetMapping("/notice")
   public String backOfficeNotice() {
     return "back-office/pages/notice-table";

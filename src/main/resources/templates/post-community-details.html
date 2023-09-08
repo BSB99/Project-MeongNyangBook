@@ -219,9 +219,11 @@
             </div>
           </div>
           <div style="display: flex; justify-content: center; margin: 20px;">
-            <a class="button button-postComment button--active" onclick="updateCommunity()"
+            <a id="community_modify_btn" class="button button-postComment button--active"
+               onclick="updateCommunity()"
                style="cursor: pointer; margin: 5px 10px">수정하기</a>
-            <a class="button button-postComment button--active" onclick="deleteCommunity()"
+            <a id="community_delete_btn" class="button button-postComment button--active"
+               onclick="deleteCommunity()"
                style="cursor: pointer; margin: 5px 10px">삭제하기</a>
           </div>
           <div class="comments-area">
