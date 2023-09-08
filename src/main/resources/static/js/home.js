@@ -7,7 +7,6 @@ function logout() {
     headers: {'Authorization': token}
   })
   .done(function (response, status, xhr) {
-    alert('로그아웃 완료');
     Cookies.remove('Authorization', {path: '/'});
     // console.log(response.get("msg"));
 
@@ -36,15 +35,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function start() {
   const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
     document.getElementById('login-text').style.display = 'block';
     document.getElementById('logout-text').style.display = 'none';
     document.getElementById('mypage-text').style.display = 'none';
   } else { // 쿠키가 있을 경우
-    console.log(2);
     document.getElementById('login-text').style.display = 'none';
     document.getElementById('logout-text').style.display = 'block';
     document.getElementById('mypage-text').style.display = 'block';
