@@ -70,8 +70,40 @@ public class AdminRoleCheckAop {
   private void deleteInquiryComment() {
   }
 
+  @Pointcut("execution(* com.example.meongnyangbook.view.BackOfficeViewController.backOffice())")
+  private void backOffice() {
 
-  @Around("deleteReport() || getReports() || createNotice() || getNotices() || updateNotice() || deleteNotice() || createItem() || updateItem() || deleteItem() || createInquiryComment() || updateInquiryComment() || deleteInquiryComment() ")
+  }
+
+  @Pointcut("execution(* com.example.meongnyangbook.view.BackOfficeViewController.backOfficeItemList())")
+  private void backOfficeItemList() {
+
+  }
+
+  @Pointcut("execution(* com.example.meongnyangbook.view.BackOfficeViewController.backOfficeItemSave())")
+  private void backOfficeItemSave() {
+
+  }
+
+  @Pointcut("execution(* com.example.meongnyangbook.view.BackOfficeViewController.backOfficeNotice())")
+  private void backOfficeNotice() {
+
+  }
+
+  @Pointcut("execution(* com.example.meongnyangbook.view.BackOfficeViewController.backOfficeReport())")
+  private void backOfficeReport() {
+
+  }
+
+  @Pointcut("execution(* com.example.meongnyangbook.view.BackOfficeViewController.backOfficeOrder())")
+  private void backOfficeOrder() {
+
+  }
+
+  @Around("deleteReport() || getReports() || createNotice() || getNotices() || updateNotice() ||"
+      + " deleteNotice() || createItem() || updateItem() || deleteItem() || createInquiryComment() ||"
+      + " updateInquiryComment() || deleteInquiryComment()||backOffice()||backOfficeItemList()||backOfficeItemSave()||"
+      + "backOfficeNotice()||backOfficeReport()||backOfficeOrder()")
   public Object executeReportRoleCheck(ProceedingJoinPoint joinPoint) throws Throwable {
 
     UserDetailsImpl user = (UserDetailsImpl) joinPoint.getArgs()[0];
