@@ -118,6 +118,7 @@ function setCardData(response) {
   let viewCount = document.getElementById("viewCount");
   let nickname = document.getElementById("username");
   let createdAt = document.getElementById("createdAt");
+  let likes = document.getElementById("likes");
 
   let fileNames = response.fileUrls.fileName.split(",");
 
@@ -168,6 +169,7 @@ function setCardData(response) {
   viewCount.innerText = response.viewCount + " Views";
   nickname.innerText = response.username;
   createdAt.innerText = response.createdAt;
+  likes.innerText = response.likesCount + " likes";
 }
 
 function deleteCommunity() {

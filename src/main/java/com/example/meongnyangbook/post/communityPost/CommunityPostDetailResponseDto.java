@@ -18,6 +18,7 @@ public class CommunityPostDetailResponseDto {
   private String updatedAt;
   private Long viewCount;
   private String username;
+  private Integer likesCount;
   private List<CommentResponseDto> commentList = new ArrayList<>();
   private AttachmentUrlResponseDto fileUrls;
 
@@ -31,6 +32,7 @@ public class CommunityPostDetailResponseDto {
     this.updatedAt = communityPost.getModifiedAtAsString();
     this.viewCount = viewCount.longValue();
     this.username = communityPost.getUser().getNickname();
+    this.likesCount = communityPost.getPostLikes().size();
     this.fileUrls = new AttachmentUrlResponseDto(communityPost.getAttachmentUrl());
     for (Comment comment : communityPost.getCommentList()) {
       commentList.add(new CommentResponseDto(comment));
