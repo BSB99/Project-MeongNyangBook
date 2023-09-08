@@ -17,6 +17,12 @@
 <body>
 <script src="/js/relativeProfile.js"></script>
 
+<div class="header__logo" style="display: block; /* 이미지를 블록 레벨 요소로 만듭니다 */
+    margin: 50px;  /* 원하는 마진 값을 적용합니다 */
+    padding: 50px; /* 원하는 패딩 값을 적용합니다 */ ">
+    <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
+</div>
+
 <header>
   <div class="container">
     <div class="profile">
@@ -29,30 +35,28 @@
       </div>
 
       <div class="profile-user-settings">
+          <div class="margin-20">
+            <input id="nickname" class="profile-user-name" disabled
+                   style="outline: none; border: none; color: black">
+              <a onclick="openReportModal()" class="btn openmodale">신고하기</a>
+          </div>
 
-        <input id="nickname" class="profile-user-name" disabled
-               style="outline: none; border: none; color: black">
-        <button id="doneButton" class="btn profile-edit-btn" style="display: none;"
-                onclick="updateBtn()">Done
-        </button>
-        <!--        <button id="edit-button" class="btn profile-edit-btn" onclick="reportUser()">신고하기-->
-        <!--        </button>-->
-        <p><a onclick="openReportModal()" class="btn btn-big openmodale">신고하기</a></p>
+
         <!-- Modal -->
         <div class="modale" aria-hidden="true">
-          <div class="modal-dialog">
+          <div class="modal-dialog" style="width: 400px; height: 300px;">
             <div class="modal-header">
               <a onclick="clsReportModal()" class="btn-close closemodale"
                  aria-hidden="true">&times;</a>
             </div>
             <div class="modal-body">
-              <input type="text" id="report_content" name="u" placeholder="신고내용" size="20"/><br>
-            <select class="report_category" name="report_category" id="report_category" style="width: 60%">
+            <select class="report_category" name="report_category" id="report_category" style="width: 300px; height: 35px; margin-bottom: 60px;">
               <option value="">신고 사유</option>
               <option value="INAPPROPRIATE_BEHAVIOR">부적절한 언행</option>
               <option value="FALSE_POSTING">허위 매물</option>
               <option value="OTHER">기타</option>
             </select>
+            <input type="text" id="report_content" name="u" placeholder="신고내용" size="20"/>
             <div class="modal-footer">
               <a onclick="report()" class="btn" id="btn_ingresar">Report</a>
             </div>
@@ -75,14 +79,11 @@
 
       <div class="profile-bio">
         <p>
-          <input class=" subProfile" id="introduce" disabled>
+            <input class=" subProfile" id="introduce" disabled style="width: 335px;">
+            <button onclick="onChat()" class="btn" style="margin-left: auto">채팅 하기</button>
         </p>
-        <button onclick="onChat()">채팅 하기</button>
+
       </div>
-    </div>
-    <div class="button-post" style="width: 100%">
-      <button onclick="myCommunity()">CommunityPost</button>
-      <button onclick="myAdoption()">AdoptionPost</button>
     </div>
     <!-- End of profile section -->
   </div>
@@ -91,6 +92,10 @@
 
 <main>
   <div class="container">
+      <div class="button-post">
+          <button onclick="myCommunity()">CommunityPost</button>
+          <button onclick="myAdoption()">AdoptionPost</button>
+      </div>
     <div class="gallery" id="gallery">
       <div class="gallery-item" tabindex="0">
         <img
@@ -376,7 +381,7 @@
     </div>
     <!-- End of gallery -->
 
-    <div class="loader"></div>
+<!--    <div class="loader"></div>-->
   </div>
   <!-- End of container -->
 </main>
