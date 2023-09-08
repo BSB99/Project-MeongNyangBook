@@ -56,8 +56,6 @@ public class User extends TimeStamped {
 
   private OAuthProviderEnum oAuthProvider;
 
-  private Long kakaoId;
-
 
   public User(String username, String password, String nickname, String introduce, String address,
       String phoneNumber,
@@ -72,19 +70,6 @@ public class User extends TimeStamped {
     this.oAuthProvider = oAuthProvider;
   }
 
-  public User(String username, String password, String nickname, String introduce, String address,
-      String phoneNumber,
-      UserRoleEnum role, OAuthProviderEnum oAuthProvider, Long kakaoId) {
-    this.username = username;
-    this.password = password;
-    this.nickname = nickname;
-    this.introduce = introduce;
-    this.address = address;
-    this.phoneNumber = phoneNumber;
-    this.role = role;
-    this.oAuthProvider = oAuthProvider;
-    this.kakaoId = kakaoId;
-  }
 
   @Builder
   public User(String username, String password, String nickname, UserRoleEnum role,
@@ -116,8 +101,8 @@ public class User extends TimeStamped {
     this.profileImgurl = filePath;
   }
 
-  public User kakaoIdUpdate(Long kakaoId) {
-    this.kakaoId = kakaoId;
-    return this;
+  public void setEmail(String kakaoId) {
+    this.username = kakaoId;
   }
+
 }

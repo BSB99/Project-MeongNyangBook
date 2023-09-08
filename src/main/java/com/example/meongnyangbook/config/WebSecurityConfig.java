@@ -82,7 +82,8 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/mya/back-office/**").permitAll()
 //            .requestMatchers("/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/*.gif").permitAll()
-                .anyRequest().authenticated() // 그 외 모든 요청 인증처리
+//                .anyRequest().authenticated() // 그 외 모든 요청 인증처리
+                .anyRequest().permitAll()
     );
 
     // 필터 관리
