@@ -59,7 +59,7 @@ public interface AdoptionPostService {
    * @param user
    * @return
    */
-  AdoptionPostDetailResponseDto getSingleAdoption(Long adoptionId, User user, Pageable commentPage);
+  AdoptionPostDetailResponseDto getSingleAdoption(Long adoptionId, User user);
 
   /**
    * 내가 작성한 분양 게시물 조회

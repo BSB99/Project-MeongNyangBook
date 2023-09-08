@@ -68,7 +68,7 @@ public class AdoptionPostController {
       @PathVariable Long adoptionId, @AuthenticationPrincipal UserDetailsImpl userDetails,
       Pageable commentPage) {
     AdoptionPostDetailResponseDto result = adoptionPostService.getSingleAdoption(adoptionId,
-        userDetails.getUser(), commentPage);
+        userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 

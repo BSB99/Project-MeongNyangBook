@@ -81,6 +81,7 @@ public class WebSecurityConfig {
 //            .requestMatchers("/mya/backoffice/**").permitAll() // role인지파악
                 .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll() // html 허용
                 .requestMatchers(HttpMethod.GET, "/mya/back-office/**").permitAll()
+                .requestMatchers("/mya/chats/**", "/mya-websocket").permitAll()
                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
     );
 
