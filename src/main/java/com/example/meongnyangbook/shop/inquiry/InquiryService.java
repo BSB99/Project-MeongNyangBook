@@ -2,6 +2,8 @@ package com.example.meongnyangbook.shop.inquiry;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.User;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 
@@ -24,7 +26,7 @@ public interface InquiryService {
    * @param id
    * @return
    */
-  List<InquiryResponseDto> getInquiryList(Long id);
+  InquiryListResponseDto getInquiryList(Long id, Pageable pageable);
 
   /**
    * 문의 상세 조회

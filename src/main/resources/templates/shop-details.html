@@ -32,7 +32,7 @@
   <!-- js Cookie -->
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 </head>
-<script src="/js/home.js"></script>
+
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -281,7 +281,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" style="height: 800px">
         <div class="col-lg-12">
           <div class="product__details__tab">
             <ul class="nav nav-tabs" role="tablist">
@@ -290,7 +290,8 @@
                    role="tab">상품 리뷰</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab" onclick="getInquiry()">문의</a>
+                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab"
+                   onclick="getInquiry()">문의</a>
               </li>
             </ul>
             <div class="tab-content">
@@ -310,8 +311,10 @@
               </div>
               <div class="tab-pane" id="tabs-6" role="tabpanel">
                 <div class="product__details__tab__content">
-                  <p>
-                    <button class="primary-btn" style="float: right;" onclick="showInquiry()">문의 등록</button>
+                  <p style="width: 1500px; height: 70px;">
+                    <button class="primary-btn" style="float: right; margin-right: 400px; "
+                            onclick="showInquiry()">문의 등록
+                    </button>
                   </p>
                   <div class="product-inquiry product__details__tab__content__inquiry">
                     <h5>Products Infomation</h5>
@@ -336,7 +339,7 @@
 
 
 <!-- Footer Section Begin -->
-<footer class="footer">
+<footer class="footer" style="margin-top: 200px">
   <div class="container">
     <div class="row">
       <div class="col-lg-3 col-md-6 col-sm-6">
@@ -414,49 +417,55 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="writeInquiryModal" tabindex="-1" aria-labelledby="writeInquiryModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="writeInquiryModal" tabindex="-1"
+     aria-labelledby="writeInquiryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="writeInquiryModalLabel">문의 등록</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeInquiryModal()"></button>
+        <h2 class="modal-title fs-3" id="writeInquiryModalLabel">문의 등록</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                onclick="closeInquiryModal()" style="width: 25px; height: 25px">X
+        </button>
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label for="inputTitle" class="form-label">제목</label>
-          <input type="text" class="form-control" id="inputTitle" placeholder="제목을 입력하세요">
+          <label for="inputTitle" class="form-label fs-3">제목</label>
+          <input type="text" class="form-control fs-3" id="inputTitle" placeholder="제목을 입력하세요">
         </div>
         <div class="mb-3">
-          <label for="inputQuestion" class="form-label">문의</label>
-          <input type="text" class="form-control" id="inputQuestion" placeholder="문의 내용을 입력하세요">
+          <label for="inputQuestion" class="form-label fs-3">문의</label>
+          <input type="text" class="form-control fs-3" id="inputQuestion"
+                 placeholder="문의 내용을 입력하세요">
         </div>
       </div>
-
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="saveInquiry()">문의 등록</button>
+        <button type="button" class="btn btn-primary fs-3" onclick="saveInquiry()">문의 등록</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="viewInquiryModal" tabindex="-1" aria-labelledby="viewInquiryModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="viewInquiryModal" tabindex="-2" aria-labelledby="viewInquiryModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="viewInquiryModalLabel">문의</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeGetInquiryModal()"></button>
+        <h1 class="modal-title fs-3" id="viewInquiryModalLabel">문의</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                onclick="closeGetInquiryModal()" style="width: 25px; height: 25px">X
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" id="modal-inquiry">
         <div class="mb-3">
-          <label for="inputTitle" class="form-label">제목</label>
-          <p>제목 입니다.</p>
+          <label for="inputTitle" class="form-label fs-3">제목</label>
+          <p class="fs-3">제목 입니다.</p>
         </div>
         <div class="mb-3">
-          <label for="inputQuestion" class="form-label">문의</label>
-          <p>문의 내용 입니다.</p>
+          <label for="inputQuestion" class="form-label fs-3">문의</label>
+          <p class="fs-3">문의 내용 입니다.</p>
         </div>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" id="modal-inquiry-footer">
         <div class="mb-3">
           <input type="text" class="form-control" id="saveComment" placeholder="답변 내용을 입력하세요">
         </div>

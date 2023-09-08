@@ -5,6 +5,7 @@ import com.example.meongnyangbook.shop.item.Item;
 import com.example.meongnyangbook.shop.item.ItemService;
 import com.example.meongnyangbook.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,13 +28,16 @@ public class InquiryServiceImpl implements InquiryService {
     }
 
     @Override
-    public List<InquiryResponseDto> getInquiryList(Long id) {
+    public InquiryListResponseDto getInquiryList(Long id, Pageable pageable) {
         Item item = itemService.getItem(id);
 
-        return inquiryRepository.findAllByItem(item)
+        List<InquiryResponseDto> inquiryResponseDtos = inquiryRepository.findAllByItemOrderByCreatedAtDesc(item, pageable)
                 .stream()
                 .map(InquiryResponseDto::new)
                 .toList();
+        Long len = inquiryRepository.countByItem(item);
+
+        return new InquiryListResponseDto(inquiryResponseDtos, len);
     }
 
     @Override

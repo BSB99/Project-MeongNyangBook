@@ -1,6 +1,5 @@
 package com.example.meongnyangbook.post.adoptionPost;
 
-
 import com.example.meongnyangbook.S3.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostDetailResponseDto;
@@ -165,4 +164,3 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
     });
   }
 }
-
