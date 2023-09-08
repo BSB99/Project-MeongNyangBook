@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
                                 <a href="/mya/view/users/relative-profile/${commentInfo.userId}" class="thumb">
-                                    <img src="${resizeImg}" alt="">
+                                    <img src="${resizeImg}" alt="" style="width: 70px; height: 50px;">
                                 </a>
                                 <div class="desc">
                                     <h5>
