@@ -68,4 +68,9 @@ public class OrderServiceImpl implements OrderService{
 
         return new OrderResponseDto(order);
     }
+
+    @Override
+    public List<OrderResponseDto> getOrderLists() {
+        return orderRepository.findAll().stream().map(OrderResponseDto::new).toList();
+    };
 }

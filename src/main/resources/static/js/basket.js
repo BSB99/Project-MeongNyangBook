@@ -1,5 +1,4 @@
 const token = Cookies.get('Authorization');
-
 document.addEventListener("DOMContentLoaded", function () {
   start();
   const shopCart = document.querySelectorAll(".shopping-cart");
@@ -25,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       for (let basket of response.basketList) {
         if (basket.item) {
+          console.log(basket);
           itemHtml += `
                         <tr>
                             <td class="product__cart__item">
@@ -40,13 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             <td class="quantity__item">
                                 <div class="quantity">
                                     <div class="pro-qty-2">
-                                        <input type="text" value="1">
+                                        <input type="text" value="${basket.cnt}">
                                     </div>
                                 </div>
                             </td>
                             <td class="cart__price">${basket.totalPrice}원</td>
                             <td class="cart__close">
-                                <i class="fa fa-close" onclick="deleteItem(${basket.item.id})" style="cursor: pointer;"></i>
+                            <button class="fa fa-close" onclick="deleteItem(${basket.item.id})"> </button>
                             </td>
                         </tr>
                         `;

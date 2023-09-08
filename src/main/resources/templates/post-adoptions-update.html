@@ -5,7 +5,8 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-  <title>TDL</title>
+  <title>멍냥북</title>
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css"/>
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -82,11 +83,11 @@
 <!-- Header Section Begin -->
 <header class="header">
   <div class="header__top">
-    <div class="container-header">
+    <div class="container">
       <div class="row">
         <div class="col-lg-6 col-md-7">
           <div class="header__top__left">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
+            <p>멍냥북에 오신 것을 환영합니다 !</p>
           </div>
         </div>
         <div class="col-lg-6 col-md-5">
@@ -101,16 +102,25 @@
               <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
               <!--              <a href="#">FAQs</a>-->
             </div>
+
+            <!--            <div class="header__top__hover">-->
+            <!--              <span>Usd <i class="arrow_carrot-down"></i></span>-->
+            <!--              <ul>-->
+            <!--                <li>USD</li>-->
+            <!--                <li>EUR</li>-->
+            <!--                <li>USD</li>-->
+            <!--              </ul>-->
+            <!--            </div>-->
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="container-header">
+  <div class="container">
     <div class="row">
       <div class="col-lg-3 col-md-3">
         <div class="header__logo">
-          <a href="/"><img src="/img/logo.png" alt=""></a>
+          <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
         </div>
       </div>
       <div class="col-lg-6 col-md-6">
@@ -125,24 +135,38 @@
       </div>
       <div class="col-lg-3 col-md-3">
         <div class="header__nav__option">
+          <!--          header__nav__option-->
           <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
-          <a href="#"><img src="/img/icon/heart.png" alt=""></a>
-          <a href="#"><img src="/image/icon/cart.png" alt=""> <span>0</span></a>
-          <div class="price">$0.00</div>
+          <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
+          <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+          <a href="/mya/view/chat"><img src="/img/icon/messages.png" alt=""
+                                        style="width: 18px; height: 18px"> <span></span></a>>
         </div>
       </div>
     </div>
     <div class="canvas__open"><i class="fa fa-bars"></i></div>
   </div>
 </header>
+<!-- Header Section End -->
+
+<!--&lt;!&ndash; Breadcrumb Section Begin &ndash;&gt;-->
+<!--<section class="breadcrumb-blog set-bg" data-setbg="/img/banner/puppybanner.jpg"-->
+<!--         style="background-position: center bottom;">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-12">-->
+<!--                <h2>분양</h2>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<!--&lt;!&ndash; Breadcrumb Section End &ndash;&gt;-->
 
 
 <body>
 <div class="container">
   <div class="box">
-    <div class="bigbox">
-      <!-- 섬네일은 아래 주소 참고 -->
-      <!-- https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1 -->
+    <div class="bigbox" style="top: 50%; left: 50%; height: 1200px;">
       <form class="upload__form" id="uploadForm">
         <table class="table">
           <tr>
@@ -166,27 +190,26 @@
           <tr>
             <td>
               <div>
-                <input class="title" type="text" name="title" id="adoptionsTitle" value=""
-                       placeholder="title"
+                <input class="seul-text title" type="text" name="title"
+                       placeholder="제목"
                        style="width: 500px">
               </div>
-              <textarea type="text" name="description" id="adoptionsDescription"
-                        class="image_upload_textarea"
-                        placeholder="문구입력..."></textarea>
-              <input class="animal-name" type="text" name="animal-name" id="animal-name" value=""
-                     placeholder="animalName"
+              <textarea type="text" name="description" class="image_upload_textarea"
+                        placeholder="문구입력" style="background-color: #eee;"></textarea>
+              <input class="animal-name seul-text" type="text" name="animal-name" id="animal-name"
+                     value=""
+                     placeholder="동물이름"
                      style="width: 500px">
 
-              <select class="animal-sex" name="animal-sex" id="animal-gender" style="width: 90%">
+              <select class="animal-sex seul-text" name="animal-sex" id="animal-sex">
                 <option value="">성별 선택</option>
                 <option value="MALE">MALE</option>
                 <option value="FEMALE">FEMALE</option>
               </select>
-              <input class="animal-age" type="text" name="animal-age" id="animal-age" value=""
-                     placeholder="animalAge"
-                     style="width: 500px">
-              <select class="animal-address" name="animal-address" id="animal-address"
-                      style="width: 90%">
+              <input class="animal-age seul-text" type="text" name="animal-age" id="animal-age"
+                     value=""
+                     placeholder="동물나이">
+              <select class="animal-address seul-text" name="animal-address" id="animal-address">
                 <option value="">지역 선택</option>
                 <option value="SEOUL">서울특별시</option>
                 <option value="BUSAN">부산광역시</option>
@@ -198,8 +221,7 @@
                 <option value="SEJONG">세종특별자치시</option>
                 <option value="JEJU">제주특별자치도</option>
               </select>
-              <select class="animal-category" name="animal-category" id="animal-category"
-                      style="width: 90%">
+              <select class="animal-category seul-text" name="animal-category" id="animal-category">
                 <option value="">동물 선택</option>
                 <option value="CAT">CAT</option>
                 <option value="DOG">DOG</option>
@@ -212,8 +234,15 @@
     </div>
   </div>
 </div>
-
-
+<style>
+  .seul-text {
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 500px;
+  }
+</style>
 </body>
 
 </html>
