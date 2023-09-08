@@ -168,6 +168,10 @@ function itemReviews() {
       reviewHtml += `
         <h3 style="padding-top: 200px; text-align: center; font-size: 40px;">아이템을 구매하시고 리뷰의 첫 작성자가 되어보세요!</h3>
       `;
+
+      reviews.forEach(container => {
+        container.innerHTML = "<div class=\"message\">" + reviewHtml + "</div>";
+      });
     } else {
       for (let i of reviewList) {
         reviewHtml += `
@@ -179,14 +183,12 @@ function itemReviews() {
             별점 : ${"⭐".repeat(i.starRating)}
           </div>`;
       }
+      let paginationHtml = generatePaginationLinks(len / 4 + 1, currentPage);
+
+      reviews.forEach(container => {
+        container.innerHTML = "<div class=\"message\">" + reviewHtml + "</div>" + paginationHtml;
+      });
     }
-
-    // 페이지네이션 HTML 생성
-    let paginationHtml = generatePaginationLinks(len / 4 + 1, currentPage);
-
-    reviews.forEach(container => {
-      container.innerHTML = "<div class=\"message\">" + reviewHtml + "</div>" + paginationHtml;
-    });
 
   })
   .fail(res => {
@@ -330,7 +332,6 @@ function getInquiryInfo(inquiryId) {
     }
   })
   .done(res => {
-    console.log(res);
     if(currentUserRole !== "ADMIN") {
       getInquiryFooter.forEach(container => {
         container.innerHTML = "";
