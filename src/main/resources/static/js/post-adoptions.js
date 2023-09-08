@@ -22,13 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .done((response) => {
       // Clear existing content before adding new content
-      postContainers.forEach(container => {
-        container.innerHTML = ''; // Clear existing content
-      });
 
       let temp_html = '';
 
       for (let i = 0; i < response.responseList.length; i++) {
+        console.log(response.responseList.length);
         const adoption = response.responseList[i];
         //리사이징된 이미지 가져오는 코드
         let adoptionfileName = adoption.fileUrls.fileName.split(",")[0].split(

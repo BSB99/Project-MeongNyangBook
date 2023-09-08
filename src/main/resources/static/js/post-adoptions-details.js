@@ -22,9 +22,12 @@ document.addEventListener("DOMContentLoaded", function () {
 // 배열에서 마지막 요소를 가져옵니다.
   let lastPart = urlParts[urlParts.length - 1];
 
+  let page = 0;
+  let size = 10;
+
   $.ajax({
     type: "GET",
-    url: "/mya/adoptions/" + lastPart,
+    url: "/mya/adoptions/" + lastPart + `?page=${page}&size=${size}`,
     headers: {"Authorization": token}
   })
   .done(function (response) {
@@ -37,20 +40,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let firstCommentBoxHtml = `<h4>댓글</h4>`;
     let commentInfoHtml = ``;
-    if (response.commentList.length > 0) {
-      for (let commentInfo of response.commentList) {
+    if (response.commentSize > 0) {
+      console.log(response.commentList.length);
+      for (let i = 0; response.commentList.length; i++) {
         let replyButtonHtml = ``;
-        let resizeImg = fileImgNullCheck(commentInfo.imgUrl);
-        if (commentInfo.userNickname === userNickname) {
+
+        let resizeImg;
+        console.log(response.commentList[i]);
+        // if (response.commentList[i].imgUrl !== null) {
+        //   resizeImg = fileImgNullCheck(response.commentList[i].imgUrl);
+        // } else {
+        //   // imgUrl이 없을 경우 기본 이미지 경로를 설정하거나 다른 처리를 수행하세요.
+        //   resizeImg = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg"; // 기본 이미지 경로 예시
+        // }
+
+        if (response.commentList[i].userNickname === userNickname) {
 
           replyButtonHtml = `
                         <div class="btn" style="width: 100px; height: 100px">
                             <div class="reply-btn">
                                 <a class="btn-reply text-uppercase edit-button" onclick="editComment(this)">수정</a>
-                                <a class="btn-reply text-uppercase confirm-button" style="display: none;" onclick="confirmEdit(this, ${commentInfo.commentId})">완료</a>
+                                <a class="btn-reply text-uppercase confirm-button" style="display: none;" onclick="confirmEdit(this, ${response.commentList[i].commentId})">완료</a>
                             </div>
                             <div class="delete-btn">
-                                <a class="btn-reply text-uppercase" onclick="deleteComment(${commentInfo.commentId})">삭제</a>
+                                <a class="btn-reply text-uppercase" onclick="deleteComment(${response.commentList[i].commentId})">삭제</a>
                             </div>
                         </div>`;
         }
@@ -59,18 +72,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="comment-list">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
-                                <a href="/mya/view/users/relative-profile/${commentInfo.userId}" class="thumb">
+                                <a href="/mya/view/users/relative-profile/${response.commentList[i].userId}" class="thumb">
                                     <img src="${resizeImg}" alt="" style="width: 70px; height: 50px;">
                                 </a>
                                 <div class="desc">
                                     <h5>
-                                        <a href="/mya/view/users/relative-profile/${commentInfo.userId}">${commentInfo.userNickname}</a>
+                                        <a href="/mya/view/users/relative-profile/${response.commentList[i].userId}">${response.commentList[i].userNickname}</a>
                                     </h5>
                                     <p class="comment">
-                                        ${commentInfo.content}
+                                        ${response.commentList[i].content}
                                     </p>
                                     <!-- Comment input for editing, initially hidden -->
-                                    <input type="text" class="comment-input" style="display: none;" value="${commentInfo.content}">
+                                    <input type="text" class="comment-input" style="display: none;" value="${response.commentList[i].content}">
                                 </div>
                             </div>
                             ${replyButtonHtml}

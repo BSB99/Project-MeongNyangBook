@@ -9,6 +9,8 @@ import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostResponseDto;
 import com.example.meongnyangbook.post.attachment.AttachmentUrl;
 import com.example.meongnyangbook.post.attachment.AttachmentUrlRepository;
+import com.example.meongnyangbook.post.comment.Comment;
+import com.example.meongnyangbook.post.dto.CommentResponseDto;
 import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.post.service.PostServiceImpl;
 import com.example.meongnyangbook.redis.RedisViewCountUtil;
@@ -18,6 +20,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -117,8 +122,23 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
 
   @Override
   @Transactional
-  public AdoptionPostDetailResponseDto getSingleAdoption(Long adoptionId, User user) {
+  public AdoptionPostDetailResponseDto getSingleAdoption(Long adoptionId, User user,
+      Pageable commentPage) {
     AdoptionPost adoptionPost = getAdoption(adoptionId);
+    List<Comment> commentList = adoptionPost.getCommentList();
+
+    Integer commentSize = commentList.size();
+
+    PageRequest pageRequest = PageRequest.of(commentPage.getPageNumber(),
+        commentPage.getPageSize());
+    int start = (int) pageRequest.getOffset();
+    int end = Math.min((start + pageRequest.getPageSize()), commentList.size());
+    Page<Comment> commentPageList = new PageImpl<>(commentList.subList(start, end), pageRequest,
+        commentList.size());
+
+    List<CommentResponseDto> commentResponseDtoList = commentPageList.stream()
+        .map(CommentResponseDto::new)
+        .collect(Collectors.toList());
 
     // 조회수 증가 로직
     if (redisViewCountUtil.checkAndIncrementViewCount(adoptionId.toString(),
@@ -127,8 +147,11 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
     }
 
     Double viewCount = redisViewCountUtil.getViewAdoptionCount(adoptionId.toString());
-
-    return new AdoptionPostDetailResponseDto(adoptionPost, viewCount);
+    AdoptionPostDetailResponseDto adoptionDetails = new AdoptionPostDetailResponseDto(adoptionPost,
+        viewCount);
+    adoptionDetails.setCommentList(commentResponseDtoList);
+    adoptionDetails.setCommentSize(commentSize);
+    return adoptionDetails;
 
   }
 

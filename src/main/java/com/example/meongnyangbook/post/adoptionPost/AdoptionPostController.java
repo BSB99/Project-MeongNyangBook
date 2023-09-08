@@ -65,9 +65,10 @@ public class AdoptionPostController {
   @Operation(summary = "분양 페이지 단건 조회")
   @GetMapping("/{adoptionId}")
   public ResponseEntity<AdoptionPostDetailResponseDto> getSingleAdoption(
-      @PathVariable Long adoptionId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+      @PathVariable Long adoptionId, @AuthenticationPrincipal UserDetailsImpl userDetails,
+      Pageable commentPage) {
     AdoptionPostDetailResponseDto result = adoptionPostService.getSingleAdoption(adoptionId,
-        userDetails.getUser());
+        userDetails.getUser(), commentPage);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 

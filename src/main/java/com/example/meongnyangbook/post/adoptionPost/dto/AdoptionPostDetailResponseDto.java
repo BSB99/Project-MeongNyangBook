@@ -30,6 +30,7 @@ public class AdoptionPostDetailResponseDto {
   private String createAt;
   private Integer likesCount;
   private AttachmentUrlResponseDto fileUrls;
+  private Integer commentSize;
 
   public AdoptionPostDetailResponseDto(AdoptionPost adoptionPost, Double viewCount) {
     this.userId = adoptionPost.getUser().getId();
