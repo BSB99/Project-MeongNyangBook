@@ -17,8 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
       let communityTitle = response[i]['title']; //h5
       let createdAt = response[i]['createdAt']; //span - 날짜
       let imgUrl = response[i]['fileUrls']['fileName'].split(",")[0].split("/");
-      console.log("imgRealName :" + imgUrl);
-      console.log("imgUrl :" + imgUrl[imgUrl.length - 1])
       let communityId = response[i]['id']
 
       setHtml(communityTitle, createdAt,
@@ -50,15 +48,12 @@ function setHtml(communityTitle, createdAt, imgUrl, communityId) {
 
 function start() {
   const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
     document.getElementById('login-text').style.display = 'block';
     document.getElementById('logout-text').style.display = 'none';
     document.getElementById('mypage-text').style.display = 'none';
   } else { // 쿠키가 있을 경우
-    console.log(2);
     document.getElementById('login-text').style.display = 'none';
     document.getElementById('logout-text').style.display = 'block';
     document.getElementById('mypage-text').style.display = 'block';
@@ -69,25 +64,3 @@ function start() {
     }
   }
 }
-
-// function getCommunityDetailsClick() {
-//   $(".card__item").click(function () {
-//         const token = Cookies.get('Authorization');
-//         const communityId = this.id // 클릭된 요소의 id 값 가져오기
-//         console.log(communityId);
-//         // 카드 정보를 가져오기 위한 AJAX 요청
-//         $.ajax({
-//           url: `/mya/communities/${communityId}`,  // 카드 정보를 가져올 API 엔드포인트
-//           method: 'GET',
-//           headers: {"Authorization": token},
-//           dataType: 'json',
-//           success: function (cardDetails) {
-//             window.location.href = `/okw/view/cards/${communityId}`;
-//           },
-//           error: function (error, status, xhr) {
-//             console.error('카드 정보 가져오기 에러:', error);
-//           }
-//         });
-//       }
-//   )
-// }

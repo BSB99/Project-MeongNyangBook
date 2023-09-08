@@ -1,10 +1,12 @@
-let token = Cookies.get("Authorization");
+const token = Cookies.get("Authorization");
+
 document.addEventListener("DOMContentLoaded", function () {
   console.log("신고 js");
   getReportInfo();
 });
 
 function getReportInfo() {
+
   $.ajax({
     type: "GET",
     url: "/mya/reports",
@@ -22,11 +24,11 @@ function getReportInfo() {
                     <td>${res.description}</td>
                     <td>${res.reportedUser}</td>
                     <td>${res.reportCategory}</td>
-                    <td>${res.createAt}</td>
+                    <td>${res.createdAt}</td>
                     <td>
-                      <button onclick="blockUser(${res.reportedUserId})" class="btn btn-outline-primary rounded">영구정지
+                      <button onclick="blockUser('${res.reportedUser}')" class="btn btn-outline-primary rounded">영구정지
                       </button>
-                      <button onclick="deleteReport()" class="btn btn-outline-primary rounded">삭제
+                      <button onclick="deleteReport(${res.id})" class="btn btn-outline-primary rounded">취소
                       </button>
                     </td>
                   </tr>`
@@ -36,14 +38,40 @@ function getReportInfo() {
     }
   })
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    alert(response.msg);
   })
 }
 
-function blockUser() {
-
+function blockUser(reportedUsername) {
+  console.log(reportedUsername);
+  $.ajax({
+    type: "PUT",
+    url: "/mya/auth/block?blockUserName=" + reportedUsername,
+    headers: {'Authorization': token},
+  })
+  .done(res => {
+    alert("해당유저 엉구정지 성공");
+  })
+  .fail(res => {
+    alert('유저 영구정지 오류!');
+    console.log("상태 코드 " + res.status + ": " + res.message);
+  })
 }
 
-function deleteReport() {
-
+function deleteReport(reportId) {
+  $.ajax({
+    url: "/mya/reports/" + reportId, // 백엔드 endpoint로 수정
+    type: "DELETE",
+    headers: {"Authorization": token},
+    success: function (response) {
+      alert('삭제가 완료 되었습니다!', response);
+      // 다른 성공 동작 처리
+      window.location.reload();
+    },
+    error: function (error) {
+      alert('Delete Failed');
+      console.error("Error:", error);
+      // 다른 에러 동작 처리
+    }
+  });
 }

@@ -60,9 +60,9 @@ public class UserController {
   }
 
   @GetMapping
-  public ResponseEntity<UserInfoResponseDto> getUserNickname(
+  public ResponseEntity<UserInfoResponseDto> getUserInfo(
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
-    UserInfoResponseDto result = userService.getUserNickname(userDetails.getUser());
+    UserInfoResponseDto result = userService.getUserInfo(userDetails.getUser());
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }

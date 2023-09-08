@@ -25,7 +25,7 @@ public interface OrderService {
    * @param user
    * @return
    */
-  ApiResponseDto updateOrder(User user);
+  ApiResponseDto updateOrder(Long orderNo);
 
   /**
    * 해당유저 주문 리스트 가져오기

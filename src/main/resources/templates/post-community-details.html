@@ -34,7 +34,7 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
         crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-
+  <script src="/js/home.js"></script>
 </head>
 
 
@@ -196,6 +196,11 @@
                     <i class="lnr lnr-eye"></i>
                   </a>
                 </li>
+                <li>
+                  <a href="#" id="likes">Mark wiens
+                    <i class="lnr lnr-user"></i>
+                  </a>
+                </li>
                 <!--                <li>-->
                 <!--                  <a href="#">06 Comments-->
                 <!--                    <i class="lnr lnr-bubble"></i>-->
@@ -220,9 +225,11 @@
             </div>
           </div>
           <div style="display: flex; justify-content: center; margin: 20px;">
-            <a class="button button-postComment button--active" onclick="updateCommunity()"
+            <a id="community_modify_btn" class="button button-postComment button--active"
+               onclick="updateCommunity()"
                style="cursor: pointer; margin: 5px 10px">수정하기</a>
-            <a class="button button-postComment button--active" onclick="deleteCommunity()"
+            <a id="community_delete_btn" class="button button-postComment button--active"
+               onclick="deleteCommunity()"
                style="cursor: pointer; margin: 5px 10px">삭제하기</a>
           </div>
           <div class="comments-area">
@@ -360,12 +367,16 @@
 
 </style>
 
-<script src="/vendors/jquery/jquery-3.2.1.min.js"></script>
-<script src="/vendors/bootstrap/bootstrap.bundle.min.js"></script>
-<script src="/vendors/skrollr.min.js"></script>
-<script src="/vendors/owl-carousel/owl.carousel.min.js"></script>
-<script src="/vendors/nice-select/jquery.nice-select.min.js"></script>
-<script src="/vendors/jquery.ajaxchimp.min.js"></script>
-<script src="/vendors/mail-script.js"></script>
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
 </body>
 </html>

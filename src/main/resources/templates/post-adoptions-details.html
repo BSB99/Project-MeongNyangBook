@@ -27,7 +27,7 @@
 
   <!-- js Cookie -->
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-
+  <script src="/js/home.js"></script>
 </head>
 <body>
 <script th:inline="javascript" src="/js/post-adoptions-details.js"></script>
@@ -164,6 +164,12 @@
                     <i class="lnr lnr-eye"></i>
                   </a>
                 </li>
+                <li>
+                  <a href="#" id="likes">Mark
+                    wiens
+                    <i class="lnr lnr-user"></i>
+                  </a>
+                </li>
                 <!--                <li>-->
                 <!--                  <a href="#">06 Comments-->
                 <!--                    <i class="lnr lnr-bubble"></i>-->
@@ -195,9 +201,11 @@
           <div style="display: flex; justify-content: center; margin: 20px;">
             <!--            <button class="seul-button" onclick="deleteCommunity()" id="deleteCommunityBtn">삭제하기</button>-->
             <!--            <button onclick="updateCommunity()" id="updateCommunityBtn">수정하기</button>-->
-            <a class="button button-postComment button--active" onclick="updateAdoption()"
+            <a id="adoption_modify_btn" class="button button-postComment button--active"
+               onclick="updateAdoption()"
                style="cursor: pointer; margin: 5px 10px">수정하기</a>
-            <a class="button button-postComment button--active" onclick="deleteAdoption()"
+            <a id="adoption_delete_btn" class="button button-postComment button--active"
+               onclick="deleteAdoption()"
                style="cursor: pointer; margin: 5px 10px">삭제하기</a>
           </div>
 
@@ -205,7 +213,7 @@
           <div class="comments-area">
             <h4>05 Comments</h4>
             <div class="comment-list">
-              <div class="single-comment justify-content-between d-flex">기
+              <div class="single-comment justify-content-between d-flex">
                 <div class="user justify-content-between d-flex">
                   <div class="thumb">
                     <img src="img/blog/c4.jpg" alt="">

@@ -20,8 +20,67 @@
   <link rel="stylesheet" type="text/css"
         href="/assets/vendor/datatables/css/fixedHeader.bootstrap4.css">
 </head>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+<!-- js Cookie -->
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+<script th:inline="javascript" src="/js/notice.js"></script>
 <body>
+<!--create-modal-->
+<div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="ModalLabel">공지 등록</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="recipient-name" class="col-form-label">공지 제목</label>
+          <input type="text" class="form-control" id="notice_title" value="">
+        </div>
+        <div class="mb-3">
+          <label for="message-text" class="col-form-label">공지 내용</label>
+          <textarea class="form-control" id="notice_description" style="resize: none"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button onclick="createNotice()" type="button" class="btn btn-primary">등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--modify-modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">공지 수정</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">공지 제목</label>
+            <input type="text" class="form-control" id="recipient-name" value="">
+          </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">공지 내용</label>
+            <textarea class="form-control" id="message-text" style="resize: none"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button onclick="modifyNotice()" type="button" class="btn btn-primary">수정</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- ============================================================== -->
 <!-- main wrapper -->
 <!-- ============================================================== -->
@@ -311,16 +370,14 @@ John Abraham</span>is now following you
                 <table class="table table-striped table-bordered first">
                   <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
-                    정
+                    <th>공지 번호</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>공지 날짜</th>
                     <th>수정 및 삭제</th>
                   </tr>
                   </thead>
-                  <tbody>
+                  <tbody id="notice_info_table">
                   <tr>
                     <td>Tiger Nixon</td>
                     <td>System Architect</td>
@@ -332,266 +389,14 @@ John Abraham</span>is now following you
                       <button class="btn btn-outline-primary rounded">삭제</button>
                     </td>
                   </tr>
-                  <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    정
-                    <td>Tokyo</td>
-                    <td>63</td>
-                    <td>2011/07/25</td>
-                    <td>
-                      <button class="btn btn-outline-primary rounded">수정</button>
-                      <button class="btn btn-outline-primary rounded">삭제</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>San Francisco</td>
-                    <td>66</td>
-                    <td>2009/01/12</td>
-                    <td>
-                      <button class="btn btn-outline-primary rounded">수정</button>
-                      <button class="btn btn-outline-primary rounded">삭제</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>22</td>
-                    <td>2012/03/29</td>
-                    <td>
-                      <button class="btn btn-outline-primary rounded">수정</button>
-                      <button class="btn btn-outline-primary rounded">삭제</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>33</td>
-                    <td>2008/11/28</td>
-                    <td>
-                      <button class="btn btn-outline-primary rounded">수정</button>
-                      <button class="btn btn-outline-primary rounded">삭제</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>New York</td>
-                    <td>61</td>
-                    <td>2012/12/02</td>
-                    <td>
-                      <button class="btn btn-outline-primary rounded">수정</button>
-                      <button class="btn btn-outline-primary rounded">삭제</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Herrod Chandler</td>
-                    <td>Sales Assistant</td>
-                    <td>San Francisco</td>
-                    <td>59</td>
-                    <td>2012/08/06</td>
-                    <td>
-                      <button class="btn btn-outline-primary rounded">수정</button>
-                      <button class="btn btn-outline-primary rounded">삭제</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Rhona Davidson</td>
-                    <td>Integration Specialist</td>
-                    <td>Tokyo</td>
-                    <td>55</td>
-                    <td>2010/10/14</td>
-                    <td>
-                      <button class="btn btn-info">수정</button>
-                      <button class="btn btn-info">삭제</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Haley Kennedy</td>
-                    <td>Senior Marketing Designer</td>
-                    <td>London</td>
-                    <td>43</td>
-                    <td>2012/12/18</td>
-                    <td>
-                      <button class="btn btn-info">수정</button>
-                      <button class="btn btn-info">삭제</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Tatyana Fitzpatrick</td>
-                    <td>Regional Director</td>
-                    <td>London</td>
-                    <td>19</td>
-                    <td>2010/03/17</td>
-                    <td>
-                      <button class="btn btn-info">수정</button>
-                      <button class="btn btn-info">삭제</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Michael Silva</td>
-                    <td>Marketing Designer</td>
-                    <td>London</td>
-                    <td>66</td>
-                    <td>2012/11/27</td>
-                    <td>$198,500</td>
-                  </tr>
-                  <tr>
-                    <td>Paul Byrd</td>
-                    <td>Chief Financial Officer (CFO)</td>
-                    <td>New York</td>
-                    <td>64</td>
-                    <td>2010/06/09</td>
-                    <td>$725,000</td>
-                  </tr>
-                  <tr>
-                    <td>Vivian Harrell</td>
-                    <td>Financial Controller</td>
-                    <td>San Francisco</td>
-                    <td>62</td>
-                    <td>2009/02/14</td>
-                    <td>$452,500</td>
-                  </tr>
-                  <tr>
-                    <td>Timothy Mooney</td>
-                    <td>Office Manager</td>
-                    <td>London</td>
-                    <td>37</td>
-                    <td>2008/12/11</td>
-                    <td>$136,200</td>
-                  </tr>
-                  <tr>
-                    <td>Jackson Bradshaw</td>
-                    <td>Director</td>
-                    <td>New York</td>
-                    <td>65</td>
-                    <td>2008/09/26</td>
-                    <td>$645,750</td>
-                  </tr>
-                  <tr>
-                    <td>Olivia Liang</td>
-                    <td>Support Engineer</td>
-                    <td>Singapore</td>
-                    <td>64</td>
-                    <td>2011/02/03</td>
-                    <td>$234,500</td>
-                  </tr>
-                  <tr>
-                    <td>Bruno Nash</td>
-                    <td>Software Engineer</td>
-                    <td>London</td>
-                    <td>38</td>
-                    <td>2011/05/03</td>
-                    <td>$163,500</td>
-                  </tr>
-                  <tr>
-                    <td>Sakura Yamamoto</td>
-                    <td>Support Engineer</td>
-                    <td>Tokyo</td>
-                    <td>37</td>
-                    <td>2009/08/19</td>
-                    <td>$139,575</td>
-                  </tr>
-                  <tr>
-                    <td>Thor Walton</td>
-                    <td>Developer</td>
-                    <td>New York</td>
-                    <td>61</td>
-                    <td>2013/08/11</td>
-                    <td>$98,540</td>
-                  </tr>
-                  <tr>
-                    <td>Finn Camacho</td>
-                    <td>Support Engineer</td>
-                    <td>San Francisco</td>
-                    <td>47</td>
-                    <td>2009/07/07</td>
-                    <td>$87,500</td>
-                  </tr>
-                  <tr>
-                    <td>Serge Baldwin</td>
-                    <td>Data Coordinator</td>
-                    <td>Singapore</td>
-                    <td>64</td>
-                    <td>2012/04/09</td>
-                    <td>$138,575</td>
-                  </tr>
-                  <tr>
-                    <td>Zenaida Frank</td>
-                    <td>Software Engineer</td>
-                    <td>New York</td>
-                    <td>63</td>
-                    <td>2010/01/04</td>
-                    <td>$125,250</td>
-                  </tr>
-                  <tr>
-                    <td>Zorita Serrano</td>
-                    <td>Software Engineer</td>
-                    <td>San Francisco</td>
-                    <td>56</td>
-                    <td>2012/06/01</td>
-                    <td>$115,000</td>
-                  </tr>
-                  <tr>
-                    <td>Jennifer Acosta</td>
-                    <td>Junior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>43</td>
-                    <td>2013/02/01</td>
-                    <td>$75,650</td>
-                  </tr>
-                  <tr>
-                    <td>Cara Stevens</td>
-                    <td>Sales Assistant</td>
-                    <td>New York</td>
-                    <td>46</td>
-                    <td>2011/12/06</td>
-                    <td>$145,600</td>
-                  </tr>
-                  <tr>
-                    <td>Hermione Butler</td>
-                    <td>Regional Director</td>
-                    <td>London</td>
-                    <td>47</td>
-                    <td>2011/03/21</td>
-                    <td>$356,250</td>
-                  </tr>
-                  <tr>
-                    <td>Lael Greer</td>
-                    <td>Systems Administrator</td>
-                    <td>London</td>
-                    <td>21</td>
-                    <td>2009/02/27</td>
-                    <td>$103,500</td>
-                  </tr>
-                  <tr>
-                    <td>Jonas Alexander</td>
-                    <td>Developer</td>
-                    <td>San Francisco</td>
-                    <td>30</td>
-                    <td>2010/07/14</td>
-                    <td>$86,500</td>
-                  </tr>
-                  <tr>
-                    <td>Shad Decker</td>
-                    <td>Regional Director</td>
-                    <td>Edinburgh</td>
-                    <td>51</td>
-                    <td>2008/11/13</td>
-                    <td>$183,000</td>
-                  </tr>
+
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Age</th>
-                    <th>Start date</th>
+                    <th>공지 번호</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>공지 날짜</th>
                     <th>수정 및 삭제</th>
                   </tr>
                   </tfoot>
@@ -605,7 +410,11 @@ John Abraham</span>is now following you
         <!-- ============================================================== -->
       </div>
       <div class="d-flex">
-        <button class="btn btn-outline-primary ml-auto rounded">등록</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#Modal">
+          등록
+        </button>
+
       </div>
     </div>
 

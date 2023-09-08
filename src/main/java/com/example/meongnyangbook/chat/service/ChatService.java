@@ -24,7 +24,7 @@ public interface ChatService {
    * @param roomNo
    * @return
    */
-  ApiResponseDto deleteChatMessages(Long roomNo);
+  ApiResponseDto deleteChatRoom(Long roomNo);
 
   /**
    * 채팅 방 생성

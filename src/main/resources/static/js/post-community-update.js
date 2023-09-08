@@ -134,7 +134,6 @@ function uploadData() {
 
   // formData.append("fileName",);
   formData.append("requestDto", JSON.stringify(requestDto));
-  console.log("requestDto", requestDto);
   // var deleteFileDto = {
   //   deleteFileName: deleteFileName
   // }
@@ -148,8 +147,6 @@ function uploadData() {
     contentType: false, // 서버에 데이터를 보낼 때 사용되는 content-type을 false로 지정하여 browser에게 multipart/form-data를 사용하도록 합니다.
     headers: {"Authorization": token},
     success: function (response) {
-      console.log(imgArr);
-      alert('수정 성공 !', response);
       // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/community";
 
@@ -170,7 +167,6 @@ document.addEventListener("DOMContentLoaded", function () {
     headers: {"Authorization": token}
   })
   .done(function (response) {
-    console.log("단건 조회 성공");
     // fetchWorkerList(response);
     setCardData(response);
     // categoryId = response.categoryId;

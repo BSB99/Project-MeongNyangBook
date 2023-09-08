@@ -184,8 +184,6 @@ public class AuthUserServiceImpl implements AuthUserService {
 
   @Override
   public User findUser(String username) {
-    log.info("AuthService/findUser");
-    log.info("username: " + username);
     return userRepository.findByUsername(username)
         .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
   }
