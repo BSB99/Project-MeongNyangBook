@@ -56,12 +56,10 @@ public class CommunityPostController {
 
   @Operation(summary = "커뮤니티 전체조회(페이징)")
   @GetMapping
-  public List<CommunityPostResponseDto> getCommunityList(Pageable pageable) throws Exception {
-    try {
-      return communityPostService.getCommunityList(pageable);
-    } catch (Error error) {
-      throw new Exception(error);
-    }
+  public ResponseEntity<CommunityPostPageResponseDto> getCommunityList(Pageable pageable)
+      throws Exception {
+    CommunityPostPageResponseDto result = communityPostService.getCommunityList(pageable);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
   @Operation(summary = "커뮤니티 단건 조회")

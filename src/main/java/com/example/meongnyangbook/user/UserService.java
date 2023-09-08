@@ -53,7 +53,7 @@ public interface UserService {
    * @param user
    * @return
    */
-  UserInfoResponseDto getUserNickname(User user);
+  UserInfoResponseDto getUserInfo(User user);
 
   User findUser(String username);
 

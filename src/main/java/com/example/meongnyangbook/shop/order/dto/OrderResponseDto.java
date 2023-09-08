@@ -16,6 +16,7 @@ public class OrderResponseDto {
     private OrderStatusEnum status;
     private String receiverName;
     private String receiverPhoneNumber;
+    private String createdAt;
     private OrderUserResponseDto orderUser;
     private List<OrderItemResponseDto> orderItemList = new ArrayList<>();
 
@@ -25,6 +26,7 @@ public class OrderResponseDto {
             this.status = order.getStatusEnum();
             this.receiverName = order.getReceiverName();
             this.receiverPhoneNumber = order.getReceiverPhoneNumber();
+            this.createdAt = order.getCreatedAtAsString();
             this.orderUser = new OrderUserResponseDto(order.getUser());
             for(OrderItem orderItem : order.getOrderItems()) {
                 orderItemList.add(new OrderItemResponseDto(orderItem));

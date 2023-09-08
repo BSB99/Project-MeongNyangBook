@@ -15,7 +15,7 @@ public class Chat extends TimeStamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "room_id")
     private ChatRoom chatRoom;
 
@@ -29,5 +29,9 @@ public class Chat extends TimeStamped {
         this.chatRoom = chatRoom;
         this.user = user;
         this.message = message;
+    }
+
+    public void setChatRoom() {
+        this.chatRoom = null;
     }
 }

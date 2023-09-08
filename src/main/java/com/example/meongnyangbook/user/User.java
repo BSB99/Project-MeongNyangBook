@@ -45,6 +45,7 @@ public class User extends TimeStamped {
   private String phoneNumber;
 
   @Column(name = "role", nullable = false)
+  @Enumerated(value = EnumType.STRING)
   private UserRoleEnum role;
 
   @Column(name = "profile_imgurl")
@@ -53,7 +54,6 @@ public class User extends TimeStamped {
 
   @Column(name = "oauth_provier", nullable = false)
   @Enumerated(value = EnumType.STRING)
-
   private OAuthProviderEnum oAuthProvider;
 
 

@@ -1,8 +1,10 @@
 let itemNo;
-
+const token = Cookies.get('Authorization');
+let currnetUserNickname;
+let currentUserRole;
 document.addEventListener("DOMContentLoaded", function () {
   start();
-  const token = Cookies.get('Authorization');
+  getUserInfo();
   const resizeS3FirstName = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/";
   let urlParts = window.location.href.split("/");
   itemNo = urlParts[urlParts.length - 1].replace("#", "");
@@ -118,12 +120,10 @@ function start() {
   console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
     document.getElementById('login-text').style.display = 'block';
     document.getElementById('logout-text').style.display = 'none';
     document.getElementById('mypage-text').style.display = 'none';
   } else { // 쿠키가 있을 경우
-    console.log(2);
     document.getElementById('login-text').style.display = 'none';
     document.getElementById('logout-text').style.display = 'block';
     document.getElementById('mypage-text').style.display = 'block';
@@ -199,4 +199,198 @@ function addCart(itemNo) {
       alert(response.msg);
     })
   }
+}
+
+function getInquiry() {
+  const inquiryBody = document.querySelectorAll(".product__details__tab__content__inquiry");
+  let inquiryBodyHtml = "";
+  $.ajax({
+    type: "GET",
+    url: `/mya/inquiries/all/` + itemNo,
+    headers: {
+      "Authorization": token,
+    }
+  })
+      .done(res => {
+        for (let inquiry of res) {
+          inquiryBodyHtml += `
+          <div>
+          <p>title : ${inquiry.title}</p>
+          <button onclick="getInquiryInfo(${inquiry.inquiryId})">상세보기</button>
+          </div>
+          `
+        }
+
+        inquiryBody.forEach(container => {
+          container.innerHTML = inquiryBodyHtml;
+        })
+      })
+      .fail(res => {
+        alert("문의 조회 실패");
+        console.log(res);
+      })
+}
+
+function saveInquiry() {
+  let userInputTitle = document.getElementById("inputTitle").value;
+  let userInputContent = document.getElementById("inputQuestion").value;
+  const requestDto = {
+    "title":userInputTitle,
+    "description":userInputContent
+  }
+  $.ajax({
+    type: "POST",
+    url: `/mya/inquiries/${itemNo}`,
+    headers: {
+      "Authorization": token,
+    },
+    contentType: "application/json",
+    data: JSON.stringify(requestDto)
+  })
+      .done(res => {
+        alert("문의 작성 완료");
+        location.reload();
+      })
+      .fail(res => {
+        alert("문의 등록 중 에러 발생");
+        console.log(res);
+      })
+}
+
+function showInquiry() {
+  $('#writeInquiryModal').modal('show');
+}
+
+function closeInquiryModal() {
+  $('#writeInquiryModal').modal('hide');
+}
+let inquiryNo;
+function getInquiryInfo(inquiryId) {
+  $('#viewInquiryModal').modal('show');
+  let getInquiryBody = document.querySelectorAll(".modal-body");
+  let getInquiryFooter = document.querySelectorAll(".modal-footer");
+  let getInquiryBodyHtml = "";
+  let getInquirtCommentBodtHtml = "";
+  inquiryNo = inquiryId;
+  $.ajax({
+    type: "GET",
+    url: `/mya/inquiries/` + inquiryId,
+    headers: {
+      "Authorization": token,
+    }
+  })
+      .done(res => {
+        console.log(res);
+        if(currentUserRole !== "ADMIN") {
+          getInquiryFooter.forEach(container => {
+            container.innerHTML = "";
+          })
+        }
+
+        if(currnetUserNickname === res.nickname) {
+          getInquiryBodyHtml = `
+          <div class="mb-3">
+          <label for="inputTitle" class="form-label">작성자</label>
+          <p>${res.nickname}</p>
+          </div>
+          <div class="mb-3">
+          <label for="inputTitle" class="form-label">제목</label>
+          <p>${res.title}</p>
+          </div>
+          <div class="mb-3">
+          <label for="inputQuestion" class="form-label">내용</label>
+          <p>${res.description}</p>
+          </div>
+          <button onclick="deleteInquiry(${inquiryId})">삭제하기</button>
+          `;
+        } else {
+          getInquiryBodyHtml = `
+          <div class="mb-3">
+          <label for="inputTitle" class="form-label">작성자</label>
+          <p>${res.nickname}</p>
+          </div>
+          <div class="mb-3">
+          <label for="inputTitle" class="form-label">제목</label>
+          <p>${res.title}</p>
+          </div>
+          <div class="mb-3">
+          <label for="inputQuestion" class="form-label">내용</label>
+          <p>${res.description}</p>
+          </div>`
+        }
+
+        getInquirtCommentBodtHtml += `
+        <br>
+        <div class="mb-3" style="padding-top: 25px;">
+          <label for="inputQuestion" class="form-label">댓글</label>
+          <p>관리자 / ${res.comment.contents}</p>
+          </div>
+        `
+        getInquiryBody.forEach(container => {
+          container.innerHTML = getInquiryBodyHtml + getInquirtCommentBodtHtml;
+        })
+      })
+      .fail(res => {
+        alert("문의 조회 실패");
+        console.log(res);
+      })
+}
+
+function closeGetInquiryModal() {
+  $('#viewInquiryModal').modal('hide');
+}
+
+function getUserInfo() {
+  $.ajax({
+    type: "GET",
+    url: "/mya/users",
+    headers: {"Authorization": token}
+  })
+      .done((res) => {
+        currnetUserNickname = res.nickname;
+        currentUserRole = res.role;
+      })
+      .fail(function (response, status, xhr) {
+        alert("유저정보 가져오기 실패");
+        console.log(response);
+      })
+}
+
+function saveComment() {
+  const commentValue = document.getElementById("saveComment").value;
+
+  const requestDto = {
+    "contents" : commentValue
+  }
+  $.ajax({
+    type: "POST",
+    url: "/mya/inquiry-comment/" + inquiryNo,
+    headers: {"Authorization": token},
+    data: JSON.stringify(requestDto),
+    contentType: "application/json"
+  })
+      .done(res => {
+        location.reload();
+      })
+      .fail(res => {
+        alert("답변 작성 실패");
+        console.log(res);
+      })
+}
+
+function deleteInquiry(inquiryId) {
+  $.ajax({
+    type: "DELETE",
+    url: `/mya/inquiries/` + inquiryId,
+    headers: {
+      "Authorization": token,
+    }
+  })
+      .done(res => {
+        location.reload();
+      })
+      .fail(res => {
+        alert("문의를 삭제하는 도중 에러 발생");
+        console.log(res);
+      })
 }

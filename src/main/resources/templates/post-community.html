@@ -355,5 +355,29 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* 원하는 마진 값으로 조정 가능 */
+  }
+
+  .pagination-btn {
+    background-color: #f4f4f4;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .pagination-btn:hover {
+    background-color: #e4e4e4;
+  }
+
+  .pagination-btn.active {
+    background-color: #d4d4d4;
+  }
 </style>
 </html>

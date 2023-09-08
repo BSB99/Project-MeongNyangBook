@@ -11,9 +11,7 @@ import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.User;
 import com.example.meongnyangbook.user.UserService;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,11 +85,15 @@ public class CommunityPostServiceImpl implements CommunityPostService {
   }
 
   @Override
-  public List<CommunityPostResponseDto> getCommunityList(Pageable pageable) {
-    Page<CommunityPost> communityList = communityPostRepository.findAllByOrderByCreatedAtDesc(
-        pageable);
+  public CommunityPostPageResponseDto getCommunityList(Pageable pageable) {
+    List<CommunityPostResponseDto> communityList = communityPostRepository.findAllByOrderByCreatedAtDesc(
+            pageable)
+        .stream()
+        .map(CommunityPostResponseDto::new)
+        .toList();
+    Long count = communityPostRepository.count();
 
-    return communityList.stream().map(CommunityPostResponseDto::new).collect(Collectors.toList());
+    return new CommunityPostPageResponseDto(count, communityList);
   }
 
   @Override
