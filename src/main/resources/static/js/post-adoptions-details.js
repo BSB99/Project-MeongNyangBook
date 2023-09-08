@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function () {
     if (response.commentList.length > 0) {
       for (let commentInfo of response.commentList) {
         let replyButtonHtml = ``;
-        console.log("response:" + commentInfo.imgUrl);
         let resizeImg = fileImgNullCheck(commentInfo.imgUrl);
         if (commentInfo.userNickname === userNickname) {
 
@@ -61,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
                                 <a href="/mya/view/users/relative-profile/${commentInfo.userId}" class="thumb">
-                                    <img src="${resizeImg}" alt="">
+                                    <img src="${resizeImg}" alt="" style="width: 70px; height: 50px;">
                                 </a>
                                 <div class="desc">
                                     <h5>
@@ -94,7 +93,6 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 function fileImgNullCheck(imgFileName) {
-  console.log("fileImgNullCheck");
   let profilePicture;
   if (imgFileName == null) {
     profilePicture = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg";
@@ -103,7 +101,6 @@ function fileImgNullCheck(imgFileName) {
         "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
         "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/")
   }
-  console.log("profilePicture : " + profilePicture);
   return profilePicture;
 }
 
@@ -156,19 +153,18 @@ function setCardData(response) {
     modifyBtn.style.display = "none";
     deleteBtn.style.display = "none";
   }
-  console.log(response.title);
-  adoptionTitle.innerText = response.title;
-  adoptionDescription.innerText = response.description;
+  adoptionTitle.innerText = "제목 : " + response.title;
+  adoptionDescription.innerText = "설명 : " + response.description;
   // 아래 부분은 응답 데이터 구조에 따라 약간 다를 수 있습니다.
   viewCount.innerText = response.viewCount + " Views";
   nickname.innerText = response.username;
   createdAt.innerText = response.createAt;
 
-  animalName.innerText = response.animalName;
-  animalGender.innerText = response.animalGender;
-  animalAge.innerText = response.animalAge;
-  area.innerText = response.area;
-  category.innerText = response.category;
+  animalName.innerText = "이름 : " + response.animalName;
+  animalGender.innerText = "성별 : " + response.animalGender;
+  animalAge.innerText = "나이 : " + response.animalAge;
+  area.innerText = "지역 : " + response.area;
+  category.innerText = "  종  : " + response.category;
 
 }
 
@@ -189,7 +185,6 @@ function deleteAdoption() {
     type: "DELETE",
     headers: {"Authorization": token},
     success: function (response) {
-      alert('삭제가 완료 되었습니다!', response);
       // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/adoptions";
     },
@@ -230,7 +225,6 @@ function postComment() {
   })
   .done((res) => {
     if (res.statusCode === 201) {
-      alert("댓글 작성 완료");
       location.reload();
     }
   })
@@ -262,7 +256,6 @@ function deleteComment(commentId) {
     headers: {"Authorization": token}
   })
   .done((res) => {
-    alert("댓글 삭제 완료");
     location.reload();
   })
   .fail(function (response, status, xhr) {
@@ -308,7 +301,6 @@ function confirmEdit(button, commentId) {
     data: JSON.stringify(commentRequestDto)
   })
   .done((res) => {
-    alert("댓글 수정 완료");
   })
   .fail(function (response, status, xhr) {
     alert("댓글 수정 실패");
@@ -324,15 +316,12 @@ function confirmEdit(button, commentId) {
 
 function start() {
   const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
     document.getElementById('login-text').style.display = 'block';
     document.getElementById('logout-text').style.display = 'none';
     document.getElementById('mypage-text').style.display = 'none';
   } else { // 쿠키가 있을 경우
-    console.log(2);
     document.getElementById('login-text').style.display = 'none';
     document.getElementById('logout-text').style.display = 'block';
     document.getElementById('mypage-text').style.display = 'block';
@@ -342,7 +331,6 @@ function start() {
       postBoxes[i].style.display = 'block';
     }
   }
-
 }
 
 function commentLike() {
@@ -357,7 +345,6 @@ function commentLike() {
       }
     })
     .done((res) => {
-      alert("좋아요 완료");
       location.reload();
     })
     .fail(function (response, status, xhr) {
@@ -373,7 +360,6 @@ function commentLike() {
       }
     })
     .done((res) => {
-      alert("좋아요 취소 완료");
       location.reload();
     })
     .fail(function (response, status, xhr) {
@@ -385,7 +371,6 @@ function commentLike() {
 
 function confirmHeart() {
   const heart = document.querySelector(".bi-heart");
-  console.log(heart);
   $.ajax({
     type: "GET",
     url: "/mya/likes/" + lastPart,
@@ -394,7 +379,6 @@ function confirmHeart() {
     }
   })
   .done((res) => {
-    console.log(res);
     if (res) {
       heart.setAttribute("fill", "red");
     } else {

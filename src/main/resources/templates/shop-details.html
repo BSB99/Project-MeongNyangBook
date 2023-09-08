@@ -7,8 +7,8 @@
   <meta name="keywords" content="Male_Fashion, unica, creative, html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Male-Fashion | Template</title>
-
+  <title>상점-멍냥북</title>
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
   <!-- Google Font -->
   <link
       href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
@@ -76,20 +76,19 @@
       <div class="row">
         <div class="col-lg-6 col-md-7">
           <div class="header__top__left">
-            <p>Free shipping, 30-day return or refund guarantee.</p>
+            <p>멍냥북에 오신 것을 환영합니다 !</p>
           </div>
         </div>
         <div class="col-lg-6 col-md-5" style="text-align: end;">
-          <div class="header__top__links">
-            <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
-            <a id="logout-text"
-               href="javascript:logout()">Log Out</a>
-            <!--              <a href="#">FAQs</a>-->
-          </div>
-          <div class="header__top__links">
-            <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
-            <!--              <a href="#">FAQs</a>-->
-          </div>
+          <div class="header__top__right">
+            <div class="header__top__links">
+              <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
+              <a id="logout-text"
+                 href="javascript:logout()">Log Out</a>
+            </div>
+            <div class="header__top__links">
+              <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
+            </div>
           </div>
         </div>
       </div>
@@ -99,34 +98,36 @@
     <div class="row">
       <div class="col-lg-3 col-md-3">
         <div class="header__logo">
-          <a href="./inex.html"><img src="img/logo.png" alt=""></a>
+          <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
         </div>
       </div>
       <div class="col-lg-6 col-md-6">
         <nav class="header__menu mobile-menu">
           <ul>
-            <li><a href="./inex.html">Home</a></li>
-            <li class="active"><a href="/mya/view/items">Shop</a></li>
-            <!--                            <li><a href="#">Pages</a>-->
-            <!--                                <ul class="dropdown">-->
-            <!--                                    <li><a href="./about.html">About Us</a></li>-->
-            <!--                                    <li><a href="./shop-details.html">Shop Details</a></li>-->
-            <!--                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>-->
-            <!--                                    <li><a href="./order.html">Check Out</a></li>-->
-            <!--                                    <li><a href="./blog-details.html">Blog Details</a></li>-->
-            <!--                                </ul>-->
-            <!--                            </li>-->
-            <li><a href="/mya/view/post/community">Community</a></li>
-            <li><a href="/mya/view/post/adoptions">Adoptions</a></li>
+            <li><a href="/">홈</a></li>
+            <li class="active"><a href="/mya/view/items">상점</a></li>
+            <!--            <li><a href="#">Pages</a>-->
+            <!--              <ul class="dropdown">-->
+            <!--                <li><a href="./about.html">About Us</a></li>-->
+            <!--                <li><a href="./shop-details.html">Shop Details</a></li>-->
+            <!--                <li><a href="./shopping-cart.html">Shopping Cart</a></li>-->
+            <!--                <li><a href="./order.html">Check Out</a></li>-->
+            <!--                <li><a href="./blog-details.html">Blog Details</a></li>-->
+            <!--              </ul>-->
+            <!--            </li>-->
+            <li><a href="/mya/view/post/community">커뮤니티</a></li>
+            <li><a href="/mya/view/post/adoptions">분양</a></li>
           </ul>
         </nav>
       </div>
       <div class="col-lg-3 col-md-3">
         <div class="header__nav__option">
-          <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
-          <a href="#"><img src="img/icon/heart.png" alt=""></a>
-          <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-          <div class="price">$0.00</div>
+          <!--          header__nav__option-->
+          <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
+          <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
+          <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+          <a href="/mya/view/chat"><img src="/img/icon/messages.png" alt=""
+                                        style="width: 18px; height: 18px"> <span></span></a>
         </div>
       </div>
     </div>
@@ -135,6 +136,7 @@
 </header>
 <!-- Header Section End -->
 
+
 <!-- Shop Details Section Begin -->
 <section class="shop-details">
   <div class="product__details__pic">
@@ -142,9 +144,6 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="product__details__breadcrumb">
-            <a href="./index.html">Home</a>
-            <a href="./shop.html">Shop</a>
-            <span>Product Details</span>
           </div>
         </div>
       </div>
@@ -290,15 +289,14 @@
                 <a class="nav-link active" data-toggle="tab" href="#tabs-5"
                    role="tab">상품 리뷰</a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">문의</a>
+              </li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tabs-5" role="tabpanel">
                 <div class="product__details__tab__content">
-                  <p class="note">Nam tempus turpis at metus scelerisque placerat nulla deumantos
-                    solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
-                    ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                    pharetras loremos.</p>
-                  <div class="product__details__tab__content__item">
+                  <div class="product_review product__details__tab__content__item">
                     <h5>Products Infomation</h5>
                     <p>A Pocket PC is a handheld computer, which features many of the same
                       capabilities as a modern PC. These handy little devices allow
@@ -307,22 +305,23 @@
                       and more. Every product that is labeled as a Pocket PC must be
                       accompanied with specific software to operate the unit and must feature
                       a touchscreen and touchpad.</p>
-                    <p>As is the case with any new technology product, the cost of a Pocket PC
-                      was substantial during it’s early release. For approximately $700.00,
-                      consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                      These days, customers are finding that prices have become much more
-                      reasonable now that the newness is wearing off. For approximately
-                      $350.00, a new Pocket PC can now be purchased.</p>
                   </div>
-                  <div class="product__details__tab__content__item">
-                    <h5>Material used</h5>
-                    <p>Polyester is deemed lower quality due to its none natural quality’s. Made
-                      from synthetic materials, not natural like wool. Polyester suits become
-                      creased easily and are known for not being breathable. Polyester suits
-                      tend to have a shine to them compared to wool and cotton suits, this can
-                      make the suit look cheap. The texture of velvet is luxurious and
-                      breathable. Velvet is a great choice for dinner party jacket and can be
-                      worn all year round.</p>
+                </div>
+              </div>
+              <div class="tab-pane" id="tabs-6" role="tabpanel">
+                <div class="product__details__tab__content">
+                  <p>
+                    <button class="primary-btn" style="float: right;">문의 등록</button>
+                  </p>
+                  <div class="product-inquiry product__details__tab__content__item">
+                    <h5>Products Infomation</h5>
+                    <p>A Pocket PC is a handheld computer, which features many of the same
+                      capabilities as a modern PC. These handy little devices allow
+                      individuals to retrieve and store e-mail messages, create a contact
+                      file, coordinate appointments, surf the internet, exchange text messages
+                      and more. Every product that is labeled as a Pocket PC must be
+                      accompanied with specific software to operate the unit and must feature
+                      a touchscreen and touchpad.</p>
                   </div>
                 </div>
               </div>
@@ -343,31 +342,30 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="footer__about">
           <div class="footer__logo">
-            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+            <a href="#"><img src="/img/footer-logo.png" alt=""></a>
           </div>
-          <p>The customer is at the heart of our unique business model, which includes design.</p>
+          <p>모든 반려동물에게 특별함을 선물하고 싶은 멍냥북입니다.</p>
           <a href="#"><img src="img/payment.png" alt=""></a>
         </div>
       </div>
       <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
         <div class="footer__widget">
-          <h6>Shopping</h6>
+          <h6>Service</h6>
           <ul>
-            <li><a href="#">Clothing Store</a></li>
-            <li><a href="#">Trending Shoes</a></li>
-            <li><a href="#">Accessories</a></li>
-            <li><a href="#">Sale</a></li>
+            <li><a href="/mya/view/items">Shop</a></li>
+            <li><a href="/mya/view/post/community">Community</a></li>
+            <li><a href="/mya/view/post/adoption">Adoption</a></li>
+            <li><a href="/mya/view/chat">Chat</a></li>
           </ul>
         </div>
       </div>
       <div class="col-lg-2 col-md-3 col-sm-6">
         <div class="footer__widget">
-          <h6>Shopping</h6>
+          <h6>요즘사람</h6>
           <ul>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Payment Methods</a></li>
-            <li><a href="#">Delivary</a></li>
-            <li><a href="#">Return & Exchanges</a></li>
+            <li><a href="#">리더 : 김슬기 </a></li>
+            <li><a href="#">부리더 : 백승범 </a></li>
+            <li><a href="#">팀원 : 강정훈 </a></li>
           </ul>
         </div>
       </div>
@@ -375,9 +373,9 @@
         <div class="footer__widget">
           <h6>NewLetter</h6>
           <div class="footer__newslatter">
-            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+            <p>문의사항이 있으면 저희에게 메일을 보내주시면 반영하도록 노력해보겠습니다!</p>
             <form action="#">
-              <input type="text" placeholder="Your email">
+              <a type="text" style="color: ivory">meongnyangbook@gmail.com</a>
               <button type="submit"><span class="icon_mail_alt"></span></button>
             </form>
           </div>
@@ -428,6 +426,16 @@
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/itemDetail.js"></script>
+<style>
+
+  .bubble {
+    border: 1px solid #000; /* 테두리 추가 및 색상 설정 */
+    padding: 10px; /* 테두리 내부 여백 조절 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    font-size: large;
+  }
+
+</style>
 </body>
 
 </html>

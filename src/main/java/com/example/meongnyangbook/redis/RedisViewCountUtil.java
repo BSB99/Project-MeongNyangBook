@@ -18,7 +18,7 @@ public class RedisViewCountUtil {
     Long addedCount = redis.opsForSet().add(userKey, userId);
 
     if (addedCount == 1L) {
-      redis.expire(userKey, 5, TimeUnit.SECONDS);
+      redis.expire(userKey, 3600, TimeUnit.SECONDS);
       return true; // 조회 가능한 경우 조회수 증가
     }
     return false; // 이미 조회한 경우 조회수 증가하지 않음

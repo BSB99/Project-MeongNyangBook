@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
                                 <a href="/mya/view/users/relative-profile/${commentInfo.userId}" class="thumb">
-                                    <img src="${resizeImg}" alt="">
+                                    <img src="${resizeImg}" alt="" style="width: 70px; height: 50px;">
                                 </a>
                                 <div class="desc">
                                     <h5>
@@ -94,12 +94,10 @@ document.addEventListener("DOMContentLoaded", function () {
   })
   .fail(function (response, status, xhr) {
     alert("카드 정보 불러오기 실패");
-    console.log(response);
   });
 });
 
 function fileImgNullCheck(imgFileName) {
-  console.log("fileImgNullCheck");
   let profilePicture;
   if (imgFileName == null) {
     profilePicture = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg";
@@ -108,7 +106,6 @@ function fileImgNullCheck(imgFileName) {
         "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
         "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/")
   }
-  console.log("profilePicture : " + profilePicture);
   return profilePicture;
 }
 
@@ -180,7 +177,6 @@ function deleteCommunity() {
     type: "DELETE",
     headers: {"Authorization": token},
     success: function (response) {
-      alert('삭제가 완료 되었습니다!', response);
       // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/community";
     },
@@ -220,7 +216,6 @@ function postComment() {
   })
   .done((res) => {
     if (res.statusCode === 201) {
-      alert("댓글 작성 완료");
       location.reload();
     }
   })
@@ -252,7 +247,6 @@ function deleteComment(commentId) {
     headers: {"Authorization": token}
   })
   .done((res) => {
-    alert("댓글 삭제 완료");
     location.reload();
   })
   .fail(function (response, status, xhr) {
@@ -298,7 +292,6 @@ function confirmEdit(button, commentId) {
     data: JSON.stringify(commentRequestDto)
   })
   .done((res) => {
-    alert("댓글 수정 완료");
   })
   .fail(function (response, status, xhr) {
     alert("댓글 수정 실패");
@@ -316,12 +309,10 @@ function start() {
   const auth = Cookies.get('Authorization');
 
   if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
     document.getElementById('login-text').style.display = 'block';
     document.getElementById('logout-text').style.display = 'none';
     document.getElementById('mypage-text').style.display = 'none';
   } else { // 쿠키가 있을 경우
-    console.log(2);
     document.getElementById('login-text').style.display = 'none';
     document.getElementById('logout-text').style.display = 'block';
     document.getElementById('mypage-text').style.display = 'block';
@@ -345,7 +336,6 @@ function commentLike() {
       }
     })
     .done((res) => {
-      alert("좋아요 완료");
       location.reload();
     })
     .fail(function (response, status, xhr) {
@@ -361,7 +351,6 @@ function commentLike() {
       }
     })
     .done((res) => {
-      alert("좋아요 취소 완료");
       location.reload();
     })
     .fail(function (response, status, xhr) {
@@ -382,7 +371,6 @@ function confirmHeart() {
     }
   })
   .done((res) => {
-    console.log(res);
     if (res) {
       heart.setAttribute("fill", "red");
     } else {
