@@ -4,6 +4,7 @@ package com.example.meongnyangbook.post.adoptionPost;
 import com.example.meongnyangbook.S3.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostDetailResponseDto;
+import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostPageResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostResponseDto;
 import com.example.meongnyangbook.post.attachment.AttachmentUrl;
@@ -92,12 +93,17 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
   }
 
   @Override
-  public List<AdoptionPostResponseDto> getAdoptionList(Pageable pageable) {
+  public AdoptionPostPageResponseDto getAdoptionList(Pageable pageable) {
     List<AdoptionPostResponseDto> adoptionList = adoptionPostRepository.findAllByOrderByCreatedAtDesc(
             pageable)
         .stream()
         .map(AdoptionPostResponseDto::new)
         .collect(Collectors.toList());
+
+    Long count = adoptionPostRepository.count();
+
+    AdoptionPostPageResponseDto pageResult = new AdoptionPostPageResponseDto(count,
+        adoptionList);
 //    for (AdoptionPostResponseDto postList : adoptionList) {
 //      String[] fileNames = postList.getFileUrls().getFileName().split(",")[0].split("/");
 //
@@ -106,7 +112,7 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
 //      postList.getFileUrls().setFileName(resizeS3FileName);
 //    }
 
-    return adoptionList;
+    return pageResult;
   }
 
   @Override

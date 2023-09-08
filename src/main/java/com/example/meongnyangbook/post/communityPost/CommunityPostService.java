@@ -43,7 +43,7 @@ public interface CommunityPostService {
    * @param pageable
    * @return
    */
-  List<CommunityPostResponseDto> getCommunityList(Pageable pageable);
+  CommunityPostPageResponseDto getCommunityList(Pageable pageable);
 
   /**
    * 커뮤니티 게시물 단건 조회
