@@ -47,8 +47,10 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public ApiResponseDto updateOrder(User user) {
-        Order order = orderRepository.findByUserAndStatusEnum(user, OrderStatusEnum.ORDER_IN_PROGRESS);
+    public ApiResponseDto updateOrder(Long orderNo) {
+        Order order = orderRepository.findById(orderNo).orElseThrow(() -> {
+            throw new IllegalArgumentException("주문목록이 존재하지 않습니다.");
+        });
 
         order.setStatusEnum();
 

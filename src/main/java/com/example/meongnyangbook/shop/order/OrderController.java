@@ -34,10 +34,10 @@ public class OrderController {
   }
 
   @Operation(summary = "주문 상태 수정")
-  @PatchMapping
+  @PatchMapping("/{orderNo}")
   public ResponseEntity<ApiResponseDto> updateOrder(
-      @AuthenticationPrincipal UserDetailsImpl userDetails) {
-    ApiResponseDto result = orderService.updateOrder(userDetails.getUser());
+      @AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long orderNo) {
+    ApiResponseDto result = orderService.updateOrder(orderNo);
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
