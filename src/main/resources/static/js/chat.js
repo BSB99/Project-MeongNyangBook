@@ -273,3 +273,18 @@ function closeChatBtn() {
   }
   chatModal.hide();
 }
+
+function chatRoomOut() {
+  $.ajax({
+    url: "/mya/chats/room/" + roomId,
+    type: "DELETE"
+  })
+      .done(res => {
+        alert("채팅방 나가기 완료");
+        location.reload();
+      })
+      .fail(res => {
+        alert("채팅방 나가는 도중 에러");
+        console.log(res);
+      })
+}

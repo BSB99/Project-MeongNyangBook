@@ -67,9 +67,17 @@ public class ChatServiceImpl implements ChatService {
   }
 
   @Override
-  public ApiResponseDto deleteChatMessages(Long roomNo) {
+  public ApiResponseDto deleteChatRoom(Long roomNo) {
     ChatRoom chatRoom = getRoom(roomNo);
-    chatRepository.deleteByChatRoom(chatRoom);
+    if (chatRoom != null) {
+      // 챗 엔터티의 chatRoom 필드를 null로 설정하여 관계 끊기
+      List<Chat> chats = chatRepository.findByChatRoom(chatRoom);
+      for (Chat chat : chats) {
+        chat.setChatRoom();
+      }
+      chatRoomRepository.delete(chatRoom);
+    }
+
     return new ApiResponseDto("채팅방 제거", 200);
   }
 
@@ -80,7 +88,5 @@ public class ChatServiceImpl implements ChatService {
 
     return chatRoomList;
   }
-
-  ;
 }
 

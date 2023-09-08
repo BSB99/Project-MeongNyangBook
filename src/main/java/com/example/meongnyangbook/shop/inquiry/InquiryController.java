@@ -36,7 +36,7 @@ public class InquiryController {
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
-  @Operation(summary = "문의 게시물 조회")
+  @Operation(summary = "문의 게시물 단건 조회")
   @GetMapping("/all/{itemId}")
   public ResponseEntity<List<InquiryResponseDto>> getInquiryList(@PathVariable Long itemId) {
     List<InquiryResponseDto> result = inquiryService.getInquiryList(itemId);
