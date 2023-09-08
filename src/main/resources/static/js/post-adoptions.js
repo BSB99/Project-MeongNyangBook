@@ -22,13 +22,11 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .done((response) => {
       // Clear existing content before adding new content
-      postContainers.forEach(container => {
-        container.innerHTML = ''; // Clear existing content
-      });
 
       let temp_html = '';
 
       for (let i = 0; i < response.responseList.length; i++) {
+        console.log(response.responseList.length);
         const adoption = response.responseList[i];
         //리사이징된 이미지 가져오는 코드
         let adoptionfileName = adoption.fileUrls.fileName.split(",")[0].split(
@@ -107,23 +105,23 @@ document.addEventListener("DOMContentLoaded", function () {
   // })
 });
 
-function setHtml(adoptionTitle, createdAt, imgUrl, adoptionId) {
-  let html = `
-       <div class="col-lg-4 col-md-6 col-sm-6">
-        <div class="blog__item">
-          <div class="blog__item__pic set-bg" >
-          <img src="${imgUrl}" alt="">
-          </div>
-          <div class="blog__item__text" value="${adoptionId}">
-            <span><img src="/img/icon/calendar.png" alt="">${createdAt}</span>
-            <h5>${adoptionTitle}</h5>
-            <a href="/mya/view/adoptions/${adoptionId}">Read More</a>
-          </div>
-        </div>
-      </div>
-        `;
-  $('#adoptionPostList').append(html);
-}
+// function setHtml(adoptionTitle, createdAt, imgUrl, adoptionId) {
+//   let html = `
+//        <div class="col-lg-4 col-md-6 col-sm-6">
+//         <div class="blog__item">
+//           <div class="blog__item__pic set-bg" >
+//           <img src="${imgUrl}" alt="">
+//           </div>
+//           <div class="blog__item__text" value="${adoptionId}">
+//             <span><img src="/img/icon/calendar.png" alt="">${createdAt}</span>
+//             <h5>${adoptionTitle}</h5>
+//             <a href="/mya/view/adoptions/${adoptionId}">Read More</a>
+//           </div>
+//         </div>
+//       </div>
+//         `;
+//   $('#adoptionPostList').append(html);
+// }
 
 function start() {
   const auth = Cookies.get('Authorization');
