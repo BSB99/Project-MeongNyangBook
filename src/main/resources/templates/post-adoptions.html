@@ -7,7 +7,8 @@
   <meta name="keywords" content="Male_Fashion, unica, creative, html">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Male-Fashion | Template</title>
+  <title>멍냥북</title>
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
 
   <!-- Google Font -->
   <link
@@ -118,10 +119,19 @@
       <div class="col-lg-6 col-md-6">
         <nav class="header__menu mobile-menu">
           <ul>
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/mya/view/items">Shop</a></li>
-            <li><a href="/mya/view/post/communityPost">Community</a></li>
-            <li class="active"><a href="/mya/view/post/adoptions">Adoptions</a></li>
+            <li><a href="/">홈</a></li>
+            <li><a href="/mya/view/items">상점</a></li>
+            <!--            <li><a href="#">Pages</a>-->
+            <!--              <ul class="dropdown">-->
+            <!--                <li><a href="./about.html">About Us</a></li>-->
+            <!--                <li><a href="./shop-details.html">Shop Details</a></li>-->
+            <!--                <li><a href="./shopping-cart.html">Shopping Cart</a></li>-->
+            <!--                <li><a href="./order.html">Check Out</a></li>-->
+            <!--                <li><a href="./blog-details.html">Blog Details</a></li>-->
+            <!--              </ul>-->
+            <!--            </li>-->
+            <li><a href="/mya/view/post/community">커뮤니티</a></li>
+            <li class="active"><a href="/mya/view/post/adoptions">분양</a></li>
           </ul>
         </nav>
       </div>
@@ -131,8 +141,8 @@
           <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
           <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
           <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
-          <a href="/mya/view/basket"><img src="/img/icon/messages.png" alt=""
-                                          style="width: 18px; height: 18px"> <span></span></a>
+          <a href="/mya/view/chat"><img src="/img/icon/messages.png" alt=""
+                                        style="width: 18px; height: 18px"> <span></span></a>
         </div>
       </div>
     </div>
@@ -140,14 +150,13 @@
   </div>
 </header>
 <!-- Header Section End -->
-
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-blog set-bg" data-setbg="/img/banner/puppybanner.jpg"
          style="background-position: center bottom;">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <h2>Adotion</h2>
+        <h2>분양</h2>
       </div>
     </div>
   </div>
@@ -156,7 +165,10 @@
 
 <!-- Blog Section Begin -->
 <section class="blog postList">
-  <a href="/mya/view/post/adoptionPost-add">게시물 생성</a>
+  <div class="button-post-add">
+    <a href="/mya/view/post/adoption-add"><img src="/img/icon/filePlus.png"
+                                               style="width: 50px; height: 50px;"></a>
+  </div>
   <div class="container">
     <div id="adoptionPostList" class="row">
       <div class="col-lg-4 col-md-6 col-sm-6">
@@ -261,31 +273,30 @@
       <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="footer__about">
           <div class="footer__logo">
-            <a href="#"><img src="img/footer-logo.png" alt=""></a>
+            <a href="#"><img src="/img/footer-logo.png" alt=""></a>
           </div>
-          <p>The customer is at the heart of our unique business model, which includes design.</p>
+          <p>모든 반려동물에게 특별함을 선물하고 싶은 멍냥북입니다.</p>
           <a href="#"><img src="img/payment.png" alt=""></a>
         </div>
       </div>
       <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
         <div class="footer__widget">
-          <h6>Shopping</h6>
+          <h6>Service</h6>
           <ul>
-            <li><a href="#">Clothing Store</a></li>
-            <li><a href="#">Trending Shoes</a></li>
-            <li><a href="#">Accessories</a></li>
-            <li><a href="#">Sale</a></li>
+            <li><a href="/mya/view/items">Shop</a></li>
+            <li><a href="/mya/view/post/community">Community</a></li>
+            <li><a href="/mya/view/post/adoption">Adoption</a></li>
+            <li><a href="/mya/view/chat">Chat</a></li>
           </ul>
         </div>
       </div>
       <div class="col-lg-2 col-md-3 col-sm-6">
         <div class="footer__widget">
-          <h6>Shopping</h6>
+          <h6>요즘사람</h6>
           <ul>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Payment Methods</a></li>
-            <li><a href="#">Delivary</a></li>
-            <li><a href="#">Return & Exchanges</a></li>
+            <li><a href="#">리더 : 김슬기 </a></li>
+            <li><a href="#">부리더 : 백승범 </a></li>
+            <li><a href="#">팀원 : 강정훈 </a></li>
           </ul>
         </div>
       </div>
@@ -293,9 +304,9 @@
         <div class="footer__widget">
           <h6>NewLetter</h6>
           <div class="footer__newslatter">
-            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
+            <p>문의사항이 있으면 저희에게 메일을 보내주시면 반영하도록 노력해보겠습니다!</p>
             <form action="#">
-              <input type="text" placeholder="Your email">
+              <a type="text" style="color: ivory">meongnyangbook@gmail.com</a>
               <button type="submit"><span class="icon_mail_alt"></span></button>
             </form>
           </div>
@@ -346,4 +357,13 @@
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/main.js"></script>
 </body>
+
+<style>
+  .button-post-add {
+    margin: 50px 150px;
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>
+
 </html>

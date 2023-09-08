@@ -3,19 +3,33 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Document</title>
+  <title>프로필-멍냥북</title>
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
 </head>
 <link rel="stylesheet" href="/css/profile.css" type="text/css"/>
 
+<!-- jQuery (Bootstrap가 jQuery에 의존하기 때문에 jQuery를 먼저 로드해야 합니다.) -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
         crossorigin="anonymous"></script>
 
+<!-- Bootstrap JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+
 <!-- js Cookie -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-
+<script src="/js/home.js"></script>
 <body>
 <script src="/js/profile.js"></script>
+
+<div class="header__logo" style="    display: block; /* 이미지를 블록 레벨 요소로 만듭니다 */
+    margin: 50px;  /* 원하는 마진 값을 적용합니다 */
+    padding: 50px; /* 원하는 패딩 값을 적용합니다 */ ">
+  <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
+</div>
+
 <header>
   <div class="container">
     <div class="profile">
@@ -24,50 +38,83 @@
              src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
              alt=""
         />
-        <input type="file" name="file" id="file" class="file" value="등록" style="display: none;">
+
       </div>
 
       <div class="profile-user-settings">
+        <div class="margin-20">
+          <input id="nickname" class="profile-user-name" disabled
+                 style="outline: none; border: none; color: black">
+          <a onclick="openEditModal()" class="btn openmodale">수정하기</a>
+          <!--                    원래 버튼이 P태그로 감싸져있었음-->
+        </div>
+        <!-- Modal -->
+        <div class="modale" aria-hidden="true">
+          <div class="modal-dialog" style="width: 400px; height: 460px;">
+            <div class="modal-header">
+              <a onclick="clsEditModal()" class="btn-close closemodale"
+                 aria-hidden="true">&times;</a>
+            </div>
+            <div class="modal-body">
+              <input type="file" name="file" id="file" class="file" value="등록">
+              <input type="text" id="modal_nickname" name="u" placeholder="닉네임" size="20"/><br>
+              <select class="modal_address" name="modal_address" id="modal_address"
+                      style="width: 300px; margin-bottom: 30px; height: 35px;">
+                <option value="">지역 선택</option>
+                <option value="SEOUL">서울특별시</option>
+                <option value="BUSAN">부산광역시</option>
+                <option value="DAEGU">대구광역시</option>
+                <option value="INCHEON">인천광역시</option>
+                <option value="GWANGJU">광주광역시</option>
+                <option value="DAEGEON">대전광역시</option>
+                <option value="ULSAN">울산광역시</option>
+                <option value="SEJONG">세종특별자치시</option>
+                <option value="JEJU">제주특별자치도</option>
+              </select>
+              <input type="text" id="modal_phone_number" name="u" placeholder="000-0000-0000"
+                     size="20"/><br>
+              <input type="text" id="modal_introduce" name="u" placeholder="자기소개" size="20"/><br>
 
-        <input id="nickname" class="profile-user-name" disabled
-               style="outline: none; border: none; color: black">
-        <button id="doneButton" class="btn profile-edit-btn" style="display: none;"
-                onclick="updateBtn()">Done
-        </button>
-        <button id="edit-button" class="btn profile-edit-btn" onclick="EditButton(this)">Edit
-          Profile
-        </button>
+              <div class="modal-footer">
+                <a onclick="editProfile()" class="btn" id="btn_ingresar">Edit Profile</a>
+              </div>
+            </div>
+          </div>
+          <!-- /Modal -->
 
-        <input class="subProfile" id="address" disabled>
-        <input class="subProfile" id="phone-number" disabled>
+          <input class="subProfile" id="address" disabled>
+          <input class="subProfile" id="phone-number" disabled>
 
+        </div>
+
+        <div class="profile-stats">
+          <!--                    <ul>-->
+          <!--                        <li><span class="profile-stat-count">164</span> posts</li>-->
+          <!--                        <li><span class="profile-stat-count">188</span> followers</li>-->
+          <!--                        <li><span class="profile-stat-count">206</span> following</li>-->
+          <!--                    </ul>-->
+        </div>
+
+        <div class="profile-bio">
+          <p>
+            <input class=" subProfile" id="introduce" disabled>
+          </p>
+        </div>
       </div>
-
-      <div class="profile-stats">
-        <ul>
-          <li><span class="profile-stat-count">164</span> posts</li>
-          <li><span class="profile-stat-count">188</span> followers</li>
-          <li><span class="profile-stat-count">206</span> following</li>
-        </ul>
-      </div>
-
-      <div class="profile-bio">
-        <p>
-          <input class=" subProfile" id="introduce" disabled>
-        </p>
-      </div>
+      <!-- End of profile section -->
     </div>
-    <div class="button-post" style="width: 100%">
-      <button onclick="myCommunity()">My CommunityPost</button>
-      <button onclick="myAdoption()">My AdoptionPost</button>
-    </div>
-    <!-- End of profile section -->
+    <!-- End of container -->
   </div>
-  <!-- End of container -->
+
 </header>
 
 <main>
   <div class="container">
+    <div class="button-post">
+      <button onclick="myCommunity()">My CommunityPost</button>
+      <button onclick="myAdoption()">My AdoptionPost</button>
+      <button onclick="myOrders()">My Order</button>
+    </div>
     <div class="gallery" id="gallery">
       <div class="gallery-item" tabindex="0">
         <img
@@ -353,9 +400,75 @@
     </div>
     <!-- End of gallery -->
 
-    <div class="loader"></div>
+    <!--        <div class="loader"></div>-->
   </div>
   <!-- End of container -->
 </main>
+<div class="modal" tabindex="-1" id="orderModal">
+  <div class="modal-dialog" style="width: 500px; height: 550px;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">주문 정보</h5>
+      </div>
+      <div class="modal-body" id="itme-modal-detail">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                onclick="closeItemModal()">닫기
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" id="reviewModal" style="font-family: Arial, sans-serif;">
+  <div class="modal-dialog" style="width: 500px; height: 550px;">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #007BFF; color: #fff;">
+        <h5 class="modal-title">리뷰</h5>
+      </div>
+      <div class="modal-body" id="review-modal-detail">
+        <!-- 별점 선택 -->
+        <div class="form-group">
+          <label for="rating" style="font-size: 1.5rem; color: #555;">별점 선택:</label>
+          <div id="starRating" style="font-size: 2rem; cursor: pointer;">
+            <span class="star" data-rating="1" style="color: #FFD700;" title="별점 1">☆</span>
+            <span class="star" data-rating="2" style="color: #FFD700;" title="별점 2">☆</span>
+            <span class="star" data-rating="3" style="color: #FFD700;" title="별점 3">☆</span>
+            <span class="star" data-rating="4" style="color: #FFD700;" title="별점 4">☆</span>
+            <span class="star" data-rating="5" style="color: #FFD700;" title="별점 5">☆</span>
+          </div>
+          <input type="hidden" name="rating" id="rating" value="0">
+        </div>
+        <!-- 제목 입력 -->
+        <div class="form-group">
+          <label for="reviewTitle"
+                 style="display: block; margin-top: 20px; font-size: 1.5rem; color: #555;">리뷰
+            제목:</label>
+          <input type="text" class="form-control" id="reviewTitle" placeholder="리뷰 제목을 입력하세요"
+                 style="resize: none;">
+        </div>
+        <!-- 리뷰 입력 -->
+        <div class="form-group">
+          <label for="review"
+                 style="display: block; margin-top: 20px; font-size: 1.5rem; color: #555;">리뷰
+            내용:</label>
+          <textarea class="form-control" id="review" rows="3" style="resize: none; width: 300px;"
+                    title="리뷰 내용을 작성하세요"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="submitReview()"
+                style="background-color: #007BFF; color: #fff;">제출
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                onclick="closeReviewModal()" style="background-color: #ccc; color: #333;">닫기
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 </body>
 </html>

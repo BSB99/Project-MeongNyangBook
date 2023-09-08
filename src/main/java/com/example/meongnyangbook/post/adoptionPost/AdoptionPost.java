@@ -13,10 +13,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Table(name = "adoption_posts")
 public class AdoptionPost extends Post {
 
@@ -51,6 +53,16 @@ public class AdoptionPost extends Post {
     this.area = requestDto.getArea();
     this.category = requestDto.getCategory();
     this.user = user;
+  }
+
+  public void update(AdoptionPostReqeustDto requestDto) {
+    this.title = requestDto.getTitle();
+    this.description = requestDto.getDescription();
+    this.animalName = requestDto.getAnimalName();
+    this.animalAge = requestDto.getAnimalAge();
+    this.animalGender = requestDto.getAnimalGender();
+    this.category = requestDto.getCategory();
+    this.area = requestDto.getArea();
   }
 
   public void setTitle(String title) {

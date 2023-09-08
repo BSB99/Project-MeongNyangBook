@@ -71,7 +71,14 @@ public class AdminRoleCheckAop {
   }
 
 
-  @Around("deleteReport() || getReports() || createNotice() || getNotices() || updateNotice() || deleteNotice() || createItem() || updateItem() || deleteItem() || createInquiryComment() || updateInquiryComment() || deleteInquiryComment() ")
+  @Pointcut("execution(* com.example.meongnyangbook.shop.order.OrderController.getOrderLists(..))")
+  private void findOrderLists() {
+  }
+
+
+  @Around("deleteReport() || getReports() || createNotice() || getNotices() || updateNotice() ||"
+      + " deleteNotice() || createItem() || updateItem() || deleteItem() || createInquiryComment()||"
+      + "updateInquiryComment() || deleteInquiryComment()||findOrderLists()")
   public Object executeReportRoleCheck(ProceedingJoinPoint joinPoint) throws Throwable {
 
     UserDetailsImpl user = (UserDetailsImpl) joinPoint.getArgs()[0];

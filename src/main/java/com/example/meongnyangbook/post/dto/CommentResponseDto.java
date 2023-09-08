@@ -10,11 +10,13 @@ public class CommentResponseDto {
   private String content;
   private Long userId;
   private String userNickname;
+  private String imgUrl;
 
   public CommentResponseDto(Comment comment) {
     this.commentId = comment.getId();
     this.content = comment.getContent();
     this.userId = comment.getUser().getId();
     this.userNickname = comment.getUser().getNickname();
+    this.imgUrl = comment.getUser().getProfileImgurl();
   }
 }

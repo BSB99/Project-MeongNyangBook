@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>로그인-멍냥북</title>
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
 
@@ -64,19 +65,19 @@
       <div class="col-lg-6 col-md-6">
         <nav class="header__menu mobile-menu">
           <ul>
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/mya/view/items">Shop</a></li>
-            <li><a href="#">Pages</a>
-              <ul class="dropdown">
-                <li><a href="./about.html">About Us</a></li>
-                <li><a href="./shop-details.html">Shop Details</a></li>
-                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                <li><a href="./order.html">Check Out</a></li>
-                <li><a href="./blog-details.html">Blog Details</a></li>
-              </ul>
-            </li>
-            <li><a href="/mya/view/post/communityPost">Community</a></li>
-            <li><a href="/mya/view/post/adoptions">Adoptions</a></li>
+            <li class="active"><a href="/">홈</a></li>
+            <li><a href="/mya/view/items">상점</a></li>
+            <!--            <li><a href="#">Pages</a>-->
+            <!--              <ul class="dropdown">-->
+            <!--                <li><a href="./about.html">About Us</a></li>-->
+            <!--                <li><a href="./shop-details.html">Shop Details</a></li>-->
+            <!--                <li><a href="./shopping-cart.html">Shopping Cart</a></li>-->
+            <!--                <li><a href="./order.html">Check Out</a></li>-->
+            <!--                <li><a href="./blog-details.html">Blog Details</a></li>-->
+            <!--              </ul>-->
+            <!--            </li>-->
+            <li><a href="/mya/view/post/community">커뮤니터</a></li>
+            <li><a href="/mya/view/post/adoptions">분양</a></li>
           </ul>
         </nav>
       </div>
@@ -85,8 +86,9 @@
           <!--          header__nav__option-->
           <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
           <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
-          <a href="./shopping-cart.html"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
-          <div class="price">$0.00</div>
+          <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+          <a href="/mya/view/chat"><img src="/img/icon/messages.png" alt=""
+                                        style="width: 18px; height: 18px"> <span></span></a>
         </div>
       </div>
     </div>
@@ -113,7 +115,7 @@
 </section>
 <!-- Breadcrumb Section End -->
 
-<section class="login-section">
+<section class="login-section" style="margin: 50px">
 
   <h2></h2>
   <div class="container-login" id="containerLogin" style="min-height: 600px; margin: 50px">
@@ -165,7 +167,8 @@
         <div class="social-container">
           <a href="https://kauth.kakao.com/oauth/authorize?client_id=8c7f61342cf07f12166db38dbbdda769&redirect_uri=http://localhost:8080/mya/users/login/oauth2/code/kakao&response_type=code"
              class="social"><i class="fab fa-kakao-f"><img src="/img/icon/kakao.png" alt=""></i></a>
-          <a href="#" class="social"><i class="fab fa-google-plus-g"><img
+          <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=554244374016-5cs6i6qrbhrhlcqdrsblipfp1cgm8981.apps.googleusercontent.com&redirect_uri=http://localhost:8080/mya/users/login/oauth2/code/google&response_type=code&scope=profile"
+             class="social"><i class="fab fa-google-plus-g"><img
               src="/img/icon/google.jpeg" alt=""></i></a>
           <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
         </div>
@@ -194,18 +197,17 @@
 </section>
 
 
-<footer>
-  <p>
-    Created with <i class="fa fa-heart"></i> by
-    <a target="_blank" href="https://florin-pop.com">Florin Pop</a>
-    - Read how I created this and how you can join the challenge
-    <a target="_blank"
-       href="https://www.florin-pop.com/blog/2019/03/double-slider-sign-in-up-form/">here</a>.
-  </p>
-</footer>
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+  @font-face {
+    font-family: 'Cafe24Supermagic-Bold-v1.0';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
 
+  body {
+    font-family: "Cafe24Supermagic-Bold-v1.0";
+  }
 
   .login-section {
     box-sizing: border-box;

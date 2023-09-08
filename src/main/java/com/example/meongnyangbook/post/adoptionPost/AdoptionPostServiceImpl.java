@@ -1,9 +1,9 @@
 package com.example.meongnyangbook.post.adoptionPost;
 
-
 import com.example.meongnyangbook.S3.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostDetailResponseDto;
+import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostPageResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostResponseDto;
 import com.example.meongnyangbook.post.attachment.AttachmentUrl;
@@ -33,6 +33,7 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
   private final RedisViewCountUtil redisViewCountUtil;
   private final PostServiceImpl postServiceImpl;
   private final UserService userService;
+
 
   @Override
   public ApiResponseDto createAdoption(User user, AdoptionPostReqeustDto reqeustDto,
@@ -64,32 +65,9 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
     AdoptionPost adoptionPost = getAdoption(adoptionId);
 
     postServiceImpl.update(adoptionId, multipartFiles);
+    adoptionPost.update(requestDto);
 
-    //Dto 기본 내용 수정
-    if (!adoptionPost.getTitle().equals(requestDto.getTitle())) {
-      adoptionPost.setTitle(requestDto.getTitle());
-    }
-    if (!adoptionPost.getDescription().equals(requestDto.getDescription())) {
-      adoptionPost.setDescription(requestDto.getDescription());
-    }
-    if (!adoptionPost.getAnimalName().equals(requestDto.getAnimalName())) {
-      adoptionPost.setAnimalName(requestDto.getAnimalName());
-    }
-    if (!adoptionPost.getAnimalAge().equals(requestDto.getAnimalAge())) {
-      adoptionPost.setAnimalAge(requestDto.getAnimalAge());
-    }
-    if (!adoptionPost.getAnimalGender().equals(requestDto.getAnimalGender())) {
-      adoptionPost.setAnimalGender(requestDto.getAnimalGender());
-    }
-    if (!adoptionPost.getArea().equals(requestDto.getArea())) {
-      adoptionPost.setArea(requestDto.getArea());
-    }
-    if (!adoptionPost.getCategory().equals(requestDto.getCategory())) {
-      adoptionPost.setCategory(requestDto.getCategory());
-    }
-    {
-      return new AdoptionPostResponseDto(adoptionPost);
-    }
+    return new AdoptionPostResponseDto(adoptionPost);
   }
 
 
@@ -114,13 +92,26 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
   }
 
   @Override
-  public List<AdoptionPostResponseDto> getAdoptionList(Pageable pageable) {
+  public AdoptionPostPageResponseDto getAdoptionList(Pageable pageable) {
     List<AdoptionPostResponseDto> adoptionList = adoptionPostRepository.findAllByOrderByCreatedAtDesc(
             pageable)
         .stream()
         .map(AdoptionPostResponseDto::new)
         .collect(Collectors.toList());
-    return adoptionList;
+
+    Long count = adoptionPostRepository.count();
+
+    AdoptionPostPageResponseDto pageResult = new AdoptionPostPageResponseDto(count,
+        adoptionList);
+//    for (AdoptionPostResponseDto postList : adoptionList) {
+//      String[] fileNames = postList.getFileUrls().getFileName().split(",")[0].split("/");
+//
+//      String resizeS3FileName = resizeS3FirstName + fileNames[fileNames.length - 1];
+//
+//      postList.getFileUrls().setFileName(resizeS3FileName);
+//    }
+
+    return pageResult;
   }
 
   @Override
@@ -173,4 +164,3 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
     });
   }
 }
-

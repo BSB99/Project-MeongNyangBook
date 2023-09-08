@@ -9,4 +9,6 @@ public interface LikeService {
   ApiResponseDto createPostLike(Long postId, User user);
 
   ApiResponseDto deletePostLike(Long postId, User user);
+
+    Boolean confirmPostLike(Long postId, User user);
 }
