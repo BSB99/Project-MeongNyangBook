@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
   <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
   <link rel="stylesheet" href="/css/style.css" type="text/css">
-
+  <script src="/js/home.js"></script>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"
@@ -354,6 +354,30 @@
     margin: 50px 150px;
     display: flex;
     justify-content: flex-end;
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px; /* 원하는 마진 값으로 조정 가능 */
+  }
+
+  .pagination-btn {
+    background-color: #f4f4f4;
+    border: none;
+    padding: 5px 10px;
+    margin: 0 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .pagination-btn:hover {
+    background-color: #e4e4e4;
+  }
+
+  .pagination-btn.active {
+    background-color: #d4d4d4;
   }
 </style>
 </html>

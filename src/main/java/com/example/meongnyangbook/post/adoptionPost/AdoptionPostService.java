@@ -2,6 +2,7 @@ package com.example.meongnyangbook.post.adoptionPost;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostDetailResponseDto;
+import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostPageResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostResponseDto;
 import com.example.meongnyangbook.user.User;
@@ -49,7 +50,7 @@ public interface AdoptionPostService {
    * @param pageable
    * @return
    */
-  List<AdoptionPostResponseDto> getAdoptionList(Pageable pageable);
+  AdoptionPostPageResponseDto getAdoptionList(Pageable pageable);
 
   /**
    * 분양 게시물 단건 조회

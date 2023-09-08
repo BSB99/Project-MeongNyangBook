@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @RequiredArgsConstructor
@@ -25,7 +26,14 @@ public class UserDetailsImpl implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return new ArrayList<>();
+    UserRoleEnum role = user.getRole();
+    String authority = role.getAuthority();
+
+    SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
+    Collection<GrantedAuthority> authorities = new ArrayList<>();
+    authorities.add(simpleGrantedAuthority);
+
+    return authorities;
   }
 
   @Override
