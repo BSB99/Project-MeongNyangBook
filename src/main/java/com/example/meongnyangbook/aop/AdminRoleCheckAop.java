@@ -82,6 +82,10 @@ public class AdminRoleCheckAop {
 
   @Pointcut("execution(* com.example.meongnyangbook.view.BackOfficeViewController.backOfficeItemSave())")
   private void backOfficeItemSave() {
+  }
+  @Pointcut("execution(* com.example.meongnyangbook.shop.order.OrderController.getOrderLists(..))")
+  private void findOrderLists() {
+  }
 
   }
 
@@ -103,7 +107,7 @@ public class AdminRoleCheckAop {
   @Around("deleteReport() || getReports() || createNotice() || getNotices() || updateNotice() ||"
       + " deleteNotice() || createItem() || updateItem() || deleteItem() || createInquiryComment() ||"
       + " updateInquiryComment() || deleteInquiryComment()||backOffice()||backOfficeItemList()||backOfficeItemSave()||"
-      + "backOfficeNotice()||backOfficeReport()||backOfficeOrder()")
+      + "backOfficeNotice()||backOfficeReport()||backOfficeOrder()||findOrderLists()")
   public Object executeReportRoleCheck(ProceedingJoinPoint joinPoint) throws Throwable {
 
     UserDetailsImpl user = (UserDetailsImpl) joinPoint.getArgs()[0];

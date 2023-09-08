@@ -28,7 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewResponseDto> getReviewList(Long id) {
-        return reviewRepository.findAll()
+        return reviewRepository.findAllByItemId(id)
                 .stream()
                 .map(ReviewResponseDto::new)
                 .toList();
