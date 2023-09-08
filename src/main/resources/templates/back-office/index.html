@@ -16,6 +16,15 @@
         href="/assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="/assets/vendor/charts/c3charts/c3.css">
   <link rel="stylesheet" href="/assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
+
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
   <title>명냥북 백오피스</title>
 </head>
 
@@ -919,6 +928,25 @@
 <script src="/assets/vendor/charts/c3charts/d3-5.4.0.min.js"></script>
 <script src="/assets/vendor/charts/c3charts/C3chartjs.js"></script>
 <script src="/assets/libs/js/dashboard-ecommerce.js"></script>
-</body>
 
+
+<script>
+  $(document).ready(function () {
+    const token = Cookies.get('Authorization');
+
+    $.ajax({
+      type: 'GET',
+      url: '/mya/back-office/admin',
+      headers: {'Authorization': token}
+    })
+    .done(function (response) {
+      console.log("admin 확인");
+    })
+    .fail(function (response) {
+      console.log(response)
+      window.location.href = '/mya/back-office/error';
+    })
+  });
+</script>
+</body>
 </html>
