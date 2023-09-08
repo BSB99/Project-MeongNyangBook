@@ -28,6 +28,7 @@ public class AdoptionPostDetailResponseDto {
   private List<CommentResponseDto> commentList;
   private Long viewCount;
   private String createAt;
+  private Integer likesCount;
   private AttachmentUrlResponseDto fileUrls;
 
   public AdoptionPostDetailResponseDto(AdoptionPost adoptionPost, Double viewCount) {
@@ -47,6 +48,7 @@ public class AdoptionPostDetailResponseDto {
         .collect(Collectors.toList());
     this.viewCount = viewCount.longValue();
     this.createAt = adoptionPost.getCreatedAtAsString();
+    this.likesCount = adoptionPost.getPostLikes().size();
     this.fileUrls = new AttachmentUrlResponseDto(adoptionPost.getAttachmentUrl());
   }
 }

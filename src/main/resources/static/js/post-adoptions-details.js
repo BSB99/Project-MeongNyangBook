@@ -113,6 +113,7 @@ function setCardData(response) {
   let viewCount = document.getElementById("viewCount");
   let nickname = document.getElementById("username");
   let createdAt = document.getElementById("createdAt");
+  let likes = document.getElementById("likes");
 
   let fileNames = response.fileUrls.fileName.split(",");
   let animalName = document.getElementById("animalName");
@@ -159,6 +160,8 @@ function setCardData(response) {
   viewCount.innerText = response.viewCount + " Views";
   nickname.innerText = response.username;
   createdAt.innerText = response.createAt;
+
+  likes.innerText = response.likesCount + " likes";
 
   animalName.innerText = "이름 : " + response.animalName;
   animalGender.innerText = "성별 : " + response.animalGender;
