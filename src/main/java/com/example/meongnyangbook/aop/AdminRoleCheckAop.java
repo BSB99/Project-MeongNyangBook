@@ -83,11 +83,11 @@ public class AdminRoleCheckAop {
   @Pointcut("execution(* com.example.meongnyangbook.view.BackOfficeViewController.backOfficeItemSave())")
   private void backOfficeItemSave() {
   }
+
   @Pointcut("execution(* com.example.meongnyangbook.shop.order.OrderController.getOrderLists(..))")
   private void findOrderLists() {
   }
 
-  }
 
   @Pointcut("execution(* com.example.meongnyangbook.view.BackOfficeViewController.backOfficeNotice())")
   private void backOfficeNotice() {
