@@ -160,17 +160,17 @@ function itemReviews() {
     type: "GET",
     url: `/mya/reviews/all/${itemNo}?page=${currentPage}&size=${pageSize}`
   })
-      .done(res => {
-        const totalReviews = res.len; // 총 게시글 개수
-        const reviewList = res.reviewList;
+  .done(res => {
+    const totalReviews = res.len; // 총 게시글 개수
+    const reviewList = res.reviewList;
 
-        if (totalReviews === 0) {
-          reviewHtml += `
+    if (totalReviews === 0) {
+      reviewHtml += `
         <h3 style="padding-top: 200px; text-align: center; font-size: 40px;">아이템을 구매하시고 리뷰의 첫 작성자가 되어보세요!</h3>
       `;
-        } else {
-          for (let i of reviewList) {
-            reviewHtml += `
+    } else {
+      for (let i of reviewList) {
+        reviewHtml += `
           <img src=""/>
           <div className="bubble" class="bubble">
             닉네임 : ${i.nickname}<br>
@@ -178,21 +178,21 @@ function itemReviews() {
             내용 : ${i.description}<br>
             별점 : ${"⭐".repeat(i.starRating)}
           </div>`;
-          }
-        }
+      }
+    }
 
-        // 페이지네이션 HTML 생성
-        let paginationHtml = generatePaginationLinks(len / 4 + 1, currentPage);
+    // 페이지네이션 HTML 생성
+    let paginationHtml = generatePaginationLinks(len / 4 + 1, currentPage);
 
-        reviews.forEach(container => {
-          container.innerHTML = "<div class=\"message\">" + reviewHtml + "</div>" + paginationHtml;
-        });
+    reviews.forEach(container => {
+      container.innerHTML = "<div class=\"message\">" + reviewHtml + "</div>" + paginationHtml;
+    });
 
-      })
-      .fail(res => {
-        alert("리뷰 조회 중 에러")
-        console.log(res);
-      });
+  })
+  .fail(res => {
+    alert("리뷰 조회 중 에러")
+    console.log(res);
+  });
 }
 
 function goToPage(pageNumber) {
@@ -240,28 +240,28 @@ function getInquiry() {
       "Authorization": token,
     }
   })
-      .done(res => {
-        res.len = inquiryLen;
-        for (let inquiry of res.inquiryList) {
-          inquiryBodyHtml += `
+  .done(res => {
+    res.len = inquiryLen;
+    for (let inquiry of res.inquiryList) {
+      inquiryBodyHtml += `
           <div>
           <p>title : ${inquiry.title}</p>
           <button onclick="getInquiryInfo(${inquiry.inquiryId})">상세보기</button>
           </div>
           `
-        }
+    }
 
-        // 페이지네이션 HTML 생성
-        let paginationInquiryHtml = generateInquiryPaginationLinks(inquiryLen / 4 + 1, currentInquiryPage);
+    // 페이지네이션 HTML 생성
+    let paginationInquiryHtml = generateInquiryPaginationLinks(inquiryLen / 4 + 1, currentInquiryPage);
 
-        inquiryBody.forEach(container => {
-          container.innerHTML = inquiryBodyHtml + paginationInquiryHtml;
-        })
-      })
-      .fail(res => {
-        alert("문의 조회 실패");
-        console.log(res);
-      })
+    inquiryBody.forEach(container => {
+      container.innerHTML = inquiryBodyHtml + paginationInquiryHtml;
+    })
+  })
+  .fail(res => {
+    alert("문의 조회 실패");
+    console.log(res);
+  })
 }
 
 function generateInquiryPaginationLinks(totalPages, currentPage) {
@@ -297,14 +297,14 @@ function saveInquiry() {
     contentType: "application/json",
     data: JSON.stringify(requestDto)
   })
-      .done(res => {
-        alert("문의 작성 완료");
-        location.reload();
-      })
-      .fail(res => {
-        alert("문의 등록 중 에러 발생");
-        console.log(res);
-      })
+  .done(res => {
+    alert("문의 작성 완료");
+    location.reload();
+  })
+  .fail(res => {
+    alert("문의 등록 중 에러 발생");
+    console.log(res);
+  })
 }
 
 function showInquiry() {
@@ -329,16 +329,16 @@ function getInquiryInfo(inquiryId) {
       "Authorization": token,
     }
   })
-      .done(res => {
-        console.log(res);
-        if(currentUserRole !== "ADMIN") {
-          getInquiryFooter.forEach(container => {
-            container.innerHTML = "";
-          })
-        }
+  .done(res => {
+    console.log(res);
+    if(currentUserRole !== "ADMIN") {
+      getInquiryFooter.forEach(container => {
+        container.innerHTML = "";
+      })
+    }
 
-        if(currnetUserNickname === res.nickname) {
-          getInquiryBodyHtml = `
+    if(currnetUserNickname === res.nickname) {
+      getInquiryBodyHtml = `
           <div class="mb-3">
           <label for="inputTitle" class="form-label">작성자</label>
           <p>${res.nickname}</p>
@@ -353,8 +353,8 @@ function getInquiryInfo(inquiryId) {
           </div>
           <button onclick="deleteInquiry(${inquiryId})">삭제하기</button>
           `;
-        } else {
-          getInquiryBodyHtml = `
+    } else {
+      getInquiryBodyHtml = `
           <div class="mb-3">
           <label for="inputTitle" class="form-label">작성자</label>
           <p>${res.nickname}</p>
@@ -367,30 +367,30 @@ function getInquiryInfo(inquiryId) {
           <label for="inputQuestion" class="form-label">내용</label>
           <p>${res.description}</p>
           </div>`
-        }
+    }
 
-        if (res.comment !== null) {
-          getInquirtCommentBodyHtml += `
+    if (res.comment !== null) {
+      getInquirtCommentBodyHtml += `
         <br>
         <div class="mb-3" style="padding-top: 25px;">
           <label for="inputQuestion" class="form-label">댓글</label>
           <p>관리자 / ${res.comment.contents}</p>
           </div>`
 
-          getInquiryBody.forEach(container => {
-            container.innerHTML = getInquiryBodyHtml + getInquirtCommentBodyHtml;
-          })
-        } else {
-          getInquiryBody.forEach(container => {
-            container.innerHTML = getInquiryBodyHtml;
-          })
-        }
+      getInquiryBody.forEach(container => {
+        container.innerHTML = getInquiryBodyHtml + getInquirtCommentBodyHtml;
+      })
+    } else {
+      getInquiryBody.forEach(container => {
+        container.innerHTML = getInquiryBodyHtml;
+      })
+    }
 
-      })
-      .fail(res => {
-        alert("문의 조회 실패");
-        console.log(res);
-      })
+  })
+  .fail(res => {
+    alert("문의 조회 실패");
+    console.log(res);
+  })
 }
 
 function closeGetInquiryModal() {
@@ -403,14 +403,14 @@ function getUserInfo() {
     url: "/mya/users",
     headers: {"Authorization": token}
   })
-      .done((res) => {
-        currnetUserNickname = res.nickname;
-        currentUserRole = res.role;
-      })
-      .fail(function (response, status, xhr) {
-        alert("유저정보 가져오기 실패");
-        console.log(response);
-      })
+  .done((res) => {
+    currnetUserNickname = res.nickname;
+    currentUserRole = res.role;
+  })
+  .fail(function (response, status, xhr) {
+    alert("유저정보 가져오기 실패");
+    console.log(response);
+  })
 }
 
 function saveComment() {
@@ -426,13 +426,13 @@ function saveComment() {
     data: JSON.stringify(requestDto),
     contentType: "application/json"
   })
-      .done(res => {
-        location.reload();
-      })
-      .fail(res => {
-        alert("답변 작성 실패");
-        console.log(res);
-      })
+  .done(res => {
+    location.reload();
+  })
+  .fail(res => {
+    alert("답변 작성 실패");
+    console.log(res);
+  })
 }
 
 function deleteInquiry(inquiryId) {
@@ -443,11 +443,11 @@ function deleteInquiry(inquiryId) {
       "Authorization": token,
     }
   })
-      .done(res => {
-        location.reload();
-      })
-      .fail(res => {
-        alert("문의를 삭제하는 도중 에러 발생");
-        console.log(res);
-      })
+  .done(res => {
+    location.reload();
+  })
+  .fail(res => {
+    alert("문의를 삭제하는 도중 에러 발생");
+    console.log(res);
+  })
 }

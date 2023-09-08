@@ -32,7 +32,7 @@
   <!-- js Cookie -->
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
 </head>
-<script src="/js/home.js"></script>
+
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -290,7 +290,8 @@
                    role="tab">상품 리뷰</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab" onclick="getInquiry()">문의</a>
+                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab"
+                   onclick="getInquiry()">문의</a>
               </li>
             </ul>
             <div class="tab-content">
@@ -311,7 +312,9 @@
               <div class="tab-pane" id="tabs-6" role="tabpanel">
                 <div class="product__details__tab__content">
                   <p>
-                    <button class="primary-btn" style="float: right;" onclick="showInquiry()">문의 등록</button>
+                    <button class="primary-btn" style="float: right;" onclick="showInquiry()">문의
+                      등록
+                    </button>
                   </p>
                   <div class="product-inquiry product__details__tab__content__inquiry">
                     <h5>Products Infomation</h5>
@@ -414,12 +417,14 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="writeInquiryModal" tabindex="-1" aria-labelledby="writeInquiryModalLabel" aria-hidden="true">
+<div class="modal fade" id="writeInquiryModal" tabindex="-1"
+     aria-labelledby="writeInquiryModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="writeInquiryModalLabel">문의 등록</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeInquiryModal()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                onclick="closeInquiryModal()"></button>
       </div>
       <div class="modal-body">
         <div class="mb-3">
@@ -439,12 +444,14 @@
   </div>
 </div>
 
-<div class="modal fade" id="viewInquiryModal" tabindex="-2" aria-labelledby="viewInquiryModalLabel" aria-hidden="true">
+<div class="modal fade" id="viewInquiryModal" tabindex="-2" aria-labelledby="viewInquiryModalLabel"
+     aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="viewInquiryModalLabel">문의</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeGetInquiryModal()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                onclick="closeGetInquiryModal()"></button>
       </div>
       <div class="modal-body" id="modal-inquiry">
         <div class="mb-3">

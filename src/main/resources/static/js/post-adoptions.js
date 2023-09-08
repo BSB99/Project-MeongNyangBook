@@ -147,7 +147,7 @@ function start() {
 function generatePaginationLinks(totalLen, currentPage) {
   const totalPages = totalLen; // Total number of pages
 
-  let paginationLinks = '';
+  let paginationLinks = '<div class="pagination-container" style="width: 2000px; margin: 10px -20%;">';
   for (let i = 1; i <= totalPages; i++) {
     if (i === currentPage + 1) {
       paginationLinks += `<a class="active" href="#">${i}</a>`;
