@@ -2,6 +2,8 @@ let itemNo;
 const token = Cookies.get('Authorization');
 let currnetUserNickname;
 let currentUserRole;
+let len = 0;
+let inquiryLen = 0;
 document.addEventListener("DOMContentLoaded", function () {
   start();
   getUserInfo();
@@ -135,26 +137,40 @@ function start() {
   }
 }
 
+function generatePaginationLinks(totalPages, currentPage) {
+  let paginationHtml = '';
+  for (let i = 1; i <= totalPages + 1; i++) {
+    if (i === currentPage + 1) {
+      paginationHtml += `<span class="current-page">${i}</span>`;
+    } else {
+      paginationHtml += `<a href="#" onclick="goToPage(${i - 1}); return false;">${i}</a>`;
+    }
+  }
+  return paginationHtml;
+}
+
+let currentPage = 0;
+const pageSize = 4;
+
 function itemReviews() {
   let reviews = document.querySelectorAll(".product_review");
   let reviewHtml = '';
 
   $.ajax({
     type: "GET",
-    url: "/mya/reviews/all/" + itemNo,
+    url: `/mya/reviews/all/${itemNo}?page=${currentPage}&size=${pageSize}`
   })
-  .done(res => {
-    if (res.length === 0) {
-      reviewHtml += `
-           <h3 style="padding-top: 200px; text-align: center; font-size: 40px;">아이템을 구매하시고 리뷰의 첫 작성자가 되어보세요!</h3>
-          `;
+      .done(res => {
+        const totalReviews = res.len; // 총 게시글 개수
+        const reviewList = res.reviewList;
 
-      reviews.forEach(container => {
-        container.innerHTML = reviewHtml
-      })
-    } else {
-      for (let i of res) {
-        reviewHtml += `
+        if (totalReviews === 0) {
+          reviewHtml += `
+        <h3 style="padding-top: 200px; text-align: center; font-size: 40px;">아이템을 구매하시고 리뷰의 첫 작성자가 되어보세요!</h3>
+      `;
+        } else {
+          for (let i of reviewList) {
+            reviewHtml += `
           <img src=""/>
           <div className="bubble" class="bubble">
             닉네임 : ${i.nickname}<br>
@@ -162,18 +178,28 @@ function itemReviews() {
             내용 : ${i.description}<br>
             별점 : ${"⭐".repeat(i.starRating)}
           </div>`;
-      }
+          }
+        }
 
-      reviews.forEach(container => {
-        container.innerHTML = "<div class=\"message\">" + reviewHtml + "</div>"
+        // 페이지네이션 HTML 생성
+        let paginationHtml = generatePaginationLinks(len / 4 + 1, currentPage);
+
+        reviews.forEach(container => {
+          container.innerHTML = "<div class=\"message\">" + reviewHtml + "</div>" + paginationHtml;
+        });
+
       })
-    }
-  })
-  .fail(res => {
-    alert("리뷰 조회 중 에러")
-    console.log(res);
-  })
+      .fail(res => {
+        alert("리뷰 조회 중 에러")
+        console.log(res);
+      });
 }
+
+function goToPage(pageNumber) {
+  currentPage = pageNumber;
+  itemReviews();
+}
+
 
 function addCart(itemNo) {
   const token = Cookies.get('Authorization');
@@ -201,18 +227,22 @@ function addCart(itemNo) {
   }
 }
 
+let currentInquiryPage = 0;
+const inquiryPageSize = 4;
+
 function getInquiry() {
   const inquiryBody = document.querySelectorAll(".product__details__tab__content__inquiry");
   let inquiryBodyHtml = "";
   $.ajax({
     type: "GET",
-    url: `/mya/inquiries/all/` + itemNo,
+    url: `/mya/inquiries/all/${itemNo}?page=${currentInquiryPage}&size=${inquiryPageSize}`,
     headers: {
       "Authorization": token,
     }
   })
       .done(res => {
-        for (let inquiry of res) {
+        res.len = inquiryLen;
+        for (let inquiry of res.inquiryList) {
           inquiryBodyHtml += `
           <div>
           <p>title : ${inquiry.title}</p>
@@ -221,14 +251,34 @@ function getInquiry() {
           `
         }
 
+        // 페이지네이션 HTML 생성
+        let paginationInquiryHtml = generateInquiryPaginationLinks(inquiryLen / 4 + 1, currentInquiryPage);
+
         inquiryBody.forEach(container => {
-          container.innerHTML = inquiryBodyHtml;
+          container.innerHTML = inquiryBodyHtml + paginationInquiryHtml;
         })
       })
       .fail(res => {
         alert("문의 조회 실패");
         console.log(res);
       })
+}
+
+function generateInquiryPaginationLinks(totalPages, currentPage) {
+  let paginationHtml = '';
+  for (let i = 1; i <= totalPages + 1; i++) {
+    if (i === currentPage + 1) {
+      paginationHtml += `<span class="current-page">${i}</span>`;
+    } else {
+      paginationHtml += `<a href="#" onclick="goToInquiryPage(${i - 1}); return false;">${i}</a>`;
+    }
+  }
+  return paginationHtml;
+}
+
+function goToInquiryPage(pageNumber) {
+  currentInquiryPage = pageNumber;
+  getInquiry();
 }
 
 function saveInquiry() {
@@ -267,10 +317,10 @@ function closeInquiryModal() {
 let inquiryNo;
 function getInquiryInfo(inquiryId) {
   $('#viewInquiryModal').modal('show');
-  let getInquiryBody = document.querySelectorAll(".modal-body");
-  let getInquiryFooter = document.querySelectorAll(".modal-footer");
+  let getInquiryBody = document.querySelectorAll("#modal-inquiry");
+  let getInquiryFooter = document.querySelectorAll("#modal-inquiry-footer");
   let getInquiryBodyHtml = "";
-  let getInquirtCommentBodtHtml = "";
+  let getInquirtCommentBodyHtml = "";
   inquiryNo = inquiryId;
   $.ajax({
     type: "GET",
@@ -319,16 +369,23 @@ function getInquiryInfo(inquiryId) {
           </div>`
         }
 
-        getInquirtCommentBodtHtml += `
+        if (res.comment !== null) {
+          getInquirtCommentBodyHtml += `
         <br>
         <div class="mb-3" style="padding-top: 25px;">
           <label for="inputQuestion" class="form-label">댓글</label>
           <p>관리자 / ${res.comment.contents}</p>
-          </div>
-        `
-        getInquiryBody.forEach(container => {
-          container.innerHTML = getInquiryBodyHtml + getInquirtCommentBodtHtml;
-        })
+          </div>`
+
+          getInquiryBody.forEach(container => {
+            container.innerHTML = getInquiryBodyHtml + getInquirtCommentBodyHtml;
+          })
+        } else {
+          getInquiryBody.forEach(container => {
+            container.innerHTML = getInquiryBodyHtml;
+          })
+        }
+
       })
       .fail(res => {
         alert("문의 조회 실패");

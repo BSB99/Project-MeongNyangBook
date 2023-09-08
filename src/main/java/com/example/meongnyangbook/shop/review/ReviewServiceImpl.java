@@ -5,6 +5,7 @@ import com.example.meongnyangbook.shop.item.Item;
 import com.example.meongnyangbook.shop.item.ItemService;
 import com.example.meongnyangbook.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,11 +28,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewResponseDto> getReviewList(Long id) {
-        return reviewRepository.findAllByItemId(id)
+    public ReviewListResponseDto getReviewList(Long id, Pageable pageable) {
+        List<ReviewResponseDto> reviewResponseDtos = reviewRepository.findAllByItemIdOrderByCreatedAtDesc(id, pageable)
                 .stream()
                 .map(ReviewResponseDto::new)
                 .toList();
+        Long reviewLen = reviewRepository.countByItemId(id);
+
+        return new ReviewListResponseDto(reviewResponseDtos, reviewLen);
     }
 
     @Override
