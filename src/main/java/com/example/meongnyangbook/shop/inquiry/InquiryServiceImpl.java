@@ -28,7 +28,9 @@ public class InquiryServiceImpl implements InquiryService {
 
     @Override
     public List<InquiryResponseDto> getInquiryList(Long id) {
-        return inquiryRepository.findAll()
+        Item item = itemService.getItem(id);
+
+        return inquiryRepository.findAllByItem(item)
                 .stream()
                 .map(InquiryResponseDto::new)
                 .toList();

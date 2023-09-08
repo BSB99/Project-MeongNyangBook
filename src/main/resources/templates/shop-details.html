@@ -290,7 +290,7 @@
                    role="tab">상품 리뷰</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">문의</a>
+                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab" onclick="getInquiry()">문의</a>
               </li>
             </ul>
             <div class="tab-content">
@@ -311,9 +311,9 @@
               <div class="tab-pane" id="tabs-6" role="tabpanel">
                 <div class="product__details__tab__content">
                   <p>
-                    <button class="primary-btn" style="float: right;">문의 등록</button>
+                    <button class="primary-btn" style="float: right;" onclick="showInquiry()">문의 등록</button>
                   </p>
-                  <div class="product-inquiry product__details__tab__content__item">
+                  <div class="product-inquiry product__details__tab__content__inquiry">
                     <h5>Products Infomation</h5>
                     <p>A Pocket PC is a handheld computer, which features many of the same
                       capabilities as a modern PC. These handy little devices allow
@@ -410,6 +410,59 @@
     <form class="search-model-form">
       <input type="text" id="search-input" placeholder="Search here.....">
     </form>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="writeInquiryModal" tabindex="-1" aria-labelledby="writeInquiryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="writeInquiryModalLabel">문의 등록</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeInquiryModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label">제목</label>
+          <input type="text" class="form-control" id="inputTitle" placeholder="제목을 입력하세요">
+        </div>
+        <div class="mb-3">
+          <label for="inputQuestion" class="form-label">문의</label>
+          <input type="text" class="form-control" id="inputQuestion" placeholder="문의 내용을 입력하세요">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="saveInquiry()">문의 등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="viewInquiryModal" tabindex="-1" aria-labelledby="viewInquiryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="viewInquiryModalLabel">문의</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeGetInquiryModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label">제목</label>
+          <p>제목 입니다.</p>
+        </div>
+        <div class="mb-3">
+          <label for="inputQuestion" class="form-label">문의</label>
+          <p>문의 내용 입니다.</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="mb-3">
+          <input type="text" class="form-control" id="saveComment" placeholder="답변 내용을 입력하세요">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="saveComment()">답변 저장</button>
+      </div>
+    </div>
   </div>
 </div>
 <!-- Search End -->

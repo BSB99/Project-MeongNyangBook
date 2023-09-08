@@ -61,5 +61,4 @@ public interface InquiryService {
    * @return
    */
   Inquiry getInquiry(Long id);
-
 }
