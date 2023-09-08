@@ -15,6 +15,13 @@
         href="/assets/libs/css/style.css">
   <link rel="stylesheet"
         href="/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
+
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
   <title>멍냥북의 백오피스</title>
 </head>
 
@@ -310,11 +317,12 @@
                     <h4 class="mb-0">아이템 등록</h4>
                   </div>
                   <div class="card-body">
-                    <form class="needs-validation" novalidate="">
+                    <form class="needs-validation" novalidate="" onsubmit="submitForm(event)" id="needs-validation">
                       <div class="mb-3 custom-file">
-                        <input type="file" class="custom-file-input" id="customFile">
+                        <input type="file" class="custom-file-input" id="customFile" multiple>
                         <label class="custom-file-label" for="customFile">파일 선택</label>
                       </div>
+                      <div id="selectedFiles"></div>
                       <div class="mb-3">
                         <label for="address">상품 이름</label>
                         <input type="text" class="form-control" id="address"
@@ -348,43 +356,18 @@
                         <div class="col-md-5 mb-3">
                           <label for="country">카테고리</label>
                           <select class="custom-select d-block w-100" id="country" required="">
-                            <option value="">Choose...</option>
-                            <option>카테고리 이넘 뭐있는지모룸</option>
-                            <option>United States</option>
-                            <option>United States</option>
+                            <option>DOGFOOD</option>
+                            <option>SUPPLY</option>
+                            <option>SNACK</option>
+                            <option>CATFOOD</option>
                           </select>
                           <div class="invalid-feedback">
                             입력해주세요
                           </div>
                         </div>
                       </div>
-                      <!--                      <hr class="mb-4">-->
-                      <!--                      <div class="custom-control custom-checkbox">-->
-                      <!--                        <input type="checkbox" class="custom-control-input" id="same-address">-->
-                      <!--                        <label class="custom-control-label" for="same-address">Shipping address is-->
-                      <!--                          the same as my billing address</label>-->
-                      <!--                      </div>-->
-                      <!--                      <hr class="mb-4">-->
-                      <!--                      <h4 class="mb-3">Payment</h4>-->
-                      <!--                      <div class="d-block my-3">-->
-                      <!--                        <div class="custom-control custom-radio">-->
-                      <!--                          <input id="credit" name="paymentMethod" type="radio"-->
-                      <!--                                 class="custom-control-input" checked="" required="">-->
-                      <!--                          <label class="custom-control-label" for="credit">Credit card</label>-->
-                      <!--                        </div>-->
-                      <!--                        <div class="custom-control custom-radio">-->
-                      <!--                          <input id="debit" name="paymentMethod" type="radio"-->
-                      <!--                                 class="custom-control-input" required="">-->
-                      <!--                          <label class="custom-control-label" for="debit">Debit card</label>-->
-                      <!--                        </div>-->
-                      <!--                        <div class="custom-control custom-radio">-->
-                      <!--                          <input id="paypal" name="paymentMethod" type="radio"-->
-                      <!--                                 class="custom-control-input" required="">-->
-                      <!--                          <label class="custom-control-label" for="paypal">PayPal</label>-->
-                      <!--                        </div>-->
-                      <!--                      </div>-->
                       <hr class="mb-4">
-                      <button class="btn btn-primary btn-lg btn-block" type="submit">아이템 등록</button>
+                      <button class="btn btn-primary btn-lg btn-block" type="submit" onclick="createItem()">아이템 등록</button>
                     </form>
                   </div>
                 </div>
@@ -438,6 +421,84 @@
 <!-- main js-->
 <script
     src="../../../../../../../Desktop/meongnyangbook/무제%20폴더%202/mya/assets/libs/js/main-js.js"></script>
+
+<script>
+  document.getElementById('customFile').addEventListener('change', function(e) {
+    const selectedFiles = e.target.files;
+    const selectedFilesDiv = document.getElementById('selectedFiles');
+
+    // 선택한 파일 이름을 표시할 div 초기화
+    selectedFilesDiv.innerHTML = '';
+
+    // 선택한 모든 파일의 이름을 표시
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const fileName = selectedFiles[i].name;
+      const fileNameDiv = document.createElement('div');
+      fileNameDiv.textContent = fileName;
+      selectedFilesDiv.appendChild(fileNameDiv);
+    }
+  });
+
+  function createItem() {
+    const token = Cookies.get('Authorization');
+    const fileInput = document.getElementById('customFile');
+    const selectedFiles = fileInput.files;
+
+    // 상품 이름 가져오기
+    const itemName = document.getElementById('address').value;
+
+    // 상품 가격 가져오기
+    const itemPrice = document.getElementById('username').value;
+
+    // 설명 가져오기
+    const itemDescription = document.getElementById('description').value;
+
+    // 카테고리 가져오기
+    const itemCategory = document.getElementById('country').value;
+
+    console.log('Selected Files:', selectedFiles);
+    console.log('Item Name:', itemName);
+    console.log('Item Price:', itemPrice);
+    console.log('Item Description:', itemDescription);
+    console.log('Item Category:', itemCategory);
+    var formData = new FormData();
+
+    for (let i = 0; i < selectedFiles.length; i++) {
+      formData.append("fileName", selectedFiles[i]);
+    }
+
+
+    let requestDto = {
+      "name": itemName,
+      "price": itemPrice,
+      "category": itemCategory,
+      "content": itemDescription
+    }
+
+    formData.append("requestDto", JSON.stringify(requestDto));
+
+    $.ajax({
+      type: "POST",
+      url: `/mya/items`,
+      data: formData,
+      processData: false,
+      contentType: false,
+      headers: {"Authorization": token},
+    })
+            .done(res => {
+              alert("상품 생성 완료")
+              location.reload();
+            })
+            .fail(res => {
+              alert("상품 생성 실패")
+              console.log(res);
+            })
+  }
+
+  function submitForm(event) {
+    event.preventDefault();
+  }
+</script>
 </body>
 
 

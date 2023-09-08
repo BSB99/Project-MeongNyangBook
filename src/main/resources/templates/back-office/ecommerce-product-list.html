@@ -15,6 +15,14 @@
         href="/assets/libs/css/style.css">
   <link rel="stylesheet"
         href="/assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
+
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
   <title>멍냥북의 백오피스</title>
 </head>
 
@@ -302,7 +310,7 @@
         <!-- ============================================================== -->
         <div class="row">
           <div class="col-xl-9 col-lg-8 col-md-8 col-sm-12 col-12">
-            <div class="row">
+            <div class="row" id="item-list">
               <div class="col-xl-4 col-lg-6 col-md-12 col-sm-12 col-12">
                 <div class="product-thumbnail">
                   <div class="product-img-head">
@@ -545,6 +553,8 @@
 <!-- main js -->
 <script
     src="/assets/libs/js/main-js.js"></script>
+
+<script src="/js/backoffice-item-list.js"></script>
 </body>
 
 </html>
