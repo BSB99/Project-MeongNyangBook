@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,10 +37,10 @@ public class InquiryController {
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
-  @Operation(summary = "문의 게시물 단건 조회")
+  @Operation(summary = "문의 게시물 조회")
   @GetMapping("/all/{itemId}")
-  public ResponseEntity<List<InquiryResponseDto>> getInquiryList(@PathVariable Long itemId) {
-    List<InquiryResponseDto> result = inquiryService.getInquiryList(itemId);
+  public ResponseEntity<InquiryListResponseDto> getInquiryList(@PathVariable Long itemId, Pageable pageable) {
+    InquiryListResponseDto result = inquiryService.getInquiryList(itemId, pageable);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 

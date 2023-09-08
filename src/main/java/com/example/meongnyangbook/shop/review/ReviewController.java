@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,8 +39,8 @@ public class ReviewController {
 
   @Operation(summary = "리뷰 조회")
   @GetMapping("/all/{itemId}")
-  public ResponseEntity<List<ReviewResponseDto>> getReviewList(@PathVariable Long itemId) {
-    List<ReviewResponseDto> result = reviewService.getReviewList(itemId);
+  public ResponseEntity<ReviewListResponseDto> getReviewList(@PathVariable Long itemId, Pageable pageable) {
+    ReviewListResponseDto result = reviewService.getReviewList(itemId, pageable);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
