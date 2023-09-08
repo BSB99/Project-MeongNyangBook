@@ -1,14 +1,12 @@
 const token = Cookies.get('Authorization');
 let userId;
 let roomId;
-let userImg;
 let userNickname;
 
 document.addEventListener("DOMContentLoaded", function () {
-
   if (token === undefined) {
     alert("로그인 해주세요");
-    location.href = "/mya/view/users/sign-in";
+    location.href="/mya/view/users/sign-in";
   }
 
   $.ajax({
@@ -18,14 +16,12 @@ document.addEventListener("DOMContentLoaded", function () {
       "Authorization": token,
     }
   })
-  .done((res) => {
-    userNickname = res.nickname;
-    userId = res.userId;
-    userImg = res.profileImg
-  })
+      .done((res) => {
+        userNickname = res.nickname;
+        userId = res.userId;
+      })
 
   const friendList = document.querySelectorAll("#friends");
-
   let firstChatHtml = ``;
 
   $.ajax({
@@ -35,49 +31,44 @@ document.addEventListener("DOMContentLoaded", function () {
       "Authorization": token,
     }
   })
-  .done((res) => {
-    console.log(res);
-    for (let i of res) {
-      let profilePicture;
-      if (i.participant.nickname === userNickname) {
-        profilePicture = fileImgNullCheck(i.constructor.fileList);
-
-        firstChatHtml += `
+      .done((res) => {
+        for (let i of res) {
+          if (i.participant.nickname === userNickname) {
+            firstChatHtml += `
                 <div class="friend" onclick="createConnect(${i.id})">
-                <img src="${profilePicture}">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdczezED3nNm4Ivl6JUdhmhHiC39XdSV4UBA&usqp=CAU" />
                 <p>
                 <strong>${i.constructor.nickname}</strong>
                 </p>
                 <div class="status available"></div>
                 </div>
                 `
-      } else {
-        profilePicture = fileImgNullCheck(i.participant.fileList);
-
-        firstChatHtml += `
+          } else {
+            firstChatHtml += `
                 <div class="friend" onclick="createConnect(${i.id})">
-                <img src="${profilePicture}">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdczezED3nNm4Ivl6JUdhmhHiC39XdSV4UBA&usqp=CAU" />
                 <p>
                 <strong>${i.participant.nickname}</strong>
                 </p>
                 <div class="status available"></div>
                 </div>
                 `
-      }
-    }
+          }
+        }
 
-    friendList.forEach((container) => {
-      container.innerHTML = firstChatHtml;
-    })
-  })
-  .fail((error) => {
-    console.error("Error:", error);
-  })
+        friendList.forEach((container) => {
+          container.innerHTML = firstChatHtml;
+        })
+      })
+      .fail((error) => {
+        console.error("Error:", error);
+      })
 });
 
 const stompClient = new StompJs.Client({
   brokerURL: 'ws://localhost:8080/mya-websocket'
 });
+
 let chatModal;
 
 async function createConnect(chatRoomId) {
@@ -101,7 +92,7 @@ async function createConnect(chatRoomId) {
     stompClient.subscribe('/send/room/' + chatRoomId, (message) => {
       const receivedMessage = JSON.parse(message.body);
       console.log(receivedMessage);
-      if (receivedMessage.user.id !== userId) {
+      if(receivedMessage.user.id !== userId) {
         displayReceivedMessage(receivedMessage.message);
       }
     });
@@ -109,16 +100,16 @@ async function createConnect(chatRoomId) {
       url: "/mya/chats/room/" + chatRoomId,
       type: "GET"
     })
-    .done(function (response) {
-      response.forEach(function (message) {
-        //showMessage(message);
-      })
-    })
-    .fail(function (response, status, xhr) {
-      console.log(response);
-      console.log(status);
-      console.log(xhr);
-    })
+        .done(function (response) {
+          response.forEach(function (message) {
+            //showMessage(message);
+          })
+        })
+        .fail(function (response, status, xhr) {
+          console.log(response);
+          console.log(status);
+          console.log(xhr);
+        })
   };
 
   stompClient.onWebSocketError = (error) => {
@@ -135,7 +126,7 @@ function displayReceivedMessage(message) {
   const chatModalBody = document.querySelectorAll('#chat-messages');
   const messageElement = `
         <div class="message">
-        <img src="${message.responseDto.fileList}" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdczezED3nNm4Ivl6JUdhmhHiC39XdSV4UBA&usqp=CAU" />
         <div class="bubble">
           ${message}
           <div class="corner"></div>
@@ -147,6 +138,7 @@ function displayReceivedMessage(message) {
   chatModalBody.forEach((container) => {
     container.innerHTML += messageElement;
   })
+
   chatModalBody.scrollTop = chatModalBody.scrollHeight; // 스크롤을 메시지의 마지막 부분으로 이동
 }
 
@@ -161,22 +153,7 @@ function sendMessageToChat() {
   }
 }
 
-function fileImgNullCheck(imgFileName) {
-  console.log("fileImgNullCheck");
-  let profilePicture;
-  if (imgFileName == null) {
-    profilePicture = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg";
-  } else {
-    profilePicture = imgFileName.replace(
-        "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
-        "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/")
-  }
-  console.log("profilePicture : " + profilePicture);
-  return profilePicture;
-}
-
 function sendMsg(message) {
-
   stompClient.publish({
     destination: "/room/" + roomId,
     body: JSON.stringify({
@@ -189,17 +166,10 @@ function sendMsg(message) {
 }
 
 function displayMyMessage(message) {
-  console.log("displayMyMessage");
-  console.log(message);
-
-  // console.log(message);
-  const chatMessagesElement = document.querySelectorAll('#chat-messages');
-  let resizeImg = fileImgNullCheck(userImg);
-  // console.log(resizeImg);
-
+  const chatModalBody = document.querySelectorAll('#chat-messages');
   const messageElement = `
         <div class="message right">
-        <img src="${resizeImg}" />
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaN_bmcFwn760GDHxq-BhhHXq-_ZjILSxNAg&usqp=CAU" />
         <div class="bubble">
           ${message}
           <div class="corner"></div>
@@ -208,10 +178,10 @@ function displayMyMessage(message) {
         </div>
     `;
 
-  chatMessagesElement.forEach((container) => {
+  chatModalBody.forEach((container) => {
     container.innerHTML += messageElement;
   })
-  chatMessagesElement.scrollTop = chatMessagesElement.scrollHeight;
+  chatModalBody.scrollTop = chatModalBody.scrollHeight; // 스크롤을 메시지의 마지막 부분으로 이동
 }
 
 async function getChatInfo(chatRoomId) {
@@ -226,16 +196,12 @@ async function getChatInfo(chatRoomId) {
       }
     });
 
-    res.forEach(message => {//현제 접속한 자신을 가져오는 듯?
-      let resizeImg = fileImgNullCheck(message.responseDto.fileList);
-
-      console.log(resizeImg);
+    res.forEach(message => {
       if (message.responseDto.nickname === userNickname) {
         chatContent += `
                     <div class="message right">
                     <a href="/mya/view/users/my-profile">
-                    <img src="${resizeImg}" />
-                    </a>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaN_bmcFwn760GDHxq-BhhHXq-_ZjILSxNAg&usqp=CAU" />
                     <div class="bubble">
                       ${message.msg}
                       <div class="corner"></div>
@@ -247,8 +213,7 @@ async function getChatInfo(chatRoomId) {
         chatContent += `
                     <div class="message">
                     <a href="/mya/view/users/relative-profile/${message.responseDto.id}">
-                    <img src="${resizeImg}" />
-                    </a>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdczezED3nNm4Ivl6JUdhmhHiC39XdSV4UBA&usqp=CAU" />
                     <div class="bubble">
                       ${message.msg}
                       <div class="corner"></div>
@@ -258,10 +223,12 @@ async function getChatInfo(chatRoomId) {
                 `;
       }
     });
+
     return chatContent;
   } catch (error) {
     console.error("Error fetching chat info:", error);
-    return chatContent;
+
+    return chatContent;  // Error case
   }
 }
 
@@ -271,9 +238,9 @@ function closeChatBtn() {
   } catch (error) {
     console.error("Error deactivating stompClient:", error);
   }
+
   chatModal.hide();
 }
-
 function chatRoomOut() {
   $.ajax({
     url: "/mya/chats/room/" + roomId,
