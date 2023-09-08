@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "주문 API")
 @RestController
 @RequiredArgsConstructor
@@ -45,6 +47,15 @@ public class OrderController {
   public ResponseEntity<OrderListResponseDto> getOrderList(
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
     OrderListResponseDto result = orderService.getOrderList(userDetails.getUser());
+
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @Operation(summary = "주문된 항목들 가져오기")
+  @GetMapping("/all")
+  public ResponseEntity<List<OrderResponseDto>> getOrderLists(
+          @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    List<OrderResponseDto> result = orderService.getOrderLists();
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }

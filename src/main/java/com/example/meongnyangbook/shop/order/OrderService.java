@@ -6,6 +6,8 @@ import com.example.meongnyangbook.shop.order.dto.OrderRequestDto;
 import com.example.meongnyangbook.shop.order.dto.OrderResponseDto;
 import com.example.meongnyangbook.user.User;
 
+import java.util.List;
+
 public interface OrderService {
 
   /**
@@ -34,4 +36,6 @@ public interface OrderService {
   OrderListResponseDto getOrderList(User user);
 
   OrderResponseDto getSingleOrderList(User user, Long orderNo);
+
+  List<OrderResponseDto> getOrderLists();
 }
