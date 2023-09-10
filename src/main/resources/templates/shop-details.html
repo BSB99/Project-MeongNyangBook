@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Male_Fashion Template">
+  <meta name="keywords" content="Male_Fashion, unica, creative, html">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>상점-멍냥북</title>
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
+  <!-- Google Font -->
+  <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+      rel="stylesheet">
+
+  <!-- Css Styles -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css">
+  <link rel="stylesheet" href="/css/nice-select.css" type="text/css">
+  <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
+
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+</head>
+
+<body>
+<!-- Page Preloder -->
+<div id="preloder">
+  <div class="loader"></div>
+</div>
+
+<!-- Offcanvas Menu Begin -->
+<div class="offcanvas-menu-overlay"></div>
+<div class="offcanvas-menu-wrapper">
+  <div class="offcanvas__option">
+    <div class="offcanvas__links">
+      <a href="#">Sign in</a>
+      <a href="#">FAQs</a>
+    </div>
+    <div class="offcanvas__top__hover">
+      <span>Usd <i class="arrow_carrot-down"></i></span>
+      <ul>
+        <li>USD</li>
+        <li>EUR</li>
+        <li>USD</li>
+      </ul>
+    </div>
+  </div>
+  <div class="offcanvas__nav__option">
+    <a href="#" class="search-switch"><img src="img/icon/search.png" alt=""></a>
+    <a href="#"><img src="img/icon/heart.png" alt=""></a>
+    <a href="#"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
+    <div class="price">$0.00</div>
+  </div>
+  <div id="mobile-menu-wrap"></div>
+  <div class="offcanvas__text">
+    <p>Free shipping, 30-day return or refund guarantee.</p>
+  </div>
+</div>
+<!-- Offcanvas Menu End -->
+
+<!-- Header Section Begin -->
+<header class="header">
+  <div class="header__top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-7">
+          <div class="header__top__left">
+            <p>멍냥북에 오신 것을 환영합니다 !</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-5" style="text-align: end;">
+          <div class="header__top__right">
+            <div class="header__top__links">
+              <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
+              <a id="logout-text"
+                 href="javascript:logout()">Log Out</a>
+            </div>
+            <div class="header__top__links">
+              <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <div class="header__logo">
+          <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <nav class="header__menu mobile-menu">
+          <ul>
+            <li><a href="/">홈</a></li>
+            <li class="active"><a href="/mya/view/items">상점</a></li>
+            <!--            <li><a href="#">Pages</a>-->
+            <!--              <ul class="dropdown">-->
+            <!--                <li><a href="./about.html">About Us</a></li>-->
+            <!--                <li><a href="./shop-details.html">Shop Details</a></li>-->
+            <!--                <li><a href="./shopping-cart.html">Shopping Cart</a></li>-->
+            <!--                <li><a href="./order.html">Check Out</a></li>-->
+            <!--                <li><a href="./blog-details.html">Blog Details</a></li>-->
+            <!--              </ul>-->
+            <!--            </li>-->
+            <li><a href="/mya/view/post/community">커뮤니티</a></li>
+            <li><a href="/mya/view/post/adoptions">분양</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="header__nav__option">
+          <!--          header__nav__option-->
+          <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
+          <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
+          <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+          <a href="/mya/view/chat"><img src="/img/icon/messages.png" alt=""
+                                        style="width: 18px; height: 18px"> <span></span></a>
+        </div>
+      </div>
+    </div>
+    <div class="canvas__open"><i class="fa fa-bars"></i></div>
+  </div>
+</header>
+<!-- Header Section End -->
+
+
+<!-- Shop Details Section Begin -->
+<section class="shop-details">
+  <div class="product__details__pic">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="product__details__breadcrumb">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-md-13">
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-1.png">
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
+                <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-2.png">
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tabs-3" role="tab">
+                <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-3.png">
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#tabs-4" role="tab">
+                <div class="product__thumb__pic set-bg" data-setbg="img/shop-details/thumb-4.png">
+                  <i class="fa fa-play"></i>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-6 col-md-9">
+          <div class="tab-content">
+            <div class="tab-pane active" id="tabs-1" role="tabpanel">
+              <div class="product__details__pic__item">
+                <img src="img/shop-details/product-big-2.png" alt="">
+              </div>
+            </div>
+            <div class="tab-pane" id="tabs-2" role="tabpanel">
+              <div class="product__details__pic__item">
+                <img src="img/shop-details/product-big-3.png" alt="">
+              </div>
+            </div>
+            <div class="tab-pane" id="tabs-3" role="tabpanel">
+              <div class="product__details__pic__item">
+                <img src="img/shop-details/product-big.png" alt="">
+              </div>
+            </div>
+            <div class="tab-pane" id="tabs-4" role="tabpanel">
+              <div class="product__details__pic__item">
+                <img src="img/shop-details/product-big-4.png" alt="">
+                <a href="https://www.youtube.com/watch?v=8PJ3_p7VqHw&list=RD8PJ3_p7VqHw&start_radio=1"
+                   class="video-popup"><i class="fa fa-play"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="product__details__content">
+    <div class="container">
+      <div class="row d-flex justify-content-center">
+        <div class="col-lg-8">
+          <div class="product__details__text">
+            <h4>Hooded thermal anorak</h4>
+            <div class="rating">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star-o"></i>
+              <span> - 5 Reviews</span>
+            </div>
+            <h3>$270.00 <span>70.00</span></h3>
+            <p>Coat with quilted lining and an adjustable hood. Featuring long sleeves with
+              adjustable
+              cuff tabs, adjustable asymmetric hem with elastic side tabs and a front zip fastening
+              with placket.</p>
+            <div class="product__details__option">
+              <div class="product__details__option__size">
+                <span>Size:</span>
+                <label for="xxl">xxl
+                  <input type="radio" id="xxl">
+                </label>
+                <label class="active" for="xl">xl
+                  <input type="radio" id="xl">
+                </label>
+                <label for="l">l
+                  <input type="radio" id="l">
+                </label>
+                <label for="sm">s
+                  <input type="radio" id="sm">
+                </label>
+              </div>
+              <div class="product__details__option__color">
+                <span>Color:</span>
+                <label class="c-1" for="sp-1">
+                  <input type="radio" id="sp-1">
+                </label>
+                <label class="c-2" for="sp-2">
+                  <input type="radio" id="sp-2">
+                </label>
+                <label class="c-3" for="sp-3">
+                  <input type="radio" id="sp-3">
+                </label>
+                <label class="c-4" for="sp-4">
+                  <input type="radio" id="sp-4">
+                </label>
+                <label class="c-9" for="sp-9">
+                  <input type="radio" id="sp-9">
+                </label>
+              </div>
+            </div>
+            <div class="product__details__cart__option">
+              <div class="quantity">
+              </div>
+              <a href="#" class="primary-btn">add to cart</a>
+            </div>
+            <div class="product__details__btns__option">
+              <a href="#"><i class="fa fa-heart"></i> add to wishlist</a>
+              <a href="#"><i class="fa fa-exchange"></i> Add To Compare</a>
+            </div>
+            <div class="product__details__last__option">
+              <h5><span>Guaranteed Safe Checkout</span></h5>
+              <img src="img/shop-details/details-payment.png" alt="">
+              <ul>
+                <li><span>SKU:</span> 3812912</li>
+                <li><span>Categories:</span> Clothes</li>
+                <li><span>Tag:</span> Clothes, Skin, Body</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="height: 800px">
+        <div class="col-lg-12">
+          <div class="product__details__tab">
+            <ul class="nav nav-tabs" role="tablist">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tabs-5"
+                   role="tab">상품 리뷰</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab"
+                   onclick="getInquiry()">문의</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="tabs-5" role="tabpanel">
+                <div class="product__details__tab__content">
+                  <div class="product_review product__details__tab__content__item">
+                    <h5>Products Infomation</h5>
+                    <p>A Pocket PC is a handheld computer, which features many of the same
+                      capabilities as a modern PC. These handy little devices allow
+                      individuals to retrieve and store e-mail messages, create a contact
+                      file, coordinate appointments, surf the internet, exchange text messages
+                      and more. Every product that is labeled as a Pocket PC must be
+                      accompanied with specific software to operate the unit and must feature
+                      a touchscreen and touchpad.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane" id="tabs-6" role="tabpanel">
+                <div class="product__details__tab__content">
+                  <p style="width: 1500px; height: 70px;">
+                    <button class="primary-btn" style="float: right; margin-right: 400px; "
+                            onclick="showInquiry()">문의 등록
+                    </button>
+                  </p>
+                  <div class="product-inquiry product__details__tab__content__inquiry">
+                    <h5>Products Infomation</h5>
+                    <p>A Pocket PC is a handheld computer, which features many of the same
+                      capabilities as a modern PC. These handy little devices allow
+                      individuals to retrieve and store e-mail messages, create a contact
+                      file, coordinate appointments, surf the internet, exchange text messages
+                      and more. Every product that is labeled as a Pocket PC must be
+                      accompanied with specific software to operate the unit and must feature
+                      a touchscreen and touchpad.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Shop Details Section End -->
+
+
+<!-- Footer Section Begin -->
+<footer class="footer" style="margin-top: 200px">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="footer__about">
+          <div class="footer__logo">
+            <a href="#"><img src="/img/footer-logo.png" alt=""></a>
+          </div>
+          <p>모든 반려동물에게 특별함을 선물하고 싶은 멍냥북입니다.</p>
+          <a href="#"><img src="img/payment.png" alt=""></a>
+        </div>
+      </div>
+      <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+        <div class="footer__widget">
+          <h6>Service</h6>
+          <ul>
+            <li><a href="/mya/view/items">Shop</a></li>
+            <li><a href="/mya/view/post/community">Community</a></li>
+            <li><a href="/mya/view/post/adoption">Adoption</a></li>
+            <li><a href="/mya/view/chat">Chat</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-3 col-sm-6">
+        <div class="footer__widget">
+          <h6>요즘사람</h6>
+          <ul>
+            <li><a href="#">리더 : 김슬기 </a></li>
+            <li><a href="#">부리더 : 백승범 </a></li>
+            <li><a href="#">팀원 : 강정훈 </a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
+        <div class="footer__widget">
+          <h6>NewLetter</h6>
+          <div class="footer__newslatter">
+            <p>문의사항이 있으면 저희에게 메일을 보내주시면 반영하도록 노력해보겠습니다!</p>
+            <form action="#">
+              <a type="text" style="color: ivory">meongnyangbook@gmail.com</a>
+              <button type="submit"><span class="icon_mail_alt"></span></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 text-center">
+        <div class="footer__copyright__text">
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          <p>Copyright ©
+            <script>
+              document.write(new Date().getFullYear());
+            </script>
+            2020
+            All rights reserved | This template is made with <i class="fa fa-heart-o"
+                                                                aria-hidden="true"></i> by <a
+                href="https://colorlib.com" target="_blank">Colorlib</a>
+          </p>
+          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- Footer Section End -->
+
+<!-- Search Begin -->
+<div class="search-model">
+  <div class="h-100 d-flex align-items-center justify-content-center">
+    <div class="search-close-switch">+</div>
+    <form class="search-model-form">
+      <input type="text" id="search-input" placeholder="Search here.....">
+    </form>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="writeInquiryModal" tabindex="-1"
+     aria-labelledby="writeInquiryModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title fs-3" id="writeInquiryModalLabel">문의 등록</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                onclick="closeInquiryModal()" style="width: 25px; height: 25px">X
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label fs-3">제목</label>
+          <input type="text" class="form-control fs-3" id="inputTitle" placeholder="제목을 입력하세요">
+        </div>
+        <div class="mb-3">
+          <label for="inputQuestion" class="form-label fs-3">문의</label>
+          <input type="text" class="form-control fs-3" id="inputQuestion"
+                 placeholder="문의 내용을 입력하세요">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary fs-3" onclick="saveInquiry()">문의 등록</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="viewInquiryModal" tabindex="-2" aria-labelledby="viewInquiryModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-3" id="viewInquiryModalLabel">문의</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                onclick="closeGetInquiryModal()" style="width: 25px; height: 25px">X
+        </button>
+      </div>
+      <div class="modal-body" id="modal-inquiry">
+        <div class="mb-3">
+          <label for="inputTitle" class="form-label fs-3">제목</label>
+          <p class="fs-3">제목 입니다.</p>
+        </div>
+        <div class="mb-3">
+          <label for="inputQuestion" class="form-label fs-3">문의</label>
+          <p class="fs-3">문의 내용 입니다.</p>
+        </div>
+      </div>
+      <div class="modal-footer" id="modal-inquiry-footer">
+        <div class="mb-3">
+          <input type="text" class="form-control" id="saveComment" placeholder="답변 내용을 입력하세요">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="saveComment()">답변 저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Search End -->
+
+<!-- Js Plugins -->
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.nice-select.min.js"></script>
+<script src="/js/jquery.nicescroll.min.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="/js/jquery.countdown.min.js"></script>
+<script src="/js/jquery.slicknav.js"></script>
+<script src="/js/mixitup.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/itemDetail.js"></script>
+<style>
+
+  .bubble {
+    border: 1px solid #000; /* 테두리 추가 및 색상 설정 */
+    padding: 10px; /* 테두리 내부 여백 조절 */
+    border-radius: 5px; /* 테두리 모서리 둥글게 */
+    font-size: large;
+  }
+
+</style>
+</body>
+
+</html>

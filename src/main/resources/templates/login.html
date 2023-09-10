@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>로그인-멍냥북</title>
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+          crossorigin="anonymous"></script>
+
+  <!-- js Cookie -->
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+
+</head>
+<script th:inline="javascript" src="/js/login.js"></script>
+<script src="/js/home.js"></script>
+
+<!-- Header Section Begin -->
+<header class="header">
+  <div class="header__top">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-7">
+          <div class="header__top__left">
+            <p>멍냥북에 오신 것을 환영합니다 !</p>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-5">
+          <div class="header__top__right">
+            <div class="header__top__links">
+              <a id="login-text" href="/mya/view/users/sign-in">Sign in</a>
+              <a id="logout-text"
+                 href="javascript:logout()">Log Out</a>
+              <!--              <a href="#">FAQs</a>-->
+            </div>
+            <div class="header__top__links">
+              <a id="mypage-text" href="/mya/view/users/my-profile">My Profile</a>
+              <!--              <a href="#">FAQs</a>-->
+            </div>
+
+            <!--            <div class="header__top__hover">-->
+            <!--              <span>Usd <i class="arrow_carrot-down"></i></span>-->
+            <!--              <ul>-->
+            <!--                <li>USD</li>-->
+            <!--                <li>EUR</li>-->
+            <!--                <li>USD</li>-->
+            <!--              </ul>-->
+            <!--            </div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-3">
+        <div class="header__logo">
+          <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-6">
+        <nav class="header__menu mobile-menu">
+          <ul>
+            <li class="active"><a href="/">홈</a></li>
+            <li><a href="/mya/view/items">상점</a></li>
+            <!--            <li><a href="#">Pages</a>-->
+            <!--              <ul class="dropdown">-->
+            <!--                <li><a href="./about.html">About Us</a></li>-->
+            <!--                <li><a href="./shop-details.html">Shop Details</a></li>-->
+            <!--                <li><a href="./shopping-cart.html">Shopping Cart</a></li>-->
+            <!--                <li><a href="./order.html">Check Out</a></li>-->
+            <!--                <li><a href="./blog-details.html">Blog Details</a></li>-->
+            <!--              </ul>-->
+            <!--            </li>-->
+            <li><a href="/mya/view/post/community">커뮤니터</a></li>
+            <li><a href="/mya/view/post/adoptions">분양</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="col-lg-3 col-md-3">
+        <div class="header__nav__option">
+          <!--          header__nav__option-->
+          <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
+          <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
+          <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
+          <a href="/mya/view/chat"><img src="/img/icon/messages.png" alt=""
+                                        style="width: 18px; height: 18px"> <span></span></a>
+        </div>
+      </div>
+    </div>
+    <div class="canvas__open"><i class="fa fa-bars"></i></div>
+  </div>
+</header>
+<!-- Header Section End -->
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option" style="padding: 40px 200px;">
+  <div class="container-section">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__text">
+          <h4>SignIn</h4>
+          <div class="breadcrumb__links">
+            <a href="/">Home</a>
+            <span>SignIn</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<section class="login-section" style="margin: 50px">
+
+  <h2></h2>
+  <div class="container-login" id="containerLogin" style="min-height: 600px; margin: 50px">
+    <div class="form-container sign-up-container">
+      <div class="form-page">
+        <h1>SIGN UP</h1>
+
+        <input id="signup-username" type="text" placeholder="ID"/>
+        <input id="signup-password" type="password" placeholder="Password"/>
+        <input id="signup-nickname" type="text" placeholder="NickName"/>
+        <input id="signup-introduce" type="text" placeholder="Introduce"/>
+        <select class="selecet-adress" name="signup-adress" id="signup-adress">
+          <option value="">지역 선택</option>
+          <option value="SEOUL">서울특별시</option>
+          <option value="BUSAN">부산광역시</option>
+          <option value="DAEGU">대구광역시</option>
+          <option value="INCHEON">인천광역시</option>
+          <option value="GWANGJU">광주광역시</option>
+          <option value="DAEGEON">대전광역시</option>
+          <option value="ULSAN">울산광역시</option>
+          <option value="SEJONG">세종특별자치시</option>
+          <option value="JEJU">제주특별자치도</option>
+        </select>
+        <input id="signup-phone-number" type="text" placeholder="PhoneNumber"/>
+        <!--        모달창 띄우기-->
+        <button onclick="sendPhoneMessage()" id="access-button">인증번호 받기</button>
+        <div id="modal" class="modal">
+          <div class="modal-content" style="top: 50%;
+                                            left: 50%;
+                                            transform: translate(-50%, -50%);
+                                            z-index: 1;
+                                            padding: 40px;
+                                            border: 1px solid #888;">
+            <span class="close" onclick="closeModalBtn()">&times;</span>
+            <p>핸드폰 인증번호를 확인하고 아래에 입력해주세요.</p>
+            <input id="access-number" type="text" placeholder="ID"/>
+            <button onclick="accessPhone()">인증하기</button>
+          </div>
+        </div>
+
+        <br>
+        <button id="signup-btn" onclick="onSignup()">회원가입</button>
+      </div>
+    </div>
+
+    <div class="form-container sign-in-container">
+      <div class="form-page">
+        <h1>SIGN IN</h1>
+        <div class="social-container">
+          <a href="https://kauth.kakao.com/oauth/authorize?client_id=8c7f61342cf07f12166db38dbbdda769&redirect_uri=http://meongnyangbook.site/mya/users/login/oauth2/code/kakao&response_type=code"
+             class="social"><i class="fab fa-kakao-f"><img src="/img/icon/kakao.png" alt=""></i></a>
+          <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=554244374016-5cs6i6qrbhrhlcqdrsblipfp1cgm8981.apps.googleusercontent.com&redirect_uri=http://localhost:8080/mya/users/login/oauth2/code/google&response_type=code&scope=profile"
+             class="social"><i class="fab fa-google-plus-g"><img
+              src="/img/icon/google.jpeg" alt=""></i></a>
+          <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <input type="email" id="login-email" placeholder="Email"/>
+        <input type="password" id="login-password" placeholder="Password"/>
+        <!--        <a href="#">Forgot your password?</a>-->
+        <button id="login-button" onclick="onLogin()">로그인</button>
+      </div>
+    </div>
+    <div class="overlay-container">
+      <div class="overlay">
+        <div class="overlay-panel overlay-left">
+          <h1>Welcome 멍냥북!</h1>
+          <p>멍냥북 페이지에 로그인 해주세요 !</p>
+          <button class="ghost" id="signIn" style="color: #f3f2ee;">Sign In</button>
+        </div>
+        <div class="overlay-panel overlay-right">
+          <h1>Hello, Mya!</h1>
+          <p>멍냥북에 회원가입을 원하시면 아래 버튼을 눌러주세요</p>
+          <button class="ghost" id="signUp" style="color: #f3f2ee;">Sign Up</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<style>
+  @font-face {
+    font-family: 'Cafe24Supermagic-Bold-v1.0';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  body {
+    font-family: "Cafe24Supermagic-Bold-v1.0";
+  }
+
+  .login-section {
+    box-sizing: border-box;
+    background: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    height: 70vh;
+    margin: -20px 0 50px;
+  }
+
+  h1 {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px;
+  }
+
+  span {
+    font-size: 12px;
+  }
+
+  a {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+  }
+
+  button {
+    border-radius: 20px;
+    border: 1px solid #f3f2ee;;
+    background-color: #f3f2ee;;
+    color: #1b1e21;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+  }
+
+  button:active {
+    transform: scale(0.95);
+  }
+
+  button:focus {
+    outline: none;
+  }
+
+  button.ghost {
+    background-color: transparent;
+    border-color: #FFFFFF;
+  }
+
+  .form-page {
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 50px;
+    height: 100%;
+    text-align: center;
+  }
+
+  input {
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+  }
+
+  .container-login {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+  }
+
+  .form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+  }
+
+  .sign-in-container {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+  }
+
+  .container-login.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+  }
+
+  .sign-up-container {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+  }
+
+  .container-login.right-panel-active .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+  }
+
+  @keyframes show {
+    0%, 49.99% {
+      opacity: 0;
+      z-index: 1;
+    }
+
+    50%, 100% {
+      opacity: 1;
+      z-index: 5;
+    }
+  }
+
+  .selecet-adress {
+    background-color: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+  }
+
+  .overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+  }
+
+  .container-login.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+  }
+
+  .overlay {
+    background: #FF416C;
+    background: -webkit-linear-gradient(to right, #FA841A, #FFC619);
+    background: linear-gradient(to right, #FA841A, #FFC619);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #FFFFFF;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+  }
+
+  .container-login.right-panel-active .overlay {
+    transform: translateX(50%);
+  }
+
+  .overlay-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+  }
+
+  .overlay-left {
+    transform: translateX(-20%);
+  }
+
+  .container-login.right-panel-active .overlay-left {
+    transform: translateX(0);
+  }
+
+  .overlay-right {
+    right: 0;
+    transform: translateX(0);
+  }
+
+  .container-login.right-panel-active .overlay-right {
+    transform: translateX(20%);
+  }
+
+  .social-container {
+    margin: 20px 0;
+  }
+
+  .social-container a {
+    border: 1px solid #DDDDDD;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    height: 40px;
+    width: 40px;
+  }
+
+  footer {
+    background-color: #222;
+    color: #fff;
+    font-size: 14px;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+  }
+
+  footer p {
+    margin: 10px 0;
+  }
+
+  footer i {
+    color: red;
+  }
+
+  footer a {
+    color: #3c97bf;
+    text-decoration: none;
+  }
+</style>
+<script>
+  const signUpButton = document.getElementById('signUp');
+  const signInButton = document.getElementById('signIn');
+  const container = document.getElementById('containerLogin');
+
+  signUpButton.addEventListener('click', () => {
+    container.classList.add("right-panel-active");
+  });
+
+  signInButton.addEventListener('click', () => {
+    container.classList.remove("right-panel-active");
+  });
+</script>
+</html>
