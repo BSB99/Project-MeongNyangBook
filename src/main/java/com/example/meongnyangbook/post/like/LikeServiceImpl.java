@@ -9,7 +9,6 @@ import com.example.meongnyangbook.post.repository.PostRepository;
 import com.example.meongnyangbook.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,7 +32,7 @@ public class LikeServiceImpl implements LikeService {
     likeRepository.save(postLike);
 
     // AlarmLike의 DB에 저장
-    Alarm alarmLike = new Alarm(post.getTitle(), "좋아요!", user.getNickname(), post.getUser(),
+    Alarm alarmLike = new Alarm("좋아요!", user.getNickname(), post.getUser(),
         AlarmCategoryEnum.ALARM_LIKE);
     alarmRepository.save(alarmLike);
 
@@ -62,5 +61,7 @@ public class LikeServiceImpl implements LikeService {
     } else {
       return true;
     }
-  };
+  }
+
+  ;
 }

@@ -29,7 +29,19 @@ jobs:
     # (1) 기본 체크아웃
     - name: Checkout
       uses: actions/checkout@v3
+
+    # (1.5) 기존 application.properties 파일 삭제
+    - name: Remove existing application.properties if it exists
+      run: |
+        FILE_PATH="/home/ubuntu/app/src/main/resources/application.properties"
+        if [ -f "$FILE_PATH" ]; then
+          rm $FILE_PATH
+        fi
+
+    # (1.6) 새 application.properties 파일 생성
     - run: touch ./src/main/resources/application.properties
+
+    # (1.7) 파일에 secrets 정보 쓰기
     - run: echo "${{ secrets.APPLICATION_INFO }}" > ./src/main/resources/application.properties
     - run: cat ./src/main/resources/application.properties
 
