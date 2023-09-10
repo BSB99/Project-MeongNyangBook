@@ -25,28 +25,24 @@ public class Alarm extends TimeStamped {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name = "alarm_title", nullable = false)
-  private String alarmTitle;
-
-  @Column(name = "alarm_body", nullable = false)
-  private String alarmBody;
+  @Column(nullable = false)
+  private String body;
 
   @Column(nullable = false)
-  private String alarmSender;
+  private String sender;
 
   @ManyToOne
-  @JoinColumn(name = "like_user")
+  @JoinColumn(name = "user_id")
   private User user;
 
   @Column(name = "alarm_category_enum", nullable = false)
   @Enumerated(value = EnumType.STRING)
   AlarmCategoryEnum alarmCategoryEnum;
 
-  public Alarm(String alarmTitle, String alarmBody, String alarmSender, User user,
+  public Alarm(String body, String sender, User user,
       AlarmCategoryEnum alarmCategoryEnum) {
-    this.alarmTitle = alarmTitle;
-    this.alarmBody = alarmBody;
-    this.alarmSender = alarmSender;
+    this.body = body;
+    this.sender = sender;
     this.user = user;
     this.alarmCategoryEnum = alarmCategoryEnum;
   }
