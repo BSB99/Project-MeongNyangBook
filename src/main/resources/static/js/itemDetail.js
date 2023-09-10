@@ -138,14 +138,17 @@ function start() {
 }
 
 function generatePaginationLinks(totalPages, currentPage) {
-  let paginationHtml = '';
+  let paginationHtml = '<div class="pagination-container" style="width: 2000px; margin: 30px 50%">';
   for (let i = 1; i <= totalPages + 1; i++) {
     if (i === currentPage + 1) {
-      paginationHtml += `<span class="current-page">${i}</span>`;
+      paginationHtml += `<button class="current-page" style="margin-right: 5px;">${i}</button>`;
     } else {
-      paginationHtml += `<a href="#" onclick="goToPage(${i - 1}); return false;">${i}</a>`;
+      paginationHtml += `<button href="#" onclick="goToPage(${i
+      - 1}); return false;" style="margin-right: 5px;">${i}</button>`;
     }
   }
+  paginationHtml += '</div>';
+
   return paginationHtml;
 }
 
@@ -186,7 +189,8 @@ function itemReviews() {
       let paginationHtml = generatePaginationLinks(len / 4 + 1, currentPage);
 
       reviews.forEach(container => {
-        container.innerHTML = "<div class=\"message\">" + reviewHtml + "</div>" + paginationHtml;
+        container.innerHTML = "<div class=\"message\">" + reviewHtml + "</div>"
+            + paginationHtml;
       });
     }
 
@@ -201,7 +205,6 @@ function goToPage(pageNumber) {
   currentPage = pageNumber;
   itemReviews();
 }
-
 
 function addCart(itemNo) {
   const token = Cookies.get('Authorization');
@@ -230,10 +233,11 @@ function addCart(itemNo) {
 }
 
 let currentInquiryPage = 0;
-const inquiryPageSize = 4;
+const inquiryPageSize = 5;
 
 function getInquiry() {
-  const inquiryBody = document.querySelectorAll(".product__details__tab__content__inquiry");
+  const inquiryBody = document.querySelectorAll(
+      ".product__details__tab__content__inquiry");
   let inquiryBodyHtml = "";
   $.ajax({
     type: "GET",
@@ -246,7 +250,7 @@ function getInquiry() {
     res.len = inquiryLen;
     for (let inquiry of res.inquiryList) {
       inquiryBodyHtml += `
-          <div>
+          <div class="bubble" style="margin-bottom: 10px">
           <p>title : ${inquiry.title}</p>
           <button onclick="getInquiryInfo(${inquiry.inquiryId})">상세보기</button>
           </div>
@@ -254,7 +258,8 @@ function getInquiry() {
     }
 
     // 페이지네이션 HTML 생성
-    let paginationInquiryHtml = generateInquiryPaginationLinks(inquiryLen / 4 + 1, currentInquiryPage);
+    let paginationInquiryHtml = generateInquiryPaginationLinks(
+        inquiryLen / 5 + 1, currentInquiryPage);
 
     inquiryBody.forEach(container => {
       container.innerHTML = inquiryBodyHtml + paginationInquiryHtml;
@@ -267,14 +272,16 @@ function getInquiry() {
 }
 
 function generateInquiryPaginationLinks(totalPages, currentPage) {
-  let paginationHtml = '';
+  let paginationHtml = '<div class="pagination-container" style="width: 2000px; margin: 30px 50%">';
   for (let i = 1; i <= totalPages + 1; i++) {
     if (i === currentPage + 1) {
-      paginationHtml += `<span class="current-page">${i}</span>`;
+      paginationHtml += `<button class="current-page" style="margin-right: 5px">${i}</button>`;
     } else {
-      paginationHtml += `<a href="#" onclick="goToInquiryPage(${i - 1}); return false;">${i}</a>`;
+      paginationHtml += `<button href="#" onclick="goToInquiryPage(${i
+      - 1}); return false;" style="margin-right: 5px">${i}</button>`;
     }
   }
+  paginationHtml += '</div>';
   return paginationHtml;
 }
 
@@ -287,8 +294,8 @@ function saveInquiry() {
   let userInputTitle = document.getElementById("inputTitle").value;
   let userInputContent = document.getElementById("inputQuestion").value;
   const requestDto = {
-    "title":userInputTitle,
-    "description":userInputContent
+    "title": userInputTitle,
+    "description": userInputContent
   }
   $.ajax({
     type: "POST",
@@ -316,7 +323,9 @@ function showInquiry() {
 function closeInquiryModal() {
   $('#writeInquiryModal').modal('hide');
 }
+
 let inquiryNo;
+
 function getInquiryInfo(inquiryId) {
   $('#viewInquiryModal').modal('show');
   let getInquiryBody = document.querySelectorAll("#modal-inquiry");
@@ -332,13 +341,13 @@ function getInquiryInfo(inquiryId) {
     }
   })
   .done(res => {
-    if(currentUserRole !== "ADMIN") {
+    if (currentUserRole !== "ADMIN") {
       getInquiryFooter.forEach(container => {
         container.innerHTML = "";
       })
     }
 
-    if(currnetUserNickname === res.nickname) {
+    if (currnetUserNickname === res.nickname) {
       getInquiryBodyHtml = `
           <div class="mb-3">
           <label for="inputTitle" class="form-label">작성자</label>
@@ -352,7 +361,7 @@ function getInquiryInfo(inquiryId) {
           <label for="inputQuestion" class="form-label">내용</label>
           <p>${res.description}</p>
           </div>
-          <button onclick="deleteInquiry(${inquiryId})">삭제하기</button>
+          <button onclick="deleteInquiry(${inquiryId})" class="btn">삭제하기</button>
           `;
     } else {
       getInquiryBodyHtml = `
@@ -418,7 +427,7 @@ function saveComment() {
   const commentValue = document.getElementById("saveComment").value;
 
   const requestDto = {
-    "contents" : commentValue
+    "contents": commentValue
   }
   $.ajax({
     type: "POST",
