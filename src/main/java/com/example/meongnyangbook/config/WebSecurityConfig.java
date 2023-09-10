@@ -83,7 +83,7 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll() // html 허용
                 .requestMatchers(HttpMethod.GET, "/mya/back-office/**").permitAll()
                 .requestMatchers("/mya/chats/**", "/mya-websocket").permitAll()
-                .requestMatchers("/api/v1/**").permitAll()
+//                .requestMatchers("/api/v1/**").permitAll()
                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
     );
 
