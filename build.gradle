@@ -88,6 +88,9 @@ dependencies {
     // Elastic Search
     implementation 'org.springframework.data:spring-data-elasticsearch:5.1.2'
 
+    //GPT API
+    implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
+
 }
 
 tasks.named('test') {

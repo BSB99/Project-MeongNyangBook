@@ -54,4 +54,6 @@ public interface ChatService {
   List<ChatRoomListResponseDto> getChatRooms(User user);
 
   ChatRoom getRoom(Long roomNo);
+
+
 }
