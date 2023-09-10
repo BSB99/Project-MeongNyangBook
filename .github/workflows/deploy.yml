@@ -31,8 +31,12 @@ jobs:
       uses: actions/checkout@v3
 
     # (1.5) 기존 application.properties 파일 삭제
-    - name: Remove existing application.properties
-      run: rm -f ./src/main/resources/application.properties
+    - name: Remove existing application.properties if it exists
+      run: |
+        FILE_PATH="/home/ubuntu/app/src/main/resources/application.properties"
+        if [ -f "$FILE_PATH" ]; then
+          rm $FILE_PATH
+        fi
 
     # (1.6) 새 application.properties 파일 생성
     - run: touch ./src/main/resources/application.properties
