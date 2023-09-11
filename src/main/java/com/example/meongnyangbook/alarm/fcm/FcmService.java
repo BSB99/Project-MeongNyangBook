@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FcmService {
-    public String sendMessageToToken(AlarmRequestDto alarmRequestDto) throws FirebaseMessagingException {
-        Message message = Message.builder()
-                .setNotification(new Notification(alarmRequestDto.getTitle(), alarmRequestDto.getContent()))
-                .putData("userNo", alarmRequestDto.getUserNo())
-                .setToken(alarmRequestDto.getToken())
-                .build();
-        return FirebaseMessaging.getInstance().send(message);
-    }
+
+  public String sendMessageToToken(AlarmRequestDto alarmRequestDto)
+      throws FirebaseMessagingException {
+    Message message = Message.builder()
+        .setNotification(new Notification(alarmRequestDto.getBody(), alarmRequestDto.getBody()))
+        .putData("userNo", alarmRequestDto.getReceiverUserId().toString())
+        .setToken(alarmRequestDto.getToken())
+        .build();
+    return FirebaseMessaging.getInstance().send(message);
+  }
 }

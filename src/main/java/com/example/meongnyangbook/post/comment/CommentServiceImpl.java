@@ -4,6 +4,8 @@ import com.example.meongnyangbook.alarm.Alarm;
 import com.example.meongnyangbook.alarm.AlarmCategoryEnum;
 import com.example.meongnyangbook.alarm.AlarmRepository;
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.kafka.AlarmRequestDto;
+import com.example.meongnyangbook.kafka.KafkaProducer;
 import com.example.meongnyangbook.post.dto.CommentRequestDto;
 import com.example.meongnyangbook.post.dto.CommentResponseDto;
 import com.example.meongnyangbook.post.entity.Post;
@@ -20,6 +22,7 @@ public class CommentServiceImpl implements CommentService {
   private final CommentRepository commentRepository;
   private final PostRepository postRepository;
   private final AlarmRepository alarmRepository;
+  private final KafkaProducer kafkaProducer;
 
   @Override
   public ApiResponseDto createComment(User user, CommentRequestDto commentRequestDto) {
@@ -33,6 +36,11 @@ public class CommentServiceImpl implements CommentService {
         user.getNickname(), post.getUser(), AlarmCategoryEnum.ALARM_COMMENT);
 
     alarmRepository.save(alarmComment);
+
+    // 알람 Producer (kafka) - 게시물 receiverUserId, body, alarmCategoryEnum, senderUserId, token
+    AlarmRequestDto dto = new AlarmRequestDto(post.getUser().getId(), "메세지 보내기",
+        AlarmCategoryEnum.ALARM_COMMENT, user.getId(), "토큰");
+    kafkaProducer.send(dto);
 
     return new ApiResponseDto("댓글 작성 성공", 201);
   }

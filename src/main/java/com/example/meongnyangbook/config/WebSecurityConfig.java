@@ -26,14 +26,12 @@ public class WebSecurityConfig {
 
   private final JwtUtil jwtUtil;
   private final UserDetailsServiceImpl userDetailsService;
-  private final AuthenticationConfiguration authenticationConfiguration;
   private final RedisUtil redisUtil;
 
   public WebSecurityConfig(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService,
       AuthenticationConfiguration authenticationConfiguration, RedisUtil redisUtil) {
     this.jwtUtil = jwtUtil;
     this.userDetailsService = userDetailsService;
-    this.authenticationConfiguration = authenticationConfiguration;
     this.redisUtil = redisUtil;
   }
 
@@ -53,9 +51,33 @@ public class WebSecurityConfig {
     return new JwtAuthorizationFilter(jwtUtil, userDetailsService, redisUtil);
   }
 
+  //
+//  @Bean
+//  public CorsConfigurationSource corsConfigurationSource() {
+//    CorsConfiguration configuration = new CorsConfiguration();
+//
+//    // 모든 출처에서 오는 요청을 허용하려면
+//    configuration.setAllowedOrigins(Arrays.asList("*"));
+//
+//    // 특정 도메인만 허용하려면
+//    // configuration.setAllowedOrigins(Arrays.asList("https://example.com"));
+//
+//    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+//    configuration.setAllowedHeaders(
+//        Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+//
+//    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//    source.registerCorsConfiguration("/**", configuration);
+//
+//    return source;
+//  }
+
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//    // CORS 설정 활성화
+//    http.cors();
+
     // CSRF 설정
     http.csrf((csrf) -> csrf.disable());
 
