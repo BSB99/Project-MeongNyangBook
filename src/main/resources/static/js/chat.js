@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const stompClient = new StompJs.Client({
-  brokerURL: 'ws://localhost:8080/mya-websocket'
+  brokerURL: 'wss://www.meongnyangbook.site/mya-websocket'
 });
 
 let chatModal;
