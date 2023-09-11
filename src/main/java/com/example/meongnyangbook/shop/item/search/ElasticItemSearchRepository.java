@@ -8,6 +8,4 @@ public interface ElasticItemSearchRepository extends ElasticsearchRepository<Ite
 
   List<ItemDocument> findByNameContaining(String keyword);
 
-  List<ItemDocument> findByNameContains(String keyword);
-
 }

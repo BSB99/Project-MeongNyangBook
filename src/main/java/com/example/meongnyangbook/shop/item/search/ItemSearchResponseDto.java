@@ -13,6 +13,7 @@ public class ItemSearchResponseDto {
   private final ItemCategoryEnum category;
   //  private final String createdAt;
   private final Long quantity;
+//  private final S3FileItemResponseDto fileUrls;
 
 
   public ItemSearchResponseDto(ItemDocument itemDocument) {
@@ -22,6 +23,8 @@ public class ItemSearchResponseDto {
     this.category = itemDocument.getCategory();
     this.quantity = itemDocument.getQuantity();
 //    this.createdAt = itemDocument.getCreatedAt().toString();
+//    this.fileUrls = new S3FileItemResponseDto(item.getAttachmentItemUrl());
+
   }
 }
 
