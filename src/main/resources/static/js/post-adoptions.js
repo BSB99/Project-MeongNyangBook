@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
           <div class="blog__item__pic set-bg" >
-          <img src="${resizeItemName}" alt="">
+          <img src="${resizeItemName}" style="height: 240.19px;" alt="">
           </div>
           <div class="blog__item__text" value="${adoption.id}">
             <span><img src="/img/icon/calendar.png" alt="">${adoption.createdAt}</span>
