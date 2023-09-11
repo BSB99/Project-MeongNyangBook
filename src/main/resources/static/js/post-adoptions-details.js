@@ -147,7 +147,10 @@ function setCardData(response) {
   let modifyBtn = document.getElementById("adoption_modify_btn");
   let deleteBtn = document.getElementById("adoption_delete_btn");
   getUserNickname();
-  if (userNickname === response.username) {
+  console.log(userNickname);
+  console.log(response.nickname);
+  console.log(response.username);
+  if (userNickname === response.nickname) {
     modifyBtn.style.display = "block";
     deleteBtn.style.display = "block";
   } else {
