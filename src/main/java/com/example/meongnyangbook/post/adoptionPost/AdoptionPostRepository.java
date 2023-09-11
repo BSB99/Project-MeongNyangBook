@@ -9,5 +9,6 @@ public interface AdoptionPostRepository extends JpaRepository<AdoptionPost, Long
 
   Page<AdoptionPost> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
+
   List<AdoptionPost> findByUserId(Long userId);
 }

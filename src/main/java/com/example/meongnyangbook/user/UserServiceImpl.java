@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserInfoResponseDto getUserNickname(User user) {
+  public UserInfoResponseDto getUserInfo(User user) {
     return new UserInfoResponseDto(user);
   }
 

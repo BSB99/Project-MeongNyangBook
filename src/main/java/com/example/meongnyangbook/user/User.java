@@ -14,10 +14,12 @@ import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Table(name = "users")
 public class User extends TimeStamped {
 
@@ -43,6 +45,7 @@ public class User extends TimeStamped {
   private String phoneNumber;
 
   @Column(name = "role", nullable = false)
+  @Enumerated(value = EnumType.STRING)
   private UserRoleEnum role;
 
   @Column(name = "profile_imgurl")
@@ -51,10 +54,7 @@ public class User extends TimeStamped {
 
   @Column(name = "oauth_provier", nullable = false)
   @Enumerated(value = EnumType.STRING)
-
   private OAuthProviderEnum oAuthProvider;
-
-  private Long kakaoId;
 
 
   public User(String username, String password, String nickname, String introduce, String address,
@@ -70,19 +70,6 @@ public class User extends TimeStamped {
     this.oAuthProvider = oAuthProvider;
   }
 
-  public User(String username, String password, String nickname, String introduce, String address,
-      String phoneNumber,
-      UserRoleEnum role, OAuthProviderEnum oAuthProvider, Long kakaoId) {
-    this.username = username;
-    this.password = password;
-    this.nickname = nickname;
-    this.introduce = introduce;
-    this.address = address;
-    this.phoneNumber = phoneNumber;
-    this.role = role;
-    this.oAuthProvider = oAuthProvider;
-    this.kakaoId = kakaoId;
-  }
 
   @Builder
   public User(String username, String password, String nickname, UserRoleEnum role,
@@ -114,8 +101,8 @@ public class User extends TimeStamped {
     this.profileImgurl = filePath;
   }
 
-  public User kakaoIdUpdate(Long kakaoId) {
-    this.kakaoId = kakaoId;
-    return this;
+  public void setEmail(String kakaoId) {
+    this.username = kakaoId;
   }
+
 }

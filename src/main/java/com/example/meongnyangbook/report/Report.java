@@ -29,6 +29,7 @@ public class Report extends TimeStamped {
   @Column(name = "description", nullable = false)
   private String description;
 
+  //신고 당한 사람
   @ManyToOne
   @JoinColumn(name = "reported_user_no")
   private User reportedUser;

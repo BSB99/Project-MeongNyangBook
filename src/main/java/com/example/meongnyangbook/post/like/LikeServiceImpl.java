@@ -32,7 +32,7 @@ public class LikeServiceImpl implements LikeService {
     likeRepository.save(postLike);
 
     // AlarmLike의 DB에 저장
-    Alarm alarmLike = new Alarm(post.getTitle(), "좋아요!", user.getNickname(), post.getUser(),
+    Alarm alarmLike = new Alarm("좋아요!", user.getNickname(), post.getUser(),
         AlarmCategoryEnum.ALARM_LIKE);
     alarmRepository.save(alarmLike);
 
@@ -51,4 +51,17 @@ public class LikeServiceImpl implements LikeService {
 
     return new ApiResponseDto("좋아요 취소", HttpStatus.OK.value());
   }
+
+  @Override
+  public Boolean confirmPostLike(Long postId, User user) {
+    PostLike postLike = likeRepository.findByPostIdAndUserId(postId, user.getId());
+
+    if (postLike == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  ;
 }

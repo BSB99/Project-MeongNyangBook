@@ -1,12 +1,15 @@
 package com.example.meongnyangbook.shop.item;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.dto.DeleteDto;
 import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
 import com.example.meongnyangbook.shop.item.search.ItemSearchResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -39,9 +42,12 @@ public class ItemController {
   @PostMapping
   public ResponseEntity<ApiResponseDto> createItem(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestPart("requestDto") ItemRequestDto requestDto,
-      @RequestPart("fileName") MultipartFile[] multipartFiles) {
-    ApiResponseDto result = itemService.createItem(requestDto, multipartFiles);
+      @RequestPart("requestDto") String requestDto,
+      @RequestPart("fileName") MultipartFile[] multipartFiles) throws JsonProcessingException {
+    ObjectMapper objectMapper = new ObjectMapper();
+    ItemRequestDto itemReqeustDto = objectMapper.readValue(requestDto,
+            ItemRequestDto.class);
+    ApiResponseDto result = itemService.createItem(itemReqeustDto, multipartFiles);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }

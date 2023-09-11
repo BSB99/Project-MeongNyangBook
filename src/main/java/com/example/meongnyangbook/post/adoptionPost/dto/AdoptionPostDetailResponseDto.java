@@ -15,6 +15,7 @@ import lombok.Setter;
 @Setter
 public class AdoptionPostDetailResponseDto {
 
+  private Long userId;
   private String title;
   private String username;
   private String description;
@@ -27,9 +28,11 @@ public class AdoptionPostDetailResponseDto {
   private List<CommentResponseDto> commentList;
   private Long viewCount;
   private String createAt;
+  private Integer likesCount;
   private AttachmentUrlResponseDto fileUrls;
 
   public AdoptionPostDetailResponseDto(AdoptionPost adoptionPost, Double viewCount) {
+    this.userId = adoptionPost.getUser().getId();
     this.title = adoptionPost.getTitle();
     this.username = adoptionPost.getUser().getUsername();
     this.description = adoptionPost.getDescription();
@@ -45,6 +48,7 @@ public class AdoptionPostDetailResponseDto {
         .collect(Collectors.toList());
     this.viewCount = viewCount.longValue();
     this.createAt = adoptionPost.getCreatedAtAsString();
+    this.likesCount = adoptionPost.getPostLikes().size();
     this.fileUrls = new AttachmentUrlResponseDto(adoptionPost.getAttachmentUrl());
   }
 }

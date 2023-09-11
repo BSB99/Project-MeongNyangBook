@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
     commentRepository.save(comment);
 
     // AlarmComment DB에 저장
-    Alarm alarmComment = new Alarm(post.getTitle(), commentRequestDto.getContent(),
+    Alarm alarmComment = new Alarm(commentRequestDto.getContent(),
         user.getNickname(), post.getUser(), AlarmCategoryEnum.ALARM_COMMENT);
 
     alarmRepository.save(alarmComment);

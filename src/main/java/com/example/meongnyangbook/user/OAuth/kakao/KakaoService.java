@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,8 @@ public class KakaoService {
   private final UserRepository userRepository;
   private final RestTemplate restTemplate;
   private final JwtUtil jwtUtil;
+  @Value("${client-id}")
+  private String clientId;
 
   public String kakaoLogin(String code) throws JsonProcessingException {
     // 1. "인가 코드"로 "액세스 토큰" 요청
@@ -68,8 +71,8 @@ public class KakaoService {
     // HTTP Body 생성
     MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
     body.add("grant_type", "authorization_code");
-    body.add("client_id", "8c7f61342cf07f12166db38dbbdda769");
-    body.add("redirect_uri", "http://localhost:8080/mya/users/login/oauth2/code/kakao");
+    body.add("client_id", clientId);
+    body.add("redirect_uri", "https://www.meongnyangbook.site/mya/users/login/oauth2/code/kakao");
     body.add("code", code);
 
     RequestEntity<MultiValueMap<String, String>> requestEntity = RequestEntity
@@ -127,33 +130,18 @@ public class KakaoService {
 
   private User registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
     // DB 에 중복된 Kakao Id 가 있는지 확인
-    Long kakaoId = kakaoUserInfo.getId();
-    User kakaoUser = userRepository.findByKakaoId(kakaoId).orElse(null);
+    String kakaoUserId = kakaoUserInfo.getId().toString();
+    User kakaoUser = userRepository.findByUsername(kakaoUserId).orElse(null);
 
     if (kakaoUser == null) {
-      // 카카오 사용자 email 동일한 email 가진 회원이 있는지 확인
-      String kakaoEmail = kakaoUserInfo.getEmail();
-      //email이 username과 같음
-      User sameEmailUser = userRepository.findByUsername(kakaoEmail).orElse(null);
-      if (sameEmailUser != null) {
-        kakaoUser = sameEmailUser;
-        // 기존 회원정보에 카카오 Id 추가
-        kakaoUser = kakaoUser.kakaoIdUpdate(kakaoId);
-      } else {
-        // 신규 회원가입
-        // password: random UUID
-        String password = UUID.randomUUID().toString();
-        String encodedPassword = passwordEncoder.encode(password);
+      // 신규 회원가입
+      // password: random UUID
+      String password = UUID.randomUUID().toString();
+      String encodedPassword = passwordEncoder.encode(password);
 
-        // email: kakao email
-        String email = kakaoUserInfo.getEmail();
-
-        kakaoUser = new User(email, encodedPassword, kakaoUserInfo.getNickname(), "자기소개", "SEOUL",
-            null,
-            UserRoleEnum.MEMBER, OAuthProviderEnum.KAKAO,
-            kakaoId);
-      }
-
+      kakaoUser = new User(kakaoUserId, encodedPassword, kakaoUserInfo.getEmail(), "자기소개", "SEOUL",
+          null,
+          UserRoleEnum.MEMBER, OAuthProviderEnum.KAKAO);
       userRepository.save(kakaoUser);
     }
     return kakaoUser;

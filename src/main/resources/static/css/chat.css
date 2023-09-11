@@ -1,177 +1,233 @@
-* { margin: 0px; padding: 0px; }
+
 body {
     background: #f0f1f2;
-    font:12px "Open Sans", sans-serif;
-}
-#view-code{
-    color:#89a2b5;
-    opacity:0.7;
-    font-size:14px;
-    text-transform:uppercase;
-    font-weight:700;
-    text-decoration:none;
-    position:absolute;top:660px;
-    left:50%;margin-left:-50px;
-    z-index:200;
-}
-#chatbox{
-    width:290px;
-    background:#fff;
-    border-radius:6px;
-    overflow:hidden;
-    height:484px;
-    position:absolute;
-    top:100px;
-    left:50%;
-    margin-left:-155px;
+    font: 12px "Open Sans", sans-serif;
 }
 
-#friendslist{
-    position:absolute;
-    top:0;
-    left:0;
-    width:290px;
-    height:484px;
+#view-code {
+    color: #89a2b5;
+    opacity: 0.7;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-decoration: none;
+    position: absolute;
+    top: 660px;
+    left: 50%;
+    margin-left: -50px;
+    z-index: 200;
 }
-#topmenu{
-    height:69px;
-    width:290px;
-    border-bottom:1px solid #d8dfe3;
+
+#chatbox {
+    width: 700px;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 484px;
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    margin-left: -350px;
 }
-#topmenu span{
-    float:left;
-    width: 96px;
+
+#friendslist {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 700px;
+    height: 484px;
+}
+
+#topmenu {
+    height: 69px;
+    width: 290px;
+    border-bottom: 1px solid #d8dfe3;
+}
+
+#topmenu span {
+    float: left;
+    width: 730px;
+    margin: 10px 10px;
+    height: 50px;
+    background-image: url('/img/icon/people-fill.svg');
+    background-size: contain; /* 이미지를 콘텐츠 영역 내에 맞게 조절 */
+    background-repeat: no-repeat; /* 이미지 반복 방지 */
+    background-position: center; /* 이미지를 중앙에 위치시킴 */
+    border-bottom: 3px solid #3a3838; /* 두꺼운 밑줄 추가 */
+    padding-bottom: 10px; /* 아래쪽 여백 추가 */
+}
+
+#topmenu span.friends {
+    margin-bottom: 10px;
+}
+
+/*#topmenu span.chats {*/
+/*  background-position: -95px 25px;*/
+/*  cursor: pointer;*/
+/*}*/
+
+/*#topmenu span.chats:hover {*/
+/*  background-position: -95px -46px;*/
+/*  cursor: pointer;*/
+/*}*/
+
+/*#topmenu span.history {*/
+/*  background-position: -190px 24px;*/
+/*  cursor: pointer;*/
+/*}*/
+
+/*#topmenu span.history:hover {*/
+/*  background-position: -190px -47px;*/
+/*  cursor: pointer;*/
+/*}*/
+
+.friend {
     height: 70px;
-    background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/top-menu.png") -3px -118px no-repeat;
+    border-bottom: 1px solid #e7ebee;
+    position: relative;
 }
-#topmenu span.friends{margin-bottom:-1px;}
-#topmenu span.chats{background-position:-95px 25px; cursor:pointer;}
-#topmenu span.chats:hover{background-position:-95px -46px; cursor:pointer;}
-#topmenu span.history{background-position:-190px 24px; cursor:pointer;}
-#topmenu span.history:hover{background-position:-190px -47px; cursor:pointer;}
-.friend{
-    height:70px;
-    border-bottom:1px solid #e7ebee;
-    position:relative;
+
+.friend:hover {
+    background: #f1f4f6;
+    cursor: pointer;
 }
-.friend:hover{
-    background:#f1f4f6;
-    cursor:pointer;
+
+.friend img {
+    width: 40px;
+    border-radius: 50%;
+    margin: 15px;
+    float: left;
 }
-.friend img{
-    width:40px;
-    border-radius:50%;
-    margin:15px;
-    float:left;
+
+.floatingImg {
+    width: 40px;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 12px;
+    border: 3px solid #fff;
 }
-.floatingImg{
-    width:40px;
-    border-radius:50%;
-    position:absolute;
-    top:0;
-    left:12px;
-    border:3px solid #fff;
+
+.friend p {
+    padding: 15px 0 0 0;
+    float: left;
+    width: 220px;
 }
-.friend p{
-    padding:15px 0 0 0;
-    float:left;
-    width:220px;
-}
-.friend p strong{
-    font-weight:600;
-    font-size:15px;
-    color:#597a96;
+
+.friend p strong {
+    font-weight: 600;
+    font-size: 15px;
+    color: #597a96;
 
 }
-.friend p span{
-    font-size:13px;
-    font-weight:400;
-    color:#aab8c2;
+
+.friend p span {
+    font-size: 13px;
+    font-weight: 400;
+    color: #aab8c2;
 }
-.friend .status{
-    background:#26c281;
-    border-radius:50%;
-    width:9px;
-    height:9px;
-    position:absolute;
-    top:31px;
-    right:17px;
+
+.friend .status {
+    background: #26c281;
+    border-radius: 50%;
+    width: 9px;
+    height: 9px;
+    position: absolute;
+    top: 31px;
+    right: 17px;
 }
-.friend .status.away{background:#ffce54;}
-.friend .status.inactive{background:#eaeef0;}
-#search{
-    background:#e3e9ed url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/search.png") -11px 0 no-repeat;
-    height:60px;
-    width:290px;
-    position:absolute;
-    bottom:0;
-    left:0;
+
+.friend .status.away {
+    background: #ffce54;
 }
-#searchfield{
-    background:#e3e9ed;
-    margin:21px 0 0 55px;
-    border:none;
-    padding:0;
-    font-size:14px;
-    font-family:"Open Sans", sans-serif;
-    color:#8198ac;
+
+.friend .status.inactive {
+    background: #eaeef0;
 }
-#searchfield:focus{
+
+#search {
+    background: #e3e9ed url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/search.png") -11px 0 no-repeat;
+    height: 60px;
+    width: 290px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+#searchfield {
+    background: #e3e9ed;
+    margin: 21px 0 0 55px;
+    border: none;
+    padding: 0;
+    font-size: 14px;
+    font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
+    color: #8198ac;
+}
+
+#searchfield:focus {
     outline: 0;
 }
-#chatview{
-    width:290px;
-    height:484px;
-    position:absolute;
-    top:0;
-    left:0;
-    display:none;
-    background:#fff;
+
+#chatview {
+    width: 290px;
+    height: 484px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    background: #fff;
 }
-#profile{
-    height:153px;
-    overflow:hidden;
-    text-align:center;
-    color:#fff;
+
+#profile {
+    height: 153px;
+    overflow: hidden;
+    text-align: center;
+    color: #fff;
 }
-.p1 #profile{
-    background:#fff url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/timeline1.png") 0 0 no-repeat;
+
+.p1 #profile {
+    background: #fff url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/timeline1.png") 0 0 no-repeat;
 }
-#profile .avatar{
-    width:68px;
-    border:3px solid #fff;
-    margin:23px 0 0;
-    border-radius:50%;
+
+#profile .avatar {
+    width: 68px;
+    border: 3px solid #fff;
+    margin: 23px 0 0;
+    border-radius: 50%;
 }
-#profile  p{
-    font-weight:600;
-    font-size:15px;
-    margin:118px 0 -1px;
-    opacity:0;
+
+#profile p {
+    font-weight: 600;
+    font-size: 15px;
+    margin: 118px 0 -1px;
+    opacity: 0;
     -webkit-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     -moz-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     -ms-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     -o-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
 }
-#profile  p.animate{
-    margin-top:97px;
-    opacity:1;
+
+#profile p.animate {
+    margin-top: 97px;
+    opacity: 1;
     -webkit-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     -moz-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     -ms-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     -o-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
 }
-#profile  span{
-    font-weight:400;
-    font-size:11px;
+
+#profile span {
+    font-weight: 400;
+    font-size: 11px;
 }
-#chat-messages{
-    margin-top:30px;
-    height:800px;
-    overflow-y:scroll;
-    overflow-x:hidden;
+
+#chat-messages {
+    margin-top: 30px;
+    height: 800px;
+    overflow-y: scroll;
+    overflow-x: hidden;
     padding-right: 20px;
     -webkit-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     -moz-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
@@ -179,29 +235,34 @@ body {
     -o-transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
     transition: all 200ms cubic-bezier(0.000, 0.995, 0.990, 1.000);
 }
-#chat-messages.animate{
-    opacity:1;
-    margin-top:0;
+
+#chat-messages.animate {
+    opacity: 1;
+    margin-top: 0;
 }
-#chat-messages label{
-    color:#aab8c2;
-    font-weight:600;
-    font-size:12px;
-    text-align:center;
-    margin:15px 0;
-    width:290px;
-    display:block;
+
+#chat-messages label {
+    color: #aab8c2;
+    font-weight: 600;
+    font-size: 12px;
+    text-align: center;
+    margin: 15px 0;
+    width: 290px;
+    display: block;
 }
-#chat-messages div.message{
-    padding:0 0 30px 58px;
-    clear:both;
-    margin-bottom:45px;
+
+#chat-messages div.message {
+    padding: 0 0 30px 58px;
+    clear: both;
+    margin-bottom: 45px;
 }
-#chat-messages div.message.right{
+
+#chat-messages div.message.right {
     padding: 0 58px 30px 0;
     margin-right: -19px;
 }
-#chat-messages .message img{
+
+#chat-messages .message img {
     float: left;
     margin-left: -38px;
     border-radius: 50%;
@@ -209,119 +270,134 @@ body {
     margin-top: 12px;
     max-width: fit-content;
 }
-#chat-messages div.message.right img{
+
+#chat-messages div.message.right img {
     float: right;
     margin-left: 0;
     margin-right: -38px;
 }
-.message .bubble{
-    background:#f0f4f7;
-    font-size:13px;
-    font-weight:600;
-    padding:12px 13px;
-    border-radius:5px 5px 5px 0px;
-    color:#8495a3;
-    position:relative;
-    float:left;
+
+.message .bubble {
+    background: #f0f4f7;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 12px 13px;
+    border-radius: 5px 5px 5px 0px;
+    color: #8495a3;
+    position: relative;
+    float: left;
 }
-#chat-messages div.message.right .bubble{
-    float:right;
-    border-radius:5px 5px 0px 5px ;
+
+#chat-messages div.message.right .bubble {
+    float: right;
+    border-radius: 5px 5px 0px 5px;
 }
-.bubble .corner{
-    background:url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/bubble-corner.png") 0 0 no-repeat;
-    position:absolute;
-    width:7px;
-    height:7px;
-    left:-5px;
-    bottom:0;
+
+.bubble .corner {
+    background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/bubble-corner.png") 0 0 no-repeat;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    left: -5px;
+    bottom: 0;
 }
-div.message.right .corner{
-    background:url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/bubble-cornerR.png") 0 0 no-repeat;
-    left:auto;
-    right:-5px;
+
+div.message.right .corner {
+    background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/bubble-cornerR.png") 0 0 no-repeat;
+    left: auto;
+    right: -5px;
 }
-.bubble span{
+
+.bubble span {
     color: #aab8c2;
     font-size: 11px;
     right: 0;
     bottom: -22px;
 }
-#sendmessage{
-    height:60px;
-    border-top:1px solid #e7ebee;
-    position:absolute;
-    bottom:0;
-    right:0px;
-    width:290px;
-    background:#fff;
-    padding-bottm:50px;
+
+#sendmessage {
+    height: 60px;
+    border-top: 1px solid #e7ebee;
+    position: absolute;
+    bottom: 0;
+    right: 0px;
+    width: 290px;
+    background: #fff;
+    padding-bottm: 50px;
 }
 
-#sendmessage input{
-    background:#fff;
-    margin:21px 0 0 21px;
-    border:none;
-    padding:0;
-    font-size:14px;
-    font-family:"Open Sans", sans-serif;
-    color:#aab8c2;
+#sendmessage input {
+    background: #fff;
+    margin: 21px 0 0 21px;
+    border: none;
+    padding: 0;
+    font-size: 14px;
+    font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
+    color: #aab8c2;
 }
-#sendmessage input:focus{
+
+#sendmessage input:focus {
     outline: 0;
 }
-#sendmessage button{
-    background:#fff url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/send.png") 0 -41px no-repeat;
-    width:30px;
-    height:30px;
-    position:absolute;
+
+#sendmessage button {
+    background: #fff url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/send.png") 0 -41px no-repeat;
+    width: 30px;
+    height: 30px;
+    position: absolute;
     right: 15px;
     top: 23px;
-    border:none;
+    border: none;
 }
-#sendmessage button:hover{
-    cursor:pointer;
-    background-position: 0 0 ;
+
+#sendmessage button:hover {
+    cursor: pointer;
+    background-position: 0 0;
 }
-#sendmessage button:focus{
+
+#sendmessage button:focus {
     outline: 0;
 }
 
-#close{
-    position:absolute;
+#close {
+    position: absolute;
     top: 8px;
-    opacity:0.8;
+    opacity: 0.8;
     right: 10px;
-    width:20px;
-    height:20px;
-    cursor:pointer;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }
-#close:hover{
-    opacity:1;
+
+#close:hover {
+    opacity: 1;
 }
-.cx, .cy{
-    background:#fff;
-    position:absolute;
-    width:0px;
-    top:15px;
-    right:15px;
-    height:3px;
+
+.cx, .cy {
+    background: #fff;
+    position: absolute;
+    width: 0px;
+    top: 15px;
+    right: 15px;
+    height: 3px;
     -webkit-transition: all 250ms ease-in-out;
     -moz-transition: all 250ms ease-in-out;
     -ms-transition: all 250ms ease-in-out;
     -o-transition: all 250ms ease-in-out;
     transition: all 250ms ease-in-out;
 }
-.cx.s1, .cy.s1{
-    right:0;
-    width:20px;
+
+.cx.s1, .cy.s1 {
+    right: 0;
+    width: 20px;
     -webkit-transition: all 100ms ease-out;
     -moz-transition: all 100ms ease-out;
     -ms-transition: all 100ms ease-out;
     -o-transition: all 100ms ease-out;
     transition: all 100ms ease-out;
 }
-.cy.s2{
+
+.cy.s2 {
     -ms-transform: rotate(50deg);
     -webkit-transform: rotate(50deg);
     transform: rotate(50deg);
@@ -331,7 +407,8 @@ div.message.right .corner{
     -o-transition: all 100ms ease-out;
     transition: all 100ms ease-out;
 }
-.cy.s3{
+
+.cy.s3 {
     -ms-transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
     transform: rotate(45deg);
@@ -341,16 +418,18 @@ div.message.right .corner{
     -o-transition: all 100ms ease-out;
     transition: all 100ms ease-out;
 }
-.cx.s1{
-    right:0;
-    width:20px;
+
+.cx.s1 {
+    right: 0;
+    width: 20px;
     -webkit-transition: all 100ms ease-out;
     -moz-transition: all 100ms ease-out;
     -ms-transition: all 100ms ease-out;
     -o-transition: all 100ms ease-out;
     transition: all 100ms ease-out;
 }
-.cx.s2{
+
+.cx.s2 {
     -ms-transform: rotate(140deg);
     -webkit-transform: rotate(140deg);
     transform: rotate(140deg);
@@ -359,7 +438,8 @@ div.message.right .corner{
     -o-transition: all 100ms ease-out;
     transition: all 100ms ease-out;
 }
-.cx.s3{
+
+.cx.s3 {
     -ms-transform: rotate(135deg);
     -webkit-transform: rotate(135deg);
     transform: rotate(135deg);
@@ -368,9 +448,10 @@ div.message.right .corner{
     -o-transition: all 100ms ease-out;
     transition: all 100ms ease-out;
 }
+
 #chatview, #sendmessage {
-    overflow:hidden;
-    border-radius:6px;
+    overflow: hidden;
+    border-radius: 6px;
 }
 
 /* 전체적인 스타일 */
@@ -500,3 +581,6 @@ div.message.right .corner{
     border-color: #4caf50 transparent transparent transparent;
 }
 
+.input-msg {
+    width: 70%;
+}

@@ -33,7 +33,7 @@
 html,
 body {
   height: 100%;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -46,7 +46,7 @@ h6 {
   margin: 0;
   color: #111111;
   font-weight: 400;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
 }
 
 h1 {
@@ -75,7 +75,7 @@ h6 {
 
 p {
   font-size: 15px;
-  font-family: "Nunito Sans", sans-serif;
+  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
   color: #3d3d3d;
   font-weight: 400;
   line-height: 25px;
@@ -1394,7 +1394,7 @@ ol {
 .shop__sidebar__accordion .card-heading a:after,
 .shop__sidebar__accordion .card-heading > a.active[aria-expanded=false]:after {
   content: "";
-  font-family: "FontAwesome";
+  font-family: "Cafe24Supermagic-Bold-v1.0";
   font-size: 24px;
   font-weight: 700;
   color: #111111;
@@ -1406,7 +1406,7 @@ ol {
 
 .shop__sidebar__accordion .card-heading.active a:after {
   content: "";
-  font-family: "FontAwesome";
+  font-family: "Cafe24Supermagic-Bold-v1.0";
   font-size: 24px;
   font-weight: 700;
   color: #111111;
@@ -1575,7 +1575,7 @@ ol {
   right: -14px;
   top: 0;
   content: "";
-  font-family: "FontAwesome";
+  font-family: "Cafe24Supermagic-Bold-v1.0";
 }
 
 .product__details__breadcrumb span {
@@ -2077,7 +2077,7 @@ ol {
   right: -14px;
   top: 0;
   content: "";
-  font-family: "FontAwesome";
+  font-family: "Cafe24Supermagic-Bold-v1.0";
 }
 
 .breadcrumb__links span {
@@ -3955,4 +3955,12 @@ ol {
   .categories__text:before {
     height: 250px;
   }
+}
+
+.bi-heart:hover {
+  cursor: pointer;
+}
+
+.product__details__tab {
+  height: 760px;
 }

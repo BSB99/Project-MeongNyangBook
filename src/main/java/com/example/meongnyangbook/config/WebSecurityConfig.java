@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,6 +21,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity // Spring Security 지원을 가능하게 함
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig {
 
   private final JwtUtil jwtUtil;
@@ -66,24 +68,27 @@ public class WebSecurityConfig {
             authorizeHttpRequests
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                 .permitAll() // resources 접근 허용 설정
-                .requestMatchers("/img/**", "/fonts/**").permitAll()
+                .requestMatchers("/img/**", "/fonts/**", "/assets/**").permitAll()
                 .requestMatchers("/").permitAll() // '/' 로 접근 허용
-                .requestMatchers("/mya/chats/**", "/mya-websocket", "/mya/main").permitAll()
+                .requestMatchers("/mya/chats/**", "/mya-websocket").permitAll() // websocket 허용
                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // swagger 허용
-                .requestMatchers("/mya/users/**").permitAll() // '/api/member/' 로 시작하는 POST 요청 허용
-                .requestMatchers(HttpMethod.GET, "/mya/adoptions", "mya/adoptions/best-post")
-                .permitAll()
-                .requestMatchers(HttpMethod.GET, "/mya/items", "/mya/items/search").permitAll()
-                .requestMatchers(HttpMethod.GET, "/mya/communities").permitAll()
-                .requestMatchers(HttpMethod.GET, "/mya/inquiries/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/mya/reviews/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll()
-//            .requestMatchers("/**/*.png", "/**/*.jpg", "/**/*.jpeg", "/**/*.gif").permitAll()
+                .requestMatchers("/mya/users/**").permitAll() // 'mya/users/' 허용
+                .requestMatchers(HttpMethod.GET, "/mya/items", "/mya/communities", "/mya/adoptions",
+                    "/mya/adoptions", "/mya/adoptions/best-post", "/mya/reviews/**",
+                    "/mya/inquiries/**")
+                .permitAll() // 조회 허용
+                .requestMatchers("/mya/back-office", "/mya/back-office/error")
+                .permitAll() //backoffice
+//            .requestMatchers("/mya/backoffice/**").permitAll() // role인지파악
+                .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll() // html 허용
+                .requestMatchers(HttpMethod.GET, "/mya/back-office/**").permitAll()
+                .requestMatchers("/mya/chats/**", "/mya-websocket").permitAll()
                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
     );
 
     // 필터 관리
-    http.addFilterAfter(jwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+    http.addFilterAfter(jwtAuthorizationFilter(),
+        UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }

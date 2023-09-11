@@ -32,6 +32,7 @@ public class CommentController {
     return commentService.createComment(userDetails.getUser(), commentRequestDto);
   }
 
+
   @Operation(summary = "댓글 수정")
   @PatchMapping("/{commentId}")
   public CommentResponseDto updateComment(@PathVariable Long commentId,

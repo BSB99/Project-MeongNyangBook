@@ -33,7 +33,7 @@ public class ChatRoomController {
   @Operation(summary = "채팅방 삭제")
   @DeleteMapping("/room/{roomNo}")
   public ApiResponseDto deleteChatMessages(@PathVariable Long roomNo) {
-    return chatService.deleteChatMessages(roomNo);
+    return chatService.deleteChatRoom(roomNo);
   }
 
   @Operation(summary = "채팅방 조회")

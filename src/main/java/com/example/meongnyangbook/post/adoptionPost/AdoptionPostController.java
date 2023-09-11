@@ -3,6 +3,7 @@ package com.example.meongnyangbook.post.adoptionPost;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostDetailResponseDto;
+import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostPageResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
@@ -56,15 +57,16 @@ public class AdoptionPostController {
 
   @Operation(summary = "분양 페이지 전체 조회(페이징)")
   @GetMapping
-  public ResponseEntity<List<AdoptionPostResponseDto>> getAdoptionList(Pageable pageable) {
-    List<AdoptionPostResponseDto> result = adoptionPostService.getAdoptionList(pageable);
+  public ResponseEntity<AdoptionPostPageResponseDto> getAdoptionList(Pageable pageable) {
+    AdoptionPostPageResponseDto result = adoptionPostService.getAdoptionList(pageable);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
   @Operation(summary = "분양 페이지 단건 조회")
   @GetMapping("/{adoptionId}")
   public ResponseEntity<AdoptionPostDetailResponseDto> getSingleAdoption(
-      @PathVariable Long adoptionId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+      @PathVariable Long adoptionId, @AuthenticationPrincipal UserDetailsImpl userDetails,
+      Pageable commentPage) {
     AdoptionPostDetailResponseDto result = adoptionPostService.getSingleAdoption(adoptionId,
         userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);

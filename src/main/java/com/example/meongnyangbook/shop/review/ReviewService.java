@@ -2,6 +2,8 @@ package com.example.meongnyangbook.shop.review;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.User;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 public interface ReviewService {
@@ -23,7 +25,7 @@ public interface ReviewService {
    * @param id
    * @return
    */
-  List<ReviewResponseDto> getReviewList(Long id);
+  ReviewListResponseDto getReviewList(Long id, Pageable pageable);
 
   /**
    * 리뷰 단건 조회
