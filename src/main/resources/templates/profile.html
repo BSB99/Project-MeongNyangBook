@@ -413,7 +413,7 @@
       <div class="modal-header">
         <h5 class="modal-title">주문 정보</h5>
       </div>
-      <div class="modal-body" id="itme-modal-detail">
+      <div class="modal-body custom-scroll" id="itme-modal-detail">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
@@ -472,6 +472,12 @@
   </div>
 </div>
 
-
 </body>
+<style>
+
+  .custom-scroll {
+    max-height: 350px; /* 높이는 원하는 값으로 조절 가능 */
+    overflow-y: auto;
+  }
+</style>
 </html>
