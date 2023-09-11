@@ -20,6 +20,8 @@ public class AdoptionPostResponseDto {
   private AreaEnum area;
   private CategoryEnum category;
   private String createdAt;
+  private Integer likeCount;
+  private Integer commentCount;
   private AttachmentUrlResponseDto fileUrls;
 
   public AdoptionPostResponseDto(AdoptionPost adoptionPost) {
@@ -33,6 +35,8 @@ public class AdoptionPostResponseDto {
     this.area = adoptionPost.getArea();
     this.category = adoptionPost.getCategory();
     this.createdAt = adoptionPost.getCreatedAtAsString();
+    this.likeCount = adoptionPost.getPostLikes().size();
+    this.commentCount = adoptionPost.getCommentList().size();
     this.fileUrls = new AttachmentUrlResponseDto(adoptionPost.getAttachmentUrl());
   }
 

@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function myCommunity() {
   const token = Cookies.get("Authorization");
+
   $.ajax({
     type: "GET",
     url: "/mya/communities/relative-post/" + userNo,
@@ -59,11 +60,11 @@ function myCommunity() {
           <ul>
             <li class="gallery-item-likes">
                     <span class="visually-hidden">Like:</span
-                    ><i class="fas fa-heart" aria-hidden="true"></i> 56
+                    ><i class="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
             </li>
             <li class="gallery-item-comments">
                     <span class="visually-hidden">Comments:</span
-                    ><i class="fas fa-comment" aria-hidden="true"></i> 2
+                    ><i class="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
             </li>
           </ul>
         </div>
@@ -106,11 +107,11 @@ function myAdoption() {
           <ul>
             <li className="gallery-item-likes">
                     <span className="visually-hidden">Like:</span
-                    ><i className="fas fa-heart" aria-hidden="true"></i> 56
+                    ><i className="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
             </li>
             <li className="gallery-item-comments">
                     <span className="visually-hidden">Comments:</span
-                    ><i className="fas fa-comment" aria-hidden="true"></i> 2
+                    ><i className="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
             </li>
           </ul>
         </div>

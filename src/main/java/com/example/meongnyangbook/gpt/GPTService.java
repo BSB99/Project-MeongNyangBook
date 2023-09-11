@@ -47,7 +47,7 @@ public class GPTService {
     Map<String, Object> requestBody = new HashMap<>();
     requestBody.put("messages", messages);
     requestBody.put("model", "gpt-3.5-turbo");
-    requestBody.put("max_tokens", 500);
+    requestBody.put("max_tokens", 4000);
     requestBody.put("temperature", 0.7);
 
     HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
