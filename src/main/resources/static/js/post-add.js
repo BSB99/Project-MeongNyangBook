@@ -32,9 +32,7 @@ function uploadData() {
 function uploadAdoptions() {
 
   var formData = new FormData($('#uploadForms')[0]); // 폼의 데이터를 FormData 객체로 가져옵니다.
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
+  
   var requestDto = {
     title: $(".title").val(),
     description: $(".image_upload_textarea").val(),
