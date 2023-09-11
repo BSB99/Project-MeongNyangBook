@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaProducer {
 
-  private final KafkaTemplate<Long, AlarmRequestDto> kafkaTemplate;
+  private final KafkaTemplate<Long, AlarmDto> kafkaTemplate;
 
-  public void send(AlarmRequestDto alarmRequestDto) {
-    kafkaTemplate.send("alarm", alarmRequestDto.getReceiverUserId(), alarmRequestDto);
+  public void send(AlarmDto alarmDto) {
+    kafkaTemplate.send("alarm", alarmDto.getReceiverUserId(), alarmDto);
     log.info("Send to Kafka finished");
   }
 }

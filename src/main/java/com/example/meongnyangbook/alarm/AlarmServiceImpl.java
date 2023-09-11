@@ -2,9 +2,10 @@ package com.example.meongnyangbook.alarm;
 
 import com.example.meongnyangbook.alarm.fcm.FcmService;
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.kafka.AlarmRequestDto;
+import com.example.meongnyangbook.kafka.AlarmDto;
 import com.example.meongnyangbook.user.User;
 import com.example.meongnyangbook.user.UserRepository;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,17 +44,19 @@ public class AlarmServiceImpl implements AlarmService {
     });
   }
 
-  public void send(AlarmCategoryEnum alarmCategoryEnum, String body, Long receiverUserId) {
-    User user = userRepository.findById(receiverUserId).orElseThrow(IllegalArgumentException::new);
 
+  //alarmDto.getReceiverUserId(), alarmDto.getBody(), alarmDto.getAlarmCategoryEnum(), alarmDto.getReceiverUserId(), alarmDto.getToken()
+  public void send(Long receiverUserId, String body, AlarmCategoryEnum alarmCategoryEnum,
+      String senderName,
+      String token) throws FirebaseMessagingException {
+    User user = userRepository.findById(receiverUserId).orElseThrow(IllegalArgumentException::new);
     // alarm save
-    Alarm alarm = new Alarm(body, "1", user, alarmCategoryEnum);
+    Alarm alarm = new Alarm(body, senderName, user, alarmCategoryEnum);
     alarmRepository.save(alarm);
 
     // FCM
-    Long num = 2L;
-    AlarmRequestDto alarmRequestDto = new AlarmRequestDto(receiverUserId, body, alarmCategoryEnum,
-        num, "token");
-    fcmService.sendMessageToToken(alarmRequestDto); // Return 값이 있어서 안됨 -> 생각 필요
+    AlarmDto alarmDto = new AlarmDto(receiverUserId, body, alarmCategoryEnum,
+        senderName, "token");
+    fcmService.sendMessageToToken(alarmDto); // Return 값이 있어서 안됨 -> 생각 필요
   }
 }

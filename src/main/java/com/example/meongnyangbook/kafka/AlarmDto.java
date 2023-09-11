@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlarmRequestDto {
+public class AlarmDto {
 
   private Long receiverUserId;
   private String body;
   private AlarmCategoryEnum alarmCategoryEnum;
-  private Long senderUserId;
+  private String senderUserName;
   private String token;
 }
