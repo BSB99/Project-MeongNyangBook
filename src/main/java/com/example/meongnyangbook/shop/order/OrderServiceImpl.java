@@ -47,8 +47,10 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     @Transactional
-    public ApiResponseDto updateOrder(User user) {
-        Order order = orderRepository.findByUserAndStatusEnum(user, OrderStatusEnum.ORDER_IN_PROGRESS);
+    public ApiResponseDto updateOrder(Long orderNo) {
+        Order order = orderRepository.findById(orderNo).orElseThrow(() -> {
+            throw new IllegalArgumentException("주문목록이 존재하지 않습니다.");
+        });
 
         order.setStatusEnum();
 
@@ -57,8 +59,20 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public OrderListResponseDto getOrderList(User user) {
-        List<OrderResponseDto> order = orderRepository.findAllByUserAndStatusEnum(user, OrderStatusEnum.ORDER_COMPLETED).stream().map(OrderResponseDto::new).toList();
+        List<OrderResponseDto> order = orderRepository.findAllByUser(user).stream().map(OrderResponseDto::new).toList();
 
         return new OrderListResponseDto(order);
     }
+
+    @Override
+    public OrderResponseDto getSingleOrderList(User user, Long orderNo) {
+        Order order = orderRepository.findByUserAndId(user, orderNo);
+
+        return new OrderResponseDto(order);
+    }
+
+    @Override
+    public List<OrderResponseDto> getOrderLists() {
+        return orderRepository.findAll().stream().map(OrderResponseDto::new).toList();
+    };
 }

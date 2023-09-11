@@ -18,7 +18,6 @@ function uploadData() {
     contentType: false, // 서버에 데이터를 보낼 때 사용되는 content-type을 false로 지정하여 browser에게 multipart/form-data를 사용하도록 합니다.
     headers: {"Authorization": token},
     success: function (response) {
-      alert('업로드 성공 !', response);
       // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/community";
     },
@@ -45,7 +44,6 @@ function uploadAdoptions() {
     area: $(".animal-address").val(),
     category: $(".animal-category").val()
   };
-  console.log(requestDto);
   formData.append("requestDto", JSON.stringify(requestDto));
   const token = Cookies.get('Authorization');
 
@@ -57,7 +55,6 @@ function uploadAdoptions() {
     contentType: false, // 서버에 데이터를 보낼 때 사용되는 content-type을 false로 지정하여 browser에게 multipart/form-data를 사용하도록 합니다.
     headers: {"Authorization": token},
     success: function (response) {
-      alert('업로드 성공 !', response);
       // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/adoptions";
     },
@@ -70,4 +67,26 @@ function uploadAdoptions() {
   });
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  start();
+});
+
+function start() {
+  const auth = Cookies.get('Authorization');
+
+  if (!auth) { // 쿠키가 없을 경우
+    document.getElementById('login-text').style.display = 'block';
+    document.getElementById('logout-text').style.display = 'none';
+    document.getElementById('mypage-text').style.display = 'none';
+  } else { // 쿠키가 있을 경우
+    document.getElementById('login-text').style.display = 'none';
+    document.getElementById('logout-text').style.display = 'block';
+    document.getElementById('mypage-text').style.display = 'block';
+
+    const postBoxes = document.getElementsByClassName('postbox');
+    for (let i = 0; i < postBoxes.length; i++) {
+      postBoxes[i].style.display = 'block';
+    }
+  }
+}
 

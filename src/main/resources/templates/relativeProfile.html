@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RelativeProfile</title>
+  <title>프로필-멍냥북</title>
+  <link rel="icon" href="/img/favicon.png" type="image/x-icon">
 </head>
 <link rel="stylesheet" href="/css/profile.css" type="text/css"/>
 
@@ -13,67 +14,95 @@
 
 <!-- js Cookie -->
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
-
+<script src="/js/home.js"></script>
 <body>
 <script src="/js/relativeProfile.js"></script>
+
+<div class="header__logo" style="display: block; /* 이미지를 블록 레벨 요소로 만듭니다 */
+    margin: 50px;  /* 원하는 마진 값을 적용합니다 */
+    padding: 50px; /* 원하는 패딩 값을 적용합니다 */ ">
+    <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
+</div>
+
 <header>
-    <div class="container">
-        <div class="profile">
-            <div class="profile-image">
-                <img class="user-image" id="user-image"
-                     src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
-                     alt=""
-                />
-                <input type="file" name="file" id="file" class="file" value="등록" style="display: none;">
+  <div class="container">
+    <div class="profile">
+      <div class="profile-image">
+        <img class="user-image" id="user-image"
+             src="https://images.unsplash.com/photo-1513721032312-6a18a42c8763?w=152&h=152&fit=crop&crop=faces"
+             alt=""
+        />
+        <input type="file" name="file" id="file" class="file" value="등록" style="display: none;">
+      </div>
+
+      <div class="profile-user-settings">
+          <div class="margin-20">
+            <input id="nickname" class="profile-user-name" disabled
+                   style="outline: none; border: none; color: black">
+              <a onclick="openReportModal()" class="btn openmodale">신고하기</a>
+          </div>
+
+
+        <!-- Modal -->
+        <div class="modale" aria-hidden="true">
+          <div class="modal-dialog" style="width: 400px; height: 300px;">
+            <div class="modal-header">
+              <a onclick="clsReportModal()" class="btn-close closemodale"
+                 aria-hidden="true">&times;</a>
             </div>
-
-            <div class="profile-user-settings">
-
-                <input id="nickname" class="profile-user-name" disabled
-                       style="outline: none; border: none; color: black">
-                <button id="doneButton" class="btn profile-edit-btn" style="display: none;"
-                        onclick="updateBtn()">Done
-                </button>
-                <button id="edit-button" class="btn profile-edit-btn" onclick="EditButton(this)">Edit
-                    Profile
-                </button>
-
-                <input class="subProfile" id="address" disabled>
-                <input class="subProfile" id="phone-number" disabled>
-
+            <div class="modal-body">
+            <select class="report_category" name="report_category" id="report_category" style="width: 300px; height: 35px; margin-bottom: 60px;">
+              <option value="">신고 사유</option>
+              <option value="INAPPROPRIATE_BEHAVIOR">부적절한 언행</option>
+              <option value="FALSE_POSTING">허위 매물</option>
+              <option value="OTHER">기타</option>
+            </select>
+            <input type="text" id="report_content" name="u" placeholder="신고내용" size="20"/>
+            <div class="modal-footer">
+              <a onclick="report()" class="btn" id="btn_ingresar">Report</a>
             </div>
-
-            <div class="profile-stats">
-                <ul>
-                    <li><span class="profile-stat-count">164</span> posts</li>
-                    <li><span class="profile-stat-count">188</span> followers</li>
-                    <li><span class="profile-stat-count">206</span> following</li>
-                </ul>
-            </div>
-
-            <div class="profile-bio">
-                <p>
-                    <input class=" subProfile" id="introduce" disabled>
-                </p>
-            </div>
+          </div>
         </div>
-        <div class="button-post" style="width: 100%">
-            <button onclick="myCommunity()">My CommunityPost</button>
-            <button onclick="myAdoption()">My AdoptionPost</button>
-        </div>
-        <!-- End of profile section -->
+        <!-- /Modal -->
+
+        <input class="subProfile" id="address" disabled>
+        <input class="subProfile" id="phone-number" disabled>
+
+      </div>
+
+      <div class="profile-stats">
+        <ul>
+          <li><span class="profile-stat-count">164</span> posts</li>
+          <li><span class="profile-stat-count">188</span> followers</li>
+          <li><span class="profile-stat-count">206</span> following</li>
+        </ul>
+      </div>
+
+      <div class="profile-bio">
+        <p>
+            <input class=" subProfile" id="introduce" disabled style="width: 335px;">
+            <button onclick="onChat()" class="btn" style="margin-left: auto">채팅 하기</button>
+        </p>
+
+      </div>
     </div>
+    <!-- End of profile section -->
+  </div>
   <!-- End of container -->
 </header>
 
 <main>
   <div class="container">
+      <div class="button-post">
+          <button onclick="myCommunity()">CommunityPost</button>
+          <button onclick="myAdoption()">AdoptionPost</button>
+      </div>
     <div class="gallery" id="gallery">
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1511765224389-37f0e77cf0eb?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-info">
@@ -92,9 +121,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1497445462247-4330a224fdb1?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1497445462247-4330a224fdb1?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-info">
@@ -113,9 +142,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-type">
@@ -139,9 +168,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1502630859934-b3b41d18206c?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1502630859934-b3b41d18206c?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-type">
@@ -165,9 +194,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1498471731312-b6d2b8280c61?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1498471731312-b6d2b8280c61?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-type">
@@ -191,9 +220,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1515023115689-589c33041d3c?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-info">
@@ -212,9 +241,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1504214208698-ea1916a2195a?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-type">
@@ -238,9 +267,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1515814472071-4d632dbc5d4a?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1515814472071-4d632dbc5d4a?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-info">
@@ -259,9 +288,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1511407397940-d57f68e81203?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-type">
@@ -285,9 +314,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1518481612222-68bbe828ecd1?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1518481612222-68bbe828ecd1?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-info">
@@ -306,9 +335,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1505058707965-09a4469a87e4?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1505058707965-09a4469a87e4?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-info">
@@ -327,9 +356,9 @@
 
       <div class="gallery-item" tabindex="0">
         <img
-                src="https://images.unsplash.com/photo-1423012373122-fff0a5d28cc9?w=500&h=500&fit=crop"
-                class="gallery-image"
-                alt=""
+            src="https://images.unsplash.com/photo-1423012373122-fff0a5d28cc9?w=500&h=500&fit=crop"
+            class="gallery-image"
+            alt=""
         />
 
         <div class="gallery-item-type">
@@ -353,7 +382,7 @@
     </div>
     <!-- End of gallery -->
 
-    <div class="loader"></div>
+<!--    <div class="loader"></div>-->
   </div>
   <!-- End of container -->
 </main>

@@ -1,7 +1,17 @@
 let lastPart;
 let userNickname;
+let currentPageUserId;
+const token = Cookies.get('Authorization');
 document.addEventListener("DOMContentLoaded", function () {
-  const token = Cookies.get('Authorization');
+
+  start();
+
+  var aTagUsername = document.getElementById("username");
+
+  aTagUsername.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent the default behavior of the link
+    usernameClick(); // Call your function
+  });
 
   if (!token || token.length === 0) {
     alert("로그인 후 이용해주세요");
@@ -15,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let urlParts = currentURL.split("/");
   lastPart = urlParts[urlParts.length - 1].replace("#", "");
+
+  confirmHeart()
 
   $.ajax({
     type: "GET",
@@ -34,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let commentInfoHtml = ``;
     if (response.commentList.length > 0) {
       for (let commentInfo of response.commentList) {
+        let resizeImg = fileImgNullCheck(commentInfo.imgUrl);
         let replyButtonHtml = ``;
 
         if (commentInfo.userNickname === userNickname) {
@@ -53,12 +66,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="comment-list">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
-                                <div class="thumb">
-                                    <img src="/img/blog/c4.jpg" alt="">
-                                </div>
+                                <a href="/mya/view/users/relative-profile/${commentInfo.userId}" class="thumb">
+                                    <img src="${resizeImg}" alt="" style="width: 70px; height: 50px;">
+                                </a>
                                 <div class="desc">
                                     <h5>
-                                        <a href="#">${commentInfo.userNickname}</a>
+                                        <a href="/mya/view/users/relative-profile/${commentInfo.userId}">${commentInfo.userNickname}</a>
                                     </h5>
                                     <p class="comment">
                                         ${commentInfo.content}
@@ -81,26 +94,40 @@ document.addEventListener("DOMContentLoaded", function () {
   })
   .fail(function (response, status, xhr) {
     alert("카드 정보 불러오기 실패");
-    console.log(response);
   });
 });
 
+function fileImgNullCheck(imgFileName) {
+  let profilePicture;
+  if (imgFileName == null) {
+    profilePicture = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/245657/1_copy.jpg";
+  } else {
+    profilePicture = imgFileName.replace(
+        "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/",
+        "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/")
+  }
+  return profilePicture;
+}
+
 function setCardData(response) {
+
+  currentPageUserId = response.userId;
+
   let communityTitle = document.getElementById("communityTitle");
   let communityDescription = document.getElementById("communityDescription");
   let viewCount = document.getElementById("viewCount");
   let nickname = document.getElementById("username");
   let createdAt = document.getElementById("createdAt");
-  let boardWriteUserId = document.getElementById("userId");
+  let likes = document.getElementById("likes");
 
   let fileNames = response.fileUrls.fileName.split(",");
 
-  if (response.username !== userNickname) {
-    let deleteCommunityBtn = document.getElementById("deleteCommunityBtn");
-    let updateCommunityBtn = document.getElementById("updateCommunityBtn");
-    deleteCommunityBtn.style.display = "none";
-    updateCommunityBtn.style.display = "none";
-  }
+  // if (response.username !== userNickname) {
+  //   let deleteCommunityBtn = document.getElementById("deleteCommunityBtn");
+  //   let updateCommunityBtn = document.getElementById("updateCommunityBtn");
+  //   deleteCommunityBtn.style.display = "none";
+  //   updateCommunityBtn.style.display = "none";
+  // }
 
   $("#carousel-inners").empty();
   let i = 0;
@@ -113,7 +140,7 @@ function setCardData(response) {
             class="img-fluid d-block w-100" alt="..." style="height: 550px">
       </div>`
     } else {
-      temp_html = `<div class="carousel-item active">
+      temp_html = `<div class="carousel-item">
         <img
             src="${file}"
             class="img-fluid d-block w-100 " alt="..." style="height: 550px">
@@ -122,6 +149,19 @@ function setCardData(response) {
     $("#carousel-inners").append(temp_html);
     i++;
   }
+
+  //수정 삭제 버튼 활성,비활성
+  let modifyBtn = document.getElementById("community_modify_btn");
+  let deleteBtn = document.getElementById("community_delete_btn");
+  getUserNickname();
+  if (userNickname === response.username) {
+    modifyBtn.style.display = "block";
+    deleteBtn.style.display = "block";
+  } else {
+    modifyBtn.style.display = "none";
+    deleteBtn.style.display = "none";
+  }
+
   communityTitle.innerText = response.title;
   communityDescription.innerText = response.description;
 
@@ -129,16 +169,8 @@ function setCardData(response) {
   viewCount.innerText = response.viewCount + " Views";
   nickname.innerText = response.username;
   createdAt.innerText = response.createdAt;
-  boardWriteUserId.innerText = response.userNo;
+  likes.innerText = response.likesCount + " likes";
 }
-
-let currentURL = window.location.href;
-
-// URL을 "/"로 분할하여 배열로 저장합니다.
-let urlParts = currentURL.split("/");
-
-// 배열에서 마지막 요소를 가져옵니다.
-const token = Cookies.get('Authorization');
 
 function deleteCommunity() {
 
@@ -147,7 +179,6 @@ function deleteCommunity() {
     type: "DELETE",
     headers: {"Authorization": token},
     success: function (response) {
-      alert('삭제가 완료 되었습니다!', response);
       // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/community";
     },
@@ -185,11 +216,8 @@ function postComment() {
     },
     data: JSON.stringify(requestDto)
   })
-  .done(async (res) => {
+  .done((res) => {
     if (res.statusCode === 201) {
-      alert("댓글 작성 완료");
-      const userId = document.getElementById("userId").textContent;
-      await getToken("제목", orderRecipientInput, userId);
       location.reload();
     }
   })
@@ -221,7 +249,6 @@ function deleteComment(commentId) {
     headers: {"Authorization": token}
   })
   .done((res) => {
-    alert("댓글 삭제 완료");
     location.reload();
   })
   .fail(function (response, status, xhr) {
@@ -267,7 +294,6 @@ function confirmEdit(button, commentId) {
     data: JSON.stringify(commentRequestDto)
   })
   .done((res) => {
-    alert("댓글 수정 완료");
   })
   .fail(function (response, status, xhr) {
     alert("댓글 수정 실패");
@@ -279,4 +305,87 @@ function confirmEdit(button, commentId) {
   commentInput.style.display = "none";
   editButton.style.display = "inline";
   confirmButton.style.display = "none";
+}
+
+function start() {
+  const auth = Cookies.get('Authorization');
+
+  if (!auth) { // 쿠키가 없을 경우
+    document.getElementById('login-text').style.display = 'block';
+    document.getElementById('logout-text').style.display = 'none';
+    document.getElementById('mypage-text').style.display = 'none';
+  } else { // 쿠키가 있을 경우
+    document.getElementById('login-text').style.display = 'none';
+    document.getElementById('logout-text').style.display = 'block';
+    document.getElementById('mypage-text').style.display = 'block';
+
+    const postBoxes = document.getElementsByClassName('postbox');
+    for (let i = 0; i < postBoxes.length; i++) {
+      postBoxes[i].style.display = 'block';
+    }
+  }
+}
+
+function commentLike() {
+  const heart = document.querySelector(".bi-heart");
+  const fillValue = heart.getAttribute("fill");
+  if (fillValue === "black") {
+    $.ajax({
+      type: "POST",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+    .done((res) => {
+      location.reload();
+    })
+    .fail(function (response, status, xhr) {
+      alert("좋아요 실패");
+      console.log(response);
+    })
+  } else {
+    $.ajax({
+      type: "DELETE",
+      url: "/mya/likes/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+    .done((res) => {
+      location.reload();
+    })
+    .fail(function (response, status, xhr) {
+      alert("좋아요 취소 실패");
+      console.log(response);
+    })
+  }
+}
+
+function confirmHeart() {
+  const heart = document.querySelector(".bi-heart");
+
+  $.ajax({
+    type: "GET",
+    url: "/mya/likes/" + lastPart,
+    headers: {
+      "Authorization": token
+    }
+  })
+  .done((res) => {
+    if (res) {
+      heart.setAttribute("fill", "red");
+    } else {
+      heart.setAttribute("fill", "black");
+    }
+  })
+  .fail(function (response, status, xhr) {
+    console.log(response);
+  })
+}
+
+function usernameClick() {
+
+  window.location.href = "/mya/view/users/relative-profile/"
+      + currentPageUserId;
 }

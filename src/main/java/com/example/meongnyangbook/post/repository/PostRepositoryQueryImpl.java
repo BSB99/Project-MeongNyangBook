@@ -11,28 +11,28 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class PostRepositoryQueryImpl implements PostRepositoryQuery {
 
-  private final JPAQueryFactory jpaQueryFactory;
+    private final JPAQueryFactory jpaQueryFactory;
 
-  // 페이징 정렬, 키워드 검색 (title)
-  // part: community, adoption -> RequestParam
-  // controller -> adoptionController / communityController
-  // queryDsl 다시 짜기
+    // 페이징 정렬, 키워드 검색 (title)
+    // part: community, adoption -> RequestParam
+    // controller -> adoptionController / communityController
+    // queryDsl 다시 짜기
 
-  @Override
-  public Post findPostById(Long postId) {
-    QAdoptionPost qAdoption = QAdoptionPost.adoptionPost;
-    QCommunityPost qCommunity = QCommunityPost.communityPost;
+    @Override
+    public Post findPostById(Long postId) {
+        QAdoptionPost qAdoption = QAdoptionPost.adoptionPost;
+        QCommunityPost qCommunity = QCommunityPost.communityPost;
 
-    Post adoptionPost = jpaQueryFactory.selectFrom(qAdoption)
-        .where(qAdoption.id.eq(postId))
-        .fetchOne();
+        Post adoptionPost = jpaQueryFactory.selectFrom(qAdoption)
+                .where(qAdoption.id.eq(postId))
+                .fetchOne();
 
-    if (adoptionPost != null) {
-      return adoptionPost;
+        if (adoptionPost != null) {
+            return adoptionPost;
+        }
+
+        return jpaQueryFactory.selectFrom(qCommunity)
+                .where(qCommunity.id.eq(postId))
+                .fetchOne();
     }
-
-    return jpaQueryFactory.selectFrom(qCommunity)
-        .where(qCommunity.id.eq(postId))
-        .fetchOne();
-  }
 }

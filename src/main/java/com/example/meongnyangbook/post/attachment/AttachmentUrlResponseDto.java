@@ -12,4 +12,8 @@ public class AttachmentUrlResponseDto {
     this.id = url.getId();
     this.fileName = url.getFileName();
   }
+
+  public void setFileName(String fileName) {
+    this.fileName = fileName;
+  }
 }

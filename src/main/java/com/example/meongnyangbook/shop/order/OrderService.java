@@ -3,7 +3,10 @@ package com.example.meongnyangbook.shop.order;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.order.dto.OrderListResponseDto;
 import com.example.meongnyangbook.shop.order.dto.OrderRequestDto;
+import com.example.meongnyangbook.shop.order.dto.OrderResponseDto;
 import com.example.meongnyangbook.user.User;
+
+import java.util.List;
 
 public interface OrderService {
 
@@ -22,7 +25,7 @@ public interface OrderService {
    * @param user
    * @return
    */
-  ApiResponseDto updateOrder(User user);
+  ApiResponseDto updateOrder(Long orderNo);
 
   /**
    * 해당유저 주문 리스트 가져오기
@@ -31,4 +34,8 @@ public interface OrderService {
    * @return
    */
   OrderListResponseDto getOrderList(User user);
+
+  OrderResponseDto getSingleOrderList(User user, Long orderNo);
+
+  List<OrderResponseDto> getOrderLists();
 }

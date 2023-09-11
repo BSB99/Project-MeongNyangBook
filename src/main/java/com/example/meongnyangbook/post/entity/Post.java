@@ -3,6 +3,7 @@ package com.example.meongnyangbook.post.entity;
 import com.example.meongnyangbook.entity.TimeStamped;
 import com.example.meongnyangbook.post.attachment.AttachmentUrl;
 import com.example.meongnyangbook.post.comment.Comment;
+import com.example.meongnyangbook.post.like.PostLike;
 import com.example.meongnyangbook.user.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -19,9 +20,11 @@ import jakarta.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
+@DynamicUpdate
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // 변경해서 바꿀예정
 public abstract class Post extends TimeStamped {
 
@@ -41,6 +44,9 @@ public abstract class Post extends TimeStamped {
 
   @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
   private List<Comment> commentList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+  private List<PostLike> postLikes = new ArrayList<>();
 
   @OneToOne(mappedBy = "post")
   private AttachmentUrl attachmentUrl;

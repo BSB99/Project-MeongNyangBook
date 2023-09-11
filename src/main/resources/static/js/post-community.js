@@ -1,29 +1,51 @@
 document.addEventListener("DOMContentLoaded", function () {
+  start();
   const host = "http://" + window.location.host;
-
-  // let userId = 1; // board 페이지에서 받아와야 하는 값
+  const resizeS3FirstName = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/";
   const token = Cookies.get('Authorization');
 
-  $.ajax({
-    type: "GET",
-    url: "/mya/communities",
-    headers: {'Authorization': token}
-  })
-  .done(function (response) {
-    console.log(response);
-    $('#postList').empty();
-    for (let i = 0; i < response.length; i++) {
-      let communityTitle = response[i]['title']; //h5
-      let createdAt = response[i]['createdAt']; //span - 날짜
-      let imgUrl = response[i]['fileUrls']['fileName'].split(",")[0];
-      let communityId = response[i]['id']
-      console.log(communityId, communityTitle, imgUrl, createdAt);
-      setHtml(communityTitle, createdAt, imgUrl, communityId);
-    }
-  })
-  .fail(function (response) {
-    alert(response.responseJSON.msg);
-  })
+  let size = 9;
+
+  // 페이지 데이터를 로드하는 로직을 별도의 함수로 분리
+  function loadPageData(page) {
+    $.ajax({
+      type: "GET",
+      url: `/mya/communities?page=${page}&size=${size}`,
+      headers: {'Authorization': token}
+    })
+    .done(function (response) {
+      console.log(response);
+      $('#postList').empty();
+
+      for (let i = 0; i < response.responseList.length; i++) {
+        const community = response.responseList[i];
+        let communityTitle = community.title
+        let createdAt = community.createdAt;
+        let imgUrl = community.fileUrls.fileName.split(",")[0].split("/");
+        let communityId = community.id;
+        setHtml(communityTitle, createdAt,
+            resizeS3FirstName + imgUrl[imgUrl.length - 1], communityId);
+      }
+
+      // 페이지네이션 링크 생성 및 추가
+      let len = response['len'];
+      let paginationHtml = generatePaginationLinks(len / size + 1, page);
+      $('#postList').append(paginationHtml);
+    })
+    .fail(function (response) {
+      alert(response.responseJSON.msg);
+    });
+  }
+
+  // 초기 페이지 데이터 로드
+  loadPageData(0);
+
+  // 페이지네이션 링크 클릭 이벤트 리스너 추가
+  $(document).on('click', 'button[data-page]', function (e) {
+    e.preventDefault();
+    let selectedPage = parseInt($(this).data('page'));
+    loadPageData(selectedPage);
+  });
 });
 
 function setHtml(communityTitle, createdAt, imgUrl, communityId) {
@@ -39,29 +61,43 @@ function setHtml(communityTitle, createdAt, imgUrl, communityId) {
             <a href="/mya/view/communities/${communityId}">Read More</a>
           </div>
         </div>
-      </div>
-        `;
+      </div>`;
   $('#postList').append(html);
 }
 
-// function getCommunityDetailsClick() {
-//   $(".card__item").click(function () {
-//         const token = Cookies.get('Authorization');
-//         const communityId = this.id // 클릭된 요소의 id 값 가져오기
-//         console.log(communityId);
-//         // 카드 정보를 가져오기 위한 AJAX 요청
-//         $.ajax({
-//           url: `/mya/communities/${communityId}`,  // 카드 정보를 가져올 API 엔드포인트
-//           method: 'GET',
-//           headers: {"Authorization": token},
-//           dataType: 'json',
-//           success: function (cardDetails) {
-//             window.location.href = `/okw/view/cards/${communityId}`;
-//           },
-//           error: function (error, status, xhr) {
-//             console.error('카드 정보 가져오기 에러:', error);
-//           }
-//         });
-//       }
-//   )
-// }
+function start() {
+  const auth = Cookies.get('Authorization');
+
+  if (!auth) { // 쿠키가 없을 경우
+    document.getElementById('login-text').style.display = 'block';
+    document.getElementById('logout-text').style.display = 'none';
+    document.getElementById('mypage-text').style.display = 'none';
+  } else { // 쿠키가 있을 경우
+    document.getElementById('login-text').style.display = 'none';
+    document.getElementById('logout-text').style.display = 'block';
+    document.getElementById('mypage-text').style.display = 'block';
+
+    const postBoxes = document.getElementsByClassName('postbox');
+    for (let i = 0; i < postBoxes.length; i++) {
+      postBoxes[i].style.display = 'block';
+    }
+  }
+}
+
+function generatePaginationLinks(totalLen, currentPage) {
+  const totalPages = Math.ceil(totalLen); // Total number of pages
+
+  let paginationLinks = '<div class="pagination-container" style="width: 2000px">';
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === currentPage + 1) {
+      paginationLinks += `<button class="pagination-btn active" data-page="${i
+      - 1}">${i}</button>`;
+    } else {
+      paginationLinks += `<button class="pagination-btn" data-page="${i
+      - 1}">${i}</button>`;
+    }
+  }
+  paginationLinks += '</div>';
+
+  return paginationLinks;
+}

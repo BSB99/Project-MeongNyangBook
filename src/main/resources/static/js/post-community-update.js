@@ -1,6 +1,8 @@
 var sel_file = [];
 $(document).ready(function () {
   $("#multipartFiles").on("change", handleImgFileSelect);
+  start();
+  confirmHeart();
 });
 
 let currentURL = window.location.href;
@@ -132,7 +134,6 @@ function uploadData() {
 
   // formData.append("fileName",);
   formData.append("requestDto", JSON.stringify(requestDto));
-  console.log("requestDto", requestDto);
   // var deleteFileDto = {
   //   deleteFileName: deleteFileName
   // }
@@ -146,8 +147,6 @@ function uploadData() {
     contentType: false, // 서버에 데이터를 보낼 때 사용되는 content-type을 false로 지정하여 browser에게 multipart/form-data를 사용하도록 합니다.
     headers: {"Authorization": token},
     success: function (response) {
-      console.log(imgArr);
-      alert('수정 성공 !', response);
       // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/community";
 
@@ -161,7 +160,6 @@ function uploadData() {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  const token = Cookies.get('Authorization');
 
   $.ajax({
     type: "GET",
@@ -169,8 +167,6 @@ document.addEventListener("DOMContentLoaded", function () {
     headers: {"Authorization": token}
   })
   .done(function (response) {
-    console.log("단건 조회 성공");
-    console.log(response);
     // fetchWorkerList(response);
     setCardData(response);
     // categoryId = response.categoryId;
@@ -188,8 +184,8 @@ function setCardData(response) {
   let communityTitle = document.getElementById("communityTitle");
   let communityDescription = document.getElementById("communityDescription");
 
-  communityTitle.innerText = response.title;
-  communityDescription.innerText = response.description;
+  communityTitle.value = response.title;
+  communityDescription.value = response.description;
 }
 
 // let deleteFileName = [];
@@ -202,11 +198,33 @@ function imgList(response) {
 
   for (let f of filesArr) {
 
-    var img_html = `<img class="img" style="transition: transform 0.5s;" src="${f}"/>`;
+    var img_html = `<img src="${f}" class="img" style="transition: transform 0.5s;"/>`;
     // deleteFileName = deleteFileName + "," + f;
     // deleteFileName.push(f);
     // console.log(deleteFileName);
     $(".img_wrap").append(img_html);
   }
   slideImage(); // Call slideImage() after all images have been processed
+}
+
+function start() {
+  const auth = Cookies.get('Authorization');
+  console.log("auth=", auth);
+
+  if (!auth) { // 쿠키가 없을 경우
+    console.log(1);
+    document.getElementById('login-text').style.display = 'block';
+    document.getElementById('logout-text').style.display = 'none';
+    document.getElementById('mypage-text').style.display = 'none';
+  } else { // 쿠키가 있을 경우
+    console.log(2);
+    document.getElementById('login-text').style.display = 'none';
+    document.getElementById('logout-text').style.display = 'block';
+    document.getElementById('mypage-text').style.display = 'block';
+
+    const postBoxes = document.getElementsByClassName('postbox');
+    for (let i = 0; i < postBoxes.length; i++) {
+      postBoxes[i].style.display = 'block';
+    }
+  }
 }
