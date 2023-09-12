@@ -1,5 +1,10 @@
 var sel_file = [];
+const token = Cookies.get('Authorization');
 $(document).ready(function () {
+  if (token === undefined) {
+    alert("로그인 후 이용해주세요");
+    location.href="/mya/view/users/sign-in";
+  }
   start();
   $("#multipartFiles").on("change", handleImgFileSelect);
 });
@@ -115,11 +120,14 @@ function slideImage() {
 function uploadData() {
   var formData = new FormData($('#uploadForm')[0]); // 폼의 데이터를 FormData 객체로 가져옵니다.
 
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
   var requestDto = {
     title: $("#adoptionsTitle").val(),
     description: $("#adoptionsDescription").val(),
     animalName: $("#animal-name").val(),
-    animalGender: $("#animal-sex").val(),
+    animalGender: $("#animal-gender").val(),
     animalAge: $("#animal-age").val(),
     area: $("#animal-address").val(),
     category: $("#animal-category").val()
@@ -179,15 +187,16 @@ function setCardData(response) {
   let animalAge = document.getElementById("animal-age");
   let area = document.getElementById("animal-address");
   let category = document.getElementById("animal-category");
-
-  adoptionsTitle.innerText = response.title;
+  
+  adoptionsTitle.value = response.title;
   adoptionDescription.innerText = response.description;
   animalName.value = response.animalName;
-  animalGender.options.selectedIndex = response.animalGender;
+
+  animalGender.value = response.animalGender;
 
   animalAge.value = response.animalAge;
-  area.options.selectedIndex = response.animalGender.index;
-  category.options.selectedIndex = response.animalGender.index;
+  area.value = response.area;
+  category.value = response.category;
 }
 
 // let deleteFileName = [];

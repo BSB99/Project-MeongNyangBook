@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   })
   .fail(function (response, status, xhr) {
-    alert("카드 정보 불러오기 실패");
+    console.log(response);
   });
 });
 
@@ -247,7 +247,6 @@ function getUserNickname() {
     currentUserId = res.userId;
   })
   .fail(function (response, status, xhr) {
-    alert("유저정보 가져오기 실패");
     console.log(response);
   })
 }
