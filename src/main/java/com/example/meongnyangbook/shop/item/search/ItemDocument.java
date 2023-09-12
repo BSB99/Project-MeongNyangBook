@@ -6,7 +6,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.DateFormat;
@@ -34,7 +33,7 @@ public class ItemDocument {
 
   @Field(type = FieldType.Date, format = {DateFormat.date_hour_minute_second_millis,
       DateFormat.epoch_millis})
-  private String createdAt;
+  private LocalDateTime createdAt;
 
   @Enumerated(value = EnumType.STRING)
   private ItemCategoryEnum category;
@@ -47,7 +46,7 @@ public class ItemDocument {
     this.name = requestDto.getName();
     this.price = requestDto.getPrice();
     this.category = requestDto.getCategory();
-    this.createdAt = createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    this.createdAt = createdAt;
     this.attachmentItemUrl = attachmentItemUrl;
   }
 

@@ -4,6 +4,7 @@ import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
+import com.example.meongnyangbook.shop.item.search.ItemSearchListResponseDto;
 import com.example.meongnyangbook.shop.item.search.ItemSearchResponseDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -68,4 +69,8 @@ public interface ItemService {
 
 
   ItemListResponseDto searchItems(Pageable pageable, ItemCategoryEnum category, Long min, Long max);
+
+  ItemSearchListResponseDto elasticSearchItems(Pageable pageable, String keyword,
+      ItemCategoryEnum category, Long min,
+      Long max);
 }

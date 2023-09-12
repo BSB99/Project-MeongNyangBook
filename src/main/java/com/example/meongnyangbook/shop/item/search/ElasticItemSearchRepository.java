@@ -2,9 +2,11 @@ package com.example.meongnyangbook.shop.item.search;
 
 import java.util.List;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.stereotype.Repository;
 
-
-public interface ElasticItemSearchRepository extends ElasticsearchRepository<ItemDocument, String> {
+@Repository
+public interface ElasticItemSearchRepository extends ElasticsearchRepository<ItemDocument, String>,
+    CustomItemSearchRepository {
 
   List<ItemDocument> findByNameContaining(String keyword);
 

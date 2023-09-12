@@ -9,6 +9,7 @@ import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
 import com.example.meongnyangbook.shop.item.search.ElasticItemSearchRepository;
 import com.example.meongnyangbook.shop.item.search.ItemDocument;
+import com.example.meongnyangbook.shop.item.search.ItemSearchListResponseDto;
 import com.example.meongnyangbook.shop.item.search.ItemSearchResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ public class ItemServiceImpl implements ItemService {
 
     ItemDocument itemDocument = new ItemDocument(item.getId(), item.getCreatedAt(), requestDto,
         fileUrlResult);
+
     itemSearchRepository.save(itemDocument);
     attachmentItemUrlRepository.save(file);
 
@@ -139,13 +141,27 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public ItemListResponseDto searchItems(Pageable pageable, ItemCategoryEnum category, Long min, Long max) {
-    List<ItemResponseDto> itemResponseDto = itemRepository.searchItemList(min, max, pageable, category)
-              .stream().map(ItemResponseDto::new)
-              .toList();
+  public ItemListResponseDto searchItems(Pageable pageable, ItemCategoryEnum category, Long min,
+      Long max) {
+    List<ItemResponseDto> itemResponseDto = itemRepository.searchItemList(min, max, pageable,
+            category)
+        .stream().map(ItemResponseDto::new)
+        .toList();
 
     int itemLen = itemRepository.searchItemListCnt(min, max, category);
 
     return new ItemListResponseDto(itemResponseDto, itemLen);
+  }
+
+  @Override
+  public ItemSearchListResponseDto elasticSearchItems(Pageable pageable, String keyword,
+      ItemCategoryEnum category,
+      Long min, Long max) {
+    List<ItemSearchResponseDto> itemResponseDto = itemSearchRepository.searchByItem(keyword,
+            category, min, max, pageable)
+        .stream().map(ItemSearchResponseDto::new)
+        .toList();
+    Long itemLen = 10L;
+    return new ItemSearchListResponseDto(itemResponseDto, itemLen);
   }
 }

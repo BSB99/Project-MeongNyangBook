@@ -11,9 +11,9 @@ public class ItemSearchResponseDto {
   private final String name;
   private final Long price;
   private final ItemCategoryEnum category;
-  //  private final String createdAt;
+  private final String createdAt;
   private final Long quantity;
-//  private final S3FileItemResponseDto fileUrls;
+  private final String fileUrls;
 
 
   public ItemSearchResponseDto(ItemDocument itemDocument) {
@@ -22,8 +22,8 @@ public class ItemSearchResponseDto {
     this.price = itemDocument.getPrice();
     this.category = itemDocument.getCategory();
     this.quantity = itemDocument.getQuantity();
-//    this.createdAt = itemDocument.getCreatedAt().toString();
-//    this.fileUrls = new S3FileItemResponseDto(item.getAttachmentItemUrl());
+    this.createdAt = itemDocument.getCreatedAt().toString();
+    this.fileUrls = itemDocument.getAttachmentItemUrl();
 
   }
 }
