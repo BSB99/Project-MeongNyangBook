@@ -256,7 +256,7 @@ function myOrders() {
               </li>
               <li class="gallery-item-comments">
                 <span class="visually-hidden">가격:</span>
-                <i class="fas fa-comment" aria-hidden="true"></i> ${order.totalPrice}
+                <i class="fas fa-money-bill-alt" aria-hidden="true"></i> ${order.totalPrice}
               </li>
             </ul>
           </div>
