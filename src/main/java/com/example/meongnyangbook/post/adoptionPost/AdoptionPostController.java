@@ -38,17 +38,17 @@ public class AdoptionPostController {
   @Operation(summary = "분양 페이지 포스트 등록")
   @PostMapping
   public ResponseEntity<ApiResponseDto> createAdoption(
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestPart("requestDto") String requestDto,
-      @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
+          @AuthenticationPrincipal UserDetailsImpl userDetails,
+          @RequestPart("requestDto") String requestDto,
+          @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
     try {
       ObjectMapper objectMapper = new ObjectMapper();
       AdoptionPostReqeustDto adoptionPostReqeustDto = objectMapper.readValue(requestDto,
-          AdoptionPostReqeustDto.class);
+              AdoptionPostReqeustDto.class);
 
       ApiResponseDto result = adoptionPostService.createAdoption(userDetails.getUser(),
-          adoptionPostReqeustDto,
-          multipartFiles);
+              adoptionPostReqeustDto,
+              multipartFiles);
       return ResponseEntity.status(HttpStatus.CREATED).body(result);
     } catch (Error error) {
       throw new Exception(error);
@@ -65,28 +65,28 @@ public class AdoptionPostController {
   @Operation(summary = "분양 페이지 단건 조회")
   @GetMapping("/{adoptionId}")
   public ResponseEntity<AdoptionPostDetailResponseDto> getSingleAdoption(
-      @PathVariable Long adoptionId, @AuthenticationPrincipal UserDetailsImpl userDetails,
-      Pageable commentPage) {
+          @PathVariable Long adoptionId, @AuthenticationPrincipal UserDetailsImpl userDetails,
+          Pageable commentPage) {
     AdoptionPostDetailResponseDto result = adoptionPostService.getSingleAdoption(adoptionId,
-        userDetails.getUser());
+            userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
   @Operation(summary = "분양 페이지 포스트 수정")
   @PutMapping(value = "/{adoptionId}", consumes = {MediaType.APPLICATION_JSON_VALUE,
-      MediaType.MULTIPART_FORM_DATA_VALUE})
+          MediaType.MULTIPART_FORM_DATA_VALUE})
   public ResponseEntity<AdoptionPostResponseDto> updateAdoption(@PathVariable Long adoptionId,
-      @AuthenticationPrincipal UserDetailsImpl userDetails,
-      @RequestPart("requestDto") String requestDto,
-      @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
+                                                                @AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                @RequestPart("requestDto") String requestDto,
+                                                                @RequestPart("fileName") MultipartFile[] multipartFiles) throws Exception {
     try {
       ObjectMapper objectMapper = new ObjectMapper();
       AdoptionPostReqeustDto postRequestDto = objectMapper.readValue(requestDto,
-          AdoptionPostReqeustDto.class);
+              AdoptionPostReqeustDto.class);
 
       AdoptionPostResponseDto result = adoptionPostService.updateAdoption(adoptionId,
-          postRequestDto,
-          multipartFiles);
+              postRequestDto,
+              multipartFiles);
       return ResponseEntity.status(HttpStatus.OK).body(result);
     } catch (Error error) {
       throw new Exception(error);
@@ -96,7 +96,7 @@ public class AdoptionPostController {
   @Operation(summary = "분양 페이지 포스트 삭제")
   @DeleteMapping("/{adoptionId}")
   public ResponseEntity<ApiResponseDto> deleteAdoption(@PathVariable Long adoptionId,
-      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+                                                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
     ApiResponseDto result = adoptionPostService.deleteAdoption(adoptionId, userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -105,22 +105,16 @@ public class AdoptionPostController {
   // 내가 쓴 게시물 조회
   @GetMapping("/my-post")
   public ResponseEntity<List<AdoptionPostResponseDto>> getMyAdoptionPostList(
-      @AuthenticationPrincipal UserDetailsImpl userDetails) {
+          @AuthenticationPrincipal UserDetailsImpl userDetails) {
     List<AdoptionPostResponseDto> result = adoptionPostService.getMyAdoptionPostList(
-        userDetails.getUser());
+            userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
   @GetMapping("/relative-post/{userNo}")
   public ResponseEntity<List<AdoptionPostResponseDto>> getRelativeAdoptionPostList(
-      @PathVariable Long userNo) {
+          @PathVariable Long userNo) {
     List<AdoptionPostResponseDto> result = adoptionPostService.getRelativeAdoptionPostList(userNo);
-    return ResponseEntity.status(HttpStatus.OK).body(result);
-  }
-
-  @GetMapping("/best-post")
-  public ResponseEntity<AdoptionPostResponseDto> getBestAdoptionPost() {
-    AdoptionPostResponseDto result = adoptionPostService.getBestAdoptionPost();
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 

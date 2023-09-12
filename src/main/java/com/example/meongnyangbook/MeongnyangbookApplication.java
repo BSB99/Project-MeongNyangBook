@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableJpaAuditing
+@EnableScheduling
 public class MeongnyangbookApplication {
 
 	public static void main(String[] args) {

@@ -59,5 +59,4 @@ public class RedisUtil {
     return redisBlackListTemplate.opsForValue().get(key);
   }
 
-
 }

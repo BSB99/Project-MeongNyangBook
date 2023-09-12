@@ -69,13 +69,6 @@ public interface AdoptionPostService {
    */
   List<AdoptionPostResponseDto> getMyAdoptionPostList(User user);
 
-  /**
-   * 분양 베스트 게시물 조회
-   *
-   * @return
-   */
-  AdoptionPostResponseDto getBestAdoptionPost();
-
 //  List<AdoptionResponseDto> searchAdoptionPostList(String keyword);
 
   /**
