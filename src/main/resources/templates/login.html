@@ -123,7 +123,7 @@
       <div class="form-page">
         <h1>SIGN UP</h1>
 
-        <input id="signup-username" type="text" placeholder="ID"/>
+        <input id="signup-username" type="text" placeholder="ex) XXXX@gmail.com"/>
         <input id="signup-password" type="password" placeholder="Password"/>
         <input id="signup-nickname" type="text" placeholder="NickName"/>
         <input id="signup-introduce" type="text" placeholder="Introduce"/>
@@ -139,7 +139,7 @@
           <option value="SEJONG">세종특별자치시</option>
           <option value="JEJU">제주특별자치도</option>
         </select>
-        <input id="signup-phone-number" type="text" placeholder="PhoneNumber"/>
+        <input id="signup-phone-number" type="number" placeholder="010-0000-0000"/>
         <!--        모달창 띄우기-->
         <button onclick="sendPhoneMessage()" id="access-button">인증번호 받기</button>
         <div id="modal" class="modal">
@@ -207,6 +207,12 @@
 
   body {
     font-family: 'SeoulNamsanM';
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .login-section {
