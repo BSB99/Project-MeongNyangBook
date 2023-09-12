@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
   .done(function (response) {
     $('#community_last').empty();
     for (let i = 0; i < 3; i++) {
-      console.log(response.responseList[i]);
       let communityTitle = response.responseList[i].title; //h5
       let createdAt = response.responseList[i].createdAt; //span - 날짜
       let communityId = response.responseList[i].id;
