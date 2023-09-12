@@ -5,25 +5,25 @@ document.addEventListener("DOMContentLoaded", function () {
   myCommunity();
   // let userId = 1; // board 페이지에서 받아와야 하는 값
   const token = Cookies.get('Authorization');
-  console.log("profile화면 출력")
+  if (token === undefined) {
+    alert("로그인 후 이용해주세요");
+    location.href="/mya/view/users/sign-in";
+  }
   $.ajax({
     type: "GET",
     url: "/mya/auth/profile",
     headers: {'Authorization': token}
   })
   .done(function (response) {
-    console.log(response.nickname);
-    console.log(response.address);
-    console.log(response.introduce);
     document.getElementById("nickname").value = response.nickname;
     document.getElementById("introduce").value = response.introduce;
 
     document.getElementById("address").value = response.address;
     document.getElementById("phone-number").value = response.phoneNumber;
-    console.log("fileName : " + response.fileList)
+
     let fileNames = response.fileList.split("/");
     resizeFileName = resizeS3FirstName + fileNames[fileNames.length - 1];
-    console.log(resizeFileName);
+
     document.getElementById("user-image").src = resizeFileName;
 
   })
@@ -67,63 +67,8 @@ function editProfile() {
     processData: false
   })
   .done(function (xhr) {
-    console.log(xhr);
     window.location.reload();
 
-  })
-  .fail(function (xhr) {
-    alert('프로필 수정 오류!');
-    alert("상태 코드 " + xhr.status + ": " + xhr.responseJSON.message);
-  });
-}
-
-function updateBtn() {
-
-  const doneButton = document.getElementById("doneButton");
-  doneButton.style.display = "none";
-  document.getElementById("edit-button").style.display = "block";
-
-  const nickname = document.getElementById("nickname");
-  const address = document.getElementById("address");
-  const phoneNumber = document.getElementById("phone-number");
-  const introduce = document.getElementById("introduce");
-  const imgUpload = document.getElementById("file");
-
-  nickname.disabled = true;
-  address.disabled = true;
-  phoneNumber.disabled = true;
-  introduce.disabled = true;
-  imgUpload.style.display = "none";
-
-  console.log(nickname.value);
-
-  const token = Cookies.get("Authorization");
-  let formData = new FormData();
-  const profileRequestDto = {
-    nickname: nickname.value,
-    address: address.value,
-    phoneNumber: phoneNumber.value,
-    introduce: introduce.value
-  };
-
-  console.log($('input[type="file"]')[0].files[0]);
-  formData.append('fileName', $('input[type="file"]')[0].files[0]);
-
-  formData.append("profileRequestDto", JSON.stringify(profileRequestDto));
-  console.log(profileRequestDto);
-  console.log(token);
-
-  $.ajax({
-    type: "PUT",
-    url: "/mya/auth/profile",
-    contentType: false,
-    data: formData,
-    headers: {'Authorization': token},
-    processData: false
-  })
-  .done(function (xhr) {
-    location.href = "/";
-    logout();
   })
   .fail(function (xhr) {
     alert('프로필 수정 오류!');
@@ -172,7 +117,7 @@ function myCommunity() {
     }
   })
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response.responseJSON.msg)
   })
 }
 
@@ -218,7 +163,7 @@ function myAdoption() {
     }
   })
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response)
   })
 }
 
@@ -267,7 +212,6 @@ function myOrders() {
     }
   })
   .fail(res => {
-    alert('주문 정보 오류!');
     console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
   });
 }
@@ -290,11 +234,10 @@ function openItemModal(orderId) {
     headers: {'Authorization': token},
   })
   .done(res => {
-    console.log(res);
     itemModalData += `
         <p>수령인 : ${res.receiverName}</p>
         <p>수령인 전화번호 : ${res.receiverPhoneNumber}</p>
-        <p>총 금액 : ${res.totalPrice}</p>
+        <p>총 금액 : ${res.totalPrice}원</p>
         <p>주문상황 : ${res.status === "ORDER_IN_PROGRESS" ? "주문 완료" : "배송 완료"}
         `
 
@@ -305,7 +248,7 @@ function openItemModal(orderId) {
       if (res.status === "ORDER_IN_PROGRESS") {
         itemModalDetailData += `
             <li class="list-item">
-                <span>상품 : ${itemName}</span>
+                <span>상품 : <a href="/mya/view/items/${i.item.id}">${itemName}</a></span>
                 <span>가격 : ${itemPrice}원</span>
                 <span>주문 개수 : ${itemCnt}개</span>
             </li>
@@ -313,7 +256,7 @@ function openItemModal(orderId) {
       } else {
         itemModalDetailData += `
             <li class="list-item">
-                <span>상품 : ${itemName}</span>
+                <span>상품 : <a href="/mya/view/items/${i.item.id}">${itemName}</a></span>
                 <span>가격 : ${itemPrice}원</span>
                 <span>주문 개수 : ${itemCnt}개</span>
                 <span><button name="리뷰쓰기" class="btn" onclick="openReviewModal(${i.item.id})">리뷰쓰기</button></span>
@@ -328,7 +271,6 @@ function openItemModal(orderId) {
     })
   })
   .fail(res => {
-    alert('아이템 모달 정보 오류!');
     console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
   })
 }
