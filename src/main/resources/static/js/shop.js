@@ -1,14 +1,18 @@
+let category;
+let price;
+let page = 0;
+let paramUrl;
 document.addEventListener("DOMContentLoaded", function () {
   start();
-  let page = 0;
   let size = 6;
   const resizeS3FirstName = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/";
   const productContainers = document.querySelectorAll(".col-lg-9");
-
-  function loadItemsForPage(page) {
+  category = handleCategoryClick();
+  price = handlePriceRangeClick();
+  function loadItemsForPage(page, paramUrl) {
     $.ajax({
       type: "GET",
-      url: `/mya/items?page=${page}&size=${size}`,
+      url: `/mya/items/search?page=${page}&size=${size}&${paramUrl}`,
     })
         .done((response) => {
           // Clear existing content before adding new content
@@ -83,6 +87,95 @@ document.addEventListener("DOMContentLoaded", function () {
         });
   }
 
+  let min = "";
+  let max= "";
+
+  function handlePriceCategory(category, price) {
+    let url = "";
+    let priceArray;
+
+    if (price != null) {
+      priceArray = price.split("-");
+      min = priceArray[0];
+      max = priceArray[1];
+
+      url += `min=${min},`
+
+      if (max !== 0) {
+        url += `max=${max},`
+      }
+    }
+
+    if (category != null) {
+      url += `category=${category},`
+    }
+
+    paramUrl = url.replaceAll(",","&");
+    loadItemsForPage(page, paramUrl);
+  }
+
+  function handleCategoryClick() {
+    // 카테고리 체크박스 클릭 처리
+    let categoryCheckboxes = document.querySelectorAll('input[type="checkbox"][name="category"]');
+
+    categoryCheckboxes.forEach(function (checkbox) {
+      checkbox.addEventListener('change', function () {
+        // 다른 카테고리 체크박스 선택 해제
+        categoryCheckboxes.forEach(function (otherCheckbox) {
+          if (otherCheckbox !== checkbox) {
+            otherCheckbox.checked = false;
+          }
+        });
+
+        // 체크된 카테고리 체크박스의 값을 가져옵니다.
+        let selectedCategory = checkbox.checked ? checkbox.value : null;
+
+        // 체크된 값을 사용하거나 표시합니다.
+        handlePriceCategory(selectedCategory, getSelectedPrice());
+      });
+    });
+  }
+
+  function handlePriceRangeClick() {
+    let priceRangeCheckboxes = document.querySelectorAll('input[type="checkbox"][name="price-range"]');
+    priceRangeCheckboxes.forEach(function (checkbox) {
+      checkbox.addEventListener('change', function () {
+        // 다른 체크박스의 선택을 모두 해제합니다.
+        priceRangeCheckboxes.forEach(function (otherCheckbox) {
+          if (otherCheckbox !== checkbox) {
+            otherCheckbox.checked = false;
+          }
+        });
+
+        // 체크된 체크박스의 값을 가져옵니다.
+        let selectedValue = checkbox.checked ? checkbox.value : null;
+
+        // 체크된 값을 사용하거나 표시합니다.
+        handlePriceCategory(getSelectedCategory(), selectedValue);
+      });
+    });
+  }
+
+  function getSelectedCategory() {
+    let categoryCheckboxes = document.querySelectorAll('input[type="checkbox"][name="category"]');
+    for (let i = 0; i < categoryCheckboxes.length; i++) {
+      if (categoryCheckboxes[i].checked) {
+        return categoryCheckboxes[i].value;
+      }
+    }
+    return null;
+  }
+
+  function getSelectedPrice() {
+    let priceRangeCheckboxes = document.querySelectorAll('input[type="checkbox"][name="price-range"]');
+    for (let i = 0; i < priceRangeCheckboxes.length; i++) {
+      if (priceRangeCheckboxes[i].checked) {
+        return priceRangeCheckboxes[i].value;
+      }
+    }
+    return null;
+  }
+
 
   function generatePaginationLinks(totalLen, currentPage) {
     const totalPages = totalLen; // Total number of pages
@@ -113,11 +206,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function changePage(newPage) {
     page = newPage;
-    loadItemsForPage(page);
+    loadItemsForPage(page,paramUrl);
   }
 
   // Load initial items for the first page
-  loadItemsForPage(page);
+  loadItemsForPage(page,paramUrl);
 });
 
 function addCart(itemNo) {

@@ -17,14 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "상품 API")
@@ -87,5 +80,13 @@ public class ItemController {
     ApiResponseDto result = itemService.deleteItem(itemNo);
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @Operation(summary = "상품 카테고리 선택")
+  @GetMapping("/search")
+  public ResponseEntity<ItemListResponseDto> searchItems(Pageable pageable, @RequestParam(value = "category", required = false) ItemCategoryEnum category, @RequestParam(value = "min", required = false) Long min, @RequestParam(value = "max", required = false) Long max) {
+    ItemListResponseDto itemListResponseDto = itemService.searchItems(pageable, category, min, max);
+
+    return ResponseEntity.status(HttpStatus.OK).body(itemListResponseDto);
   }
 }
