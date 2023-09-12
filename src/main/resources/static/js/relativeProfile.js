@@ -4,7 +4,7 @@ const token = Cookies.get("Authorization");
 document.addEventListener("DOMContentLoaded", function () {
   if (token === undefined) {
     alert("로그인 후 이용해주세요");
-    location.href="/mya/view/users/sign-in";
+    location.href = "/mya/view/users/sign-in";
   }
   const host = "http://" + window.location.host;
   myCommunity();
@@ -15,12 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
     headers: {'Authorization': token}
   })
   .done((response) => {
-    console.log(response);
     document.getElementById("nickname").value = response.nickname;
     document.getElementById("introduce").value = response.introduce;
 
     document.getElementById("address").value = response.address;
-    document.getElementById("phone-number").value = response.phoneNumber;
     document.getElementById("user-image").src = response.fileList;
 
   })
