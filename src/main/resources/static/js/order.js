@@ -123,8 +123,8 @@ function orderAjax(orderRequestDto) {
       })
       .done((response) => {
         if (response.statusCode === 200) {
-          alert("주문 생성 완료");
-          location.href = "/";
+          alert("결제 완료");
+          location.href = "/mya/view/users/my-profile";
         }
       })
     }
