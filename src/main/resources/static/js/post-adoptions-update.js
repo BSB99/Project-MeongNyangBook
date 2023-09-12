@@ -3,7 +3,7 @@ const token = Cookies.get('Authorization');
 $(document).ready(function () {
   if (token === undefined) {
     alert("로그인 후 이용해주세요");
-    location.href="/mya/view/users/sign-in";
+    location.href = "/mya/view/users/sign-in";
   }
   start();
   $("#multipartFiles").on("change", handleImgFileSelect);
@@ -127,7 +127,7 @@ function uploadData() {
     title: $("#adoptionsTitle").val(),
     description: $("#adoptionsDescription").val(),
     animalName: $("#animal-name").val(),
-    animalGender: $("#animal-gender").val(),
+    animalGender: $("#animal-sex").val(),
     animalAge: $("#animal-age").val(),
     area: $("#animal-address").val(),
     category: $("#animal-category").val()
@@ -187,7 +187,7 @@ function setCardData(response) {
   let animalAge = document.getElementById("animal-age");
   let area = document.getElementById("animal-address");
   let category = document.getElementById("animal-category");
-  
+
   adoptionsTitle.value = response.title;
   adoptionDescription.innerText = response.description;
   animalName.value = response.animalName;
