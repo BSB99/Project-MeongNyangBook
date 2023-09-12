@@ -6,13 +6,11 @@ import com.example.meongnyangbook.post.dto.DeleteDto;
 import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
-import com.example.meongnyangbook.shop.item.search.ItemSearchResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -101,4 +98,12 @@ public class ItemController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+
+  @Operation(summary = "상품 카테고리 선택")
+  @GetMapping("/search")
+  public ResponseEntity<ItemListResponseDto> searchItems(Pageable pageable, @RequestParam(value = "category", required = false) ItemCategoryEnum category, @RequestParam(value = "min", required = false) Long min, @RequestParam(value = "max", required = false) Long max) {
+    ItemListResponseDto itemListResponseDto = itemService.searchItems(pageable, category, min, max);
+
+    return ResponseEntity.status(HttpStatus.OK).body(itemListResponseDto);
+  }
 }

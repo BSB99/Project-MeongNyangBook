@@ -30,6 +30,16 @@
     /*li {*/
     /*  list-style: none;*/
     /*}*/
+    @font-face {
+      font-family: 'SeoulNamsanM';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      font-family: 'SeoulNamsanM';
+    }
 
     .middle_Top {
       width: 600px;
@@ -191,11 +201,12 @@
           <tr>
             <td>
               <div>
-                <input class="seul-text title" type="text" name="title"
+                <input id="adoptionsTitle" class="seul-text title" type="text" name="title"
                        placeholder="제목"
                        style="width: 500px">
               </div>
-              <textarea type="text" name="description" class="image_upload_textarea"
+              <textarea id="adoptionsDescription" type="text" name="description"
+                        class="image_upload_textarea"
                         placeholder="문구입력" style="background-color: #eee;"></textarea>
               <input class="animal-name seul-text" type="text" name="animal-name" id="animal-name"
                      value=""
@@ -207,7 +218,7 @@
                 <option value="MALE">MALE</option>
                 <option value="FEMALE">FEMALE</option>
               </select>
-              <input class="animal-age seul-text" type="text" name="animal-age" id="animal-age"
+              <input class="animal-age seul-text" type="number" name="animal-age" id="animal-age"
                      value=""
                      placeholder="동물나이">
               <select class="animal-address seul-text" name="animal-address" id="animal-address">

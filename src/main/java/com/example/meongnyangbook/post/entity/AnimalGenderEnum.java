@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum AnimalGenderEnum {
-    MALE("수컷"),
-    FEMALE("암컷");
+  MALE("수컷"),
+  FEMALE("암컷");
 
-    private final String description;
+  private final String description;
 }

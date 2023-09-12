@@ -2,9 +2,7 @@ const token = Cookies.get('Authorization');
 
 document.addEventListener("DOMContentLoaded", function () {
     let cardtBody = document.querySelectorAll(".card-tbody");
-    /*cardtBody.forEach(container => {
-        container.innerHTML = "";
-    })*/
+
     getOrderList(cardtBody);
 })
 

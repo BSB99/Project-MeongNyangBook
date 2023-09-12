@@ -17,6 +17,7 @@ public class AdoptionPostDetailResponseDto {
 
   private Long userId;
   private String title;
+  private String nickname;
   private String username;
   private String description;
   private Boolean completion;
@@ -33,6 +34,7 @@ public class AdoptionPostDetailResponseDto {
 
   public AdoptionPostDetailResponseDto(AdoptionPost adoptionPost, Double viewCount) {
     this.userId = adoptionPost.getUser().getId();
+    this.nickname = adoptionPost.getUser().getNickname();
     this.title = adoptionPost.getTitle();
     this.username = adoptionPost.getUser().getUsername();
     this.description = adoptionPost.getDescription();

@@ -1,8 +1,8 @@
+const token = Cookies.get('Authorization');
 document.addEventListener("DOMContentLoaded", function () {
   start();
   const host = "http://" + window.location.host;
   const resizeS3FirstName = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/";
-  const token = Cookies.get('Authorization');
 
   let size = 9;
 
@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
       headers: {'Authorization': token}
     })
     .done(function (response) {
-      console.log(response);
       $('#postList').empty();
 
       for (let i = 0; i < response.responseList.length; i++) {

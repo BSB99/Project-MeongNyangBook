@@ -1,3 +1,4 @@
+const token = Cookies.get('Authorization');
 document.addEventListener("DOMContentLoaded", function () {
   start();
   const host = "http://" + window.location.host;
@@ -26,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
       let temp_html = '';
 
       for (let i = 0; i < response.responseList.length; i++) {
-        console.log(response.responseList.length);
         const adoption = response.responseList[i];
         //리사이징된 이미지 가져오는 코드
         let adoptionfileName = adoption.fileUrls.fileName.split(",")[0].split(
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
           <div class="blog__item__pic set-bg" >
-          <img src="${resizeItemName}" alt="">
+          <img src="${resizeItemName}" style="height: 240.19px;" alt="">
           </div>
           <div class="blog__item__text" value="${adoption.id}">
             <span><img src="/img/icon/calendar.png" alt="">${adoption.createdAt}</span>
@@ -49,7 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
       `;
       }
-      console.log(response.len);
       const rowHtml = `
       <div class="row">${temp_html}</div>
       <div class="row">
@@ -81,47 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
-  // $.ajax({
-  //   type: "GET",
-  //   url: "/mya/adoptions",
-  //   headers: {'Authorization': token}
-  // })
-  // .done(function (response) {
-  //   $('#adoptionPostList').empty();
-  //   for (let i = 0; i < response.length; i++) {
-  //     let adoptionTitle = response[i]['title']; //h5
-  //     let createdAt = response[i]['createdAt']; //span - 날짜
-  //     let imgUrl = response[i]['fileUrls']['fileName'].split(",")[0].split("/");
-  //
-  //     let adoptionId = response[i]['id']
-  //     console.log(adoptionId, adoptionTitle,
-  //         resizeS3FirstName + imgUrl[imgUrl.length - 1], createdAt);
-  //     setHtml(adoptionTitle, createdAt,
-  //         resizeS3FirstName + imgUrl[imgUrl.length - 1], adoptionId);
-  //   }
-  // })
-  // .fail(function (response) {
-  //   alert(response.responseJSON.msg);
-  // })
 });
-
-// function setHtml(adoptionTitle, createdAt, imgUrl, adoptionId) {
-//   let html = `
-//        <div class="col-lg-4 col-md-6 col-sm-6">
-//         <div class="blog__item">
-//           <div class="blog__item__pic set-bg" >
-//           <img src="${imgUrl}" alt="">
-//           </div>
-//           <div class="blog__item__text" value="${adoptionId}">
-//             <span><img src="/img/icon/calendar.png" alt="">${createdAt}</span>
-//             <h5>${adoptionTitle}</h5>
-//             <a href="/mya/view/adoptions/${adoptionId}">Read More</a>
-//           </div>
-//         </div>
-//       </div>
-//         `;
-//   $('#adoptionPostList').append(html);
-// }
 
 function start() {
   const auth = Cookies.get('Authorization');

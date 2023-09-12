@@ -1,55 +1,47 @@
-//package com.example.meongnyangbook.gpt;
-//
-//import java.util.HashMap;
-//import java.util.Map;
-//import org.springframework.beans.factory.annotation.Value;
-//import org.springframework.http.HttpEntity;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.http.HttpMethod;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.client.RestTemplate;
-//
-//@Service
-//public class GPTService {
-//
-//  private final RestTemplate restTemplate;
-//  private final String gptApiUrl;
-//  private final String apiKey;
-//
-//  public GPTService(RestTemplate restTemplate, @Value("${gpt.api.url}") String gptApiUrl,
-//      @Value("${gpt.api-key}") String apiKey) {
-//    this.restTemplate = restTemplate;
-//    this.gptApiUrl = gptApiUrl;
-//    this.apiKey = apiKey;
-//  }
-//
-//  public String generateText(String inputText) {
-//    String endpointUrl = gptApiUrl + "/completions"; // GPT-3 API의 엔드포인트 URL
-//    HttpHeaders headers = new HttpHeaders();
-//    headers.set("Authorization", "Bearer " + apiKey);
-//    headers.set("Content-Type", "application/json;charset=UTF-8");
-//
-//    Map<String, Object> requestBody = new HashMap<>();
-//    requestBody.put("prompt", inputText);
-//    requestBody.put("max_tokens", 500);
-//    requestBody.put("temperature", 1.0);
-//
-//    HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-//
-//    ResponseEntity<String> response = restTemplate.exchange(
-//        endpointUrl,
-//        HttpMethod.POST,
-//        requestEntity,
-//        String.class
-//    );
-//
-//    if (response.getStatusCode() == HttpStatus.OK) {
-//      return response.getBody();
-//    } else {
-//      // 오류 처리
-//      throw new RuntimeException("GPT API 호출 중 오류 발생: " + response.getStatusCode());
-//    }
-//  }
-//}
+package com.example.meongnyangbook.gpt;
+
+import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Service
+@Slf4j
+public class GPTService {
+
+  private final WebClient webClient;
+  private final String gptApiUrl;
+  private final String apiKey;
+  private final String gptModelId;
+
+  public GPTService(@Value("${gpt.api.url}") String gptApiUrl,
+      @Value("${gpt.api-key}") String apiKey,
+      @Value("${gpt.api-modelId}") String gptModelId) {
+    this.webClient = WebClient.builder()
+        .baseUrl(gptApiUrl)
+        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+        .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+        .build();
+    this.gptApiUrl = gptApiUrl;
+    this.apiKey = apiKey;
+    this.gptModelId = gptModelId;
+  }
+
+  public String generateText(String inputText) {
+    return webClient.post()
+        .uri("/completions")
+        .body(BodyInserters.fromValue(Map.of(
+            "model", gptModelId,
+            "prompt", inputText,
+            "max_tokens", 50,
+            "temperature", 0.5
+        )))
+        .retrieve()
+        .bodyToMono(String.class)
+        .block(); // 이 부분은 비동기 코드를 동기적으로 실행하기 위한 예제입니다. 실제로는 비동기 방식을 사용해야 합니다.
+  }
+}

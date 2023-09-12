@@ -94,6 +94,7 @@ dependencies {
 
     //GPT API
     implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 }
 

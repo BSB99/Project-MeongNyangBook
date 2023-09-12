@@ -7,6 +7,8 @@
   <link rel="icon" href="/img/favicon.png" type="image/x-icon">
 </head>
 <link rel="stylesheet" href="/css/profile.css" type="text/css"/>
+<link rel="stylesheet" href="/assets/vendor/fonts/fontawesome/css/fontawesome-all.css"
+      type="text/css"/>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
@@ -23,6 +25,19 @@
     padding: 50px; /* 원하는 패딩 값을 적용합니다 */ ">
     <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
 </div>
+
+<style>
+  @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  * {
+    font-family: "omyu_pretty", sans-serif;
+  }
+</style>
 
 <header>
   <div class="container">
@@ -68,14 +83,6 @@
         <input class="subProfile" id="address" disabled>
         <input class="subProfile" id="phone-number" disabled>
 
-      </div>
-
-      <div class="profile-stats">
-        <ul>
-          <li><span class="profile-stat-count">164</span> posts</li>
-          <li><span class="profile-stat-count">188</span> followers</li>
-          <li><span class="profile-stat-count">206</span> following</li>
-        </ul>
       </div>
 
       <div class="profile-bio">
