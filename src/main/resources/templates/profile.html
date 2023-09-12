@@ -7,6 +7,9 @@
   <link rel="icon" href="/img/favicon.png" type="image/x-icon">
 </head>
 <link rel="stylesheet" href="/css/profile.css" type="text/css"/>
+<link rel="stylesheet" href="/assets/vendor/fonts/fontawesome/css/fontawesome-all.css"
+      type="text/css"/>
+
 
 <!-- jQuery (Bootstrap가 jQuery에 의존하기 때문에 jQuery를 먼저 로드해야 합니다.) -->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"
@@ -29,6 +32,19 @@
     padding: 50px; /* 원하는 패딩 값을 적용합니다 */ ">
   <a href="/"><img src="/img/logo.png" alt="" style="max-width: 130px"></a>
 </div>
+
+<style>
+  @font-face {
+    font-family: 'omyu_pretty';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  * {
+    font-family: "omyu_pretty", sans-serif;
+  }
+</style>
 
 <header>
   <div class="container">
@@ -410,7 +426,7 @@
       <div class="modal-header">
         <h5 class="modal-title">주문 정보</h5>
       </div>
-      <div class="modal-body" id="itme-modal-detail">
+      <div class="modal-body custom-scroll" id="itme-modal-detail">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
@@ -468,7 +484,11 @@
     </div>
   </div>
 </div>
-
-
 </body>
+<style>
+  .custom-scroll {
+    max-height: 350px; /* 높이는 원하는 값으로 조절 가능 */
+    overflow-y: auto;
+  }
+</style>
 </html>

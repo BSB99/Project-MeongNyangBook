@@ -14,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
       headers: {'Authorization': token}
     })
     .done(function (response) {
-      console.log(response);
       $('#postList').empty();
 
       for (let i = 0; i < response.responseList.length; i++) {

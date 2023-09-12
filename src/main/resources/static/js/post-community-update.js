@@ -64,7 +64,6 @@ function slideImage() {
   let positionValue = 0; //images 위치값
   const IMAGE_WIDTH = 500; //한번 이동 시 IMAGE_WIDTH만큼 이동한다.
   const images = document.querySelectorAll(".img");
-  console.log(images)
   //DOM
   const backBtn = document.querySelector(".prevBtn");
   const nextBtn = document.querySelector(".nextBtn");
@@ -91,21 +90,15 @@ function slideImage() {
     const myDiv = document.getElementById("my_div");
     const imgTags = myDiv.getElementsByTagName("img");
     const imagesSize = imgTags.length;
-    console.log("이미지 사이즈 : " + imagesSize);
-    console.log("현재 인덱스 번호 : " + pages);
     if (pages < imagesSize - 1) {
-      console.log("다음장으로");
       backBtn.removeAttribute("disabled"); //뒤로 이동해 더이상 disabled가 아니여서 속성을 삭제한다.
       positionValue -= IMAGE_WIDTH; //IMAGE_WIDTH의 증감을 positionValue에 저장한다.
-      console.log(positionValue);
       moveImages();
       //x축으로 positionValue만큼의 px을 이동한다.
       pages += 1; //다음 페이지로 이동해서 pages를 1증가 시킨다.
-      console.log(pages);
     }
     if (pages == imagesSize) {
       //
-      console.log("마지막장");
       nextBtn.setAttribute("disabled", "true"); //마지막 장일 때 next버튼이 disabled된다.
     }
   }
@@ -135,7 +128,6 @@ function uploadData() {
   //   deleteFileName: deleteFileName
   // }
   // formData.append("deleteFileName", JSON.stringify(deleteFileDto));
-  console.log("/mya/communities/" + lastPart);
   $.ajax({
     url: "/mya/communities/" + lastPart, // 백엔드 endpoint로 수정
     type: "PUT",
@@ -206,15 +198,12 @@ function imgList(response) {
 
 function start() {
   const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
     document.getElementById('login-text').style.display = 'block';
     document.getElementById('logout-text').style.display = 'none';
     document.getElementById('mypage-text').style.display = 'none';
   } else { // 쿠키가 있을 경우
-    console.log(2);
     document.getElementById('login-text').style.display = 'none';
     document.getElementById('logout-text').style.display = 'block';
     document.getElementById('mypage-text').style.display = 'block';

@@ -24,7 +24,6 @@ function sendPhoneMessage() {
             alert('인증번호 전송 오류: ' + response.responseJSON.msg);
         })
 
-    console.log("modalOpen");
     document.getElementById("modal").style.display = "block";
     const signupBtn = document.getElementById("signup-btn");
     signupBtn.disabled = true;
@@ -72,7 +71,6 @@ function accessPhone() {
 
 //모달 닫기
 function closeModalBtn() {
-    console.log("modalCls");
     document.getElementById("modal").style.display = "none";
     const accessBtn = document.getElementById('access-button');
     accessBtn.disabled = false;

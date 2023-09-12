@@ -11,6 +11,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const token = Cookies.get('Authorization');
 
+  if (token === undefined) {
+    alert("로그인 후 이용해주세요");
+    location.href="/mya/view/users/sign-in";
+  }
+
   getUserNickname();
 
   const commentBox = document.querySelectorAll(".comments-area");
@@ -86,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   })
   .fail(function (response, status, xhr) {
-    alert("카드 정보 불러오기 실패");
     console.log(response);
   })
 
@@ -247,7 +251,6 @@ function getUserNickname() {
     userNickname = res.nickname;
   })
   .fail(function (response, status, xhr) {
-    alert("유저정보 가져오기 실패");
     console.log(response);
   })
 }

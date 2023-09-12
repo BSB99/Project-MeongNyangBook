@@ -1,7 +1,7 @@
 @font-face {
-  font-family: 'Cafe24Supermagic-Bold-v1.0';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/Cafe24Supermagic-Bold-v1.0.woff2') format('woff2');
-  font-weight: 700;
+  font-family: 'SeoulNamsanM';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff');
+  font-weight: normal;
   font-style: normal;
 }
 
@@ -15,7 +15,7 @@
   cursor: pointer;
   display: block;
   float: left;
-  font-family: 'Cafe24Supermagic-Bold-v1.0';
+  font-family: 'SeoulNamsanM';
   font-size: 14px;
   font-weight: normal;
   height: 42px;

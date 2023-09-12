@@ -5,7 +5,10 @@ document.addEventListener("DOMContentLoaded", function () {
   myCommunity();
   // let userId = 1; // board 페이지에서 받아와야 하는 값
   const token = Cookies.get('Authorization');
-  console.log("profile화면 출력")
+  if (token === undefined) {
+    alert("로그인 후 이용해주세요");
+    location.href="/mya/view/users/sign-in";
+  }
   $.ajax({
     type: "GET",
     url: "/mya/auth/profile",
@@ -17,10 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("address").value = response.address;
     document.getElementById("phone-number").value = response.phoneNumber;
-    console.log("fileName : " + response.fileList)
+
     let fileNames = response.fileList.split("/");
     resizeFileName = resizeS3FirstName + fileNames[fileNames.length - 1];
-    console.log(resizeFileName);
+
     document.getElementById("user-image").src = resizeFileName;
 
   })
@@ -64,7 +67,6 @@ function editProfile() {
     processData: false
   })
   .done(function (xhr) {
-    console.log(xhr);
     window.location.reload();
 
   })
@@ -100,13 +102,12 @@ function myCommunity() {
         <div class="gallery-item-info">
           <ul>
             <li class="gallery-item-likes">
-                    <span class="visually-hidden">Like:</span
-                    ><i class="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
+                    <span class="visually-hidden">Like:</span>
+                    <i class="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
             </li>
             <li class="gallery-item-comments">
-                    <span class="visually-hidden">Comments:</span
-                    ><i class="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
-            </li>
+                    <span class="visually-hidden">Comments:</span>
+                    <i class="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
           </ul>
         </div>
       </div>`
@@ -116,7 +117,7 @@ function myCommunity() {
     }
   })
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response.responseJSON.msg)
   })
 }
 
@@ -138,22 +139,20 @@ function myAdoption() {
           resizeS3FirstName);
 
       let temp_html =
-          `<div onclick="moveAdoptionPost(${postId})" className="gallery-item" tabIndex="0">
+          `<div onclick="moveAdoptionPost(${postId})" class="gallery-item" tabIndex="0">
         <img
             src="${resizefile}"
-            className="gallery-image"
-            alt=""
-        />
-        
-        <div className="gallery-item-info">
+            class="gallery-image"
+            alt=""/>
+        <div class="gallery-item-info">
           <ul>
-            <li className="gallery-item-likes">
-                    <span className="visually-hidden">Like:</span
-                    ><i className="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
+            <li class="gallery-item-likes">
+                    <span class="visually-hidden">Like:</span
+                    ><i class="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
             </li>
-            <li className="gallery-item-comments">
-                    <span className="visually-hidden">Comments:</span
-                    ><i className="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
+            <li class="gallery-item-comments">
+                    <span class="visually-hidden">Comments:</span
+                    ><i class="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
             </li>
           </ul>
         </div>
@@ -164,7 +163,7 @@ function myAdoption() {
     }
   })
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response)
   })
 }
 
@@ -202,7 +201,7 @@ function myOrders() {
               </li>
               <li class="gallery-item-comments">
                 <span class="visually-hidden">가격:</span>
-                <i class="fas fa-comment" aria-hidden="true"></i> ${order.totalPrice}
+                <i class="fas fa-money-bill-alt" aria-hidden="true"></i> ${order.totalPrice}
               </li>
             </ul>
           </div>
@@ -213,7 +212,6 @@ function myOrders() {
     }
   })
   .fail(res => {
-    alert('주문 정보 오류!');
     console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
   });
 }
@@ -236,11 +234,10 @@ function openItemModal(orderId) {
     headers: {'Authorization': token},
   })
   .done(res => {
-    console.log(res);
     itemModalData += `
         <p>수령인 : ${res.receiverName}</p>
         <p>수령인 전화번호 : ${res.receiverPhoneNumber}</p>
-        <p>총 금액 : ${res.totalPrice}</p>
+        <p>총 금액 : ${res.totalPrice}원</p>
         <p>주문상황 : ${res.status === "ORDER_IN_PROGRESS" ? "주문 완료" : "배송 완료"}
         `
 
@@ -251,7 +248,7 @@ function openItemModal(orderId) {
       if (res.status === "ORDER_IN_PROGRESS") {
         itemModalDetailData += `
             <li class="list-item">
-                <span>상품 : ${itemName}</span>
+                <span>상품 : <a href="/mya/view/items/${i.item.id}">${itemName}</a></span>
                 <span>가격 : ${itemPrice}원</span>
                 <span>주문 개수 : ${itemCnt}개</span>
             </li>
@@ -259,7 +256,7 @@ function openItemModal(orderId) {
       } else {
         itemModalDetailData += `
             <li class="list-item">
-                <span>상품 : ${itemName}</span>
+                <span>상품 : <a href="/mya/view/items/${i.item.id}">${itemName}</a></span>
                 <span>가격 : ${itemPrice}원</span>
                 <span>주문 개수 : ${itemCnt}개</span>
                 <span><button name="리뷰쓰기" class="btn" onclick="openReviewModal(${i.item.id})">리뷰쓰기</button></span>
@@ -274,7 +271,6 @@ function openItemModal(orderId) {
     })
   })
   .fail(res => {
-    alert('아이템 모달 정보 오류!');
     console.log("상태 코드 " + res.status + ": " + res.responseJSON.message);
   })
 }

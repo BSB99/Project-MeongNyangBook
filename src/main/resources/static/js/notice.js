@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // modify-modal
   const exampleModal = document.getElementById('exampleModal');
-  console.log(exampleModal);
   if (exampleModal) {
     exampleModal.addEventListener('show.bs.modal', event => {
       // Button that triggered the modal
@@ -27,7 +26,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function getNotice() {
-  console.log("GetNotice")
   $.ajax({
     type: "GET",
     url: "/mya/backoffice/notices",
@@ -35,7 +33,6 @@ function getNotice() {
   })
   .done(function (response) {
     $('#notice_info_table').empty();
-    console.log(response);
     for (let res of response) {
 
       let temp_html =
