@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       for (let basket of response.basketList) {
         if (basket.item) {
-          console.log(basket);
           itemHtml += `
                         <tr>
                             <td class="product__cart__item">
