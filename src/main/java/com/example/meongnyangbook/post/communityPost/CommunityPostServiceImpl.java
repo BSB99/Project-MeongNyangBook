@@ -105,16 +105,10 @@ public class CommunityPostServiceImpl implements CommunityPostService {
 
     if (redisViewCountUtil.checkAndIncrementViewCount(communityNo.toString(),
         user.getId().toString())) {
-      redisViewCountUtil.incrementCommunityViewCount(communityNo.toString());
+      redisViewCountUtil.incrementPostViewCount(communityNo.toString());
     }
-    Double viewCount = redisViewCountUtil.getViewCommunityCount(communityNo.toString());
+    Double viewCount = redisViewCountUtil.getViewPostCount(communityNo.toString());
     return new CommunityPostDetailResponseDto(communityPost, viewCount);
-  }
-
-  @Override
-  public CommunityPostResponseDto getBestAdoptionPost() {
-    Long id = redisViewCountUtil.getTopViewedCommunityPost();
-    return new CommunityPostResponseDto(getCommunity(id));
   }
 
   @Override
