@@ -5,6 +5,10 @@ let currentUserRole;
 let len = 0;
 let inquiryLen = 0;
 document.addEventListener("DOMContentLoaded", function () {
+  if (token === undefined) {
+    alert("로그인 후 이용해주세요");
+    location.href="/mya/view/users/sign-in";
+  }
   start();
   getUserInfo();
   const resizeS3FirstName = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/";
@@ -47,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   })
   .done((res) => {
-    console.log(res);
     for (let fileUrls of res.fileUrls.fileName.split(",")) {
       let itemfileName = fileUrls.split(",")[0].split("/");
       let resizeItemName = resizeS3FirstName + itemfileName[itemfileName.length
@@ -119,7 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function start() {
   const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
     document.getElementById('login-text').style.display = 'block';
@@ -177,7 +179,18 @@ function itemReviews() {
       });
     } else {
       for (let i of reviewList) {
-        reviewHtml += `
+        if (currnetUserNickname === i.nickname) {
+          reviewHtml += `
+          <img src=""/>
+          <div className="bubble" class="bubble">
+            닉네임 : ${i.nickname}<br>
+            제목 : ${i.title}<br>
+            내용 : ${i.description}<br>
+            별점 : ${"⭐".repeat(i.starRating)}
+            <button onclick="deleteReview(${i.reviewId})" style="float: right;">삭제</button>
+          </div>`;
+        } else {
+          reviewHtml += `
           <img src=""/>
           <div className="bubble" class="bubble">
             닉네임 : ${i.nickname}<br>
@@ -185,6 +198,7 @@ function itemReviews() {
             내용 : ${i.description}<br>
             별점 : ${"⭐".repeat(i.starRating)}
           </div>`;
+        }
       }
       let paginationHtml = generatePaginationLinks(len / 4 + 1, currentPage);
 
@@ -418,7 +432,6 @@ function getUserInfo() {
     currentUserRole = res.role;
   })
   .fail(function (response, status, xhr) {
-    alert("유저정보 가져오기 실패");
     console.log(response);
   })
 }
@@ -460,4 +473,21 @@ function deleteInquiry(inquiryId) {
     alert("문의를 삭제하는 도중 에러 발생");
     console.log(res);
   })
+}
+
+function deleteReview(id) {
+  $.ajax({
+    type: "DELETE",
+    url: `/mya/reviews/` + id,
+    headers: {
+      "Authorization": token,
+    }
+  })
+      .done(res => {
+        location.reload();
+      })
+      .fail(res => {
+        alert("리뷰를 삭제하는 도중 에러 발생");
+        console.log(res);
+      })
 }

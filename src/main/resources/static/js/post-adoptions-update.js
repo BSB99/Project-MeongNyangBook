@@ -90,21 +90,14 @@ function slideImage() {
     const myDiv = document.getElementById("my_div");
     const imgTags = myDiv.getElementsByTagName("img");
     const imagesSize = imgTags.length;
-    console.log("이미지 사이즈 : " + imagesSize);
-    console.log("현재 인덱스 번호 : " + pages);
     if (pages < imagesSize - 1) {
-      console.log("다음장으로");
       backBtn.removeAttribute("disabled"); //뒤로 이동해 더이상 disabled가 아니여서 속성을 삭제한다.
       positionValue -= IMAGE_WIDTH; //IMAGE_WIDTH의 증감을 positionValue에 저장한다.
-      console.log(positionValue);
       moveImages();
       //x축으로 positionValue만큼의 px을 이동한다.
       pages += 1; //다음 페이지로 이동해서 pages를 1증가 시킨다.
-      console.log(pages);
     }
     if (pages == imagesSize) {
-      //
-      console.log("마지막장");
       nextBtn.setAttribute("disabled", "true"); //마지막 장일 때 next버튼이 disabled된다.
     }
   }
@@ -138,7 +131,6 @@ function uploadData() {
 
   // formData.append("fileName",);
   formData.append("requestDto", JSON.stringify(requestDto));
-  console.log("requestDto", requestDto);
   // var deleteFileDto = {
   //   deleteFileName: deleteFileName
   // }
@@ -152,7 +144,6 @@ function uploadData() {
     contentType: false, // 서버에 데이터를 보낼 때 사용되는 content-type을 false로 지정하여 browser에게 multipart/form-data를 사용하도록 합니다.
     headers: {"Authorization": token},
     success: function (response) {
-      console.log(imgArr);
       // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/adoptions";
 
@@ -207,7 +198,6 @@ function setCardData(response) {
 function imgList(response) {
   // var files = e.target.files;
   var filesArr = response['fileUrls']['fileName'].split(",");
-  console.log(filesArr.length);
   imgArr = filesArr;
   $(".img_wrap").empty();
 
