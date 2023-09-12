@@ -63,7 +63,6 @@ function slideImage() {
   let positionValue = 0; //images 위치값
   const IMAGE_WIDTH = 500; //한번 이동 시 IMAGE_WIDTH만큼 이동한다.
   const images = document.querySelectorAll(".img");
-  console.log(images)
   //DOM
   const backBtn = document.querySelector(".prevBtn");
   const nextBtn = document.querySelector(".nextBtn");
@@ -188,18 +187,22 @@ function setCardData(response) {
   let adoptionsTitle = document.getElementById("adoptionsTitle");
   let adoptionDescription = document.getElementById("adoptionsDescription");
   let animalName = document.getElementById("animal-name");
-  let animalGender = document.getElementById("animal-gender");
+  let animalGender = document.getElementById("animal-sex");
   let animalAge = document.getElementById("animal-age");
   let area = document.getElementById("animal-address");
   let category = document.getElementById("animal-category");
+  
+  console.log(response.animalGender);
 
   adoptionsTitle.innerText = response.title;
   adoptionDescription.innerText = response.description;
   animalName.value = response.animalName;
-  animalGender.value = response.animalGender;
+
+  animalGender.options.selectedIndex = response.animalGender;
+
   animalAge.value = response.animalAge;
-  area.value = response.area;
-  category.value = response.category;
+  area.options.selectedIndex = response.animalGender.index;
+  category.options.selectedIndex = response.animalGender.index;
 }
 
 // let deleteFileName = [];
@@ -207,7 +210,6 @@ function setCardData(response) {
 function imgList(response) {
   // var files = e.target.files;
   var filesArr = response['fileUrls']['fileName'].split(",");
-  console.log(filesArr.length);
   imgArr = filesArr;
   $(".img_wrap").empty();
 

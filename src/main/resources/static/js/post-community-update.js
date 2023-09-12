@@ -124,9 +124,6 @@ function slideImage() {
 function uploadData() {
   var formData = new FormData($('#uploadForm')[0]); // 폼의 데이터를 FormData 객체로 가져옵니다.
 
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
   var requestDto = {
     title: $(".title").val(),
     description: $(".image_upload_textarea").val()
