@@ -18,23 +18,18 @@ function uploadData() {
     contentType: false, // 서버에 데이터를 보낼 때 사용되는 content-type을 false로 지정하여 browser에게 multipart/form-data를 사용하도록 합니다.
     headers: {"Authorization": token},
     success: function (response) {
-      // 다른 성공 동작 처리
       window.location.href = "/mya/view/post/community";
     },
     error: function (error) {
       alert('Upload failed.');
       console.error("Error:", error);
-      // 다른 에러 동작 처리
     }
   });
 }
 
 function uploadAdoptions() {
-
   var formData = new FormData($('#uploadForms')[0]); // 폼의 데이터를 FormData 객체로 가져옵니다.
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
+  
   var requestDto = {
     title: $(".title").val(),
     description: $(".image_upload_textarea").val(),

@@ -10,4 +10,6 @@ public interface LikeRepository extends JpaRepository<PostLike, Long> {
 
   //해당 포스트의 해당 유저가 누른 postLike
   PostLike findByPostIdAndUserId(Long postId, Long userId);
+
+  Long countByPostId(Long id);
 }

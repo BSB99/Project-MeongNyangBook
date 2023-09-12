@@ -1,69 +1,47 @@
 package com.example.meongnyangbook.gpt;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
+@Slf4j
 public class GPTService {
 
-  private final RestTemplate restTemplate;
+  private final WebClient webClient;
   private final String gptApiUrl;
   private final String apiKey;
+  private final String gptModelId;
 
-  public GPTService(RestTemplate restTemplate, @Value("${gpt.api.url}") String gptApiUrl,
-      @Value("${gpt.api-key}") String apiKey) {
-    this.restTemplate = restTemplate;
+  public GPTService(@Value("${gpt.api.url}") String gptApiUrl,
+      @Value("${gpt.api-key}") String apiKey,
+      @Value("${gpt.api-modelId}") String gptModelId) {
+    this.webClient = WebClient.builder()
+        .baseUrl(gptApiUrl)
+        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+        .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+        .build();
     this.gptApiUrl = gptApiUrl;
     this.apiKey = apiKey;
+    this.gptModelId = gptModelId;
   }
 
   public String generateText(String inputText) {
-    String endpointUrl = gptApiUrl + "/completions"; // GPT-3 API의 엔드포인트 URL
-    HttpHeaders headers = new HttpHeaders();
-    headers.set("Authorization", "Bearer " + apiKey);
-    headers.set("Content-Type", "application/json;charset=UTF-8");
-
-    List<Map<String, Object>> messages = new ArrayList<>();
-    Map<String, Object> message = new HashMap<>();
-    message.put("role", "system");
-    message.put("content", "You are a helpful assistant.");
-    messages.add(message);
-
-    message = new HashMap<>();
-    message.put("role", "user");
-    message.put("content", inputText);
-    messages.add(message);
-
-    Map<String, Object> requestBody = new HashMap<>();
-    requestBody.put("messages", messages);
-    requestBody.put("model", "gpt-3.5-turbo");
-    requestBody.put("max_tokens", 500);
-    requestBody.put("temperature", 0.7);
-
-    HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
-
-    ResponseEntity<String> response = restTemplate.exchange(
-        endpointUrl,
-        HttpMethod.POST,
-        requestEntity,
-        String.class
-    );
-
-    if (response.getStatusCode() == HttpStatus.OK) {
-      return response.getBody();
-    } else {
-      // 오류 처리
-      throw new RuntimeException("GPT API 호출 중 오류 발생: " + response.getStatusCode());
-    }
+    return webClient.post()
+        .uri("/completions")
+        .body(BodyInserters.fromValue(Map.of(
+            "model", gptModelId,
+            "prompt", inputText,
+            "max_tokens", 50,
+            "temperature", 0.5
+        )))
+        .retrieve()
+        .bodyToMono(String.class)
+        .block(); // 이 부분은 비동기 코드를 동기적으로 실행하기 위한 예제입니다. 실제로는 비동기 방식을 사용해야 합니다.
   }
 }

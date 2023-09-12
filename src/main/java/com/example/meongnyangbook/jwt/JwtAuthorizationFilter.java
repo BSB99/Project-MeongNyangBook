@@ -33,19 +33,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     String token = jwtUtil.resolveToken(request);
     String refresh_token = jwtUtil.resolveRefreshToken(request);
     if (token != null) {
-      log.info("액세스 토큰 값 : " + token);
-      log.info("리프레쉬 토큰 값 : " + refresh_token);
 
       if (!jwtUtil.validateToken(token)) {
 
         if (refresh_token != null) {
           if (jwtUtil.validateToken(refresh_token)) {
             String newAccessToken = jwtUtil.reissueAccessToken(refresh_token);
-            log.info("newAccessToken" + newAccessToken);
 
             //프론트 구현 시 해당 newAccessToken을 Header에 넣어주기
             jwtUtil.addJwtToCookie(newAccessToken, response);// 쿠키에 새 accesstoken넣어주기
-            log.info("재발급");
 
             //재발급 시 header에 다시 넣어줘야 하는가?
           } else {//쿠키 만료시간이 지나고 리프레쉬 토큰 만료시간이 지났을 때
@@ -65,9 +61,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
 
         return;
-      } else {
-        log.info("토큰 만료되지 않음");
       }
+      //토큰 만료되지 않음
       Claims info = jwtUtil.getUserInfoFromToken(token);
       setAuthentication(info.getSubject());
     }

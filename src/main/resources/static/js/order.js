@@ -123,8 +123,8 @@ function orderAjax(orderRequestDto) {
       })
       .done((response) => {
         if (response.statusCode === 200) {
-          alert("주문 생성 완료");
-          location.href = "/";
+          alert("결제 완료");
+          location.href = "/mya/view/users/my-profile";
         }
       })
     }
@@ -173,15 +173,12 @@ function showKg(totalPrice) {
 
 function start() {
   const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
     document.getElementById('login-text').style.display = 'block';
     document.getElementById('logout-text').style.display = 'none';
     document.getElementById('mypage-text').style.display = 'none';
   } else { // 쿠키가 있을 경우
-    console.log(2);
     document.getElementById('login-text').style.display = 'none';
     document.getElementById('logout-text').style.display = 'block';
     document.getElementById('mypage-text').style.display = 'block';

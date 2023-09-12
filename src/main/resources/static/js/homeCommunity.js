@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
   .done(function (response) {
     $('#community_last').empty();
     for (let i = 0; i < 3; i++) {
-      console.log(response.responseList[i]);
       let communityTitle = response.responseList[i].title; //h5
       let createdAt = response.responseList[i].createdAt; //span - 날짜
       let communityId = response.responseList[i].id;
@@ -29,11 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
       let html = `
       <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
-          <div class="blog__item__pic set-bg"
-               data-setbg="/img/blog/blog-1.jpg"></div>
           <div class="blog__item__text">
             <span><img src="${resizeImg}"
-                       alt="">"${createdAt}"</span>
+                       alt="" style="height: 250px">"${createdAt}"></span>
             <h5>"${communityTitle}"</h5>
             <a href="/mya/view/communities/${communityId}">Read More</a>
           </div>

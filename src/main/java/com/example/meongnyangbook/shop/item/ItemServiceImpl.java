@@ -114,13 +114,21 @@ public class ItemServiceImpl implements ItemService {
 
     return new ItemResponseDto(item);
   }
-
-  ;
-
   @Override
   public Item getItem(Long itemNo) {
     return itemRepository.findById(itemNo).orElseThrow(() -> {
       throw new IllegalArgumentException("존재하지 않는 물품입니다.");
     });
+  }
+
+  @Override
+  public ItemListResponseDto searchItems(Pageable pageable, ItemCategoryEnum category, Long min, Long max) {
+    List<ItemResponseDto> itemResponseDto = itemRepository.searchItemList(min, max, pageable, category)
+              .stream().map(ItemResponseDto::new)
+              .toList();
+
+    int itemLen = itemRepository.searchItemListCnt(min, max, category);
+
+    return new ItemListResponseDto(itemResponseDto, itemLen);
   }
 }

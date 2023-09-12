@@ -2,11 +2,12 @@ let urlParts = window.location.href.split("/");
 userNo = urlParts[urlParts.length - 1].replace("#", "");
 const token = Cookies.get("Authorization");
 document.addEventListener("DOMContentLoaded", function () {
+  if (token === undefined) {
+    alert("로그인 후 이용해주세요");
+    location.href="/mya/view/users/sign-in";
+  }
   const host = "http://" + window.location.host;
-  console.log("userNo :" + userNo);
   myCommunity();
-  // let userId = 1; // board 페이지에서 받아와야 하는 값
-  const token = Cookies.get('Authorization');
 
   $.ajax({
     type: "GET",
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function myCommunity() {
   const token = Cookies.get("Authorization");
+
   $.ajax({
     type: "GET",
     url: "/mya/communities/relative-post/" + userNo,
@@ -48,7 +50,6 @@ function myCommunity() {
     for (let res of response) {
 
       let postId = res.id;
-      console.log(response);
       let temp_html =
           `<div onclick="moveCommunityPost(${postId})" class="gallery-item" tabIndex="0">
         <img
@@ -59,11 +60,11 @@ function myCommunity() {
           <ul>
             <li class="gallery-item-likes">
                     <span class="visually-hidden">Like:</span
-                    ><i class="fas fa-heart" aria-hidden="true"></i> 56
+                    ><i class="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
             </li>
             <li class="gallery-item-comments">
                     <span class="visually-hidden">Comments:</span
-                    ><i class="fas fa-comment" aria-hidden="true"></i> 2
+                    ><i class="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
             </li>
           </ul>
         </div>
@@ -91,9 +92,7 @@ function myAdoption() {
     for (let res of response) {
 
       let postId = res.id;
-      console.log(response);
       let file = res.fileUrls.fileName.split(",")[0];
-      console.log(file);
       let temp_html =
           `<div onclick="moveAdoptionPost(${postId})" className="gallery-item" tabIndex="0">
         <img
@@ -106,11 +105,11 @@ function myAdoption() {
           <ul>
             <li className="gallery-item-likes">
                     <span className="visually-hidden">Like:</span
-                    ><i className="fas fa-heart" aria-hidden="true"></i> 56
+                    ><i className="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
             </li>
             <li className="gallery-item-comments">
                     <span className="visually-hidden">Comments:</span
-                    ><i className="fas fa-comment" aria-hidden="true"></i> 2
+                    ><i className="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
             </li>
           </ul>
         </div>
@@ -121,7 +120,7 @@ function myAdoption() {
     }
   })
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response.responseJSON.msg);
   })
 }
 
@@ -132,13 +131,11 @@ function onChat() {
     headers: {'Authorization': token}
   })
   .done(function (response) {
-
         window.location.href = "/mya/view/chat";
-
       }
   )
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response.responseJSON.msg);
   })
 }
 
@@ -151,7 +148,6 @@ function clsReportModal() {
 }
 
 function report() {
-
   let reportContent = document.getElementById("report_content").value;
   let reportCategory = document.getElementById("report_category").value;
 
@@ -174,7 +170,7 @@ function report() {
       }
   )
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response.responseJSON.msg);
   })
 }
 

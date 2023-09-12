@@ -6,6 +6,7 @@ import com.example.meongnyangbook.post.attachment.AttachmentUrl;
 import com.example.meongnyangbook.post.attachment.AttachmentUrlRepository;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.post.entity.Post;
+import com.example.meongnyangbook.post.like.LikeRepository;
 import com.example.meongnyangbook.post.service.PostServiceImpl;
 import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.User;
@@ -27,6 +28,7 @@ public class CommunityPostServiceImpl implements CommunityPostService {
   private final PostServiceImpl postServiceImpl;
   private final AttachmentUrlRepository attachmentUrlRepository;
   private final UserService userService;
+  private final LikeRepository likeRepository;
 
   @Override
   public ApiResponseDto createCommunity(PostRequestDto requestDto, User user,
@@ -127,10 +129,11 @@ public class CommunityPostServiceImpl implements CommunityPostService {
   public List<CommunityPostResponseDto> getRelativeCommunityPostList(Long userNo) {
     User user = userService.findUser(userNo);
 
-    return communityPostRepository.findByUserId(user.getId())
+    List<CommunityPostResponseDto> commuDtoList = communityPostRepository.findByUserId(user.getId())
         .stream()
         .map(CommunityPostResponseDto::new)
         .toList();
+    return commuDtoList;
   }
 
   ;

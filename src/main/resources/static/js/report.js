@@ -1,7 +1,6 @@
 const token = Cookies.get("Authorization");
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("신고 js");
   getReportInfo();
 });
 
@@ -43,7 +42,6 @@ function getReportInfo() {
 }
 
 function blockUser(reportedUsername) {
-  console.log(reportedUsername);
   $.ajax({
     type: "PUT",
     url: "/mya/auth/block?blockUserName=" + reportedUsername,

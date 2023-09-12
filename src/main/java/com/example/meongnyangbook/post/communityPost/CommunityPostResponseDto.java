@@ -11,6 +11,8 @@ public class CommunityPostResponseDto {
   private String description;
   private String createdAt;
   private String updatedAt;
+  private Integer likeCount;
+  private Integer commentCount;
   private AttachmentUrlResponseDto fileUrls;
 
   public CommunityPostResponseDto(CommunityPost communityPost) {
@@ -19,6 +21,8 @@ public class CommunityPostResponseDto {
     this.description = communityPost.getDescription();
     this.createdAt = communityPost.getCreatedAtAsString();
     this.updatedAt = communityPost.getModifiedAtAsString();
+    this.likeCount = communityPost.getPostLikes().size();
+    this.commentCount = communityPost.getCommentList().size();
     this.fileUrls = new AttachmentUrlResponseDto(communityPost.getAttachmentUrl());
   }
 }
