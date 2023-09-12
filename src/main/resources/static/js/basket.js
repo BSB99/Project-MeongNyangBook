@@ -4,8 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const shopCart = document.querySelectorAll(".shopping-cart");
 
   if (token === undefined) {
-    alert("로그인 해주세요");
-    window.location.href = "/mya/view/users/sign-in";
+    alert("로그인 후 이용해주세요");
+    location.href="/mya/view/users/sign-in";
   } else {
     $.ajax({
       type: "GET",
@@ -24,13 +24,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       for (let basket of response.basketList) {
         if (basket.item) {
-          console.log(basket);
           itemHtml += `
                         <tr>
                             <td class="product__cart__item">
                                 <div class="product__cart__item__pic">
-                                    <img src="${basket.item.fileUrls.fileName.split(
-              ",")[0]}" style="height: 100px; weight: 100px" alt="">
+                                    <a href="/mya/view/items/${basket.item.id}"><img src="${basket.item.fileUrls.fileName.split(
+              ",")[0]}" style="height: 100px; weight: 100px" alt=""></a>
                                 </div>
                                 <div class="product__cart__item__text">
                                     <h6>${basket.item.name}</h6>
@@ -141,15 +140,12 @@ function deleteItem(itemId) {
 
 function start() {
   const auth = Cookies.get('Authorization');
-  console.log("auth=", auth);
 
   if (!auth) { // 쿠키가 없을 경우
-    console.log(1);
     document.getElementById('login-text').style.display = 'block';
     document.getElementById('logout-text').style.display = 'none';
     document.getElementById('mypage-text').style.display = 'none';
   } else { // 쿠키가 있을 경우
-    console.log(2);
     document.getElementById('login-text').style.display = 'none';
     document.getElementById('logout-text').style.display = 'block';
     document.getElementById('mypage-text').style.display = 'block';

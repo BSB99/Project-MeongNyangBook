@@ -96,20 +96,15 @@ public class JwtUtil {
 
   // access token 재발급
   public String reissueAccessToken(String refresh) {
-    log.info("액세스 토큰 재발급");
-    log.info(refresh);
 
     Claims info = getUserInfoFromToken(refresh);
 
     String username = info.getSubject();
-    log.info("재발급 요청자 : " + username);
 
     // refresh token 가져오기
 //            String refreshToken = redisUtil.getRefreshToken(username);
 
     // refresh token 존재하고 유효하다면
-
-    log.info("리프레시 토큰 존재하고 유효함");
 
     User user = userRepository.findByUsername(username)
         .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));

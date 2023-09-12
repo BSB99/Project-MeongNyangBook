@@ -17,8 +17,8 @@ public class GPTController {
   }
 
   @PostMapping("/generate")
-  public ResponseEntity<String> generateText(@RequestBody String inputText) {
-    String generatedText = gptService.generateText(inputText);
+  public ResponseEntity<String> generateText(@RequestBody gptRequestDto inputText) {
+    String generatedText = gptService.generateText(inputText.getContent());
     return ResponseEntity.ok(generatedText);
   }
 }

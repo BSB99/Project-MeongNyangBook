@@ -5,7 +5,7 @@ let userNickname;
 
 document.addEventListener("DOMContentLoaded", function () {
   if (token === undefined) {
-    alert("로그인 해주세요");
+    alert("로그인 후 이용해주세요");
     location.href="/mya/view/users/sign-in";
   }
 

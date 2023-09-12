@@ -2,11 +2,12 @@ let urlParts = window.location.href.split("/");
 userNo = urlParts[urlParts.length - 1].replace("#", "");
 const token = Cookies.get("Authorization");
 document.addEventListener("DOMContentLoaded", function () {
+  if (token === undefined) {
+    alert("로그인 후 이용해주세요");
+    location.href="/mya/view/users/sign-in";
+  }
   const host = "http://" + window.location.host;
-  console.log("userNo :" + userNo);
   myCommunity();
-  // let userId = 1; // board 페이지에서 받아와야 하는 값
-  const token = Cookies.get('Authorization');
 
   $.ajax({
     type: "GET",
@@ -49,7 +50,6 @@ function myCommunity() {
     for (let res of response) {
 
       let postId = res.id;
-      console.log(response);
       let temp_html =
           `<div onclick="moveCommunityPost(${postId})" class="gallery-item" tabIndex="0">
         <img
@@ -92,9 +92,7 @@ function myAdoption() {
     for (let res of response) {
 
       let postId = res.id;
-      console.log(response);
       let file = res.fileUrls.fileName.split(",")[0];
-      console.log(file);
       let temp_html =
           `<div onclick="moveAdoptionPost(${postId})" class="gallery-item" tabIndex="0">
         <img
@@ -120,7 +118,7 @@ function myAdoption() {
     }
   })
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response.responseJSON.msg);
   })
 }
 
@@ -131,13 +129,11 @@ function onChat() {
     headers: {'Authorization': token}
   })
   .done(function (response) {
-
         window.location.href = "/mya/view/chat";
-
       }
   )
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response.responseJSON.msg);
   })
 }
 
@@ -150,7 +146,6 @@ function clsReportModal() {
 }
 
 function report() {
-
   let reportContent = document.getElementById("report_content").value;
   let reportCategory = document.getElementById("report_category").value;
 
@@ -173,7 +168,7 @@ function report() {
       }
   )
   .fail(function (response) {
-    alert(response.responseJSON.msg);
+    console.log(response.responseJSON.msg);
   })
 }
 
