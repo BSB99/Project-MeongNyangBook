@@ -30,10 +30,22 @@
 /* Template default CSS
 /*----------------------------------------*/
 
+
+@font-face {
+  font-family: 'SeoulNamsanM';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'SeoulNamsanM';
+}
+
 html,
 body {
   height: 100%;
-  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
+  font-family: "SeoulNamsanM", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -46,7 +58,7 @@ h6 {
   margin: 0;
   color: #111111;
   font-weight: 400;
-  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
+  font-family: "SeoulNamsanM", sans-serif;
 }
 
 h1 {
@@ -75,7 +87,7 @@ h6 {
 
 p {
   font-size: 15px;
-  font-family: "Cafe24Supermagic-Bold-v1.0", sans-serif;
+  font-family: "SeoulNamsanM", sans-serif;
   color: #3d3d3d;
   font-weight: 400;
   line-height: 25px;
@@ -585,7 +597,8 @@ ol {
 
 .hero__items {
   height: 700px;
-  padding-top: 260px;
+  padding-top: 220px;
+  padding-right: 300px;
 }
 
 .hero__text h6 {
@@ -1394,7 +1407,7 @@ ol {
 .shop__sidebar__accordion .card-heading a:after,
 .shop__sidebar__accordion .card-heading > a.active[aria-expanded=false]:after {
   content: "";
-  font-family: "Cafe24Supermagic-Bold-v1.0";
+  font-family: "SeoulNamsanM";
   font-size: 24px;
   font-weight: 700;
   color: #111111;
@@ -1406,7 +1419,7 @@ ol {
 
 .shop__sidebar__accordion .card-heading.active a:after {
   content: "";
-  font-family: "Cafe24Supermagic-Bold-v1.0";
+  font-family: "SeoulNamsanM";
   font-size: 24px;
   font-weight: 700;
   color: #111111;
@@ -1575,7 +1588,7 @@ ol {
   right: -14px;
   top: 0;
   content: "";
-  font-family: "Cafe24Supermagic-Bold-v1.0";
+  font-family: "SeoulNamsanM";
 }
 
 .product__details__breadcrumb span {
@@ -2077,7 +2090,7 @@ ol {
   right: -14px;
   top: 0;
   content: "";
-  font-family: "Cafe24Supermagic-Bold-v1.0";
+  font-family: "SeoulNamsanM";
 }
 
 .breadcrumb__links span {
