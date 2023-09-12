@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
 })
 
 function commentClickMove(userId) {
-  console.log(currentUserId);
+
   if (currentUserId === userId) {
     window.location.href = "/mya/view/users/my-profile";
   } else {
