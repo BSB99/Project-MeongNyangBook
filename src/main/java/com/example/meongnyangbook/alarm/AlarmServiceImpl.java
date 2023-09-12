@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.alarm;
 
-import com.example.meongnyangbook.alarm.fcm.FcmService;
+//import com.example.meongnyangbook.alarm.fcm.FcmService;
+
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.kafka.AlarmDto;
 import com.example.meongnyangbook.user.User;
@@ -17,7 +18,7 @@ public class AlarmServiceImpl implements AlarmService {
 
   private final AlarmRepository alarmRepository;
   private final UserRepository userRepository;
-  private final FcmService fcmService;
+//  private final FcmService fcmService;
 
   @Override
   public List<AlarmResponseDto> showAlarmList(User user) {
@@ -57,6 +58,6 @@ public class AlarmServiceImpl implements AlarmService {
     // FCM
     AlarmDto alarmDto = new AlarmDto(receiverUserId, body, alarmCategoryEnum,
         senderName, "token");
-    fcmService.sendMessageToToken(alarmDto); // Return 값이 있어서 안됨 -> 생각 필요
+//    fcmService.sendMessageToToken(alarmDto); // Return 값이 있어서 안됨 -> 생각 필요
   }
 }
