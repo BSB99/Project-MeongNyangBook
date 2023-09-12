@@ -115,14 +115,11 @@ function slideImage() {
 function uploadData() {
   var formData = new FormData($('#uploadForm')[0]); // 폼의 데이터를 FormData 객체로 가져옵니다.
 
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
   var requestDto = {
     title: $("#adoptionsTitle").val(),
     description: $("#adoptionsDescription").val(),
     animalName: $("#animal-name").val(),
-    animalGender: $("#animal-gender").val(),
+    animalGender: $("#animal-sex").val(),
     animalAge: $("#animal-age").val(),
     area: $("#animal-address").val(),
     category: $("#animal-category").val()
@@ -182,13 +179,10 @@ function setCardData(response) {
   let animalAge = document.getElementById("animal-age");
   let area = document.getElementById("animal-address");
   let category = document.getElementById("animal-category");
-  
-  console.log(response.animalGender);
 
   adoptionsTitle.innerText = response.title;
   adoptionDescription.innerText = response.description;
   animalName.value = response.animalName;
-
   animalGender.options.selectedIndex = response.animalGender;
 
   animalAge.value = response.animalAge;

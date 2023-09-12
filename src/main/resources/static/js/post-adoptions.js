@@ -1,3 +1,4 @@
+const token = Cookies.get('Authorization');
 document.addEventListener("DOMContentLoaded", function () {
   start();
   const host = "http://" + window.location.host;
@@ -80,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-
 
 function start() {
   const auth = Cookies.get('Authorization');
