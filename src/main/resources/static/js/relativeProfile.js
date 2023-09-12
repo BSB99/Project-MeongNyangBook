@@ -94,22 +94,20 @@ function myAdoption() {
       let postId = res.id;
       let file = res.fileUrls.fileName.split(",")[0];
       let temp_html =
-          `<div onclick="moveAdoptionPost(${postId})" className="gallery-item" tabIndex="0">
+          `<div onclick="moveAdoptionPost(${postId})" class="gallery-item" tabIndex="0">
         <img
             src="${file}"
-            className="gallery-image"
-            alt=""
-        />
-        
-        <div className="gallery-item-info">
+            class="gallery-image"
+            alt=""/>
+        <div class="gallery-item-info">
           <ul>
-            <li className="gallery-item-likes">
-                    <span className="visually-hidden">Like:</span
-                    ><i className="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
+            <li class="gallery-item-likes">
+                    <span class="visually-hidden">Like:</span
+                    ><i class="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
             </li>
-            <li className="gallery-item-comments">
-                    <span className="visually-hidden">Comments:</span
-                    ><i className="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
+            <li class="gallery-item-comments">
+                    <span class="visually-hidden">Comments:</span
+                    ><i class="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
             </li>
           </ul>
         </div>
