@@ -1,4 +1,5 @@
 let currentPageUserId;
+let currentUserId;
 document.addEventListener("DOMContentLoaded", function () {
   start();
   confirmHeart();
@@ -13,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (token === undefined) {
     alert("로그인 후 이용해주세요");
-    location.href="/mya/view/users/sign-in";
+    location.href = "/mya/view/users/sign-in";
   }
 
   getUserNickname();
@@ -64,12 +65,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     <div class="comment-list">
                         <div class="single-comment justify-content-between d-flex">
                             <div class="user justify-content-between d-flex">
-                                <a href="/mya/view/users/relative-profile/${commentInfo.userId}" class="thumb">
+                                <a href="javascript:void(0);" onclick="commentClickMove(${commentInfo.userId})" class="thumb">
                                     <img src="${resizeImg}" alt="" style="width: 70px; height: 50px;">
                                 </a>
                                 <div class="desc">
                                     <h5>
-                                        <a href="/mya/view/users/relative-profile/${commentInfo.userId}">${commentInfo.userNickname}</a>
+                                        <a href="javascript:void(0);" onclick="commentClickMove(${commentInfo.userId})">${commentInfo.userNickname}</a>
                                     </h5>
                                     <p class="comment">
                                         ${commentInfo.content}
@@ -95,6 +96,15 @@ document.addEventListener("DOMContentLoaded", function () {
   })
 
 })
+
+function commentClickMove(userId) {
+
+  if (currentUserId === userId) {
+    window.location.href = "/mya/view/users/my-profile";
+  } else {
+    window.location.href = "/mya/view/users/relative-profile/" + userId;
+  }
+}
 
 function fileImgNullCheck(imgFileName) {
   let profilePicture;
@@ -249,6 +259,8 @@ function getUserNickname() {
   })
   .done((res) => {
     userNickname = res.nickname;
+    currentUserId = res.userId;
+
   })
   .fail(function (response, status, xhr) {
     console.log(response);

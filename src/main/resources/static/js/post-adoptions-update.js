@@ -3,7 +3,7 @@ const token = Cookies.get('Authorization');
 $(document).ready(function () {
   if (token === undefined) {
     alert("로그인 후 이용해주세요");
-    location.href="/mya/view/users/sign-in";
+    location.href = "/mya/view/users/sign-in";
   }
   start();
   $("#multipartFiles").on("change", handleImgFileSelect);
@@ -19,6 +19,7 @@ let lastPart = urlParts[urlParts.length - 1];
 
 let imgArr;
 
+const token = Cookies.get('Authorization');
 
 function handleInputClick(event) {
   // Prevent the default behavior of the click event
@@ -186,7 +187,7 @@ function setCardData(response) {
   let animalAge = document.getElementById("animal-age");
   let area = document.getElementById("animal-address");
   let category = document.getElementById("animal-category");
-  
+
   adoptionsTitle.value = response.title;
   adoptionDescription.innerText = response.description;
   animalName.value = response.animalName;
