@@ -29,11 +29,9 @@ document.addEventListener("DOMContentLoaded", function () {
       let html = `
       <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
-          <div class="blog__item__pic set-bg"
-               data-setbg="/img/blog/blog-1.jpg"></div>
           <div class="blog__item__text">
             <span><img src="${resizeImg}"
-                       alt="">"${createdAt}"</span>
+                       alt="" style="height: 250px">"${createdAt}"></span>
             <h5>"${communityTitle}"</h5>
             <a href="/mya/view/communities/${communityId}">Read More</a>
           </div>
