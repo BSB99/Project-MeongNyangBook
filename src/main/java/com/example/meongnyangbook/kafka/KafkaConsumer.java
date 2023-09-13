@@ -20,6 +20,6 @@ public class KafkaConsumer {
       throws FirebaseMessagingException {
     log.info("Consume the event {}", alarmDto);
     alarmService.send(alarmDto.getReceiverUserId(), alarmDto.getBody(),
-        alarmDto.getAlarmCategoryEnum(), alarmDto.getSenderUserName(), alarmDto.getToken());
+        alarmDto.getAlarmCategoryEnum(), alarmDto.getSenderUserName());
   }
 }

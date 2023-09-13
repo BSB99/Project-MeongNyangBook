@@ -3,6 +3,7 @@ package com.example.meongnyangbook.alarm;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.User;
 import java.util.List;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 public interface AlarmService {
 
@@ -24,4 +25,6 @@ public interface AlarmService {
   ApiResponseDto deleteAlarmMessage(Long alarmId, User user);
 
   Alarm getAlarmComment(Long id);
+
+  SseEmitter connectNotification(Long userId);
 }

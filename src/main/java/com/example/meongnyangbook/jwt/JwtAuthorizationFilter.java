@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -25,6 +26,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
   private final JwtUtil jwtUtil;
   private final UserDetailsServiceImpl userDetailsService;
   private final RedisUtil redisUtil;
+  private final static List<String> TOKEN_IN_PARAM_URLS = List.of("/mya/alarm/subscribe");
 
 
   @Override
@@ -32,7 +34,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
       FilterChain filterChain) throws ServletException, IOException {
     String token = jwtUtil.resolveToken(request);
     String refresh_token = jwtUtil.resolveRefreshToken(request);
-    if (token != null) {
+    String sse_token;
+    if (TOKEN_IN_PARAM_URLS.contains(request.getRequestURI())) {
+      log.info("Request with {} check the query param", request.getRequestURI());
+      sse_token = request.getQueryString().split("=")[1].trim();
+      Claims info = jwtUtil.getUserInfoFromToken(sse_token);
+      setAuthentication(info.getSubject());
+    } else if (token != null) {
       log.info("액세스 토큰 값 : " + token);
       log.info("리프레쉬 토큰 값 : " + refresh_token);
 
@@ -61,9 +69,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         } else {//쿠키 만료시간이 지나고 리프레쉬 토큰이 없을 때
           //다시 로그인 시키기 쿠키 블랙리스트 등록(로그아웃)
           redisUtil.setBlackList(token, jwtUtil.remainExpireTime(token));
-
         }
-
         return;
       } else {
         log.info("토큰 만료되지 않음");
