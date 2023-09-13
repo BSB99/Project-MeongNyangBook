@@ -6,7 +6,9 @@
   <link rel="icon" href="/img/favicon.png" type="image/x-icon">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+          crossorigin="anonymous"></script>
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js"
           integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
@@ -177,7 +179,9 @@
         <input type="password" id="login-password" placeholder="Password"/>
         <!--        <a href="#">Forgot your password?</a>-->
         <button id="login-button" onclick="onLogin()">로그인</button>
-        <button id="find-password-button" onclick="findPassword()">비밀번호 찾기</button>
+        <button id="find-password-button" onclick="findPassword()" style="margin-top: 30px">비밀번호
+          찾기
+        </button>
       </div>
     </div>
     <div class="overlay-container">
@@ -209,7 +213,8 @@
         <form>
           <div class="mb-3">
             <label for="emailInput" class="form-label">이메일:</label>
-            <input type="email" class="form-control" id="emailInput" placeholder="올바른 이메일 형식으로 입력하세요" required>
+            <input type="email" class="form-control" id="emailInput"
+                   placeholder="올바른 이메일 형식으로 입력하세요" required>
           </div>
           <div class="mb-3">
             <label for="phoneInput" class="form-label">전화번호:</label>
@@ -223,7 +228,6 @@
     </div>
   </div>
 </div>
-
 
 
 <style>

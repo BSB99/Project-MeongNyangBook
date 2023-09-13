@@ -651,15 +651,31 @@
 <!-- Latest Blog Section End -->
 
 <!--GPT Begin-->
-<div class="gpt-tab">
-  <div id="gptContent">
-    <input type="text" id="questionInput" placeholder="질문을 입력하세요">
-    <button onclick="gptAsking()">질문하기</button>
-    <textarea id="answer" readonly style="width: 300px; height: 100px; resize: none"></textarea>
-    <div id="message" class="hidden">응답 요청까지 잠시만 기다려주세요.</div>
+<section class="latest spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="section-title">
+          <span>질문하기</span>
+          <h2>반려동물의 궁금한 점을 물어보세요 !</h2>
+          <div class="gpt-tab mt-4">
+            <div id="gptContent">
+              <div class="mb-3">
+                <input type="text" id="questionInput" class="form-control" placeholder="질문을 입력하세요">
+              </div>
+              <div class="mb-3">
+                <button onclick="gptAsking()" class="btn btn-primary w-100">질문하기</button>
+              </div>
+              <textarea id="answer" class="form-control d-none" readonly
+                        style="resize: none; height: 150px"></textarea>
+              <div id="message" class="hidden mt-3">응답 요청까지 잠시만 기다려주세요.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-</div>
+</section>
 <!--GPT End-->
 
 <!-- Footer Section Begin -->
