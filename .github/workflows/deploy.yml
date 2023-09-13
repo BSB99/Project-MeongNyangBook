@@ -30,6 +30,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+      # (2) 도커 컨테이너의 상태 확인
+    - name: Check Docker Container Status
+      run: |
+        CONTAINER_NAME="your-container-name"
+        if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+          echo "Container $CONTAINER_NAME is running."
+        else
+          echo "Container $CONTAINER_NAME is not running."
+          docker-compose -f ./docker-compose.yml up -d
+        fi
+
     # (1.5) 기존 application.properties 파일 삭제
     - name: Remove existing application.properties if it exists
       run: |
