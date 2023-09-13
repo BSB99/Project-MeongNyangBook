@@ -3,6 +3,8 @@ package com.example.meongnyangbook.shop.item.search;
 import com.example.meongnyangbook.shop.item.ItemCategoryEnum;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.SearchHit;
@@ -21,7 +23,7 @@ public class CustomItemSearchRepositoryImpl implements
 
 
   @Override
-  public List<ItemDocument> searchByItem(String keyword, ItemCategoryEnum category,
+  public Page<ItemDocument> searchByItem(String keyword, ItemCategoryEnum category,
       Long min,
       Long max,
       Pageable pageable) {
@@ -48,9 +50,10 @@ public class CustomItemSearchRepositoryImpl implements
     SearchHits<ItemDocument> search = elasticsearchOperations.search(query,
         ItemDocument.class); // 조건 검색
 
-    return search.stream()
+    List<ItemDocument> content = search.stream()
         .map(SearchHit::getContent)
         .toList();
 
+    return new PageImpl<>(content, pageable, search.getTotalHits());
   }
 }
