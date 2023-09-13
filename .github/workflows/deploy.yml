@@ -33,7 +33,7 @@ jobs:
       # (2) 도커 컨테이너의 상태 확인
     - name: Check Docker Container Status
       run: |
-        CONTAINER_NAME="your-container-name"
+        CONTAINER_NAME="myapp-container"
         if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
           echo "Container $CONTAINER_NAME is running."
         else
