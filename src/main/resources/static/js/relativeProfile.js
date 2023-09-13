@@ -4,7 +4,7 @@ const token = Cookies.get("Authorization");
 document.addEventListener("DOMContentLoaded", function () {
   if (token === undefined) {
     alert("로그인 후 이용해주세요");
-    location.href="/mya/view/users/sign-in";
+    location.href = "/mya/view/users/sign-in";
   }
   const host = "http://" + window.location.host;
   myCommunity();
@@ -15,12 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
     headers: {'Authorization': token}
   })
   .done((response) => {
-    console.log(response);
     document.getElementById("nickname").value = response.nickname;
     document.getElementById("introduce").value = response.introduce;
 
     document.getElementById("address").value = response.address;
-    document.getElementById("phone-number").value = response.phoneNumber;
     document.getElementById("user-image").src = response.fileList;
 
   })
@@ -94,22 +92,20 @@ function myAdoption() {
       let postId = res.id;
       let file = res.fileUrls.fileName.split(",")[0];
       let temp_html =
-          `<div onclick="moveAdoptionPost(${postId})" className="gallery-item" tabIndex="0">
+          `<div onclick="moveAdoptionPost(${postId})" class="gallery-item" tabIndex="0">
         <img
             src="${file}"
-            className="gallery-image"
-            alt=""
-        />
-        
-        <div className="gallery-item-info">
+            class="gallery-image"
+            alt=""/>
+        <div class="gallery-item-info">
           <ul>
-            <li className="gallery-item-likes">
-                    <span className="visually-hidden">Like:</span
-                    ><i className="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
+            <li class="gallery-item-likes">
+                    <span class="visually-hidden">Like:</span
+                    ><i class="fas fa-heart" aria-hidden="true"></i> ${res.likeCount}
             </li>
-            <li className="gallery-item-comments">
-                    <span className="visually-hidden">Comments:</span
-                    ><i className="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
+            <li class="gallery-item-comments">
+                    <span class="visually-hidden">Comments:</span
+                    ><i class="fas fa-comment" aria-hidden="true"></i> ${res.commentCount}
             </li>
           </ul>
         </div>

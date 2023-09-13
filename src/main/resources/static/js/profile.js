@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const token = Cookies.get('Authorization');
   if (token === undefined) {
     alert("로그인 후 이용해주세요");
-    location.href="/mya/view/users/sign-in";
+    location.href = "/mya/view/users/sign-in";
   }
   $.ajax({
     type: "GET",
@@ -20,6 +20,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("address").value = response.address;
     document.getElementById("phone-number").value = response.phoneNumber;
+
+    document.getElementById("modal_nickname").value = response.nickname;
+    document.getElementById("modal_introduce").value = response.introduce;
+    document.getElementById("modal_address").value = response.address;
 
     let fileNames = response.fileList.split("/");
     resizeFileName = resizeS3FirstName + fileNames[fileNames.length - 1];
@@ -43,14 +47,12 @@ function editProfile() {
   const token = Cookies.get("Authorization");
   const nickname = document.getElementById("modal_nickname");
   const address = document.getElementById("modal_address");
-  const phoneNumber = document.getElementById("modal_phone_number");
   const introduce = document.getElementById("modal_introduce");
 
   let formData = new FormData();
   const profileRequestDto = {
     nickname: nickname.value,
     address: address.value,
-    phoneNumber: phoneNumber.value,
     introduce: introduce.value
   };
 
@@ -278,6 +280,7 @@ function openItemModal(orderId) {
 function closeItemModal() {
   // 모달 열기
   $('#orderModal').removeClass("opened");
+
 }
 
 function closeReviewModal() {

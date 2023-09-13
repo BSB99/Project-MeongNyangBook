@@ -3,7 +3,7 @@ const token = Cookies.get('Authorization');
 $(document).ready(function () {
   if (token === undefined) {
     alert("로그인 후 이용해주세요");
-    location.href="/mya/view/users/sign-in";
+    location.href = "/mya/view/users/sign-in";
   }
   start();
   $("#multipartFiles").on("change", handleImgFileSelect);
@@ -19,6 +19,7 @@ let lastPart = urlParts[urlParts.length - 1];
 
 let imgArr;
 
+const token = Cookies.get('Authorization');
 
 function handleInputClick(event) {
   // Prevent the default behavior of the click event
@@ -119,9 +120,6 @@ function slideImage() {
 function uploadData() {
   var formData = new FormData($('#uploadForm')[0]); // 폼의 데이터를 FormData 객체로 가져옵니다.
 
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
   var requestDto = {
     title: $("#adoptionsTitle").val(),
     description: $("#adoptionsDescription").val(),
@@ -173,7 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   })
   .fail(function (response, status, xhr) {
-    alert("카드 정보 불러오기 실패");
     console.log(response);
   })
 })
@@ -186,7 +183,7 @@ function setCardData(response) {
   let animalAge = document.getElementById("animal-age");
   let area = document.getElementById("animal-address");
   let category = document.getElementById("animal-category");
-  
+
   adoptionsTitle.value = response.title;
   adoptionDescription.innerText = response.description;
   animalName.value = response.animalName;
