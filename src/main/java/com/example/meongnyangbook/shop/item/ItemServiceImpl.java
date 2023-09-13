@@ -13,6 +13,7 @@ import com.example.meongnyangbook.shop.item.search.ItemSearchListResponseDto;
 import com.example.meongnyangbook.shop.item.search.ItemSearchResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -157,11 +158,14 @@ public class ItemServiceImpl implements ItemService {
   public ItemSearchListResponseDto elasticSearchItems(Pageable pageable, String keyword,
       ItemCategoryEnum category,
       Long min, Long max) {
+    Page<ItemDocument> itemDocuments = itemSearchRepository.searchByItem(keyword, category, min,
+        max, pageable);
+
     List<ItemSearchResponseDto> itemResponseDto = itemSearchRepository.searchByItem(keyword,
             category, min, max, pageable)
         .stream().map(ItemSearchResponseDto::new)
         .toList();
-    Long itemLen = 10L;
-    return new ItemSearchListResponseDto(itemResponseDto, itemLen);
+
+    return new ItemSearchListResponseDto(itemResponseDto, itemDocuments.getTotalElements());
   }
 }
