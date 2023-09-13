@@ -38,7 +38,7 @@ jobs:
           echo "Container $CONTAINER_NAME is running."
         else
           echo "Container $CONTAINER_NAME is not running."
-          docker-compose -f ./docker-compose.yml up -d
+          docker-compose -f /src/main/resources/docker-compose.yml up -d
         fi
 
     # (1.5) 기존 application.properties 파일 삭제
