@@ -2,6 +2,13 @@ const token = Cookies.get('Authorization');
 let userId;
 let roomId;
 let userNickname;
+document.addEventListener("keydown", function(event) {
+  // Enter 키의 키 코드는 13입니다.
+  if (event.key === "Enter") {
+    // sendMessageToChat() 함수를 호출합니다.
+    sendMessageToChat();
+  }
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   if (token === undefined) {
@@ -88,10 +95,8 @@ async function createConnect(chatRoomId) {
   stompClient.activate();
 
   stompClient.onConnect = (frame) => {
-    //setConnected(true);
     stompClient.subscribe('/send/room/' + chatRoomId, (message) => {
       const receivedMessage = JSON.parse(message.body);
-      console.log(receivedMessage);
       if(receivedMessage.user.id !== userId) {
         displayReceivedMessage(receivedMessage.message);
       }
@@ -139,7 +144,9 @@ function displayReceivedMessage(message) {
     container.innerHTML += messageElement;
   })
 
-  chatModalBody.scrollTop = chatModalBody.scrollHeight; // 스크롤을 메시지의 마지막 부분으로 이동
+  const chatModal = document.querySelectorAll('#chat-messages')[1]; // 첫 번째 요소 선택
+  // 스크롤 가능한 컨테이너의 스크롤을 맨 아래로 이동
+  chatModal.scrollTop = chatModal.scrollHeight - chatModal.clientHeight;
 }
 
 function sendMessageToChat() {
@@ -153,8 +160,9 @@ function sendMessageToChat() {
   }
 }
 
-function sendMsg(message) {
-  stompClient.publish({
+async function sendMsg(message) {
+
+  await stompClient.publish({
     destination: "/room/" + roomId,
     body: JSON.stringify({
       'msg': message,
@@ -181,7 +189,10 @@ function displayMyMessage(message) {
   chatModalBody.forEach((container) => {
     container.innerHTML += messageElement;
   })
-  chatModalBody.scrollTop = chatModalBody.scrollHeight; // 스크롤을 메시지의 마지막 부분으로 이동
+
+  const chatModal = document.querySelectorAll('#chat-messages')[1]; // 첫 번째 요소 선택
+  // 스크롤 가능한 컨테이너의 스크롤을 맨 아래로 이동
+  chatModal.scrollTop = chatModal.scrollHeight - chatModal.clientHeight;
 }
 
 async function getChatInfo(chatRoomId) {
