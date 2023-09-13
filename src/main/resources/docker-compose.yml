@@ -2,6 +2,7 @@ version: '3.8'
 services:
   myapp:
     container_name: myapp-container
+    image: myapp-image:latest
   controller:
     image: ngrinder/controller
     restart: always
