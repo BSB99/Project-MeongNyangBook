@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function loadItemsForPage(page, paramUrl) {
     $.ajax({
       type: "GET",
-      url: `/mya/items/search?page=${page}&size=${size}&${paramUrl}`,
+      url: `/mya/items/es?page=${page}&size=${size}&${paramUrl}`,
     })
     .done((response) => {
       // Clear existing content before adding new content
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
       for (let i = 0; i < response.itemList.length; i++) {
         const item = response.itemList[i];
         //리사이징된 이미지 가져오는 코드
-        let itemfileName = item.fileUrls.fileName.split(",")[0].split("/");
+        let itemfileName = item.fileUrls.split(",")[0].split("/");
         let resizeItemName = resizeS3FirstName
             + itemfileName[itemfileName.length - 1];
 
