@@ -50,16 +50,16 @@ public class UserServiceImpl implements UserService {
     String password = requestDto.getPassword();
     Optional<User> checkUsername = userRepository.findByUsername(username);
     if (checkUsername.isPresent()) {
-      throw new IllegalArgumentException("아이디가 중복됩니다.");
+      throw new IllegalArgumentException("이메일이 중복됩니다.");
     }
 
     String nickname = requestDto.getNickname();
-    Optional<User> checkNickName = userRepository.findByNickname(nickname);
-    if (checkNickName.isPresent()) {
-      throw new IllegalArgumentException("프로필명이 중복됩니다.");
-    }
     String address = requestDto.getAddress();
     String phoneNumber = requestDto.getPhoneNumber();
+    if (userRepository.findByPhoneNumber(phoneNumber).isPresent()) {
+      throw new IllegalArgumentException("전화번호가 중복됩니다.");
+    }
+
     String adminToken = requestDto.getAdminToken();
     String introduce = requestDto.getIntroduce();
     if (checkAdmin(adminToken)) {
@@ -120,7 +120,14 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException {
+  public ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto)
+      throws Exception {
+    Optional<User> phoneUser = userRepository.findByPhoneNumber(phoneRequestDto.getPhoneNumber());
+
+    if (phoneUser.isPresent()) {
+      //핸드폰 중복
+      throw new Exception("핸드폰 번호 중복");
+    }
     Random random = new Random();
 
     // 0부터 9999 사이의 난수 생성
@@ -192,5 +199,14 @@ public class UserServiceImpl implements UserService {
   public User findUser(Long userNo) {
     return userRepository.findById(userNo)
         .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+  }
+
+  @Override
+  public ResponseEntity<ApiResponseDto> overWrapEmail(String email) {
+    Optional<User> user = userRepository.findByUsername(email);
+    if (user.isPresent()) {
+      throw new IllegalArgumentException("닉네임 중복 에러");
+    }
+    return ResponseEntity.status(200).body(new ApiResponseDto("중복 확인 완료", HttpStatus.OK.value()));
   }
 }

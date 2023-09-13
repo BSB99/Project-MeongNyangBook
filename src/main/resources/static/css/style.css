@@ -29,6 +29,9 @@
 /*----------------------------------------*/
 /* Template default CSS
 /*----------------------------------------*/
+.hidden {
+  display: none;
+}
 
 
 @font-face {
@@ -1407,7 +1410,7 @@ ol {
 .shop__sidebar__accordion .card-heading a:after,
 .shop__sidebar__accordion .card-heading > a.active[aria-expanded=false]:after {
   content: "";
-  font-family: "SeoulNamsanM";
+  font-family: "FontAwesome";
   font-size: 24px;
   font-weight: 700;
   color: #111111;
@@ -1419,7 +1422,7 @@ ol {
 
 .shop__sidebar__accordion .card-heading.active a:after {
   content: "";
-  font-family: "SeoulNamsanM";
+  font-family: "FontAwesome";
   font-size: 24px;
   font-weight: 700;
   color: #111111;
@@ -1588,7 +1591,7 @@ ol {
   right: -14px;
   top: 0;
   content: "";
-  font-family: "SeoulNamsanM";
+  font-family: "FontAwesome";
 }
 
 .product__details__breadcrumb span {
@@ -2090,7 +2093,7 @@ ol {
   right: -14px;
   top: 0;
   content: "";
-  font-family: "SeoulNamsanM";
+  font-family: "FontAwesome";
 }
 
 .breadcrumb__links span {

@@ -2,10 +2,7 @@ package com.example.meongnyangbook.user.auth;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
-import com.example.meongnyangbook.user.dto.EmailRequestDto;
-import com.example.meongnyangbook.user.dto.PasswordRequestDto;
-import com.example.meongnyangbook.user.dto.ProfileRequestDto;
-import com.example.meongnyangbook.user.dto.ProfileResponseDto;
+import com.example.meongnyangbook.user.dto.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -118,6 +115,12 @@ public class AuthUserController {
   public ResponseEntity<ApiResponseDto> sendEmail(
       @Valid @RequestBody EmailRequestDto emailRequestDto) throws MessagingException {
     ApiResponseDto result = authUserServiceImpl.sendEmail(emailRequestDto);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @PostMapping("/confirm")
+  public ResponseEntity<ApiResponseDto> confirmAuth(@Valid @RequestBody AuthConfirmRequestDto requestDto) {
+    ApiResponseDto result = authUserServiceImpl.confirmAuth(requestDto);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 }

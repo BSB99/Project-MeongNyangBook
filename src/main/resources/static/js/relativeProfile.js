@@ -15,12 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
     headers: {'Authorization': token}
   })
   .done((response) => {
-    console.log(response);
     document.getElementById("nickname").value = response.nickname;
     document.getElementById("introduce").value = response.introduce;
 
     document.getElementById("address").value = response.address;
-    // document.getElementById("phone-number").value = response.phoneNumber;
     document.getElementById("user-image").src = response.fileList;
 
   })

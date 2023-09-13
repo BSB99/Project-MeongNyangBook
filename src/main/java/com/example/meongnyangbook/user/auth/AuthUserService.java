@@ -2,10 +2,7 @@ package com.example.meongnyangbook.user.auth;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.User;
-import com.example.meongnyangbook.user.dto.EmailRequestDto;
-import com.example.meongnyangbook.user.dto.PasswordRequestDto;
-import com.example.meongnyangbook.user.dto.ProfileRequestDto;
-import com.example.meongnyangbook.user.dto.ProfileResponseDto;
+import com.example.meongnyangbook.user.dto.*;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -101,4 +98,5 @@ public interface AuthUserService {
   String generateAndSetTemporaryPassword(User user);
 
 
+  ApiResponseDto confirmAuth(AuthConfirmRequestDto requestDto);
 }
