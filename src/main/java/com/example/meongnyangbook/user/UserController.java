@@ -10,11 +10,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +36,12 @@ public class UserController {
     return userService.signup(requestDto);
   }
 
+  @Operation(summary = "이메일 중복확인")
+  @PostMapping("/email/{email}")
+  public ResponseEntity<ApiResponseDto> overWrapEmail(@PathVariable String email) {
+    return userService.overWrapEmail(email);
+  }
+
   @Operation(summary = "로그인")
   @PostMapping("/login")
   public ResponseEntity<ApiResponseDto> signin(@RequestBody LoginRequestDto loginRequestDto,
@@ -46,7 +52,7 @@ public class UserController {
   @Operation(summary = "핸드폰 인증")
   @PostMapping("/phone")
   public ResponseEntity<ApiResponseDto> sendMessage(@RequestBody PhoneRequestDto phoneRequestDto)
-      throws CoolsmsException {
+      throws Exception {
     ApiResponseDto result = userService.sendMessage(phoneRequestDto);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }

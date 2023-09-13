@@ -75,14 +75,16 @@ public class WebSecurityConfig {
                 .requestMatchers("/mya/users/**").permitAll() // 'mya/users/' 허용
                 .requestMatchers(HttpMethod.GET, "/mya/items", "/mya/communities", "/mya/adoptions",
                     "/mya/adoptions", "/mya/adoptions/best-post", "/mya/reviews/**",
-                    "/mya/inquiries/**", "/mya/items/search")
+                    "/mya/inquiries/**", "/mya/items/search", "/mya/items/es")
                 .permitAll() // 조회 허용
                 .requestMatchers("/mya/back-office", "/mya/back-office/error")
                 .permitAll() //backoffice
+                .requestMatchers(HttpMethod.POST, "/mya/auth/confirm", "/mya/auth/email").permitAll()
 //            .requestMatchers("/mya/backoffice/**").permitAll() // role인지파악
                 .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll() // html 허용
                 .requestMatchers(HttpMethod.GET, "/mya/back-office/**").permitAll()
                 .requestMatchers("/mya/chats/**", "/mya-websocket").permitAll()
+                .requestMatchers("/chat-gpt/**").permitAll()
                 .anyRequest().authenticated() // 그 외 모든 요청 인증처리
     );
 

@@ -8,10 +8,7 @@ import com.example.meongnyangbook.user.User;
 import com.example.meongnyangbook.user.UserRepository;
 import com.example.meongnyangbook.user.UserRoleEnum;
 import com.example.meongnyangbook.user.UserService;
-import com.example.meongnyangbook.user.dto.EmailRequestDto;
-import com.example.meongnyangbook.user.dto.PasswordRequestDto;
-import com.example.meongnyangbook.user.dto.ProfileRequestDto;
-import com.example.meongnyangbook.user.dto.ProfileResponseDto;
+import com.example.meongnyangbook.user.dto.*;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -152,6 +149,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 //  }
 
   @Override
+  @Transactional
   public ApiResponseDto sendEmail(EmailRequestDto emailRequestDto) throws MessagingException {
     MimeMessage message = javaMailSender.createMimeMessage();
     String content;
@@ -189,6 +187,7 @@ public class AuthUserServiceImpl implements AuthUserService {
   }
 
   @Override
+  @Transactional
   public String generateAndSetTemporaryPassword(User user) {
     Random random = new Random();
     // 0부터 999999 사이의 난수 생성
@@ -200,4 +199,15 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     return formattedRandomNumber;
   }
+
+  @Override
+  public ApiResponseDto confirmAuth(AuthConfirmRequestDto requestDto) {
+    User user = userService.findUser(requestDto.getEmail());
+
+    if (!user.getPhoneNumber().equals(requestDto.getPhone())) {
+      throw new IllegalArgumentException("핸드폰 번호가 같지 않습니다.");
+    }
+
+    return new ApiResponseDto("성공", 200);
+  };
 }

@@ -1,3 +1,4 @@
+const token = Cookies.get('Authorization');
 let category;
 let price;
 let page = 0;
@@ -9,25 +10,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const productContainers = document.querySelectorAll(".col-lg-9");
   category = handleCategoryClick();
   price = handlePriceRangeClick();
+
   function loadItemsForPage(page, paramUrl) {
     $.ajax({
       type: "GET",
-      url: `/mya/items/search?page=${page}&size=${size}&${paramUrl}`,
+      url: `/mya/items/es?page=${page}&size=${size}&${paramUrl}`,
     })
-        .done((response) => {
-          // Clear existing content before adding new content
-          productContainers.forEach(container => {
-            container.innerHTML = ''; // Clear existing content
-          });
+    .done((response) => {
+      // Clear existing content before adding new content
+      productContainers.forEach(container => {
+        container.innerHTML = ''; // Clear existing content
+      });
 
-          let itemsHtml = '';
-          for (let i = 0; i < response.itemList.length; i++) {
-            const item = response.itemList[i];
-            //리사이징된 이미지 가져오는 코드
-            let itemfileName = item.fileUrls.fileName.split(",")[0].split("/");
-            let resizeItemName = resizeS3FirstName + itemfileName[itemfileName.length - 1];
+      let itemsHtml = '';
+      for (let i = 0; i < response.itemList.length; i++) {
+        const item = response.itemList[i];
+        //리사이징된 이미지 가져오는 코드
+        let itemfileName = item.fileUrls.split(",")[0].split("/");
+        let resizeItemName = resizeS3FirstName
+            + itemfileName[itemfileName.length - 1];
 
-            itemsHtml += `
+        itemsHtml += `
         <div class="col-lg-4 col-md-6 col-sm-6">
           <div class="product__item sale">
             <div class="product__item__pic set-bg">
@@ -66,9 +69,9 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
         </div>
       `;
-          }
+      }
 
-          const rowHtml = `
+      const rowHtml = `
       <div class="row">${itemsHtml}</div>
       <div class="row">
         <div class="col-lg-12">
@@ -78,17 +81,17 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       </div>`;
 
-          productContainers.forEach(container => {
-            container.innerHTML = rowHtml;
-          });
-        })
-        .fail((response) => {
-          console.log(response);
-        });
+      productContainers.forEach(container => {
+        container.innerHTML = rowHtml;
+      });
+    })
+    .fail((response) => {
+      console.log(response);
+    });
   }
 
   let min = "";
-  let max= "";
+  let max = "";
 
   function handlePriceCategory(category, price) {
     let url = "";
@@ -110,13 +113,14 @@ document.addEventListener("DOMContentLoaded", function () {
       url += `category=${category},`
     }
 
-    paramUrl = url.replaceAll(",","&");
+    paramUrl = url.replaceAll(",", "&");
     loadItemsForPage(page, paramUrl);
   }
 
   function handleCategoryClick() {
     // 카테고리 체크박스 클릭 처리
-    let categoryCheckboxes = document.querySelectorAll('input[type="checkbox"][name="category"]');
+    let categoryCheckboxes = document.querySelectorAll(
+        'input[type="checkbox"][name="category"]');
 
     categoryCheckboxes.forEach(function (checkbox) {
       checkbox.addEventListener('change', function () {
@@ -137,7 +141,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function handlePriceRangeClick() {
-    let priceRangeCheckboxes = document.querySelectorAll('input[type="checkbox"][name="price-range"]');
+    let priceRangeCheckboxes = document.querySelectorAll(
+        'input[type="checkbox"][name="price-range"]');
     priceRangeCheckboxes.forEach(function (checkbox) {
       checkbox.addEventListener('change', function () {
         // 다른 체크박스의 선택을 모두 해제합니다.
@@ -157,7 +162,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function getSelectedCategory() {
-    let categoryCheckboxes = document.querySelectorAll('input[type="checkbox"][name="category"]');
+    let categoryCheckboxes = document.querySelectorAll(
+        'input[type="checkbox"][name="category"]');
     for (let i = 0; i < categoryCheckboxes.length; i++) {
       if (categoryCheckboxes[i].checked) {
         return categoryCheckboxes[i].value;
@@ -167,7 +173,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function getSelectedPrice() {
-    let priceRangeCheckboxes = document.querySelectorAll('input[type="checkbox"][name="price-range"]');
+    let priceRangeCheckboxes = document.querySelectorAll(
+        'input[type="checkbox"][name="price-range"]');
     for (let i = 0; i < priceRangeCheckboxes.length; i++) {
       if (priceRangeCheckboxes[i].checked) {
         return priceRangeCheckboxes[i].value;
@@ -175,7 +182,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return null;
   }
-
 
   function generatePaginationLinks(totalLen, currentPage) {
     const totalPages = totalLen; // Total number of pages
@@ -206,11 +212,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function changePage(newPage) {
     page = newPage;
-    loadItemsForPage(page,paramUrl);
+    loadItemsForPage(page, paramUrl);
   }
 
   // Load initial items for the first page
-  loadItemsForPage(page,paramUrl);
+  loadItemsForPage(page, paramUrl);
 });
 
 function addCart(itemNo) {
