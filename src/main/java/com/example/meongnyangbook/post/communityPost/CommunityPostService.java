@@ -55,13 +55,6 @@ public interface CommunityPostService {
   CommunityPostDetailResponseDto getOneCommunity(Long communityNo, User user);
 
   /**
-   * 커뮤니티 베스트 게시물 조회
-   *
-   * @return
-   */
-  CommunityPostResponseDto getBestAdoptionPost();
-
-  /**
    * 내가 작성한 커뮤니티 게시물 조회
    *
    * @param user

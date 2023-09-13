@@ -1,11 +1,11 @@
 package com.example.meongnyangbook.shop.item;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.dto.DeleteDto;
 import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
+import com.example.meongnyangbook.shop.item.search.ItemSearchListResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +17,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "상품 API")
@@ -36,7 +44,7 @@ public class ItemController {
       @RequestPart("fileName") MultipartFile[] multipartFiles) throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
     ItemRequestDto itemReqeustDto = objectMapper.readValue(requestDto,
-            ItemRequestDto.class);
+        ItemRequestDto.class);
     ApiResponseDto result = itemService.createItem(itemReqeustDto, multipartFiles);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
@@ -84,9 +92,25 @@ public class ItemController {
 
   @Operation(summary = "상품 카테고리 선택")
   @GetMapping("/search")
-  public ResponseEntity<ItemListResponseDto> searchItems(Pageable pageable, @RequestParam(value = "category", required = false) ItemCategoryEnum category, @RequestParam(value = "min", required = false) Long min, @RequestParam(value = "max", required = false) Long max) {
+  public ResponseEntity<ItemListResponseDto> searchItems(Pageable pageable,
+      @RequestParam(value = "category", required = false) ItemCategoryEnum category,
+      @RequestParam(value = "min", required = false) Long min,
+      @RequestParam(value = "max", required = false) Long max) {
     ItemListResponseDto itemListResponseDto = itemService.searchItems(pageable, category, min, max);
 
     return ResponseEntity.status(HttpStatus.OK).body(itemListResponseDto);
+  }
+
+  @Operation(summary = "상품 검색기능 - es")
+  @GetMapping("/es")
+  public ResponseEntity<ItemSearchListResponseDto> elasticSearchItems(Pageable pageable,
+      @RequestParam(value = "keyword", required = false) String keyword,
+      @RequestParam(value = "category", required = false) ItemCategoryEnum category,
+      @RequestParam(value = "min", required = false) Long min,
+      @RequestParam(value = "max", required = false) Long max) {
+    ItemSearchListResponseDto result = itemService.elasticSearchItems(pageable, keyword, category,
+        min, max);
+
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 }

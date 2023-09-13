@@ -120,9 +120,6 @@ function slideImage() {
 function uploadData() {
   var formData = new FormData($('#uploadForm')[0]); // 폼의 데이터를 FormData 객체로 가져옵니다.
 
-  for (var pair of formData.entries()) {
-    console.log(pair[0] + ', ' + pair[1]);
-  }
   var requestDto = {
     title: $("#adoptionsTitle").val(),
     description: $("#adoptionsDescription").val(),
@@ -174,7 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   })
   .fail(function (response, status, xhr) {
-    alert("카드 정보 불러오기 실패");
     console.log(response);
   })
 })

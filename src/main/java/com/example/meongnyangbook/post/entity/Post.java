@@ -38,6 +38,9 @@ public abstract class Post extends TimeStamped {
   @Column(name = "description", nullable = false)
   protected String description;
 
+  @Column
+  protected Long score = 0L;
+
   @ManyToOne
   @JoinColumn(name = "user_id")
   protected User user;
@@ -50,4 +53,8 @@ public abstract class Post extends TimeStamped {
 
   @OneToOne(mappedBy = "post")
   private AttachmentUrl attachmentUrl;
+
+  public void setScore(Long score) {
+    this.score = score;
+  }
 }

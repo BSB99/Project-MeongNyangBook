@@ -14,4 +14,50 @@ services:
     restart: always
     links:
       - controller
+  es: # 서비스 이름
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1 # 사용할 도커 이미지
+    environment: # 환경 변수 설정
+      - node.name=es # 노드의 이름
+      - discovery.type=single-node # 단일 노드로 실행
+      - discovery.seed_hosts=es # 시드 노드로 현재 노드를 사용
+      - ELASTIC_PASSWORD=bkj09270! # Elasticsearch의 'elastic' 사용자 비밀번호
+      - bootstrap.memory_lock=true # 메모리 잠금 활성화
+      - xpack.security.enabled=false # X-Pack 보안 비활성화
+      - xpack.security.http.ssl.enabled=false # HTTP SSL 비활성화
+      - xpack.security.http.ssl.verification_mode=certificate # HTTP SSL 검증 방법 설정
+      - xpack.security.transport.ssl.enabled=false # 전송 SSL 비활성화
+      - xpack.security.transport.ssl.verification_mode=certificate # 전송 SSL 검증 방법 설정
+      - xpack.license.self_generated.type=basic # 라이선스 유형을 기본으로 설정
+    mem_limit: 1073741824 # 최대 메모리 제한 (1GB)
+    ulimits: # ulimit 설정
+      memlock:
+        soft: -1 # 메모리 잠금의 soft 제한 해제
+        hard: -1 # 메모리 잠금의 hard 제한 해제
+    healthcheck: # 컨테이너 건강 상태 확인 설정
+      test: # 테스트 명령어
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt http://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s # 테스트 간격
+      timeout: 10s # 테스트 시간 초과
+      retries: 120 # 재시도 횟수
+    volumes: # 볼륨 마운트
+      - es-data:/usr/share/es/data # 데이터 저장용 볼륨
+      - certs:/usr/share/elasticsearch/config/certs # 인증서 저장용 볼륨
+    ports: # 포트 바인딩
+      - 9200:9200 # 호스트의 9200 포트를 컨테이너의 9200 포트에 연결
+  kibana:
+    image: kibana:8.7.1
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - es
 
+volumes:
+  certs:
+    driver: local
+  es-data:
+    driver: local

@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.exception;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.slack.api.Slack;
 import com.slack.api.model.Attachment;
 import com.slack.api.model.Field;
@@ -25,8 +26,8 @@ public class ErrorDetectAdvisor {
     @Value("${slack.webhook.alertbot.url}")
     private String webhookUrl;
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ApiResponseDto> unhandledException(IllegalArgumentException e, HttpServletRequest request) {
+    @ExceptionHandler(JsonProcessingException.class)
+    public ResponseEntity<ApiResponseDto> unhandledException(JsonProcessingException e, HttpServletRequest request) {
         log.error("UnhandledException: {} {} errMessage={}\n"
         );
         sendSlackAlertErrorLog(e, request); // 슬랙 알림 보내는 메서드
@@ -34,7 +35,7 @@ public class ErrorDetectAdvisor {
                 .body(new ApiResponseDto("일시적으로 접속이 원활하지 않습니다. 멍냥북 서비스 팀에 문의 부탁드립니다.", 500));
     }
 
-    private void sendSlackAlertErrorLog(IllegalArgumentException e, HttpServletRequest request) {
+    private void sendSlackAlertErrorLog(JsonProcessingException e, HttpServletRequest request) {
         try {
             slackClient.send(webhookUrl, payload(p -> p
                     .text("서버 에러 발생! 백엔드 측의 빠른 확인 요망")
@@ -48,7 +49,7 @@ public class ErrorDetectAdvisor {
         }
     }
 
-    private Attachment generateSlackAttachment(IllegalArgumentException e, HttpServletRequest request) {
+    private Attachment generateSlackAttachment(JsonProcessingException e, HttpServletRequest request) {
         String requestTime = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").format(LocalDateTime.now());
         String xffHeader = request.getHeader("X-FORWARDED-FOR");  // 프록시 서버일 경우 client IP는 여기에 담김
         return Attachment.builder()
