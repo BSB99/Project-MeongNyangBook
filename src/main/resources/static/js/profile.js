@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("modal_introduce").value = response.introduce;
     document.getElementById("modal_address").value = response.address;
 
+
     let fileNames = response.fileList.split("/");
     resizeFileName = resizeS3FirstName + fileNames[fileNames.length - 1];
 
