@@ -67,7 +67,6 @@ public interface ItemService {
    */
   Item getItem(Long itemNo);
 
-
   ItemListResponseDto searchItems(Pageable pageable, ItemCategoryEnum category, Long min, Long max);
 
   ItemSearchListResponseDto elasticSearchItems(Pageable pageable, String keyword,

@@ -90,15 +90,6 @@ public class ItemController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
-//  @Operation(summary = "상품 키워드 검색")
-//  @GetMapping("/search")
-//  public ResponseEntity<List<ItemSearchResponseDto>> searchItem(
-//      @RequestParam("keyword") String keyword) {
-//    List<ItemSearchResponseDto> result = itemService.searchItem(keyword);
-//
-//    return ResponseEntity.status(HttpStatus.OK).body(result);
-//  }
-
   @Operation(summary = "상품 카테고리 선택")
   @GetMapping("/search")
   public ResponseEntity<ItemListResponseDto> searchItems(Pageable pageable,

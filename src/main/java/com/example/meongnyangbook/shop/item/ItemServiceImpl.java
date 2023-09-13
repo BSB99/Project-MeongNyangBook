@@ -158,6 +158,7 @@ public class ItemServiceImpl implements ItemService {
   public ItemSearchListResponseDto elasticSearchItems(Pageable pageable, String keyword,
       ItemCategoryEnum category,
       Long min, Long max) {
+
     Page<ItemDocument> itemDocuments = itemSearchRepository.searchByItem(keyword, category, min,
         max, pageable);
 
