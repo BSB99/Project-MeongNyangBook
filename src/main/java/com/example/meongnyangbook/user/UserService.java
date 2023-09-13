@@ -6,7 +6,6 @@ import com.example.meongnyangbook.user.dto.PhoneRequestDto;
 import com.example.meongnyangbook.user.dto.SignupRequestDto;
 import com.example.meongnyangbook.user.dto.UserInfoResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
-import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
@@ -37,7 +36,8 @@ public interface UserService {
    * @param phoneRequestDto
    * @return
    */
-  ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto) throws CoolsmsException;
+  ApiResponseDto sendMessage(PhoneRequestDto phoneRequestDto)
+      throws Exception;
 
   /**
    * 휴대폰 인증 메세지 확인
@@ -58,4 +58,6 @@ public interface UserService {
   User findUser(String username);
 
   User findUser(Long userNo);
+
+  ResponseEntity<ApiResponseDto> overWrapEmail(String email);
 }
