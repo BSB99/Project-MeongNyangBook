@@ -7,8 +7,13 @@ import com.example.meongnyangbook.shop.attachment.AttachmentItemUrlRepository;
 import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
 import com.example.meongnyangbook.shop.item.dto.ItemResponseDto;
+import com.example.meongnyangbook.shop.item.search.ElasticItemSearchRepository;
+import com.example.meongnyangbook.shop.item.search.ItemDocument;
+import com.example.meongnyangbook.shop.item.search.ItemSearchListResponseDto;
+import com.example.meongnyangbook.shop.item.search.ItemSearchResponseDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +26,7 @@ public class ItemServiceImpl implements ItemService {
   private final ItemRepository itemRepository;
   private final S3Service s3Service;
   private final AttachmentItemUrlRepository attachmentItemUrlRepository;
+  private final ElasticItemSearchRepository itemSearchRepository;
 
 
   @Override
@@ -37,6 +43,10 @@ public class ItemServiceImpl implements ItemService {
     String fileUrlResult = fileUrls.replaceFirst("^,", "");
     AttachmentItemUrl file = new AttachmentItemUrl(fileUrlResult, item);
 
+    ItemDocument itemDocument = new ItemDocument(item.getId(), item.getCreatedAt(), requestDto,
+        fileUrlResult);
+
+    itemSearchRepository.save(itemDocument);
     attachmentItemUrlRepository.save(file);
 
     return new ApiResponseDto("물품 등록 완료", 201);
@@ -114,6 +124,16 @@ public class ItemServiceImpl implements ItemService {
 
     return new ItemResponseDto(item);
   }
+
+  @Override
+  public List<ItemSearchResponseDto> searchItem(String keyword) {
+    return itemSearchRepository.findByNameContaining(keyword)
+        .stream()
+        .map(ItemSearchResponseDto::new)
+        .toList();
+  }
+
+
   @Override
   public Item getItem(Long itemNo) {
     return itemRepository.findById(itemNo).orElseThrow(() -> {
@@ -122,13 +142,31 @@ public class ItemServiceImpl implements ItemService {
   }
 
   @Override
-  public ItemListResponseDto searchItems(Pageable pageable, ItemCategoryEnum category, Long min, Long max) {
-    List<ItemResponseDto> itemResponseDto = itemRepository.searchItemList(min, max, pageable, category)
-              .stream().map(ItemResponseDto::new)
-              .toList();
+  public ItemListResponseDto searchItems(Pageable pageable, ItemCategoryEnum category, Long min,
+      Long max) {
+    List<ItemResponseDto> itemResponseDto = itemRepository.searchItemList(min, max, pageable,
+            category)
+        .stream().map(ItemResponseDto::new)
+        .toList();
 
     int itemLen = itemRepository.searchItemListCnt(min, max, category);
 
     return new ItemListResponseDto(itemResponseDto, itemLen);
+  }
+
+  @Override
+  public ItemSearchListResponseDto elasticSearchItems(Pageable pageable, String keyword,
+      ItemCategoryEnum category,
+      Long min, Long max) {
+
+    Page<ItemDocument> itemDocuments = itemSearchRepository.searchByItem(keyword, category, min,
+        max, pageable);
+
+    List<ItemSearchResponseDto> itemResponseDto = itemSearchRepository.searchByItem(keyword,
+            category, min, max, pageable)
+        .stream().map(ItemSearchResponseDto::new)
+        .toList();
+
+    return new ItemSearchListResponseDto(itemResponseDto, itemDocuments.getTotalElements());
   }
 }
