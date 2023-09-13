@@ -130,11 +130,4 @@ public class CommunityPostController {
         userNo);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
-
-  // Best 게시물 조회
-  @GetMapping("/best-post")
-  public ResponseEntity<CommunityPostResponseDto> getBestAdoptionPost() {
-    CommunityPostResponseDto result = communityPostService.getBestAdoptionPost();
-    return ResponseEntity.status(HttpStatus.OK).body(result);
-  }
 }
