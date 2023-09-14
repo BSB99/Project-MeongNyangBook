@@ -2,7 +2,7 @@ version: '3'
 
 services:
   es: # Elasticsearch 서비스 정의
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1-arm64
     restart: always
     environment:
       - node.name=es
@@ -24,15 +24,6 @@ services:
       - certs:/usr/share/elasticsearch/config/certs
     ports:
       - 9200:9200
-    healthcheck: # 컨테이너 건강 상태 확인 설정
-      test: # 테스트 명령어
-        [
-          "CMD-SHELL",
-          "curl -s --cacert config/certs/ca/ca.crt http://localhost:9200 | grep -q 'missing authentication credentials'",
-        ]
-      interval: 10s # 테스트 간격
-      timeout: 10s # 테스트 시간 초과
-      retries: 20 # 재시도 횟수  
   kibana:
     image: kibana:8.7.1
     environment:
