@@ -60,7 +60,10 @@ jobs:
       - name: Build and run Docker Compose
         run: |
           cd ./src/main/resources  # resources 폴더 위치로 이동
-          sudo docker-compose up --build -d  # Docker Compose로 애플리케이션 실행 및 빌드 
+          sudo docker-compose up --build -d  # Docker Compose로 애플리케이션 실행 및 빌드
+          if ! docker ps | grep resources-es-1; then
+            docker start resources-es-1
+          fi
 
       # (3) Gradle build (Test 제외)
       - name: Build with Gradle
