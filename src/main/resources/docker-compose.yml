@@ -24,7 +24,15 @@ services:
       - certs:/usr/share/elasticsearch/config/certs
     ports:
       - 9200:9200
-      
+    healthcheck: # 컨테이너 건강 상태 확인 설정
+      test: # 테스트 명령어
+        [
+          "CMD-SHELL",
+          "curl -s --cacert config/certs/ca/ca.crt http://localhost:9200 | grep -q 'missing authentication credentials'",
+        ]
+      interval: 10s # 테스트 간격
+      timeout: 10s # 테스트 시간 초과
+      retries: 20 # 재시도 횟수  
 
 volumes: # 볼륨 정의
   es-data: # es-data 볼륨
