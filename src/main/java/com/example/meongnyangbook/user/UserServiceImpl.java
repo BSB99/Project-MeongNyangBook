@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService {
     User user = new User(username, passwordEncoder.encode(password), nickname, introduce, address,
         phoneNumber,
         role, OAuthProviderEnum.ORIGIN);
+    user.setProfileImgurl("emptyFile");
 
     userRepository.save(user);
 

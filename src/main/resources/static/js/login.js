@@ -160,7 +160,9 @@ function closeModalBtn() {
 
 //회원 가입
 function onSignup() {
+  let overWrapBtn = document.getElementById("overWrapBtn");
   let username = $('#signup-username').val();
+
   let password = $('#signup-password').val();
   let nickname = $('#signup-nickname').val();
   let introduce = $('#signup-introduce').val();
@@ -168,33 +170,53 @@ function onSignup() {
   let phone = $('#signup-phone-number').val();
   let adminKey = $('#signup-admin-key').val();
 
-  if (document.getElementById('access-button').disabled) {
-    $.ajax({
-      type: "POST",
-      url: "/mya/users/signup",
-      contentType: "application/json; charset=utf-8",
-      data: JSON.stringify({
-        username: username,
-        password: password,
-        nickname: nickname,
-        introduce: introduce,
-        address: address,
-        phoneNumber: phone,
-        adminToken: adminKey
-      })
-    })
+  if (isValidPassword(password)) {
 
-    .done(function (response, status, xhr) {
-      alert("회원가입 완료!");
-      window.location.href = "/mya/view/users/sign-in";
-    })
-    .fail(function (response) {
-      alert('회원가입 오류: ' + response.responseJSON.msg);
-    })
+    if (overWrapBtn.disabled === true) {
+
+      if (document.getElementById('access-button').disabled) {
+        $.ajax({
+          type: "POST",
+          url: "/mya/users/signup",
+          contentType: "application/json; charset=utf-8",
+          data: JSON.stringify({
+            username: username,
+            password: password,
+            nickname: nickname,
+            introduce: introduce,
+            address: address,
+            phoneNumber: phone,
+            adminToken: adminKey
+          })
+        })
+
+        .done(function (response, status, xhr) {
+          alert("회원가입 완료!");
+          window.location.href = "/mya/view/users/sign-in";
+        })
+        .fail(function (response) {
+          alert('회원가입 오류: ' + response.responseJSON.msg);
+        })
+      } else {
+        console.log(address);
+        alert("핸드폰 인증을 완료하세요.");
+      }
+    } else {
+      alert("계정을 먼저 인증해주세요.");
+    }
   } else {
-    console.log(address);
-    alert("핸드폰 인증을 완료하세요.");
+    overWrapBtn.disabled = false;
   }
+}
+
+function isValidPassword(password) {
+  let check = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+
+  if (!check.test(password)) {
+    alert("패스워드를 영문과 숫자를 포함한 6자리 이상으로 만들어주세요")
+    return false;
+  }
+  return true;
 }
 
 //로그인
