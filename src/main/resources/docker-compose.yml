@@ -3,6 +3,7 @@ version: '3'
 services:
   es: # 서비스 이름
     image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1
+    restart: always
     environment: # 환경 변수 설정
       - node.name=es # 노드의 이름
       - discovery.type=single-node # 단일 노드로 실행
