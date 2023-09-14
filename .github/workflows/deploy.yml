@@ -56,6 +56,12 @@ jobs:
       - name: Set execute permission for gradlew
         run: chmod +x ./gradlew    
 
+    # (2.6) Docker Compose 실행과 빌드
+      - name: Build and run Docker Compose
+        run: |
+          cd ./src/main/resources  # resources 폴더 위치로 이동
+          sudo docker-compose up --build -d  # Docker Compose로 애플리케이션 실행 및 빌드 
+
       # (3) Gradle build (Test 제외)
       - name: Build with Gradle
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
@@ -68,13 +74,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-       # (2.6) Docker Compose 실행과 빌드
-      - name: Build and run Docker Compose
-        run: |
-          cd ./src/main/resources  # resources 폴더 위치로 이동
-          sudo docker-compose up --build -d  # Docker Compose로 애플리케이션 실행 및 빌드  
+          aws-region: ${{ env.AWS_REGION }} 
 
       # (5) 빌드 결과물을 S3 버킷에 업로드
       - name: Upload to AWS S3
