@@ -2,7 +2,7 @@ const token = Cookies.get('Authorization');
 let userId;
 let roomId;
 let userNickname;
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", function (event) {
   // Enter 키의 키 코드는 13입니다.
   if (event.key === "Enter") {
     // sendMessageToChat() 함수를 호출합니다.
@@ -13,7 +13,7 @@ document.addEventListener("keydown", function(event) {
 document.addEventListener("DOMContentLoaded", function () {
   if (token === undefined) {
     alert("로그인 후 이용해주세요");
-    location.href="/mya/view/users/sign-in";
+    location.href = "/mya/view/users/sign-in";
   }
 
   $.ajax({
@@ -23,10 +23,10 @@ document.addEventListener("DOMContentLoaded", function () {
       "Authorization": token,
     }
   })
-      .done((res) => {
-        userNickname = res.nickname;
-        userId = res.userId;
-      })
+  .done((res) => {
+    userNickname = res.nickname;
+    userId = res.userId;
+  })
 
   const friendList = document.querySelectorAll("#friends");
   let firstChatHtml = ``;
@@ -38,10 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
       "Authorization": token,
     }
   })
-      .done((res) => {
-        for (let i of res) {
-          if (i.participant.nickname === userNickname) {
-            firstChatHtml += `
+  .done((res) => {
+    for (let i of res) {
+      if (i.participant.nickname === userNickname) {
+        firstChatHtml += `
                 <div class="friend" onclick="createConnect(${i.id})">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdczezED3nNm4Ivl6JUdhmhHiC39XdSV4UBA&usqp=CAU" />
                 <p>
@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="status available"></div>
                 </div>
                 `
-          } else {
-            firstChatHtml += `
+      } else {
+        firstChatHtml += `
                 <div class="friend" onclick="createConnect(${i.id})">
                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdczezED3nNm4Ivl6JUdhmhHiC39XdSV4UBA&usqp=CAU" />
                 <p>
@@ -60,20 +60,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="status available"></div>
                 </div>
                 `
-          }
-        }
+      }
+    }
 
-        friendList.forEach((container) => {
-          container.innerHTML = firstChatHtml;
-        })
-      })
-      .fail((error) => {
-        console.error("Error:", error);
-      })
+    friendList.forEach((container) => {
+      container.innerHTML = firstChatHtml;
+    })
+  })
+  .fail((error) => {
+    console.error("Error:", error);
+  })
 });
 
 const stompClient = new StompJs.Client({
-  brokerURL: 'wss://www.meongnyangbook.site/mya-websocket'
+  brokerURL: 'wss://meongnyangbook.site/mya-websocket'
 });
 
 let chatModal;
@@ -97,7 +97,7 @@ async function createConnect(chatRoomId) {
   stompClient.onConnect = (frame) => {
     stompClient.subscribe('/send/room/' + chatRoomId, (message) => {
       const receivedMessage = JSON.parse(message.body);
-      if(receivedMessage.user.id !== userId) {
+      if (receivedMessage.user.id !== userId) {
         displayReceivedMessage(receivedMessage.message);
       }
     });
@@ -105,16 +105,16 @@ async function createConnect(chatRoomId) {
       url: "/mya/chats/room/" + chatRoomId,
       type: "GET"
     })
-        .done(function (response) {
-          response.forEach(function (message) {
-            //showMessage(message);
-          })
-        })
-        .fail(function (response, status, xhr) {
-          console.log(response);
-          console.log(status);
-          console.log(xhr);
-        })
+    .done(function (response) {
+      response.forEach(function (message) {
+        //showMessage(message);
+      })
+    })
+    .fail(function (response, status, xhr) {
+      console.log(response);
+      console.log(status);
+      console.log(xhr);
+    })
   };
 
   stompClient.onWebSocketError = (error) => {
@@ -252,17 +252,18 @@ function closeChatBtn() {
 
   chatModal.hide();
 }
+
 function chatRoomOut() {
   $.ajax({
     url: "/mya/chats/room/" + roomId,
     type: "DELETE"
   })
-      .done(res => {
-        alert("채팅방 나가기 완료");
-        location.reload();
-      })
-      .fail(res => {
-        alert("채팅방 나가는 도중 에러");
-        console.log(res);
-      })
+  .done(res => {
+    alert("채팅방 나가기 완료");
+    location.reload();
+  })
+  .fail(res => {
+    alert("채팅방 나가는 도중 에러");
+    console.log(res);
+  })
 }
