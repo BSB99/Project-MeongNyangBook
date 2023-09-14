@@ -80,4 +80,6 @@ public interface AdoptionPostService {
   AdoptionPost getAdoption(Long adoptionId);
 
   List<AdoptionPostResponseDto> getRelativeAdoptionPostList(Long userNo);
+
+  void adoptionCheck(User user, Long postId);
 }

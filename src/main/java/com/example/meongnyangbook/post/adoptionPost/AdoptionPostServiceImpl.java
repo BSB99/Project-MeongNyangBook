@@ -14,6 +14,7 @@ import com.example.meongnyangbook.redis.RedisViewCountUtil;
 import com.example.meongnyangbook.user.User;
 import com.example.meongnyangbook.user.UserService;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -154,5 +155,17 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
     return adoptionPostRepository.findById(adoptionId).orElseThrow(() -> {
       throw new IllegalArgumentException("게시물이 존재하지 않습니다.");
     });
+  }
+
+
+  @Override
+  @Transactional
+  public void adoptionCheck(User user, Long postId) {
+
+    Optional<AdoptionPost> post = adoptionPostRepository.findById(postId);
+
+    post.get().setIsAdoptions(true);
+
+
   }
 }

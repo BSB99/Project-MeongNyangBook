@@ -1,36 +1,37 @@
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById('sendEmailButton').addEventListener('click', function () {
-    const emailInput = document.getElementById('emailInput');
-    const emailValue = emailInput.value;
-    const btn = document.getElementById("sendEmailButton");
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailPattern.test(emailValue)) {
-      // 이메일 형식이 아닌 경우 입력 필드에 오류 스타일 적용
-      emailInput.classList.add('error');
-      return;
-    }
+  document.getElementById('sendEmailButton').addEventListener('click',
+      function () {
+        const emailInput = document.getElementById('emailInput');
+        const emailValue = emailInput.value;
+        const btn = document.getElementById("sendEmailButton");
+        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if (!emailPattern.test(emailValue)) {
+          // 이메일 형식이 아닌 경우 입력 필드에 오류 스타일 적용
+          emailInput.classList.add('error');
+          return;
+        }
 
-    // 이메일 형식이 맞는 경우
-    emailInput.classList.remove('error');
+        // 이메일 형식이 맞는 경우
+        emailInput.classList.remove('error');
 
-    const phoneValue = document.getElementById('phoneInput').value;
+        const phoneValue = document.getElementById('phoneInput').value;
 
-    const requestDto = {
-      "email" : emailValue,
-      "phone" : phoneValue
-    }
+        const requestDto = {
+          "email": emailValue,
+          "phone": phoneValue
+        }
 
-    const requestSendEmailDto = {
-      "email" : emailValue,
-      "status" : false
-    }
-    // 이메일 전송 또는 다음 작업 수행
-    $.ajax({
-      type: "POST",
-      url: "/mya/auth/confirm",
-      contentType: "application/json",
-      data: JSON.stringify(requestDto)
-    })
+        const requestSendEmailDto = {
+          "email": emailValue,
+          "status": false
+        }
+        // 이메일 전송 또는 다음 작업 수행
+        $.ajax({
+          type: "POST",
+          url: "/mya/auth/confirm",
+          contentType: "application/json",
+          data: JSON.stringify(requestDto)
+        })
         .done(res => {
           $.ajax({
             type: "POST",
@@ -38,18 +39,18 @@ document.addEventListener("DOMContentLoaded", function () {
             contentType: "application/json",
             data: JSON.stringify(requestSendEmailDto)
           })
-              .done(res => {
-                btn.disabled = true;
-                alert("입력하신 이메일로 임시 비밀번호를 전달했습니다.");
-              })
-              .fail(res => {
-                console.log(res);
-              })
+          .done(res => {
+            btn.disabled = true;
+            alert("입력하신 이메일로 임시 비밀번호를 전달했습니다.");
+          })
+          .fail(res => {
+            console.log(res);
+          })
         })
         .fail(res => {
           alert(res.responseJSON.msg);
         })
-  });
+      });
 });
 const host = "http://" + window.location.host;
 
@@ -184,7 +185,8 @@ function onSignup() {
     })
 
     .done(function (response, status, xhr) {
-      window.location.href = host;
+      alert("회원가입 완료!");
+      window.location.href = "/mya/view/users/sign-in";
     })
     .fail(function (response) {
       alert('회원가입 오류: ' + response.responseJSON.msg);
