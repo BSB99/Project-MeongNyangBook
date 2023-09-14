@@ -14,6 +14,7 @@ services:
       - xpack.security.transport.ssl.enabled=false
       - xpack.security.transport.ssl.verification_mode=certificate
       - xpack.license.self_generated.type=basic
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     mem_limit: 1073741824
     ulimits:
       memlock:
