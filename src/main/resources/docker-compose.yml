@@ -33,7 +33,15 @@ services:
       interval: 10s # 테스트 간격
       timeout: 10s # 테스트 시간 초과
       retries: 20 # 재시도 횟수  
-
+  kibana:
+    image: kibana:8.7.1
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - es
+      
 volumes: # 볼륨 정의
   es-data: # es-data 볼륨
   certs: # certs 볼륨
