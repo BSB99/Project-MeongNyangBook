@@ -24,10 +24,6 @@ services:
       - certs:/usr/share/elasticsearch/config/certs
     ports:
       - 9200:9200
-
-  resources-es-1: # 추가한 서비스 (resources-es-1) 정의
-    # 다른 설정 옵션
-    restart: always
       
 
 volumes: # 볼륨 정의
