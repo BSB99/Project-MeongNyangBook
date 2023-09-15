@@ -1,4 +1,4 @@
-package com.example.meongnyangbook.kafka;
+package com.example.meongnyangbook.alarm;
 
 import java.util.HashMap;
 import java.util.Map;

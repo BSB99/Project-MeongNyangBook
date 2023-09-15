@@ -101,6 +101,7 @@ public class WebSecurityConfig {
                 .permitAll() // 조회 허용
                 .requestMatchers("/mya/back-office", "/mya/back-office/error")
                 .permitAll() //backoffice
+//                .requestMatchers("/mya/sse/alarm/subscribe/*").permitAll()
 //            .requestMatchers("/mya/backoffice/**").permitAll() // role인지파악
                 .requestMatchers(HttpMethod.GET, "/mya/view/**").permitAll() // html 허용
                 .requestMatchers(HttpMethod.GET, "/mya/back-office/**").permitAll()

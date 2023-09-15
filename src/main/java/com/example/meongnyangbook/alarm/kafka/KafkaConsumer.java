@@ -1,5 +1,6 @@
-package com.example.meongnyangbook.kafka;
+package com.example.meongnyangbook.alarm.kafka;
 
+import com.example.meongnyangbook.alarm.AlarmDto;
 import com.example.meongnyangbook.alarm.AlarmServiceImpl;
 import com.google.firebase.messaging.FirebaseMessagingException;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +19,10 @@ public class KafkaConsumer {
   @KafkaListener(topics = "alarm")
   public void consumeAlarm(AlarmDto alarmDto, Acknowledgment ack)
       throws FirebaseMessagingException {
-    log.info("Consume the event {}", alarmDto);
+    log.info("Consume the event {}", alarmDto.toString());
     alarmService.send(alarmDto.getReceiverUserId(), alarmDto.getBody(),
         alarmDto.getAlarmCategoryEnum(), alarmDto.getSenderUserName());
+
+    // if 문을 사용해서 alarm action -> enum값 파악해서 save를 하거나 삭제를 하거나
   }
 }

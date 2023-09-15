@@ -34,6 +34,7 @@
 
 </head>
 <script src="/js/home.js"></script>
+<script src="/js/alarm-sse.js"></script>
 <body>
 <!-- Page Preloder -->
 <div id="preloder">
@@ -124,9 +125,18 @@
       </div>
       <div class="col-lg-3 col-md-3">
         <div class="header__nav__option">
-          <!--          header__nav__option-->
+          <!-- 추가: 알림 드롭다운 -->
+          <div class="dropdown d-inline-block">
+            <a href="#" class="btn dropdown-toggle" id="notificationDropdown"
+               data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/img/icon/notification.png" alt="">
+            </a>
+            <ul class="dropdown-menu" id="notificationList" aria-labelledby="notificationDropdown">
+              <!-- 알림 목록은 여기에 동적으로 추가됩니다 -->
+            </ul>
+          </div>
+          <!-- 드롭다운 끝 -->
           <a href="#" class="search-switch"><img src="/img/icon/search.png" alt=""></a>
-          <!--          <a href="#"><img src="/image/icon/heart.png" alt=""></a>-->
           <a href="/mya/view/basket"><img src="/img/icon/cart.png" alt=""> <span>0</span></a>
           <a href="/mya/view/chat"><img src="/img/icon/messages.png" alt=""
                                         style="width: 18px; height: 18px"> <span></span></a>
@@ -745,6 +755,8 @@
 <script src="/js/owl.carousel.min.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/homeCommunity.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>

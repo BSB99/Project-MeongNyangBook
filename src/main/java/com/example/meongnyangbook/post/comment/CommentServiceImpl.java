@@ -1,11 +1,10 @@
 package com.example.meongnyangbook.post.comment;
 
-import com.example.meongnyangbook.alarm.Alarm;
 import com.example.meongnyangbook.alarm.AlarmCategoryEnum;
+import com.example.meongnyangbook.alarm.AlarmDto;
 import com.example.meongnyangbook.alarm.AlarmRepository;
+import com.example.meongnyangbook.alarm.kafka.KafkaProducer;
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.kafka.AlarmDto;
-import com.example.meongnyangbook.kafka.KafkaProducer;
 import com.example.meongnyangbook.post.dto.CommentRequestDto;
 import com.example.meongnyangbook.post.dto.CommentResponseDto;
 import com.example.meongnyangbook.post.entity.Post;
@@ -31,15 +30,9 @@ public class CommentServiceImpl implements CommentService {
     Comment comment = new Comment(commentRequestDto.getContent(), post, user);
     commentRepository.save(comment);
 
-    // AlarmComment DB에 저장
-    Alarm alarmComment = new Alarm(commentRequestDto.getContent(),
-        user.getNickname(), post.getUser(), AlarmCategoryEnum.ALARM_COMMENT);
-
-    alarmRepository.save(alarmComment);
-
     // 알람 Producer (kafka) - 게시물 receiverUserId, body, alarmCategoryEnum, senderUserId, token
-    AlarmDto dto = new AlarmDto(post.getUser().getId(), "메세지 보내기",
-        AlarmCategoryEnum.ALARM_COMMENT, user.getNickname(), "토큰");
+    AlarmDto dto = new AlarmDto(post.getUser().getId(), commentRequestDto.getContent(),
+        AlarmCategoryEnum.ALARM_COMMENT, user.getNickname());
     kafkaProducer.send(dto);
 
     return new ApiResponseDto("댓글 작성 성공", 201);

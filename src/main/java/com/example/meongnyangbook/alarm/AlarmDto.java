@@ -1,18 +1,19 @@
-package com.example.meongnyangbook.kafka;
+package com.example.meongnyangbook.alarm;
 
-import com.example.meongnyangbook.alarm.AlarmCategoryEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class AlarmDto {
 
   private Long receiverUserId;
   private String body;
   private AlarmCategoryEnum alarmCategoryEnum;
   private String senderUserName;
-  private String token;
+  // enum action -> create, delete
 }

@@ -3,14 +3,13 @@ package com.example.meongnyangbook.alarm;
 //import com.example.meongnyangbook.alarm.fcm.FcmService;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
-import com.example.meongnyangbook.kafka.EmitterRepository;
 import com.example.meongnyangbook.user.User;
 import com.example.meongnyangbook.user.UserRepository;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import java.io.IOException;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -26,14 +25,14 @@ public class AlarmServiceImpl implements AlarmService {
   //  private final FcmService fcmService;
   private static final Long DEFAULT_TIMEOUT = 60L * 1000 * 60;
 
-  @Override
-  public List<AlarmResponseDto> showAlarmList(User user) {
-    List<AlarmResponseDto> alarmList = alarmRepository.findByUserId(user.getId())
-        .stream()
-        .map(AlarmResponseDto::new)
-        .toList();
-    return alarmList;
-  }
+//  @Override
+//  public List<AlarmResponseDto> showAlarmList(User user) {
+//    List<AlarmResponseDto> alarmList = alarmRepository.findByUserId(user.getId())
+//        .stream()
+//        .map(AlarmResponseDto::new)
+//        .toList();
+//    return alarmList;
+//  }
 
   @Override
   @Transactional
@@ -52,24 +51,25 @@ public class AlarmServiceImpl implements AlarmService {
   }
 
 
-  //alarmDto.getReceiverUserId(), alarmDto.getBody(), alarmDto.getAlarmCategoryEnum(), alarmDto.getReceiverUserId(), alarmDto.getToken()
+  @Override
   public void send(Long receiverUserId, String body, AlarmCategoryEnum alarmCategoryEnum,
-      String senderName) throws FirebaseMessagingException {
+      String senderName) {
     User user = userRepository.findById(receiverUserId).orElseThrow(IllegalArgumentException::new);
-
     // alarm save
     Alarm alarm = new Alarm(body, senderName, user, alarmCategoryEnum);
     alarmRepository.save(alarm);
 
-    // FCM
+    // SSE
     emitterRepository.get(receiverUserId).ifPresentOrElse(it -> {
           try {
             it.send(SseEmitter.event()
                 .id(alarm.getId().toString())
                 .name("alarm")
                 .data("new Alarm"));
+            log.info("emitter success");
           } catch (IOException exception) {
             emitterRepository.delete(receiverUserId);
+            log.info("emitter error");
             throw new IllegalArgumentException(exception);
 //                SimpleSnsApplicationException(ErrorCode.NOTIFICATION_CONNECT_ERROR);
           }
@@ -98,6 +98,11 @@ public class AlarmServiceImpl implements AlarmService {
 //          SimpleSnsApplicationException(ErrorCode.NOTIFICATION_CONNECT_ERROR);
     }
     return emitter;
+  }
+
+  @Override
+  public Page<Alarm> alarmList(Long userId, Pageable pageable) {
+    return alarmRepository.findAllByUserId(userId, pageable);
   }
 
 }
