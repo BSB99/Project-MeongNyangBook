@@ -2,11 +2,11 @@ package com.example.meongnyangbook.post.adoptionPost;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostDetailResponseDto;
-import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostPageResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostResponseDto;
 import com.example.meongnyangbook.user.User;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,7 +50,7 @@ public interface AdoptionPostService {
    * @param pageable
    * @return
    */
-  AdoptionPostPageResponseDto getAdoptionList(Pageable pageable);
+  Page<AdoptionPostResponseDto> getAdoptionList(Pageable pageable);
 
   /**
    * 분양 게시물 단건 조회

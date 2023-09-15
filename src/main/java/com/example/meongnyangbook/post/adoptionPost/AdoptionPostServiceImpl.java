@@ -3,7 +3,6 @@ package com.example.meongnyangbook.post.adoptionPost;
 import com.example.meongnyangbook.S3.S3Service;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostDetailResponseDto;
-import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostPageResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostResponseDto;
 import com.example.meongnyangbook.post.attachment.AttachmentUrl;
@@ -18,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,17 +93,11 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
   }
 
   @Override
-  public AdoptionPostPageResponseDto getAdoptionList(Pageable pageable) {
-    List<AdoptionPostResponseDto> adoptionList = adoptionPostRepository.findAllByOrderByCreatedAtDesc(
+  public Page<AdoptionPostResponseDto> getAdoptionList(Pageable pageable) {
+    Page<AdoptionPostResponseDto> adoptionList = adoptionPostRepository.findAllByOrderByCreatedAtDesc(
             pageable)
-        .stream()
-        .map(AdoptionPostResponseDto::new)
-        .collect(Collectors.toList());
+        .map(AdoptionPostResponseDto::new);
 
-    Long count = adoptionPostRepository.count();
-
-    AdoptionPostPageResponseDto pageResult = new AdoptionPostPageResponseDto(count,
-        adoptionList);
 //    for (AdoptionPostResponseDto postList : adoptionList) {
 //      String[] fileNames = postList.getFileUrls().getFileName().split(",")[0].split("/");
 //
@@ -112,7 +106,7 @@ public class AdoptionPostServiceImpl implements AdoptionPostService {
 //      postList.getFileUrls().setFileName(resizeS3FileName);
 //    }
 
-    return pageResult;
+    return adoptionList;
   }
 
   @Override
