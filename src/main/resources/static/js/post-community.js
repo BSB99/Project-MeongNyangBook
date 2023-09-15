@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .done(function (response) {
       $('#postList').empty();
 
-      for (let i = 0; i < response.responseList.length; i++) {
-        const community = response.responseList[i];
+      for (let i = 0; i < response.content.length; i++) {
+        const community = response.content[i];
         let communityTitle = community.title
         let createdAt = community.createdAt;
         let imgUrl = community.fileUrls.fileName.split(",")[0].split("/");
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // 페이지네이션 링크 생성 및 추가
-      let len = response['len'];
+      let len = response.totalElements;
       let paginationHtml = generatePaginationLinks(len / size + 1, page);
       $('#postList').append(paginationHtml);
     })

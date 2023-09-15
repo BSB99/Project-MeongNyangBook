@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -56,9 +57,9 @@ public class CommunityPostController {
 
   @Operation(summary = "커뮤니티 전체조회(페이징)")
   @GetMapping
-  public ResponseEntity<CommunityPostPageResponseDto> getCommunityList(Pageable pageable)
+  public ResponseEntity<Page<CommunityPostResponseDto>> getCommunityList(Pageable pageable)
       throws Exception {
-    CommunityPostPageResponseDto result = communityPostService.getCommunityList(pageable);
+    Page<CommunityPostResponseDto> result = communityPostService.getCommunityList(pageable);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
