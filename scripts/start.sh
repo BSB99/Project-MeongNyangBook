@@ -16,6 +16,10 @@ cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
 docker-compose -f $ELASTIC_SEARCH_ROOT/docker-compose.yml down
 docker-compose -f $ELASTIC_SEARCH_ROOT/docker-compose.yml up --build -d  # Docker Compose로 애플리케이션 실행 및 빌드
 
+# sleep
+echo "sleep 30 second"
+sleep 30
+
 # jar 파일 실행
 echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
 nohup java -jar $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
