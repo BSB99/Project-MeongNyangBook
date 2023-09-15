@@ -15,6 +15,7 @@ services:
       - xpack.security.transport.ssl.enabled=false # 전송 SSL 비활성화
       - xpack.security.transport.ssl.verification_mode=certificate # 전송 SSL 검증 방법 설정
       - xpack.license.self_generated.type=basic # 라이선스 유형을 기본으로 설정
+    mem_limit: 1073741824 # 최대 메모리 제한 (1GB)
     ulimits: # ulimit 설정
       memlock:
         soft: -1 # 메모리 잠금의 soft 제한 해제
@@ -24,6 +25,15 @@ services:
       - certs:/usr/share/elasticsearch/config/certs # 인증서 저장용 볼륨
     ports: # 포트 바인딩
       - 9200:9200 # 호스트의 9200 포트를 컨테이너의 9200 포트에 연결
+      
+  kibana:
+    image: kibana:8.7.1
+    environment:
+      - ELASTICSEARCH_HOSTS=http://es:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - es      
 
 volumes: # 볼륨 정의
   es-data: # es-data 볼륨
