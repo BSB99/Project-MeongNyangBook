@@ -175,9 +175,10 @@
       <div class="col-lg-3">
         <div class="shop__sidebar">
           <div class="shop__sidebar__search">
-            <form action="#">
-              <input type="text" placeholder="상품을 입력해 주세요" id = "search-item">
-              <button type="submit" onclick="searchItem()"><span class="icon_search"></span></button>
+            <form onsubmit="return false;">
+              <input type="text" placeholder="상품을 입력해 주세요" id="search-item">
+              <button type="submit" onclick="searchItem()"><span class="icon_search"></span>
+              </button>
             </form>
           </div>
           <div class="shop__sidebar__accordion">
@@ -216,23 +217,28 @@
                         <ul>
                           <li>
                             <label for="price-0-5000"><a>0원 - 5000원</a></label>
-                            <input type="checkbox" id="price-0-5000" name="price-range" value="0-5000">
+                            <input type="checkbox" id="price-0-5000" name="price-range"
+                                   value="0-5000">
                           </li>
                           <li>
                             <label for="price-5000-10000"><a>5000원 - 10000원</a></label>
-                            <input type="checkbox" id="price-5000-10000" name="price-range" value="5000-10000">
+                            <input type="checkbox" id="price-5000-10000" name="price-range"
+                                   value="5000-10000">
                           </li>
                           <li>
                             <label for="price-10000-30000"><a>10000원 - 30000원</a></label>
-                            <input type="checkbox" id="price-10000-30000" name="price-range" value="10000-30000">
+                            <input type="checkbox" id="price-10000-30000" name="price-range"
+                                   value="10000-30000">
                           </li>
                           <li>
                             <label for="price-30000-50000"><a>30000원 - 50000원</a></label>
-                            <input type="checkbox" id="price-30000-50000" name="price-range" value="30000-50000">
+                            <input type="checkbox" id="price-30000-50000" name="price-range"
+                                   value="30000-50000">
                           </li>
                           <li>
                             <label for="price-50000-plus"><a>50000원~</a></label>
-                            <input type="checkbox" id="price-50000-plus" name="price-range" value="50000-0">
+                            <input type="checkbox" id="price-50000-plus" name="price-range"
+                                   value="50000-0">
                           </li>
                         </ul>
                       </div>

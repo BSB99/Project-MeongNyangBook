@@ -55,7 +55,7 @@ public class KakaoService {
   }
 
   private String getToken(String code) throws JsonProcessingException {
-    log.info("인가코드 : " + code);
+
     // 요청 URL 만들기
     URI uri = UriComponentsBuilder
         .fromUriString("https://kauth.kakao.com")
@@ -72,7 +72,7 @@ public class KakaoService {
     MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
     body.add("grant_type", "authorization_code");
     body.add("client_id", clientId);
-    body.add("redirect_uri", "https://www.meongnyangbook.site/mya/users/login/oauth2/code/kakao");
+    body.add("redirect_uri", "https://meongnyangbook.site/mya/users/login/oauth2/code/kakao");
     body.add("code", code);
 
     RequestEntity<MultiValueMap<String, String>> requestEntity = RequestEntity
@@ -124,7 +124,6 @@ public class KakaoService {
     String email = jsonNode.get("kakao_account")
         .get("email").asText();
 
-    log.info("카카오 사용자 정보: " + id + ", " + nickname + ", " + email);
     return new KakaoUserInfoDto(id, nickname, email);
   }
 

@@ -27,6 +27,15 @@ document.addEventListener("DOMContentLoaded", function () {
       let temp_html = '';
 
       for (let i = 0; i < response.responseList.length; i++) {
+        let isAdoption = "분양 중";
+        let btnColor = '#4169E1';
+        if (response.responseList[i].isAdoptions) {
+          isAdoption = "분양 완료";
+          btnColor = '#FF4500';
+        } else {
+          isAdoption = "분양 중";
+          btnColor = '#4169E1';
+        }
         const adoption = response.responseList[i];
         //리사이징된 이미지 가져오는 코드
         let adoptionfileName = adoption.fileUrls.fileName.split(",")[0].split(
@@ -42,7 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <div class="blog__item__text" value="${adoption.id}">
             <span><img src="/img/icon/calendar.png" alt="">${adoption.createdAt}</span>
-            <h5>${adoption.title}</h5>
+            <p style="background-color: ${btnColor}; color: black; border-style: solid" id="isAdoption">${isAdoption}</p>
+            <h5 >${adoption.title}</h5>
             <a href="/mya/view/adoptions/${adoption.id}">Read More</a>
           </div>
         </div>

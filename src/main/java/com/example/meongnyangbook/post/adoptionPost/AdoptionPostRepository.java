@@ -11,4 +11,5 @@ public interface AdoptionPostRepository extends JpaRepository<AdoptionPost, Long
 
 
   List<AdoptionPost> findByUserId(Long userId);
+
 }

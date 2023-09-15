@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("modal_introduce").value = response.introduce;
     document.getElementById("modal_address").value = response.address;
 
-
     let fileNames = response.fileList.split("/");
     resizeFileName = resizeS3FirstName + fileNames[fileNames.length - 1];
 
@@ -57,7 +56,12 @@ function editProfile() {
     introduce: introduce.value
   };
 
-  formData.append('fileName', $('input[type="file"]')[0].files[0]);
+  if ($('input[type="file"]')[0].files.length === 0) {
+    const emptyBlob = new Blob([""], {type: "application/octet-stream"});
+    formData.append("fileName", emptyBlob, "meongnyangbook.png");
+  } else {
+    formData.append('fileName', $('input[type="file"]')[0].files[0]);
+  }
 
   formData.append("profileRequestDto", JSON.stringify(profileRequestDto));
 
