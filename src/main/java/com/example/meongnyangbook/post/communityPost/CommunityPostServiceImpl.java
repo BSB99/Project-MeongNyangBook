@@ -13,6 +13,7 @@ import com.example.meongnyangbook.user.User;
 import com.example.meongnyangbook.user.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,15 +88,14 @@ public class CommunityPostServiceImpl implements CommunityPostService {
   }
 
   @Override
-  public CommunityPostPageResponseDto getCommunityList(Pageable pageable) {
-    List<CommunityPostResponseDto> communityList = communityPostRepository.findAllByOrderByCreatedAtDesc(
+  public Page<CommunityPostResponseDto> getCommunityList(Pageable pageable) {
+    Page<CommunityPostResponseDto> communityPage = communityPostRepository.findAllByOrderByCreatedAtDesc(
             pageable)
-        .stream()
-        .map(CommunityPostResponseDto::new)
-        .toList();
+        .map(CommunityPostResponseDto::new);
+
     Long count = communityPostRepository.count();
 
-    return new CommunityPostPageResponseDto(count, communityList);
+    return communityPage;
   }
 
   @Override

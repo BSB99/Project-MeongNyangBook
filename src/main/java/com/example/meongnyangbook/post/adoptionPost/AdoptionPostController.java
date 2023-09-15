@@ -3,7 +3,6 @@ package com.example.meongnyangbook.post.adoptionPost;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostDetailResponseDto;
-import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostPageResponseDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostReqeustDto;
 import com.example.meongnyangbook.post.adoptionPost.dto.AdoptionPostResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
@@ -12,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,8 +58,8 @@ public class AdoptionPostController {
 
   @Operation(summary = "분양 페이지 전체 조회(페이징)")
   @GetMapping
-  public ResponseEntity<AdoptionPostPageResponseDto> getAdoptionList(Pageable pageable) {
-    AdoptionPostPageResponseDto result = adoptionPostService.getAdoptionList(pageable);
+  public ResponseEntity<Page<AdoptionPostResponseDto>> getAdoptionList(Pageable pageable) {
+    Page<AdoptionPostResponseDto> result = adoptionPostService.getAdoptionList(pageable);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 

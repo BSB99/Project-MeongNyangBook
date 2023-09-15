@@ -4,6 +4,7 @@ import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.dto.PostRequestDto;
 import com.example.meongnyangbook.user.User;
 import java.util.List;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,7 +44,7 @@ public interface CommunityPostService {
    * @param pageable
    * @return
    */
-  CommunityPostPageResponseDto getCommunityList(Pageable pageable);
+  Page<CommunityPostResponseDto> getCommunityList(Pageable pageable);
 
   /**
    * 커뮤니티 게시물 단건 조회

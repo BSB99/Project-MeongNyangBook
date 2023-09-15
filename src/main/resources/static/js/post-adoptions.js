@@ -22,21 +22,23 @@ document.addEventListener("DOMContentLoaded", function () {
       url: `/mya/adoptions?page=${page}&size=${size}`,
     })
     .done((response) => {
+
       // Clear existing content before adding new content
 
       let temp_html = '';
 
-      for (let i = 0; i < response.responseList.length; i++) {
+      for (let i = 0; i < response.content.length; i++) {
         let isAdoption = "분양 중";
         let btnColor = '#4169E1';
-        if (response.responseList[i].isAdoptions) {
+        if (response.content[i].isAdoptions) {
           isAdoption = "분양 완료";
           btnColor = '#FF4500';
         } else {
           isAdoption = "분양 중";
           btnColor = '#4169E1';
         }
-        const adoption = response.responseList[i];
+
+        const adoption = response.content[i];
         //리사이징된 이미지 가져오는 코드
         let adoptionfileName = adoption.fileUrls.fileName.split(",")[0].split(
             "/");
@@ -64,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="row">
         <div class="col-lg-12">
           <div class="product__pagination">
-            ${generatePaginationLinks(response.len / size + 1,
+            ${generatePaginationLinks(response.totalEliments / size + 1,
           page)}
           </div>
         </div>
