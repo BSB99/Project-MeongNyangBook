@@ -1,5 +1,19 @@
 version: '3'
 services:
+  app:
+    image: arm64v8/amazoncorretto:17-alpine-jdk
+    volumes:
+      - ./src:/app/src
+      - ./gradle:/app/gradle
+      - ./build.gradle:/app/build.gradle
+      - ./gradlew:/app/gradlew
+      - ./gradlew.bat:/app/gradlew.bat
+      - ./settings.gradle:/app/settings.gradle
+    working_dir: /app
+    ports:
+      - 8080:8080
+    command: [ "./gradlew", "bootrun" ]
+    restart: always
   es: # 서비스 이름
     image: docker.elastic.co/elasticsearch/elasticsearch:8.7.1 # 사용할 도커 이미지
     environment: # 환경 변수 설정
