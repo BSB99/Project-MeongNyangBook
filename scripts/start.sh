@@ -4,12 +4,17 @@ JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
 APP_LOG="$PROJECT_ROOT/application.log"
 ERROR_LOG="$PROJECT_ROOT/error.log"
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
-
+ELASTIC_SEARCH_ROOT="$PROJECT_ROOT/src/main/resources"
 TIME_NOW=$(date +%c)
 
 # build 파일 복사
 echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
 cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
+
+# ELASTIC_SEARCH 실행
+cd $ELASTIC_SEARCH_ROOT # resources 폴더 위치로 이동
+sudo docker-compose down
+sudo docker-compose up --build -d  # Docker Compose로 애플리케이션 실행 및 빌드
 
 # jar 파일 실행
 echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
