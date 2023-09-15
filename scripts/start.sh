@@ -12,9 +12,9 @@ echo "$TIME_NOW > $JAR_FILE 파일 복사" >> $DEPLOY_LOG
 cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
 
 # ELASTIC_SEARCH 실행
-cd $ELASTIC_SEARCH_ROOT # resources 폴더 위치로 이동
-docker-compose down
-docker-compose up --build -d  # Docker Compose로 애플리케이션 실행 및 빌드
+# cd $ELASTIC_SEARCH_ROOT # resources 폴더 위치로 이동
+docker-compose -f $ELASTIC_SEARCH_ROOT/docker-compose.yml down
+docker-compose -f $ELASTIC_SEARCH_ROOT/docker-compose.yml up --build -d  # Docker Compose로 애플리케이션 실행 및 빌드
 
 # jar 파일 실행
 echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
