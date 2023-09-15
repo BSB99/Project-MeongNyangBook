@@ -136,6 +136,14 @@ function setCardData(response) {
   let area = document.getElementById("area");
   let category = document.getElementById("category");
 
+  const checkBtn = document.getElementById("adoption-btn");
+
+  if (response.isAdoptions) {
+    checkBtn.style.background = 'red';
+    checkBtn.disabled = true;
+    checkBtn.innerText = "분양 완료";
+  }
+
   $("#carousel-inners").empty();
   let i = 0;
   for (let file of fileNames) {
@@ -406,6 +414,41 @@ function confirmHeart() {
   .fail(function (response, status, xhr) {
     console.log(response);
   })
+}
+
+function adoptionCheck() {
+
+  let currentURL = window.location.href;
+
+// URL을 "/"로 분할하여 배열로 저장합니다.
+  let urlParts = currentURL.split("/");
+
+// 배열에서 마지막 요소를 가져옵니다.
+  let lastPart = urlParts[urlParts.length - 1];
+  if (currentUserId === currentPageUserId) {
+    const checkBtn = document.getElementById("adoption-btn");
+    $.ajax({
+      type: "PUT",
+      url: "/mya/adoptions/adoption-check/" + lastPart,
+      headers: {
+        "Authorization": token
+      }
+    })
+    .done((res) => {
+
+      checkBtn.style.background = 'red';
+      checkBtn.innerText = "분양 완료";
+      checkBtn.disabled = true;
+
+    })
+    .fail(function (response, status, xhr) {
+
+      alert("분양상태 변경 에러");
+
+    })
+  } else {
+    alert("주인이 아니면 변경할 수 없는 사항입니다.");
+  }
 }
 
 function usernameClick() {

@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
     String nickname = requestDto.getNickname();
     String address = requestDto.getAddress();
     String phoneNumber = requestDto.getPhoneNumber();
+    phoneNumber = phoneNumber.replaceAll("-", "");
     if (userRepository.findByPhoneNumber(phoneNumber).isPresent()) {
       throw new IllegalArgumentException("전화번호가 중복됩니다.");
     }
@@ -79,6 +80,7 @@ public class UserServiceImpl implements UserService {
     User user = new User(username, passwordEncoder.encode(password), nickname, introduce, address,
         phoneNumber,
         role, OAuthProviderEnum.ORIGIN);
+    user.setProfileImgurl("emptyFile");
 
     userRepository.save(user);
 
@@ -89,7 +91,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public ResponseEntity<ApiResponseDto> signin(LoginRequestDto loginRequestDto,
       HttpServletResponse response) {
-    log.info("로그인 시도");
+
     String username = loginRequestDto.getUsername();
     User user = findUser(username);
 
@@ -98,7 +100,6 @@ public class UserServiceImpl implements UserService {
     if (!passwordEncoder.matches(password, user.getPassword())) {
       throw new IllegalArgumentException("비밀번호가 틀립니다.");
     }
-    log.info("role : " + user.getRole().getAuthority());
     if (user.getRole().getAuthority().equals(UserRoleEnum.BLOCK.getAuthority())) {
       throw new IllegalArgumentException("정지당한 계정입니다.");
     }

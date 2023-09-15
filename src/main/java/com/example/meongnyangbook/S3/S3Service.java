@@ -2,6 +2,7 @@ package com.example.meongnyangbook.S3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.example.meongnyangbook.user.User;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +42,19 @@ public class S3Service {
     return fileNames;
   }
 
-  public String uploadFile(MultipartFile files) {
+  public String uploadFile(MultipartFile files, User user) {
     String fileNames;
-//            String fileName = file.getOriginalFilename();
-    String fileName = UUID.randomUUID() + files.getOriginalFilename(); // fileName을 난수와 함께 저장
-    String fileUrl = S3FileUpload(files, fileName);
-    fileNames = fileUrl;
+    String fileName;
+    if (files.isEmpty()) {
 
+      fileNames =
+          user.getProfileImgurl().equals("emptyFile") ? "emptyFile" : user.getProfileImgurl();
+    } else {
+      fileName = UUID.randomUUID() + files.getOriginalFilename(); // fileName을 난수와 함께 저장
+      String fileUrl = S3FileUpload(files, fileName);
+      fileNames = fileUrl;
+    }
+//            String fileName = file.getOriginalFilename();
     return fileNames;
   }
 

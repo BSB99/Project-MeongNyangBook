@@ -4,7 +4,7 @@ let roomId;
 let userNickname;
 document.addEventListener("keydown", function (event) {
   // Enter 키의 키 코드는 13입니다.
-  if (event.key === "Enter") {
+  if (event.code === "Enter") {
     // sendMessageToChat() 함수를 호출합니다.
     sendMessageToChat();
   }
@@ -90,6 +90,7 @@ async function createConnect(chatRoomId) {
     backdrop: 'static',
     keyboard: false
   });
+
   chatModal.show();
 
   stompClient.activate();
@@ -197,7 +198,6 @@ function displayMyMessage(message) {
 
 async function getChatInfo(chatRoomId) {
   let chatContent = `<div id="chat-messages">`;
-
   try {
     const res = await $.ajax({
       type: "GET",
@@ -234,7 +234,6 @@ async function getChatInfo(chatRoomId) {
                 `;
       }
     });
-
     return chatContent;
   } catch (error) {
     console.error("Error fetching chat info:", error);

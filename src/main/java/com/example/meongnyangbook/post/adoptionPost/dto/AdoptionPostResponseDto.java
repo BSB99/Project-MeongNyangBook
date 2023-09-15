@@ -22,6 +22,7 @@ public class AdoptionPostResponseDto {
   private String createdAt;
   private Integer likeCount;
   private Integer commentCount;
+  private Boolean isAdoptions;
   private AttachmentUrlResponseDto fileUrls;
 
   public AdoptionPostResponseDto(AdoptionPost adoptionPost) {
@@ -37,6 +38,7 @@ public class AdoptionPostResponseDto {
     this.createdAt = adoptionPost.getCreatedAtAsString();
     this.likeCount = adoptionPost.getPostLikes().size();
     this.commentCount = adoptionPost.getCommentList().size();
+    this.isAdoptions = adoptionPost.getIsAdoptions();
     this.fileUrls = new AttachmentUrlResponseDto(adoptionPost.getAttachmentUrl());
   }
 

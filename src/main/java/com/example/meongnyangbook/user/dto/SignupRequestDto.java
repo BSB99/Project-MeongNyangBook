@@ -16,6 +16,7 @@ public class SignupRequestDto {
   @NotBlank
   private String nickname;
   @NotBlank
+  @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{6,}$", message = "영문과 숫자를 포함한 6자리 이상으로 만들어주세요")
   private String password;
   private String introduce;
   @NotBlank
