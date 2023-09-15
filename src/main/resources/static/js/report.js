@@ -48,9 +48,26 @@ function blockUser(reportedUsername) {
     headers: {'Authorization': token},
   })
   .done(res => {
-    alert("해당유저 엉구정지 성공");
+    let emailRequestDto = {
+      email: reportedUsername,
+      status: true
+    }
+    $.ajax({
+      type: "POST",
+      url: "/mya/auth/email",
+      contentType: "application/json",
+      data: JSON.stringify(emailRequestDto)
+    })
+    .done(res => {
+      alert("해당유저 엉구정지 성공");
+    })
+    .fail(res => {
+      alert('유저 영구정지 Email오류!');
+      console.log("상태 코드 " + res.status + ": " + res.message);
+    })
   })
   .fail(res => {
+    console.log(reportedUsername);
     alert('유저 영구정지 오류!');
     console.log("상태 코드 " + res.status + ": " + res.message);
   })

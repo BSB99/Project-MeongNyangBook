@@ -4,7 +4,7 @@ let roomId;
 let userNickname;
 document.addEventListener("keydown", function (event) {
   // Enter 키의 키 코드는 13입니다.
-  if (event.key === "Enter") {
+  if (event.code === "Enter") {
     // sendMessageToChat() 함수를 호출합니다.
     sendMessageToChat();
   }

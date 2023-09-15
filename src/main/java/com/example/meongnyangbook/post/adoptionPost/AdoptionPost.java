@@ -43,6 +43,9 @@ public class AdoptionPost extends Post {
   @Enumerated(value = EnumType.STRING)
   private CategoryEnum category;
 
+  @Column(nullable = false)
+  private Boolean isAdoptions = false;
+
   public AdoptionPost(AdoptionPostReqeustDto requestDto, User user) {
     this.title = requestDto.getTitle();
     this.description = requestDto.getDescription();
@@ -85,6 +88,10 @@ public class AdoptionPost extends Post {
     this.animalGender = animalGender;
   }
 
+  public void setIsAdoptions(Boolean isAdoptions) {
+    this.isAdoptions = isAdoptions;
+  }
+
   public void setArea(AreaEnum area) {
     this.area = area;
   }
@@ -92,5 +99,6 @@ public class AdoptionPost extends Post {
   public void setCategory(CategoryEnum category) {
     this.category = category;
   }
+
 
 }

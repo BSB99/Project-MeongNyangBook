@@ -8,7 +8,11 @@ import com.example.meongnyangbook.user.User;
 import com.example.meongnyangbook.user.UserRepository;
 import com.example.meongnyangbook.user.UserRoleEnum;
 import com.example.meongnyangbook.user.UserService;
-import com.example.meongnyangbook.user.dto.*;
+import com.example.meongnyangbook.user.dto.AuthConfirmRequestDto;
+import com.example.meongnyangbook.user.dto.EmailRequestDto;
+import com.example.meongnyangbook.user.dto.PasswordRequestDto;
+import com.example.meongnyangbook.user.dto.ProfileRequestDto;
+import com.example.meongnyangbook.user.dto.ProfileResponseDto;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -73,7 +77,10 @@ public class AuthUserServiceImpl implements AuthUserService {
   }
 
   public ProfileResponseDto getProfle(User user) {
-
+    if (user.getProfileImgurl().equals("emptyFile")) {
+      user.setProfileImgurl(
+          "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/meongnyangbook.png");
+    }
     return new ProfileResponseDto(user);
   }
 
@@ -90,8 +97,9 @@ public class AuthUserServiceImpl implements AuthUserService {
   public ApiResponseDto setProfile(User athenthUser, ProfileRequestDto profileRequestDto,
       MultipartFile multipartFiles) {
     User user = findUser(athenthUser.getUsername());
+
     //AWS에 저
-    String filePath = s3Service.uploadFile(multipartFiles);
+    String filePath = s3Service.uploadFile(multipartFiles, athenthUser);
 
     user.setProfileImgurl(filePath);
     //수정 로직
@@ -209,5 +217,7 @@ public class AuthUserServiceImpl implements AuthUserService {
     }
 
     return new ApiResponseDto("성공", 200);
-  };
+  }
+
+  ;
 }
