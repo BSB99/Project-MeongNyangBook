@@ -90,6 +90,7 @@ async function createConnect(chatRoomId) {
     backdrop: 'static',
     keyboard: false
   });
+
   chatModal.show();
 
   stompClient.activate();
@@ -197,7 +198,6 @@ function displayMyMessage(message) {
 
 async function getChatInfo(chatRoomId) {
   let chatContent = `<div id="chat-messages">`;
-
   try {
     const res = await $.ajax({
       type: "GET",
@@ -234,7 +234,6 @@ async function getChatInfo(chatRoomId) {
                 `;
       }
     });
-
     return chatContent;
   } catch (error) {
     console.error("Error fetching chat info:", error);
