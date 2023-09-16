@@ -131,4 +131,10 @@ public class CommunityPostController {
         userNo);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
+
+  @GetMapping("/best")
+  public ResponseEntity<List<CommunityPostResponseDto>> getBestCommunityPost() {
+    List<CommunityPostResponseDto> bestResult = communityPostService.getBestCommunityPost();
+    return ResponseEntity.status(HttpStatus.OK).body(bestResult);
+  }
 }

@@ -11,5 +11,5 @@ public interface CommunityPostRepository extends JpaRepository<CommunityPost, Lo
 
   List<CommunityPost> findByUserId(Long userId);
 
-
+  List<CommunityPost> findTop3ByOrderByScoreDesc();
 }
