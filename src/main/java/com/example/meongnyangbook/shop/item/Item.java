@@ -13,12 +13,14 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @NoArgsConstructor
 @DynamicUpdate
+@Setter
 @Table(name = "items")
 public class Item extends TimeStamped {
 
@@ -47,19 +49,6 @@ public class Item extends TimeStamped {
     this.content = requestDto.getContent();
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
 
-  public void setPrice(Long price) {
-    this.price = price;
-  }
-
-  public void setCategory(ItemCategoryEnum category) {
-    this.category = category;
-  }
-
-  public void setQuantity(Long quantity) {
-    this.quantity = quantity;
-  }
 }
+
