@@ -3,6 +3,7 @@ package com.example.meongnyangbook.post.comment;
 import com.example.meongnyangbook.alarm.AlarmCategoryEnum;
 import com.example.meongnyangbook.alarm.AlarmDto;
 import com.example.meongnyangbook.alarm.AlarmRepository;
+import com.example.meongnyangbook.alarm.AlarmStatusEnum;
 import com.example.meongnyangbook.alarm.kafka.KafkaProducer;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.dto.CommentRequestDto;
@@ -30,9 +31,9 @@ public class CommentServiceImpl implements CommentService {
     Comment comment = new Comment(commentRequestDto.getContent(), post, user);
     commentRepository.save(comment);
 
-    // 알람 Producer (kafka) - 게시물 receiverUserId, body, alarmCategoryEnum, senderUserId, token
+    // 알람 Producer (kafka)
     AlarmDto dto = new AlarmDto(post.getUser().getId(), commentRequestDto.getContent(),
-        AlarmCategoryEnum.ALARM_COMMENT, user.getNickname());
+        AlarmCategoryEnum.ALARM_COMMENT, user.getNickname(), AlarmStatusEnum.CREATE);
     kafkaProducer.send(dto);
 
     return new ApiResponseDto("댓글 작성 성공", 201);

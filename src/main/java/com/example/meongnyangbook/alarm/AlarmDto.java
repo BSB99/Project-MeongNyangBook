@@ -15,5 +15,5 @@ public class AlarmDto {
   private String body;
   private AlarmCategoryEnum alarmCategoryEnum;
   private String senderUserName;
-  // enum action -> create, delete
+  private AlarmStatusEnum action;
 }
