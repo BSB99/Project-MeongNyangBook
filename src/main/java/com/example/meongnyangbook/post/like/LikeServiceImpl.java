@@ -1,7 +1,5 @@
 package com.example.meongnyangbook.post.like;
 
-import com.example.meongnyangbook.alarm.Alarm;
-import com.example.meongnyangbook.alarm.AlarmCategoryEnum;
 import com.example.meongnyangbook.alarm.AlarmRepository;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.entity.Post;
@@ -32,9 +30,9 @@ public class LikeServiceImpl implements LikeService {
     likeRepository.save(postLike);
 
     // AlarmLike의 DB에 저장
-    Alarm alarmLike = new Alarm("좋아요!", user.getNickname(), post.getUser(),
-        AlarmCategoryEnum.ALARM_LIKE);
-    alarmRepository.save(alarmLike);
+//    Alarm alarmLike = new Alarm("좋아요!", user.getNickname(), post.getUser(),
+//        AlarmCategoryEnum.ALARM_LIKE);
+//    alarmRepository.save(alarmLike);
 
     return new ApiResponseDto("좋아요", HttpStatus.CREATED.value());
   }
