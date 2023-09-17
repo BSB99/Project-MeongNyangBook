@@ -1,19 +1,5 @@
 version: '3'
 services:
-  controller:
-    image: ngrinder/controller
-    restart: always
-    ports:
-      - "9000:80"
-      - "16001:16001"
-      - "12000-12009:12000-12009"
-    volumes:
-      - ./ngrinder-controller:/opt/ngrinder-controller
-  agent:
-    image: ngrinder/agent
-    restart: always
-    links:
-      - controller
   zookeeper:
     image: wurstmeister/zookeeper
     container_name: zookeeper
@@ -74,14 +60,14 @@ services:
       - certs:/usr/share/elasticsearch/config/certs # 인증서 저장용 볼륨
     ports: # 포트 바인딩
       - 9200:9200 # 호스트의 9200 포트를 컨테이너의 9200 포트에 연결
-  kibana:
-    image: kibana:8.7.1
-    environment:
-      - ELASTICSEARCH_HOSTS=http://es:9200
-    ports:
-      - 5601:5601
-    depends_on:
-      - es
+#  kibana:
+#    image: kibana:8.7.1
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://es:9200
+#    ports:
+#      - 5601:5601
+#    depends_on:
+#      - es
 
 volumes:
   certs:
