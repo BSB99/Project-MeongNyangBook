@@ -1,6 +1,10 @@
 package com.example.meongnyangbook.post.like;
 
+import com.example.meongnyangbook.alarm.AlarmCategoryEnum;
+import com.example.meongnyangbook.alarm.AlarmDto;
 import com.example.meongnyangbook.alarm.AlarmRepository;
+import com.example.meongnyangbook.alarm.AlarmStatusEnum;
+import com.example.meongnyangbook.alarm.kafka.KafkaProducer;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.entity.Post;
 import com.example.meongnyangbook.post.repository.PostRepository;
@@ -16,6 +20,7 @@ public class LikeServiceImpl implements LikeService {
   private final LikeRepository likeRepository;
   private final PostRepository postRepository;
   private final AlarmRepository alarmRepository;
+  private final KafkaProducer kafkaProducer;
 
 
   @Override
@@ -29,10 +34,10 @@ public class LikeServiceImpl implements LikeService {
     PostLike postLike = PostLike.builder().post(post).user(user).build();
     likeRepository.save(postLike);
 
-    // AlarmLike의 DB에 저장
-//    Alarm alarmLike = new Alarm("좋아요!", user.getNickname(), post.getUser(),
-//        AlarmCategoryEnum.ALARM_LIKE);
-//    alarmRepository.save(alarmLike);
+    // 알람 Producer (kafka)
+    AlarmDto dto = new AlarmDto(post.getUser().getId(), "new Like",
+        AlarmCategoryEnum.ALARM_LIKE, user.getNickname(), AlarmStatusEnum.CREATE);
+    kafkaProducer.send(dto);
 
     return new ApiResponseDto("좋아요", HttpStatus.CREATED.value());
   }
