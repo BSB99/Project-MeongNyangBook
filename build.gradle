@@ -96,6 +96,8 @@ dependencies {
     implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    //CSV Parser
+    implementation 'org.apache.commons:commons-csv:1.9.0'
 }
 
 tasks.named('test') {

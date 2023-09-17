@@ -1,6 +1,7 @@
 package com.example.meongnyangbook.shop.item;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
+import com.example.meongnyangbook.common.CsvService;
 import com.example.meongnyangbook.post.dto.DeleteDto;
 import com.example.meongnyangbook.shop.item.dto.ItemListResponseDto;
 import com.example.meongnyangbook.shop.item.dto.ItemRequestDto;
@@ -11,6 +12,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ItemController {
 
   private final ItemService itemService;
+  private final CsvService csvService;
 
   @Operation(summary = "상품 생성")
   @PostMapping
@@ -112,5 +115,11 @@ public class ItemController {
         min, max);
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @Operation(summary = "csv상품등록 기능")
+  @PostMapping("/csv")
+  public List<String[]> createCSVItem(@RequestParam String fileName) {
+    return csvService.readCsv(fileName);
   }
 }

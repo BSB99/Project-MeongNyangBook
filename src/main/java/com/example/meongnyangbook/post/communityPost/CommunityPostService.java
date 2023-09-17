@@ -72,4 +72,6 @@ public interface CommunityPostService {
   CommunityPost getCommunity(Long communityNo);
 
   List<CommunityPostResponseDto> getRelativeCommunityPostList(Long userNo);
+
+  List<CommunityPostResponseDto> getBestCommunityPost();
 }

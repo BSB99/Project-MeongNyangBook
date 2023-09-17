@@ -130,6 +130,16 @@ public class CommunityPostServiceImpl implements CommunityPostService {
     return commuDtoList;
   }
 
+  @Override
+  public List<CommunityPostResponseDto> getBestCommunityPost() {
+    List<CommunityPostResponseDto> bests = communityPostRepository.findTop3ByOrderByScoreDesc()
+        .stream()
+        .map(CommunityPostResponseDto::new)
+        .toList();
+
+    return bests;
+  }
+
   ;
 
 
@@ -139,4 +149,5 @@ public class CommunityPostServiceImpl implements CommunityPostService {
       throw new IllegalArgumentException("게시글이 존재하지 않습니다");
     });
   }
+
 }

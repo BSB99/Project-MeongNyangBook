@@ -23,5 +23,11 @@ public interface AlarmService {
    */
   ApiResponseDto deleteAlarmMessage(Long alarmId, User user);
 
+  /**
+   * 알람 DB에서 찾기
+   *
+   * @param id
+   * @return
+   */
   Alarm getAlarmComment(Long id);
 }
