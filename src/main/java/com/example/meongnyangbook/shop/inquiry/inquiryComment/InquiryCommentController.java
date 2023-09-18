@@ -2,6 +2,7 @@ package com.example.meongnyangbook.shop.inquiry.inquiryComment;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ public class InquiryCommentController {
 
   private final InquiryCommentService inquiryCommentService;
 
+  @Operation(summary = "문의 답급 등록")
   @PostMapping("/{inquiryId}")
   public ResponseEntity<InquiryCommentResponseDto> createInquiryComment(
       @AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long inquiryId,
@@ -32,6 +34,7 @@ public class InquiryCommentController {
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
+  @Operation(summary = "문의 답급 수정")
   @PatchMapping("/{commentId}")
   public ResponseEntity<InquiryCommentResponseDto> updateInquiryComment(
       @AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long commentId,
@@ -41,6 +44,7 @@ public class InquiryCommentController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @Operation(summary = "문의 답급 삭제")
   @DeleteMapping("/{commentId}")
   public ResponseEntity<ApiResponseDto> deleteInquiryComment(
       @AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long commentId) {

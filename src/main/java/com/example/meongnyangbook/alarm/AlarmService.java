@@ -2,17 +2,11 @@ package com.example.meongnyangbook.alarm;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.User;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 public interface AlarmService {
-
-  /**
-   * 알람 전체 조회
-   *
-   * @param user
-   * @return
-   */
-  List<AlarmResponseDto> showAlarmList(User user);
 
   /**
    * 알람 삭제
@@ -23,11 +17,12 @@ public interface AlarmService {
    */
   ApiResponseDto deleteAlarmMessage(Long alarmId, User user);
 
-  /**
-   * 알람 DB에서 찾기
-   *
-   * @param id
-   * @return
-   */
+  void send(Long receiverUserId, String body, AlarmCategoryEnum alarmCategoryEnum,
+      String senderName);
+
   Alarm getAlarmComment(Long id);
+
+  SseEmitter connectNotification(Long userId);
+
+  Page<Alarm> alarmList(Long userId, Pageable pageable);
 }

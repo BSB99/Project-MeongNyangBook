@@ -231,8 +231,7 @@ function postComment() {
     }
   })
   .fail(function (response, status, xhr) {
-    alert("댓글 작성 실패");
-    console.log(response);
+    location.reload();
   })
 }
 
@@ -350,8 +349,7 @@ function commentLike() {
       location.reload();
     })
     .fail(function (response, status, xhr) {
-      alert("좋아요 실패");
-      console.log(response);
+      location.reload();
     })
   } else {
     $.ajax({

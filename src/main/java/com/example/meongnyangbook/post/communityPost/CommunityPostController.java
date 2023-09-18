@@ -114,6 +114,7 @@ public class CommunityPostController {
   }
 
   // 내가 쓴 게시물 조회
+  @Operation(summary = "내가 쓴 커뮤니티 게시물 조회")
   @GetMapping("/my-post")
   public ResponseEntity<List<CommunityPostResponseDto>> getMyCommunityPostList(
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -122,6 +123,7 @@ public class CommunityPostController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @Operation(summary = "상대가 쓴 커뮤니티 게시물 조회")
   @GetMapping("/relative-post/{userNo}")
   public ResponseEntity<List<CommunityPostResponseDto>> getRelativeCommunityPostList(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -132,6 +134,7 @@ public class CommunityPostController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @Operation(summary = "커뮤니티 베스트게시물 조회")
   @GetMapping("/best")
   public ResponseEntity<List<CommunityPostResponseDto>> getBestCommunityPost() {
     List<CommunityPostResponseDto> bestResult = communityPostService.getBestCommunityPost();

@@ -65,6 +65,7 @@ public class UserController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @Operation(summary = "유저정보 가져오기")
   @GetMapping
   public ResponseEntity<UserInfoResponseDto> getUserInfo(
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -72,4 +73,6 @@ public class UserController {
 
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
+
+
 }

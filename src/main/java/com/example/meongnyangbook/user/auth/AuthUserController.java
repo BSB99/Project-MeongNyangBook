@@ -2,7 +2,11 @@ package com.example.meongnyangbook.user.auth;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
-import com.example.meongnyangbook.user.dto.*;
+import com.example.meongnyangbook.user.dto.AuthConfirmRequestDto;
+import com.example.meongnyangbook.user.dto.EmailRequestDto;
+import com.example.meongnyangbook.user.dto.PasswordRequestDto;
+import com.example.meongnyangbook.user.dto.ProfileRequestDto;
+import com.example.meongnyangbook.user.dto.ProfileResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -111,6 +115,7 @@ public class AuthUserController {
 
   }
 
+  @Operation(summary = "무작위 번호를 해당 메일로 전송")
   @PostMapping("/email")
   public ResponseEntity<ApiResponseDto> sendEmail(
       @Valid @RequestBody EmailRequestDto emailRequestDto) throws MessagingException {
@@ -118,9 +123,19 @@ public class AuthUserController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @Operation(summary = "비밀번호 찾기 인증")
   @PostMapping("/confirm")
-  public ResponseEntity<ApiResponseDto> confirmAuth(@Valid @RequestBody AuthConfirmRequestDto requestDto) {
+  public ResponseEntity<ApiResponseDto> confirmAuth(
+      @Valid @RequestBody AuthConfirmRequestDto requestDto) {
     ApiResponseDto result = authUserServiceImpl.confirmAuth(requestDto);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
+  }
+
+  @Operation(summary = "프로필 이미지 기본이미지로 변경")
+  @PutMapping("/profile-img")
+  public ResponseEntity<ApiResponseDto> setProfile(
+      @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+    ApiResponseDto result = authUserServiceImpl.setDefaultImg(userDetails.getUser());
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 }

@@ -39,9 +39,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         if (refresh_token != null) {
           if (jwtUtil.validateToken(refresh_token)) {
             String newAccessToken = jwtUtil.reissueAccessToken(refresh_token);
+            log.info("newAccessToken" + newAccessToken);
 
             //프론트 구현 시 해당 newAccessToken을 Header에 넣어주기
             jwtUtil.addJwtToCookie(newAccessToken, response);// 쿠키에 새 accesstoken넣어주기
+            log.info("재발급");
 
             //재발급 시 header에 다시 넣어줘야 하는가?
           } else {//쿠키 만료시간이 지나고 리프레쉬 토큰 만료시간이 지났을 때

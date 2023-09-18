@@ -94,6 +94,11 @@ public class HomeViewController {
         "post-adoptions-update";
   }
 
+  @GetMapping("/mya/view/fcm")
+  public String testFcm() {
+    return "fcm";
+  }
+
   @GetMapping("/mya/view/users/relative-profile/{userNo}")
   public String relativeProfile(@PathVariable Long userNo) {
     return "relativeProfile";
