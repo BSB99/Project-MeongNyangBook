@@ -1,8 +1,10 @@
 package com.example.meongnyangbook.post.comment;
 
-import com.example.meongnyangbook.alarm.Alarm;
 import com.example.meongnyangbook.alarm.AlarmCategoryEnum;
+import com.example.meongnyangbook.alarm.AlarmDto;
 import com.example.meongnyangbook.alarm.AlarmRepository;
+import com.example.meongnyangbook.alarm.AlarmStatusEnum;
+import com.example.meongnyangbook.alarm.kafka.KafkaProducer;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.post.dto.CommentRequestDto;
 import com.example.meongnyangbook.post.dto.CommentResponseDto;
@@ -20,6 +22,7 @@ public class CommentServiceImpl implements CommentService {
   private final CommentRepository commentRepository;
   private final PostRepository postRepository;
   private final AlarmRepository alarmRepository;
+  private final KafkaProducer kafkaProducer;
 
   @Override
   public ApiResponseDto createComment(User user, CommentRequestDto commentRequestDto) {
@@ -28,11 +31,10 @@ public class CommentServiceImpl implements CommentService {
     Comment comment = new Comment(commentRequestDto.getContent(), post, user);
     commentRepository.save(comment);
 
-    // AlarmComment DB에 저장
-    Alarm alarmComment = new Alarm(commentRequestDto.getContent(),
-        user.getNickname(), post.getUser(), AlarmCategoryEnum.ALARM_COMMENT);
-
-    alarmRepository.save(alarmComment);
+    // 알람 Producer (kafka)
+    AlarmDto dto = new AlarmDto(post.getUser().getId(), commentRequestDto.getContent(),
+        AlarmCategoryEnum.ALARM_COMMENT, user.getNickname(), AlarmStatusEnum.CREATE);
+    kafkaProducer.send(dto);
 
     return new ApiResponseDto("댓글 작성 성공", 201);
   }

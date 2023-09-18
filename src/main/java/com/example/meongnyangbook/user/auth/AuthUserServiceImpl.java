@@ -110,6 +110,16 @@ public class AuthUserServiceImpl implements AuthUserService {
 
   @Override
   @Transactional
+  public ApiResponseDto setDefaultImg(User athenthUser) {
+    User user = findUser(athenthUser.getUsername());
+
+    user.setProfileImgurl("emptyFile");
+
+    return new ApiResponseDto("프로필 이미지 초기화 완료", HttpStatus.OK.value());
+  }
+
+  @Override
+  @Transactional
   public ApiResponseDto setPassword(User user, PasswordRequestDto passwordRequestDto) {
     String currentPassword = passwordRequestDto.getPassword();
     if (passwordEncoder.matches(currentPassword, user.getPassword())) {

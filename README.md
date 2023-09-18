@@ -11,21 +11,21 @@
 
 ##### 리더 : 김슬기
 
-* git주소 써주세요
-* 블로그 주소 써주세요
-* 더 쓸거 있으면 써주세요
+* https://github.com/wisdomSG
+* https://wisdomsg.tistory.com/
+* 추가사항
 
 ##### 부리더 : 백승범
 
-* git주소 써주세요
-* 블로그 주소 써주세요
-* 더 쓸거 있으면 써주세요
+* https://github.com/BSB99?tab=repositories
+* https://an-unreachable-world.tistory.com/
+* 추가사항
 
 ##### 팀원 : 강정훈
 
 * https://github.com/skah1061
 * https://codeplace.tistory.com/
-* 더 쓸거 있으면 써주세요
+* 추가사항
 
 ## 🐶멍냥북
 
@@ -45,13 +45,9 @@
 
 ---
 
-#### 부제 적어줘
+#### MeongNyangBook
 
-###### 내용 몇줄 적어줘
-
-###### 내용 몇줄 적어줘
-
-###### 내용 몇줄 적어줘
+###### 저희 멍냥북은 유기동물의 분양을 돕는 ‘분양’과 나의 반려동물을 자랑하고 의견을 주고받을수있는 공간인 ‘커뮤니티’와 반려동물에게 필요한 모든 것을 사줄 수 있는 ‘쇼핑’으로 이루어져있습니다. 반려동물과 관련된 모든 것을 할 수 있는 서비스입니다.
 
 ## 🔥버전
 
@@ -80,42 +76,23 @@
 
 ##### Environment
 
-<img src="https://img.shields.io/badge/gitHub-'181717'?style=for-the-badge&logo=gitHub&logoColor=white">
-
-<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
-
-<img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">
-<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white">
-<img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white">
+<img src="https://img.shields.io/badge/gitHub-'181717'?style=for-the-badge&logo=gitHub&logoColor=white">    <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">    <img src="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=Spring&logoColor=white">    <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white">    <img src="https://img.shields.io/badge/githubactions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white">
 
 ##### Development
 
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-<img src="https://img.shields.io/badge/Java-61DAFB?style=for-the-badge&logo=Java&logoColor=black">
-
-<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white">
-<img src="https://img.shields.io/badge/elasticsearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=white">
-<img src="https://img.shields.io/badge/apachekafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white">
-<img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=Redis&logoColor=white">
-<img src="https://img.shields.io/badge/awslambda-FF9900?style=for-the-badge&logo=awslambda&logoColor=white">
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">    <img src="https://img.shields.io/badge/Java-61DAFB?style=for-the-badge&logo=Java&logoColor=black">    <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white">    <img src="https://img.shields.io/badge/elasticsearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=white">    <img src="https://img.shields.io/badge/apachekafka-231F20?style=for-the-badge&logo=apachekafka&logoColor=white">    <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=Redis&logoColor=white">    <img src="https://img.shields.io/badge/awslambda-FF9900?style=for-the-badge&logo=awslambda&logoColor=white">
 
 ##### Data base
 
-<img src="https://img.shields.io/badge/MySql-4479A1?style=for-the-badge&logo=MySql&logoColor=white">
-<img src="https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white">
+<img src="https://img.shields.io/badge/MySql-4479A1?style=for-the-badge&logo=MySql&logoColor=white">    <img src="https://img.shields.io/badge/amazonrds-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white">
 
 ##### Communication
 
-<img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">
-<img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=Slack&logoColor=white">
-<img src="https://img.shields.io/badge/kakaotalk-FFCD00?style=for-the-badge&logo=kakaotalk&logoColor=white">
+<img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">    <img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=Slack&logoColor=white">    <img src="https://img.shields.io/badge/kakaotalk-FFCD00?style=for-the-badge&logo=kakaotalk&logoColor=white">
 
 ##### AWS
 
-<img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
-<img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white">
-<img src="https://img.shields.io/badge/amazonroute53-8C4FFF?style=for-the-badge&logo=amazonroute53&logoColor=white">
-<img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+<img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">    <img src="https://img.shields.io/badge/amazons3-569A31?style=for-the-badge&logo=amazons3&logoColor=white">    <img src="https://img.shields.io/badge/amazonroute53-8C4FFF?style=for-the-badge&logo=amazonroute53&logoColor=white">    <img src="https://img.shields.io/badge/amazonec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white">
 
 ## 🗺️ERD
 
@@ -156,7 +133,6 @@
     - 결제 금액은 100원으로 일괄 적용해놓았으니 테스트 한번 해보세요 ! 환불은 24시간 이내로 됩니다
     - 결제를 하시고 배송이 완료되면 리뷰를 남길 수 있습니다. 리뷰를 남겨 다른 고객님들의 상품 구매에 도움을 주세요 !
 - 관리자 기능
-    - 개인적으로 슬랙에 연락을 주시면 ADMIN 계정을 빌려드려요 ~
     - 백오피스 페이지에서 아이템 CRUD를 할 수 있습니다!
     - 공지사항을 쓸 수 있습니다 ! (CRUD)
     - 신고리스트를 확인하고 유저를 영구정지하실 수 있습니다 !

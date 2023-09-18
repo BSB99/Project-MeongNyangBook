@@ -104,6 +104,7 @@ public class AdoptionPostController {
   }
 
   // 내가 쓴 게시물 조회
+  @Operation(summary = "내가 쓴 분양 게시물 조회")
   @GetMapping("/my-post")
   public ResponseEntity<List<AdoptionPostResponseDto>> getMyAdoptionPostList(
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -112,6 +113,7 @@ public class AdoptionPostController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @Operation(summary = "다른유저가 쓴 분양 게시물 조회")
   @GetMapping("/relative-post/{userNo}")
   public ResponseEntity<List<AdoptionPostResponseDto>> getRelativeAdoptionPostList(
       @PathVariable Long userNo) {
@@ -119,6 +121,7 @@ public class AdoptionPostController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @Operation(summary = "분양 완료 API")
   @PutMapping("/adoption-check/{postId}")
   @Transactional
   public void isAdoptionCheck(

@@ -2,6 +2,7 @@ package com.example.meongnyangbook.user.OAuth.kakao;
 
 
 import com.example.meongnyangbook.jwt.JwtUtil;
+import com.example.meongnyangbook.post.attachment.AttachmentUrlRepository;
 import com.example.meongnyangbook.user.OAuth.OAuthProviderEnum;
 import com.example.meongnyangbook.user.User;
 import com.example.meongnyangbook.user.UserRepository;
@@ -35,6 +36,7 @@ public class KakaoService {
   private final JwtUtil jwtUtil;
   @Value("${client-id}")
   private String clientId;
+  private final AttachmentUrlRepository attachmentUrlRepository;
 
   public String kakaoLogin(String code) throws JsonProcessingException {
     // 1. "인가 코드"로 "액세스 토큰" 요청
@@ -141,7 +143,10 @@ public class KakaoService {
       kakaoUser = new User(kakaoUserId, encodedPassword, kakaoUserInfo.getEmail(), "자기소개", "SEOUL",
           null,
           UserRoleEnum.MEMBER, OAuthProviderEnum.KAKAO);
+      kakaoUser.setProfileImgurl("emptyFile");
       userRepository.save(kakaoUser);
+
+
     }
     return kakaoUser;
   }
