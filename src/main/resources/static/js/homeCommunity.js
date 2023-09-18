@@ -61,9 +61,6 @@ $(document).ready(function () {
       let communityId = response[i].id;
       let imgUrl = response[i].fileUrls.fileName.split(
           ",")[0].split("/");
-      console.log(communityTitle);
-      console.log(createdAt);
-      console.log(communityId);
 
       let resizeImg;
       if (imgUrl === null) {
@@ -72,7 +69,7 @@ $(document).ready(function () {
         resizeImg = "https://meongnyangs3.s3.ap-northeast-2.amazonaws.com/resize/"
             + imgUrl[imgUrl.length - 1]
       }
-      console.log(resizeImg);
+
       let best_html = `
       <div class="col-lg-4 col-md-6 col-sm-6">
         <div class="blog__item">
