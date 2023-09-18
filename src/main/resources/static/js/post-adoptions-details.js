@@ -246,7 +246,8 @@ function postComment() {
       'Content-Type': 'application/json',
       "Authorization": token
     },
-    data: JSON.stringify(requestDto)
+    data: JSON.stringify(requestDto),
+    timeout: 1000
   })
   .done((res) => {
     if (res.statusCode === 201) {
@@ -368,7 +369,8 @@ function commentLike() {
       url: "/mya/likes/" + lastPart,
       headers: {
         "Authorization": token
-      }
+      },
+      timeout: 1000
     })
     .done((res) => {
       location.reload();
@@ -383,7 +385,8 @@ function commentLike() {
       url: "/mya/likes/" + lastPart,
       headers: {
         "Authorization": token
-      }
+      },
+      timeout: 1000
     })
     .done((res) => {
       location.reload();
