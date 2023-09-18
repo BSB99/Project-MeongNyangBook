@@ -3,6 +3,7 @@ package com.example.meongnyangbook.alarm;
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.User;
 import com.example.meongnyangbook.user.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
+@Tag(name = "알람 기능 API")
 @RequiredArgsConstructor
 @RequestMapping("/mya/sse")
 public class AlarmController {
 
   private final AlarmService alarmService;
+
 
   @GetMapping(value = "/alarm/subscribe")
   public SseEmitter subscribe(@AuthenticationPrincipal UserDetailsImpl userDetails) {

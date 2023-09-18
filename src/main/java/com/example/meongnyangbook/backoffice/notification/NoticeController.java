@@ -2,6 +2,8 @@ package com.example.meongnyangbook.backoffice.notification;
 
 import com.example.meongnyangbook.common.ApiResponseDto;
 import com.example.meongnyangbook.user.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "공지 API")
 @RestController
 @RequestMapping("/mya/backoffice/notices")
 @RequiredArgsConstructor
@@ -23,6 +26,8 @@ public class NoticeController {
 
   private final NoticeService noticeService;
 
+
+  @Operation(summary = "공지 등록")
   @PostMapping
   public ResponseEntity<ApiResponseDto> createNotice(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -32,6 +37,7 @@ public class NoticeController {
     return ResponseEntity.status(HttpStatus.CREATED).body(result);
   }
 
+  @Operation(summary = "공지 조회")
   @GetMapping
   public ResponseEntity<List<NoticeResponseDto>> getNotices(
       @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -40,6 +46,7 @@ public class NoticeController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @Operation(summary = "공지 수정")
   @PutMapping("/{noticeNo}")
   public ResponseEntity<ApiResponseDto> updateNotice(
       @AuthenticationPrincipal UserDetailsImpl userDetails,
@@ -49,6 +56,7 @@ public class NoticeController {
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 
+  @Operation(summary = "공지 삭제")
   @DeleteMapping("/{noticeNo}")
   public ResponseEntity<ApiResponseDto> deleteNotice(
       @AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long noticeNo) {

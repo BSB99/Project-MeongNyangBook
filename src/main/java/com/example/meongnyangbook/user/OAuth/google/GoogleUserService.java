@@ -145,6 +145,7 @@ public class GoogleUserService {
           .oAuthProvider(OAuthProviderEnum.GOOGLE)
           .build();
 
+      newUser.setProfileImgurl("emptyFile");
       return userRepository.save(newUser);
     }
   }
