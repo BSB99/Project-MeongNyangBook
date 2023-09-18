@@ -223,7 +223,8 @@ function postComment() {
       'Content-Type': 'application/json',
       "Authorization": token
     },
-    data: JSON.stringify(requestDto)
+    data: JSON.stringify(requestDto),
+    timeout: 5000
   })
   .done((res) => {
     if (res.statusCode === 201) {
