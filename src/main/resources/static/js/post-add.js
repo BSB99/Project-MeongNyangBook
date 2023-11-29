@@ -21,7 +21,7 @@ function uploadData() {
       window.location.href = "/mya/view/post/community";
     },
     error: function (error) {
-      alert('Upload failed.');
+      alert('이미지가 너무 큽니다.');
       console.error("Error:", error);
     }
   });
@@ -29,7 +29,7 @@ function uploadData() {
 
 function uploadAdoptions() {
   var formData = new FormData($('#uploadForms')[0]); // 폼의 데이터를 FormData 객체로 가져옵니다.
-  
+
   var requestDto = {
     title: $(".title").val(),
     description: $(".image_upload_textarea").val(),
