@@ -16,6 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name = "community_posts")
 public class CommunityPost extends Post {
 
+  //커뮤니티
   public CommunityPost(PostRequestDto requestDto, User user) {
     this.title = requestDto.getTitle();
     this.description = requestDto.getDescription();
